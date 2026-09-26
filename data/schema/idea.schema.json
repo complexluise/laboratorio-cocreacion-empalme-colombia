@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://empalme/idea.schema.json",
+  "title": "Idea de empalme",
+  "description": "Registro estructurado de una idea extraída de un informe de empalme. Clasificación facetada con vocabulario controlado (ver data/schema/taxonomia.yaml).",
+  "type": "object",
+  "required": ["id", "enunciado", "tema", "tipo"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Id estable: {sector-slug}-{periodo}-{secuencia}, p. ej. cultura-2022-2026-012"
+    },
+    "enunciado": {
+      "type": "string",
+      "minLength": 10,
+      "description": "La idea en 1-2 frases, autocontenida."
+    },
+    "tema": {
+      "type": "string",
+      "enum": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"],
+      "description": "Faceta temática (cardinalidad 1). Ver taxonomia.yaml > facetas.tema."
+    },
+    "tipo": {
+      "type": "string",
+      "enum": ["diagnostico", "apuesta", "programa", "estructura", "logro", "pendiente"]
+    },
+    "instrumento": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["normativo", "presupuestal", "programa", "convocatoria", "convenio", "institucional", "planeacion"]},
+      "uniqueItems": true,
+      "default": []
+    },
+    "poblacion": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["general", "mujeres", "jovenes", "ninez", "indigena", "narp", "campesinado", "victimas", "academia", "empresa", "comunidades"]},
+      "uniqueItems": true,
+      "default": []
+    },
+    "territorio": {
+      "type": "string",
+      "enum": ["nacional", "regional", "pdet", "fronteras", "internacional"],
+      "default": "nacional"
+    },
+    "continuidad": {
+      "type": ["string", "null"],
+      "enum": ["nuevo", "heredado", "continuidad", "reversion", null],
+      "description": "Relación intertemporal. Opcional en extracción; se puede fijar en la comparación."
+    },
+    "entidad": {
+      "type": "string",
+      "description": "Entidad del sector que reporta la idea (ministerio, instituto, agencia)."
+    },
+    "evidencia": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "documento": {"type": "string", "enum": ["informe", "presentacion", "anexo", "acta"], "default": "informe"},
+        "paginas": {"type": "array", "items": {"type": "integer", "minimum": 1}, "default": []},
+        "anexos": {"type": "array", "items": {"type": "string"}, "default": []}
+      }
+    },
+    "cifras": {
+      "type": "array",
+      "description": "Cantidades citadas, estructuradas para permitir síntesis.",
+      "items": {
+        "type": "object",
+        "required": ["texto"],
+        "additionalProperties": false,
+        "properties": {
+          "metrica": {"type": "string", "description": "p. ej. inversion, beneficiarios, proyectos, meta_pib"},
+          "valor": {"type": ["number", "null"]},
+          "unidad": {"type": "string", "description": "COP, personas, proyectos, porcentaje, ..."},
+          "texto": {"type": "string", "description": "La cifra tal como aparece en el texto."}
+        }
+      },
+      "default": []
+    },
+    "tags": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Palabras clave libres para búsqueda y enlace (nombres de programas, misiones, decretos).",
+      "default": []
+    }
+  }
+}

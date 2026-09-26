@@ -1,0 +1,151 @@
+# Ontología del mapa — laboratorio de cocreación (piloto: Ciencia y Tecnología)
+
+Base de trabajo. Arrancamos por Ciencia y Tecnología por ser el caso más acotado
+(1 entidad, 104 ideas, 23 relaciones PID+T sobre dos vigencias) antes de escalar.
+
+Regla de diseño: **la ontología se deriva de las preguntas, no al revés.** Si algo no
+aporta a responder una de las preguntas de competencia, queda fuera de la v1.
+
+## Lente: complejidad vía redes
+
+El concepto central es una **red multicapa**: una capa por vigencia (2018-2022, 2022-2026).
+El marco PID+T del proyecto **es descomposición parcial de información** (Redundancia /
+Unicidad / Sinergia son términos de la PID de Williams-Beer, aplicados a "qué aporta cada
+gobierno a la política del sector"); **Tensión** es la extensión propia para conflicto/reversión.
+
+## Anclaje teórico
+
+El nodo del mapa es un **instrumento de política pública** (Hood, *The Tools of Government*, 1983;
+Lascoumes & Le Galès, *Gouverner par les instruments*, 2004): una entidad con identidad propia
+—programa, norma, fuente de financiación, sistema— que condensa una forma de gobernar. Las `clase`
+(norma / instrumento / fuente-financiación / sistema / programa / apuesta) son una tipología de
+instrumentos. *(En el código y en `dataset.json` la clave se conserva como `objetos` por
+compatibilidad; el término de dominio es "instrumento de política pública".)*
+
+El eje diacrónico —comparar dos gobiernos sobre los informes de empalme— se lee con la tipología
+del **cambio institucional gradual** (Mahoney & Thelen, 2010):
+
+| Nuestro vocabulario | Término consolidado | Referencia |
+|---|---|---|
+| unicidad (nuevo) | *layering* (estratificación) | Mahoney & Thelen (2010) |
+| tensión / reversión | *displacement* (desplazamiento) | Mahoney & Thelen (2010) |
+| mismo instrumento, otro modo | *conversion* (conversión) | Mahoney & Thelen (2010) |
+| continuidad | *path dependence* / *drift* | Pierson (2004); Thelen |
+
+Complementos: **sucesión de políticas** (Hogwood & Peters, *Policy Dynamics*, 1983) nombra
+exactamente el fenómeno del empalme (mantener / suceder / innovar / terminar lo heredado);
+**terminación de políticas** (deLeon) para la unicidad que desaparece.
+
+Salvedad: el marco **PID+T** (Williams-Beer) viene de teoría de la información, no de teoría
+política — es una **analogía metodológica propia**, apoyada en Mahoney-Thelen, no una teoría
+política en sí.
+
+> Desarrollo completo (tipología de instrumentos NATO, mapeo diacrónico ampliado con
+> estratificación / terminación / conversión, sucesión de políticas y referencias):
+> **`docs/teoria-politica.md`**.
+
+## Preguntas de competencia (el eje)
+
+1. **¿Qué hizo un gobierno?** → qué instrumentos de política pública estuvieron **activos** en ese periodo,
+   y en qué modo (apuesta / logro / pendiente).
+2. **¿Qué tuvo continuidad?** → qué instrumentos **persisten en ambas capas** (propiedad del nodo).
+3. **¿Cómo contrastan las dos ejecuciones?** → la **trayectoria** del mismo instrumento entre
+   periodos (creado→consolidado, lanzado→revertido) + qué es propio de cada uno.
+
+## Unidad de análisis: el **instrumento de política pública** (no la idea)
+
+Una **idea** es una frase extraída de un informe: es la unidad en que el pipeline *cosecha*,
+no una entidad del dominio. Modelarla como nodo obliga a representar la continuidad como
+*arista entre dos nodos distintos*, cuando en realidad es *un mismo instrumento que persiste*.
+
+El nodo es el **instrumento de política pública**: una entidad con nombre e identidad propia que existe
+independiente de cualquier idea y **cruza gobiernos con la misma identidad**. Ya está latente
+en el campo `tags[]` de las ideas. Ejemplos reales en los datos:
+
+> Misión de Sabios · SGR/FCTeI · Ley 2162 de 2021 · Fondo Francisco José de Caldas ·
+> Beneficios Tributarios (CNBT) · SNCTI · CONPES 4069/4182 · Colfuturo ·
+> Jóvenes en Ciencia para la Paz · ColombIA Inteligente/IA · Formación de alto nivel.
+
+La **idea se degrada a evidencia**: deja de ser nodo y pasa a ser una observación adjunta a
+uno o más instrumentos de política pública, conservando su página, cifra y clasificación.
+
+### Altitud: homogéneo en v1
+Un solo tipo de nodo `InstrumentoDePoliticaPublica` con un atributo `clase` que lo etiqueta
+(programa / instrumento / norma / fuente-financiacion / apuesta / sistema). No se separa en
+tipos-nodo distintos (multipartito) todavía: si al mapear aparecen relaciones densas del
+tipo norma→programa, se promueve a multipartito en v2.
+
+## Esquema
+
+### Clase (nodo): `InstrumentoDePoliticaPublica`
+| Campo | Descripción |
+|---|---|
+| `id` | identificador estable (slug del nombre canónico) |
+| `nombre` | nombre canónico (tras resolución de entidades sobre `tags`) |
+| `clase` | programa · instrumento · norma · fuente-financiacion · apuesta · sistema |
+| `alias[]` | variantes de nombre encontradas en los tags |
+| `presencia` | `{2018-2022: modo?, 2022-2026: modo?}` — modo ∈ apuesta/logro/pendiente/estructura |
+| `facetas[]` | facetas A–K de las ideas que lo evidencian |
+| `entidad` | entidad(es) responsable(s) |
+| `evidencia[]` | ideas que lo sustentan: `{idea_id, vigencia, documento, paginas, cifras}` |
+
+### Propiedades diacrónicas (derivadas de `presencia`) — reemplazan parte de PID+T
+- **redundancia** → instrumento presente en **ambas** capas (continuidad).
+- **unicidad** → instrumento presente en **una sola** capa (propio de un gobierno).
+- **tension** → instrumento que persiste **pero invierte de signo** (reversión/cambio de rumbo).
+- **convergencia** → dos instrumentos de nombre distinto que resultan ser el mismo (fusión de nodos).
+
+### Aristas: relaciones entre instrumentos distintos
+| Relación | Significado |
+|---|---|
+| `sinergia` | dos instrumentos se encadenan/potencian (p.ej. *Misión de Sabios* → origina *PIIOM*) |
+| `financia` | una fuente costea un instrumento (p.ej. *SGR* → *Fondo Francisco José de Caldas*) |
+| `habilita` | una norma da existencia a un programa (p.ej. *Ley 2162* → *SNCTI*) |
+| `depende-de` | precedencia/condición entre instrumentos |
+
+Nota: hoy las 23 relaciones de `comparacion.json` **mezclan** continuidad del mismo instrumento
+(→ ahora propiedad de nodo) con relación entre instrumentos distintos (→ ahora arista). El giro
+de nodo las desambigua; hay que repartirlas.
+
+### Métricas de red por pregunta
+- P1: instrumentos activos por capa + su modo → foco del gobierno.
+- P2: fracción de nodos presentes en ambas capas → continuidad.
+- P3: trayectorias (tensión/consolidación) + centralidad intra-capa → instrumentos articuladores.
+
+## Decisiones técnicas
+- **Sin OWL/Protégé en v1**: esquema en YAML/JSON-LD, versionable, validado contra los JSON.
+- **Render**: Cytoscape.js embebido en el frontend `web/` (autocontenido, sin CDN externa).
+  **Hecho** — ver `web/`. Se descartó el render literal de red multicapa (dos planos por vigencia)
+  por ilegible; el render es un **grafo unificado**: un nodo por instrumento, agrupado en tres
+  regiones diacrónicas (se dejó · continuidad · nuevo), color = estado entre gobiernos, aristas =
+  relaciones bajo demanda. La red multicapa sigue siendo el **modelo**; el grafo unificado es su
+  vista legible. Cómo servirlo en `docs/pipeline.md`.
+
+## Estado de implementación
+
+El modelo está **implementado y corrido sobre Ciencia y Tecnología** de forma **aditiva**: la
+capa de evidencia (ideas + `comparacion.{yaml,json}`) queda intacta y la capa de instrumentos se
+construye encima. Así se reprocesa un sector al nuevo modelo sin desincronizar los que aún no
+lo tienen (cultura, energía).
+
+- `data/schema/taxonomia.yaml` — sección `objetos` (clase / diacronía / relaciones).
+- `data/schema/objeto.schema.json` — contrato del nodo y sus aristas.
+- `consolidar_objetos.py` — paso nuevo: ve las dos vigencias a la vez. Pasada 1 (Gemini):
+  inducción + **resolución de entidades** de los tags/enunciados → catálogo canónico con `clase`
+  y `alias`, con **tope** (guardarraíl anti-hairball). Pasada 2 (Gemini): aristas entre instrumentos.
+  La `presencia` por vigencia y la `diacronia` (redundancia/unicidad) son **deterministas**.
+- `construir_dataset.py` — incluye la capa `objetos` (nodos + aristas + resumen) en el bundle.
+
+Resultado en Ciencia y Tecnología (104 ideas → **32 instrumentos**): 13 redundancia · 17 unicidad ·
+2 tensión; 12 aristas (financia/habilita/sinergia/depende-de). Los 13 redundantes coinciden con
+los 13 tags que cruzaban ambas vigencias en la medición previa — señal de que la resolución de
+entidades capturó los instrumentos persistentes reales.
+
+## Pendientes
+- **Auditar cobertura**: qué ideas no quedaron ancladas a ningún instrumento (evidencia suelta) y si
+  alguna merece instrumento propio. Hoy 0 candidatos se descartaron por falta de evidencia válida.
+- **`comparacion.json` (idea-nivel) vs aristas de instrumento**: hoy conviven. Decidir si las 23
+  relaciones PID+T de idea se re-expresan como propiedades/aristas de instrumento o quedan como capa
+  de evidencia paralela (por ahora: paralela).
+- **Escalar** el paso a cultura y energía cuando se decida migrarlos.
+- ~~**Render**: construir el mapa Cytoscape.js sobre `dataset.objetos`.~~ **Hecho** (`web/`).

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://empalme/objeto.schema.json",
+  "title": "Instrumentos de política pública de un sector",
+  "description": "Capa de análisis del mapa del laboratorio: el nodo es el instrumento de política pública (Lascoumes & Le Galès; persiste entre gobiernos con identidad); las ideas son su evidencia. La clave `objetos` se conserva por compatibilidad. Ver docs/ontologia.md.",
+  "type": "object",
+  "required": ["sector", "objetos"],
+  "additionalProperties": false,
+  "properties": {
+    "sector": {"type": "string"},
+    "objetos": {"type": "array", "items": {"$ref": "#/$defs/objeto"}},
+    "relaciones": {"type": "array", "items": {"$ref": "#/$defs/arista"}}
+  },
+  "$defs": {
+    "objeto": {
+      "type": "object",
+      "required": ["id", "nombre", "clase", "presencia", "diacronia", "evidencia"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "description": "slug estable del nombre canónico"},
+        "nombre": {"type": "string", "description": "nombre canónico tras resolución de entidades"},
+        "clase": {"type": "string", "enum": ["programa", "instrumento", "norma", "fuente-financiacion", "apuesta", "sistema"]},
+        "alias": {"type": "array", "items": {"type": "string"}, "description": "variantes de nombre halladas en tags/enunciados"},
+        "presencia": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": false,
+          "description": "en qué vigencia(s) estuvo activo el objeto y en qué modo",
+          "properties": {
+            "2018-2022": {"$ref": "#/$defs/modo"},
+            "2022-2026": {"$ref": "#/$defs/modo"}
+          }
+        },
+        "diacronia": {"type": "string", "enum": ["redundancia", "unicidad", "tension"], "description": "derivada de presencia (redundancia/unicidad); tension si invierte de signo"},
+        "facetas": {"type": "array", "items": {"type": "string", "enum": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]}},
+        "entidades": {"type": "array", "items": {"type": "string"}},
+        "evidencia": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidencia"}}
+      }
+    },
+    "modo": {
+      "type": "object",
+      "required": ["activo"],
+      "additionalProperties": false,
+      "properties": {
+        "activo": {"type": "boolean"},
+        "modo": {"type": "string", "enum": ["diagnostico", "apuesta", "programa", "estructura", "logro", "pendiente"], "description": "cómo se manifestó el objeto ese periodo (tipo dominante de sus ideas)"}
+      }
+    },
+    "evidencia": {
+      "type": "object",
+      "required": ["idea_id", "vigencia"],
+      "additionalProperties": false,
+      "properties": {
+        "idea_id": {"type": "string"},
+        "vigencia": {"type": "string"},
+        "paginas": {"type": "array", "items": {"type": "integer"}},
+        "cifras": {"type": "array"}
+      }
+    },
+    "arista": {
+      "type": "object",
+      "required": ["source", "target", "tipo"],
+      "additionalProperties": false,
+      "properties": {
+        "source": {"type": "string", "description": "id del objeto origen"},
+        "target": {"type": "string", "description": "id del objeto destino"},
+        "tipo": {"type": "string", "enum": ["sinergia", "financia", "habilita", "depende-de"]},
+        "nota": {"type": "string"}
+      }
+    }
+  }
+}

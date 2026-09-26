@@ -1,0 +1,21 @@
+# Secretos: nunca versionar credenciales.
+.env
+*.key
+.secrets/
+
+# Artefactos Python / uv
+__pycache__/
+*.pyc
+.venv/
+
+# Binarios crudos y datos producidos por el pipeline (se regeneran; el pipeline se rehará).
+descargas/
+extraido/
+markdown/
+manifiesto.json
+data/sectores/
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.part

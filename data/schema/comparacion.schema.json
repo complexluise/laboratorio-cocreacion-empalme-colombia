@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://empalme/comparacion.schema.json",
+  "title": "Comparación intertemporal (PID+T)",
+  "description": "Relaciones entre ideas de dos periodos de un sector, bajo el marco convergencia/redundancia/unicidad/sinergia/tensión.",
+  "type": "object",
+  "required": ["sector", "relaciones"],
+  "additionalProperties": false,
+  "properties": {
+    "sector": {"type": "string"},
+    "periodo_a": {"type": "string", "default": "2018-2022"},
+    "periodo_b": {"type": "string", "default": "2022-2026"},
+    "relaciones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tipo", "titulo", "resumen"],
+        "additionalProperties": false,
+        "properties": {
+          "tipo": {"type": "string", "enum": ["convergencia", "redundancia", "unicidad", "sinergia", "tension"]},
+          "tema": {"type": "string", "enum": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"]},
+          "titulo": {"type": "string"},
+          "resumen": {"type": "string", "description": "1-3 frases explicando la relación."},
+          "ideas_a": {"type": "array", "items": {"type": "string"}, "description": "ids de ideas del periodo A"},
+          "ideas_b": {"type": "array", "items": {"type": "string"}, "description": "ids de ideas del periodo B"}
+        }
+      }
+    }
+  }
+}
