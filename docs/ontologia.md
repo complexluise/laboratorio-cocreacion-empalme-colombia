@@ -103,9 +103,9 @@ tipo norma→programa, se promueve a multipartito en v2.
 | `habilita` | una norma da existencia a un programa (p.ej. *Ley 2162* → *SNCTI*) |
 | `depende-de` | precedencia/condición entre instrumentos |
 
-Nota: hoy las 23 relaciones de `comparacion.json` **mezclan** continuidad del mismo instrumento
-(→ ahora propiedad de nodo) con relación entre instrumentos distintos (→ ahora arista). El giro
-de nodo las desambigua; hay que repartirlas.
+Nota: las relaciones PID+T a nivel de idea (`comparacion`) **mezclan** continuidad del mismo
+instrumento (→ ahora propiedad de nodo) con relación entre instrumentos distintos (→ ahora arista).
+El giro de nodo las desambigua; al rehacer el pipeline hay que repartirlas.
 
 ### Métricas de red por pregunta
 - P1: instrumentos activos por capa + su modo → foco del gobierno.
@@ -114,38 +114,41 @@ de nodo las desambigua; hay que repartirlas.
 
 ## Decisiones técnicas
 - **Sin OWL/Protégé en v1**: esquema en YAML/JSON-LD, versionable, validado contra los JSON.
-- **Render**: Cytoscape.js embebido en el frontend `web/` (autocontenido, sin CDN externa).
-  **Hecho** — ver `web/`. Se descartó el render literal de red multicapa (dos planos por vigencia)
-  por ilegible; el render es un **grafo unificado**: un nodo por instrumento, agrupado en tres
-  regiones diacrónicas (se dejó · continuidad · nuevo), color = estado entre gobiernos, aristas =
-  relaciones bajo demanda. La red multicapa sigue siendo el **modelo**; el grafo unificado es su
-  vista legible. Cómo servirlo en `docs/pipeline.md`.
+- **Render (diseño, por construir)**: la aplicación es un **explorador de instrumentos** con
+  Cytoscape.js, autocontenido (sin CDN externa). Se descarta el render literal de red multicapa
+  (dos planos por vigencia) por ilegible; el render será un **grafo unificado**: un nodo por
+  instrumento, agrupado en tres regiones diacrónicas (se dejó · continuidad · nuevo), color =
+  estado entre gobiernos, aristas = relaciones bajo demanda. La red multicapa sigue siendo el
+  **modelo**; el grafo unificado es su vista legible.
 
-## Estado de implementación
+## Estado en este repo
 
-El modelo está **implementado y corrido sobre Ciencia y Tecnología** de forma **aditiva**: la
-capa de evidencia (ideas + `comparacion.{yaml,json}`) queda intacta y la capa de instrumentos se
-construye encima. Así se reprocesa un sector al nuevo modelo sin desincronizar los que aún no
-lo tienen (cultura, energía).
+Están **el contrato de datos y la extracción de referencia**; el pipeline que produce los
+instrumentos y la aplicación **están por rehacer** sobre esta base (ver README).
 
 - `data/schema/taxonomia.yaml` — sección `objetos` (clase / diacronía / relaciones).
 - `data/schema/objeto.schema.json` — contrato del nodo y sus aristas.
-- `consolidar_objetos.py` — paso nuevo: ve las dos vigencias a la vez. Pasada 1 (Gemini):
-  inducción + **resolución de entidades** de los tags/enunciados → catálogo canónico con `clase`
-  y `alias`, con **tope** (guardarraíl anti-hairball). Pasada 2 (Gemini): aristas entre instrumentos.
-  La `presencia` por vigencia y la `diacronia` (redundancia/unicidad) son **deterministas**.
-- `construir_dataset.py` — incluye la capa `objetos` (nodos + aristas + resumen) en el bundle.
+- `extraccion/consolidar_objetos.py` — referencia del paso ideas → instrumentos: ve las dos
+  vigencias a la vez. Pasada 1 (Gemini): inducción + **resolución de entidades** de los
+  tags/enunciados → catálogo canónico con `clase` y `alias`, con **tope** (guardarraíl
+  anti-hairball). Pasada 2 (Gemini): aristas entre instrumentos. La `presencia` por vigencia y la
+  `diacronia` (redundancia/unicidad) se calculan de forma **determinista**.
 
-Resultado en Ciencia y Tecnología (104 ideas → **32 instrumentos**): 13 redundancia · 17 unicidad ·
-2 tensión; 12 aristas (financia/habilita/sinergia/depende-de). Los 13 redundantes coinciden con
-los 13 tags que cruzaban ambas vigencias en la medición previa — señal de que la resolución de
-entidades capturó los instrumentos persistentes reales.
+Diseño **aditivo**: la capa de evidencia (ideas + `comparacion`) queda intacta y la capa de
+instrumentos se construye encima, para reprocesar un sector sin desincronizar los demás.
+
+**Piloto previo en Ciencia y Tecnología** (referencia, no versionado aquí): 104 ideas →
+**32 instrumentos** (13 redundancia · 17 unicidad · 2 tensión; 12 aristas). Los 13 redundantes
+coincidieron con los 13 tags que cruzaban ambas vigencias en la medición previa — señal de que la
+resolución de entidades capturó los instrumentos persistentes reales. Se cita en
+`docs/encuadre-actividad-trama.md` como caso validado.
 
 ## Pendientes
-- **Auditar cobertura**: qué ideas no quedaron ancladas a ningún instrumento (evidencia suelta) y si
-  alguna merece instrumento propio. Hoy 0 candidatos se descartaron por falta de evidencia válida.
-- **`comparacion.json` (idea-nivel) vs aristas de instrumento**: hoy conviven. Decidir si las 23
-  relaciones PID+T de idea se re-expresan como propiedades/aristas de instrumento o quedan como capa
-  de evidencia paralela (por ahora: paralela).
-- **Escalar** el paso a cultura y energía cuando se decida migrarlos.
-- ~~**Render**: construir el mapa Cytoscape.js sobre `dataset.objetos`.~~ **Hecho** (`web/`).
+- **Rehacer el pipeline**: reconstruir el paso que produce el `dataset` de instrumentos (nodos +
+  aristas + resumen) a partir de las ideas.
+- **Construir la aplicación**: el explorador de instrumentos (Cytoscape.js) sobre ese `dataset`.
+- **Auditar cobertura**: qué ideas no quedan ancladas a ningún instrumento (evidencia suelta) y si
+  alguna merece instrumento propio.
+- **`comparacion` (idea-nivel) vs aristas de instrumento**: decidir si las relaciones PID+T de idea
+  se re-expresan como propiedades/aristas de instrumento o quedan como capa de evidencia paralela.
+- **Escalar** el paso a los demás sectores cuando se decida migrarlos.
