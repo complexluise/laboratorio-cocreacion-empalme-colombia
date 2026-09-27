@@ -5,6 +5,7 @@
   import { untrack } from "svelte";
   import { COLOR_MODO, RADIO_POLITICA, pathSimbolo } from "$lib/visual.ts";
   import { arrastrable, zoomable, type ControlZoom } from "./acciones.ts";
+  import { colocarEtiquetas, type Obstaculo, type PedidoEtiqueta } from "./etiquetas.ts";
   import { crearSimulacion, type EnlaceSim, type NodoSim } from "./forces.ts";
   import { guardarPosiciones, prepararSimulacion, type Posiciones } from "./posiciones.ts";
 
@@ -60,10 +61,11 @@
     return () => nueva.stop();
   });
 
-  function ajustar() {
-    if (!control || nodos.length === 0) return;
-    const xs = nodos.map((n) => n.x ?? 0);
-    const ys = nodos.map((n) => n.y ?? 0);
+  function ajustar(soloIds?: Set<string>) {
+    const cuales = soloIds ? nodos.filter((n) => soloIds.has(n.id)) : nodos;
+    if (!control || cuales.length === 0) return;
+    const xs = cuales.map((n) => n.x ?? 0);
+    const ys = cuales.map((n) => n.y ?? 0);
     const x = Math.min(...xs) - 30;
     const y = Math.min(...ys) - 30;
     control.ajustar(
@@ -71,7 +73,20 @@
       { ancho, alto },
     );
   }
-  $effect(() => onajustar?.(ajustar));
+  $effect(() => onajustar?.(() => ajustar()));
+
+  // Al seleccionar, la vista se acerca a su vecindario: así caben sus etiquetas sin solaparse.
+  let ultimoFoco: string | null = null;
+  $effect(() => {
+    const id = seleccionado;
+    const vecinos = foco?.nodos;
+    if (id === null || !vecinos || id === ultimoFoco) {
+      ultimoFoco = id;
+      return;
+    }
+    ultimoFoco = id;
+    untrack(() => ajustar(vecinos));
+  });
 
   // La simulación vive centrada en (0,0); al medir o redimensionar el lienzo, la vista se
   // desplaza medio delta para que (0,0) siga en el centro.
@@ -91,8 +106,37 @@
 
   const apagado = (id: string) => foco !== null && !foco.nodos.has(id);
   const enlaceApagado = (id: string) => foco !== null && !foco.enlaces.has(id);
-  const conEtiqueta = (n: NodoSim) =>
-    n.nodo.tipo === "pol" || n.id === hover || n.id === seleccionado || (foco !== null && foco.nodos.has(n.id));
+  // Etiquetas sin solape: tamaño constante en pantalla (fuente del mundo = px / zoom), así al
+  // acercarse caben más (zoom semántico). Prioridad: seleccionado/hover > políticas > foco > resto.
+  const FUENTE_PX = 11;
+  const RADIO_INSTRUMENTO = 9;
+  const escala = $derived(transformacion.k);
+  const etiquetas = $derived.by(() => {
+    void tick; // re-colocar en cada paso de la física
+    const pedidos: PedidoEtiqueta[] = [];
+    const obstaculos: Obstaculo[] = [];
+    for (const n of nodos) {
+      const esPol = n.nodo.tipo === "pol";
+      const radio = esPol ? RADIO_POLITICA : RADIO_INSTRUMENTO;
+      const x = n.x ?? 0;
+      const y = n.y ?? 0;
+      obstaculos.push({ id: n.id, x, y, radio: radio + 2 / escala });
+      const forzada = n.id === seleccionado || n.id === hover;
+      const enFoco = foco !== null && foco.nodos.has(n.id);
+      if (foco !== null && !enFoco && !forzada) continue; // lo atenuado no se rotula
+      const nombre = n.nodo.tipo === "pol" ? n.nodo.pol.nombre : n.nodo.obj.nombre;
+      pedidos.push({
+        id: n.id,
+        x,
+        y,
+        radio,
+        texto: recortar(nombre, forzada ? 70 : esPol ? 34 : 28),
+        prioridad: (esPol ? 10 : 1) + (enFoco ? 5 : 0),
+        forzada,
+      });
+    }
+    return colocarEtiquetas(pedidos, obstaculos, FUENTE_PX / escala);
+  });
 
   /** Lee una coordenada de D3 atada a `tick`, para que Svelte la re-evalúe en cada paso. */
   const en = (_tick: number, v: number | undefined) => v ?? 0;
@@ -163,12 +207,17 @@
               />
             {/if}
             <title>{n.nodo.tipo === "pol" ? n.nodo.pol.nombre : n.nodo.obj.nombre}</title>
-            {#if conEtiqueta(n)}
-              <text class="etiqueta" y={n.nodo.tipo === "pol" ? 28 : 20}>
-                {n.nodo.tipo === "pol" ? recortar(n.nodo.pol.nombre, 34) : recortar(n.nodo.obj.nombre, 30)}
-              </text>
-            {/if}
           </g>
+        {/each}
+      </g>
+      <g
+        class="etiquetas"
+        aria-hidden="true"
+        style:font-size="{FUENTE_PX / escala}px"
+        style:stroke-width="{3 / escala}px"
+      >
+        {#each etiquetas as e (e.id)}
+          <text x={e.x} y={e.y} text-anchor={e.ancla} class:pol={e.id.startsWith("pol:")}>{e.texto}</text>
         {/each}
       </g>
     </g>
@@ -250,18 +299,16 @@
     stroke: var(--acento, #4f46e5);
     stroke-width: 3;
   }
-  .etiqueta {
-    font: 500 11px/1 var(--fuente-ui, system-ui, sans-serif);
+  .etiquetas text {
+    font-family: var(--fuente-ui, system-ui, sans-serif);
+    font-weight: 500;
     fill: var(--tinta, #1f2430);
-    text-anchor: middle;
     paint-order: stroke;
     stroke: var(--papel, #fff);
-    stroke-width: 3px;
     stroke-linejoin: round;
     pointer-events: none;
   }
-  .pol .etiqueta {
+  .etiquetas text.pol {
     font-weight: 650;
-    font-size: 12px;
   }
 </style>

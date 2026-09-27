@@ -45,6 +45,7 @@ src/App.svelte               # layout: cabecera + toolbar, grafo, leyenda, panel
 src/lib/data/                # dataset JSON commiteado + index.ts (lo tipa como Dataset)
 src/lib/state/red.svelte.ts  # EstadoRed: filtros, selección, red derivada y foco (runes)
 src/lib/graph/               # GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts)
+                             #   y colocación de etiquetas sin solape (etiquetas.ts)
 src/lib/components/          # Toolbar, Legend, DetailPanel, Marca
 src/lib/visual.ts            # mapeo del vocabulario a colores, glifos y etiquetas
 ```
@@ -62,7 +63,12 @@ La lógica del dominio (`construirRed`, `vecindario`, tipos del contrato) **no**
 - **Foco de vecindario**: clic en un nodo resalta el nodo, sus vecinos directos y un salto más por
   relaciones instrumento↔instrumento; el panel muestra el detalle (políticas que sirve, presencia
   por vigencia, qué fue bajo cada gobierno, relaciones, entidades, evidencia). Clic en el fondo o
-  `Esc` deselecciona.
-- Arrastrar nodos, zoom/pan, "Ajustar vista" para encuadrar la red.
+  `Esc` deselecciona. Al seleccionar, la vista se acerca al vecindario.
+- **Sin solapes**: los nodos se separan por colisión (`forceCollide`, varias iteraciones) y las
+  etiquetas se colocan con un algoritmo greedy por prioridad (seleccionado/hover > políticas >
+  vecindario > resto) que prueba 4 posiciones y omite la que no cabe. El texto mide lo mismo en
+  pantalla a cualquier zoom: **al acercarse aparecen más etiquetas** (zoom semántico).
+- Arrastrar nodos, zoom/pan (anclado al cursor), "Ajustar vista" para encuadrar la red; Tab recorre
+  las políticas y Enter selecciona.
 - **Responsive** (≤ 860 px): filtros y leyenda plegables; el panel pasa a una hoja inferior dentro
   del layout, así nunca tapa el grafo.

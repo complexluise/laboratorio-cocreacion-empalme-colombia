@@ -21,7 +21,8 @@ export const FUERZAS = {
   carga: { politica: -480, instrumento: -90, distanciaMax: 420 },
   pertenencia: { distancia: 95, fuerza: 0.22 },
   relacion: { distancia: 110, fuerza: 0.04 },
-  colision: { politica: 42, instrumento: 16 },
+  // Radio de exclusión (nodo + aire). Las etiquetas no entran: las ubica etiquetas.ts.
+  colision: { politica: 30, instrumento: 17, iteraciones: 3 },
   alphaDecay: 0.03,
 } as const;
 
@@ -61,7 +62,9 @@ export function crearSimulacion(nodos: NodoSim[], enlaces: EnlaceSim[]): Simulat
     )
     .force(
       "colision",
-      forceCollide<NodoSim>((n) => (esPol(n) ? FUERZAS.colision.politica : FUERZAS.colision.instrumento)),
+      forceCollide<NodoSim>((n) => (esPol(n) ? FUERZAS.colision.politica : FUERZAS.colision.instrumento))
+        .strength(1)
+        .iterations(FUERZAS.colision.iteraciones),
     )
     .force("x", forceX<NodoSim>(0).strength(FUERZAS.centro))
     .force("y", forceY<NodoSim>(0).strength(FUERZAS.centro));
