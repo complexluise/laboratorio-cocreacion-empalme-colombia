@@ -24,7 +24,15 @@ export function resolverRuta(hash: string): Ruta {
   const [cabeza = "", ancla] = hash.slice(2).split("/").filter(Boolean);
   const pagina = PAGINAS.find((p) => p === cabeza.toLowerCase());
   if (pagina === undefined) return { pagina: "inicio" };
-  return ancla !== undefined && CON_ANCLA.has(pagina) ? { pagina, ancla } : { pagina };
+  return ancla !== undefined && CON_ANCLA.has(pagina) ? { pagina, ancla: decodificar(ancla).toLowerCase() } : { pagina };
+}
+
+function decodificar(s: string): string {
+  try {
+    return decodeURIComponent(s);
+  } catch {
+    return s; // secuencia % inválida: se usa tal cual
+  }
 }
 
 export function hrefDe(pagina: Pagina, ancla?: string): string {

@@ -11,13 +11,16 @@
   interface Props {
     pagina: Pagina;
     ancla?: string | undefined;
+    /** Cambia al volver a tocar el enlace de la ruta actual (el hash no cambia): re-salta. */
+    visita?: number;
     children: Snippet;
   }
-  let { pagina, ancla, children }: Props = $props();
+  let { pagina, ancla, visita = 0, children }: Props = $props();
 
   let area: HTMLElement | undefined = $state();
 
   $effect(() => {
+    void visita;
     if (!area) return;
     const destino = ancla ? area.querySelector<HTMLElement>(`[id="${CSS.escape(ancla)}"]`) : null;
     if (destino) {

@@ -23,8 +23,9 @@
    */
   interface Props {
     ancla?: string | undefined;
+    visita?: number;
   }
-  let { ancla }: Props = $props();
+  let { ancla, visita = 0 }: Props = $props();
 
   const g = (id: string) => hrefDe("glosario", id);
 
@@ -105,8 +106,8 @@
     },
     {
       fila: "Instituciones",
-      antes: "Colciencias (y «aliados», sin especificar).",
-      despues: "MinCiencias, ya como ministerio: un cambio institucional en sí mismo.",
+      antes: "Colciencias (y «aliados», sin especificar), según reporta el balance.",
+      despues: "MinCiencias, ya como ministerio. El cambio ocurrió durante el gobierno anterior (2019–2021), pero cada informe reporta desde otra institucionalidad.",
     },
     {
       fila: "Población",
@@ -165,7 +166,7 @@
   ];
 </script>
 
-<PaginaTexto pagina="inicio" {ancla}>
+<PaginaTexto pagina="inicio" {ancla} {visita}>
   <!-- ─────────────── Portada ─────────────── -->
   <header class="portada">
     <p class="antetitulo">Laboratorio de Cocreación · Empalme 2018 ↔ 2026</p>
@@ -262,10 +263,10 @@
         <div class="fila" role="row">
           <span class="cat" role="rowheader">{e.fila}</span>
           <span role="cell" class:vacio={e.vacio === "antes" || e.vacio === "ambos"}>
-            <span class="gob" aria-hidden="true">2018–22</span>{e.antes}
+            <span class="gob">2018–22<span class="oculto-visual">:</span></span>{e.antes}{#if e.vacio === "antes" || e.vacio === "ambos"}<span class="oculto-visual"> (hueco de información)</span>{/if}
           </span>
           <span role="cell" class:vacio={e.vacio === "despues" || e.vacio === "ambos"}>
-            <span class="gob" aria-hidden="true">2022–26</span>{e.despues}
+            <span class="gob">2022–26<span class="oculto-visual">:</span></span>{e.despues}{#if e.vacio === "despues" || e.vacio === "ambos"}<span class="oculto-visual"> (hueco de información)</span>{/if}
           </span>
         </div>
       {/each}
@@ -549,6 +550,7 @@
     margin-top: 24px !important;
   }
   .ejemplo {
+    position: relative;
     display: grid;
     border: 1px solid var(--borde);
     border-radius: 12px;
@@ -566,8 +568,21 @@
   .fila + .fila {
     border-top: 1px solid var(--borde);
   }
+  /* En mobile la fila de encabezados se oculta a la vista pero no al lector de pantalla. */
   .fila.cab {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    padding: 0;
+  }
+  .oculto-visual {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
   .cat {
     font-weight: 700;
@@ -699,6 +714,12 @@
       gap: 16px;
     }
     .fila.cab {
+      position: static;
+      width: auto;
+      height: auto;
+      overflow: visible;
+      clip-path: none;
+      padding: 12px 14px;
       display: grid;
       background: var(--fondo);
       font: 600 12px var(--fuente-ui);
@@ -706,8 +727,13 @@
       text-transform: uppercase;
       color: var(--tinta-suave);
     }
+    /* En escritorio la columna ya dice el gobierno: la etiqueta queda solo para el lector. */
     .gob {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
     }
     .vacio {
       margin: -2px -8px;

@@ -31,6 +31,12 @@ describe("resolverRuta", () => {
     expect(resolverRuta("#algo")).toEqual({ pagina: "inicio" });
   });
 
+  it("el ancla se decodifica y pasa a minúsculas", () => {
+    expect(resolverRuta("#/GLOSARIO/NATO")).toEqual({ pagina: "glosario", ancla: "nato" });
+    expect(resolverRuta("#/glosario/a%C3%B1o")).toEqual({ pagina: "glosario", ancla: "año" });
+    expect(resolverRuta("#/glosario/%E0%A4%A")).toEqual({ pagina: "glosario", ancla: "%e0%a4%a" });
+  });
+
   it("la red ignora anclas", () => {
     expect(resolverRuta("#/red/x")).toEqual({ pagina: "red" });
   });

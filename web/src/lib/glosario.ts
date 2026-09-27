@@ -65,8 +65,18 @@ const TERMINO_EN_INGLES: Partial<Record<ModoCambio, string>> = {
   "continuidad-estable": "path dependence",
   conversion: "conversion",
   estratificacion: "layering",
-  terminacion: "displacement / termination",
+  terminacion: "displacement · termination",
   deriva: "drift",
+};
+
+/** No todos los modos vienen de Mahoney & Thelen (ver docs/teoria-politica.md). */
+const FUENTE_MODO: Record<ModoCambio, string> = {
+  "continuidad-estable": "Pierson (2004)",
+  conversion: "Mahoney & Thelen (2010)",
+  estratificacion: "Mahoney & Thelen (2010)",
+  terminacion: "Mahoney & Thelen (2010, displacement); deLeon (1978, termination)",
+  reversion: "Extensión propia del proyecto (la «tensión» de PID+T)",
+  deriva: "Mahoney & Thelen (2010)",
 };
 
 const DESCRIPCION_RELACION: Record<TipoRelacion, string> = {
@@ -84,7 +94,7 @@ const VOCABULARIO: Entrada[] = [
       termino: `Modo de cambio: ${ETIQUETA_MODO[m]}`,
       ...(TERMINO_EN_INGLES[m] ? { expansion: TERMINO_EN_INGLES[m] } : {}),
       definicion: DESCRIPCION_MODO[m],
-      fuente: "Mahoney & Thelen (2010)",
+      fuente: FUENTE_MODO[m],
       ver: ["modo-de-cambio"],
     }),
   ),
@@ -188,7 +198,7 @@ const ONTOLOGIA: Entrada[] = [
     termino: "Modo de cambio",
     definicion:
       "Qué le pasó a un instrumento entre un gobierno y otro: continuidad, conversión, estratificación, terminación, reversión o deriva. En la red es el color del nodo.",
-    fuente: "Mahoney & Thelen (2010)",
+    fuente: "Mahoney & Thelen (2010); Pierson (2004)",
     ver: [...MODOS_CAMBIO.map(idModo), "cambio-institucional-gradual"],
   },
   {
@@ -206,6 +216,14 @@ const ONTOLOGIA: Entrada[] = [
     definicion:
       "Cómo aparece un instrumento en el informe de una vigencia: propuesto (anunciado, sin ejecución reportada), logrado (ejecutado, con resultado reportado) o pendiente (inconcluso, en riesgo o recomendado al gobierno siguiente).",
     ver: ["vigencia"],
+  },
+  {
+    id: "confianza",
+    grupo: "ontologia",
+    termino: "Confianza (alta · media · baja)",
+    definicion:
+      "Qué tan sólida es la evidencia de una clasificación: alta (clara y suficiente), media (parcial o interpretación razonable) o baja (indicio débil: verificar contra el documento).",
+    ver: ["informe-de-empalme"],
   },
   {
     id: "relacion-entre-instrumentos",
@@ -456,8 +474,8 @@ const SIGLAS: Sigla[] = [
   ["dnp", "DNP", "Departamento Nacional de Planeación", "Entidad que coordina la planeación del país, el PND y el seguimiento con Sinergia.", ["pnd", "sinergia"]],
   ["pnd", "PND", "Plan Nacional de Desarrollo", "La hoja de ruta de cada gobierno, aprobada por ley. 2018–2022: «Pacto por Colombia, pacto por la equidad»; 2022–2026: «Colombia, potencia mundial de la vida».", ["pacto-transversal", "transformacion"]],
   ["sinergia", "Sinergia", "Sistema Nacional de Evaluación de Gestión y Resultados", "Sistema del DNP que hace seguimiento a las metas del PND. Ahí se busca la meta de un indicador para poder comparar cifras. No confundir con la sinergia entre instrumentos.", ["meta-cuatrienio", idRelacion("encadena")]],
-  ["minciencias", "MinCiencias", "Ministerio de Ciencia, Tecnología e Innovación", "Cabeza del sector desde 2019, cuando reemplazó a Colciencias. Pasar de departamento administrativo a ministerio es un cambio institucional en sí mismo.", ["colciencias"]],
-  ["colciencias", "Colciencias", "Departamento Administrativo de Ciencia, Tecnología e Innovación", "Entidad rectora de la CTeI hasta su transformación en MinCiencias (2019).", ["minciencias"]],
+  ["minciencias", "MinCiencias", "Ministerio de Ciencia, Tecnología e Innovación", "Cabeza del sector. Reemplazó a Colciencias durante el gobierno 2018–2022: la Ley 1951 de 2019 lo creó y la Ley 2162 de 2021 volvió a expedir su creación. Pasar de departamento administrativo a ministerio es un cambio institucional en sí mismo.", ["colciencias"]],
+  ["colciencias", "Colciencias", "Departamento Administrativo de Ciencia, Tecnología e Innovación", "Entidad rectora de la CTeI hasta su transformación en MinCiencias (Leyes 1951 de 2019 y 2162 de 2021).", ["minciencias"]],
   ["sncti", "SNCTI", "Sistema Nacional de Ciencia, Tecnología e Innovación", "El conjunto de actores (Estado, universidades, centros, empresas, sociedad) y reglas que articulan la CTeI en el país."],
   ["sgr", "SGR", "Sistema General de Regalías", "Distribuye los ingresos de la explotación de recursos naturales no renovables. Tiene una asignación para CTeI que se adjudica por convocatorias.", ["ocad", "fctei"]],
   ["fctei", "FCTeI", "Fondo / Asignación de CTeI del SGR", "La porción de las regalías destinada a ciencia, tecnología e innovación.", ["sgr"]],
@@ -473,7 +491,7 @@ const SIGLAS: Sigla[] = [
   ["cupo-tributario", "Cupo de inversión tributaria", "Deducción y descuento tributario por inversión en CTeI", "Beneficio fiscal a empresas que invierten en investigación y desarrollo: un instrumento de tesoro (el Estado deja de recaudar).", [idNato("tesoro")]],
   ["pgn", "PGN", "Presupuesto General de la Nación", "El presupuesto anual del Gobierno nacional."],
   ["bpin", "BPIN", "Banco de Programas y Proyectos de Inversión Nacional", "Registro donde se identifican los proyectos de inversión pública."],
-  ["pdet", "PDET", "Programas de Desarrollo con Enfoque Territorial", "Planes para los 170 municipios más afectados por el conflicto, creados por el Acuerdo de Paz de 2016.", ["enfoque-territorial"]],
+  ["pdet", "PDET", "Programas de Desarrollo con Enfoque Territorial", "Planes para los 170 municipios más afectados por el conflicto. Desarrollan el punto 1 del Acuerdo de Paz de 2016 y se crearon con el Decreto Ley 893 de 2017.", ["enfoque-territorial"]],
   ["zomac", "ZOMAC", "Zonas Más Afectadas por el Conflicto Armado", "Municipios con beneficios especiales (p. ej. tributarios) para promover su desarrollo.", ["enfoque-territorial"]],
   ["narp", "NARP", "Negros, Afrocolombianos, Raizales y Palenqueros", "Denominación de las comunidades étnicas afrodescendientes en la política pública.", ["enfoque-diferencial"]],
   ["nna", "NNA", "Niños, Niñas y Adolescentes", "Población objetivo de programas como Ondas."],

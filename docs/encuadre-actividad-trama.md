@@ -149,7 +149,7 @@ Por gobierno, al menos: el **principal**, el de **formación de talento** y el *
 | # | Subcategoría | 2018–2022 | 2022–2026 | Ejemplo CTeI |
 |---|---|---|---|---|
 | 2 | **Objetivo** | | | El giro de enfoque entre gobiernos (`cambio_objetivo`) |
-| 3 | **Instituciones** | | | Colciencias → MinCiencias: cambio institucional |
+| 3 | **Instituciones** | | | Colciencias → MinCiencias: un cambio institucional ocurrido dentro de 2018–2022 (Leyes 1951 de 2019 y 2162 de 2021) que cada informe reporta desde otra institucionalidad |
 | 4 | **Población** | | | No se desagrega en 2018–2022 (dato ausente) vs. enfoque diferencial y territorial explícito en 2022–2026 |
 | 5 | **Normativa** | | | Ninguno de los dos ancla la política a una ley en la sección que reporta CTeI |
 | 6 | **Recursos** | | | $6,50 billones de cupo tributario vs. sin cifra agregada |

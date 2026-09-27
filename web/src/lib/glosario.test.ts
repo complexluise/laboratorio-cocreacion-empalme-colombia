@@ -16,6 +16,8 @@ describe("glosario", () => {
     const ids = GLOSARIO.map((e) => e.id);
     expect(new Set(ids).size).toBe(ids.length);
     for (const id of ids) expect(id).toMatch(/^[a-z0-9]+(-[a-z0-9]+)*$/);
+    // `grupo-<g>` es el ancla de cada sección del glosario.
+    for (const id of ids) expect(id.startsWith("grupo-"), id).toBe(false);
   });
 
   it("ningún término del vocabulario controlado queda sin entrada", () => {
@@ -24,6 +26,8 @@ describe("glosario", () => {
       ...TIPOS_NATO.map(idNato),
       ...CAMBIOS_OBJETIVO.map(idCambioObjetivo),
       ...TIPOS_RELACION.map(idRelacion),
+      "presencia",
+      "confianza",
     ];
     for (const id of esperados) expect(entradaPorId(id), id).toBeDefined();
   });

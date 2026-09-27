@@ -16,12 +16,22 @@
   $effect(() => {
     document.title = TITULO_PAGINA[ruta.pagina];
   });
+
+  // Tocar el enlace de la ruta en la que ya se está no dispara `hashchange`: se avisa a la página
+  // para que vuelva a saltar a su ancla (o arriba).
+  let visita = $state(0);
+  function alClic(ev: MouseEvent) {
+    const enlace = (ev.target as Element | null)?.closest?.("a[href^='#/']");
+    if (enlace && enlace.getAttribute("href") === location.hash) visita++;
+  }
 </script>
+
+<svelte:document onclick={alClic} />
 
 {#if ruta.pagina === "red"}
   <PaginaRed />
 {:else if ruta.pagina === "glosario"}
-  <PaginaGlosario ancla={ruta.ancla} />
+  <PaginaGlosario ancla={ruta.ancla} {visita} />
 {:else}
-  <PaginaInicio ancla={ruta.ancla} />
+  <PaginaInicio ancla={ruta.ancla} {visita} />
 {/if}

@@ -6,17 +6,25 @@
   /** Glosario: siglas, términos y la ontología del mapa leída con la teoría política. */
   interface Props {
     ancla?: string | undefined;
+    visita?: number;
   }
-  let { ancla }: Props = $props();
+  let { ancla, visita = 0 }: Props = $props();
 
   let consulta = $state("");
+
+  // Navegar a una entrada o grupo limpia el filtro: si no, el destino podría no estar en pantalla.
+  // (pre: antes de que PaginaTexto salte al ancla con el DOM ya actualizado)
+  $effect.pre(() => {
+    void visita;
+    if (ancla !== undefined) consulta = "";
+  });
   const visibles = $derived(filtrarGlosario(consulta));
   const porGrupo = $derived(
     GRUPOS.map((g) => ({ grupo: g, entradas: visibles.filter((e) => e.grupo === g) })).filter((g) => g.entradas.length > 0),
   );
 </script>
 
-<PaginaTexto pagina="glosario" {ancla}>
+<PaginaTexto pagina="glosario" {ancla} {visita}>
   <p class="antetitulo">Glosario</p>
   <h1>Las palabras del laboratorio</h1>
   <p class="bajada">

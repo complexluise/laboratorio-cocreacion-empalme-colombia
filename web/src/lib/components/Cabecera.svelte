@@ -34,7 +34,10 @@
     if (menuAbierto && raiz && !raiz.contains(ev.target as Node)) menuAbierto = false;
   }
   function alTecla(ev: KeyboardEvent) {
-    if (ev.key === "Escape" && menuAbierto) menuAbierto = false;
+    if (ev.key !== "Escape" || !menuAbierto) return;
+    menuAbierto = false;
+    // Escape cierra SOLO el menú: no debe llegar al grafo (que lo usa para salir del foco).
+    ev.stopPropagation();
   }
 </script>
 
@@ -67,7 +70,11 @@
     <ul id="menu-sitio" class:abierto={menuAbierto}>
       {#each ENLACES as e (e.pagina)}
         <li>
-          <a href={hrefDe(e.pagina)} aria-current={pagina === e.pagina ? "page" : undefined}>{e.etiqueta}</a>
+          <a
+            href={hrefDe(e.pagina)}
+            aria-current={pagina === e.pagina ? "page" : undefined}
+            onclick={() => (menuAbierto = false)}>{e.etiqueta}</a
+          >
         </li>
       {/each}
     </ul>
