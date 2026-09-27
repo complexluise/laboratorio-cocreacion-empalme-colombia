@@ -10,7 +10,11 @@ import type {
 } from "./tipos.ts";
 import { claseNato } from "./tipos.ts";
 
-export type NodoPolitica = { id: string; tipo: "pol"; pol: Politica };
+/**
+ * `sinObjetivo`: con una vigencia elegida, el área no tiene objetivo declarado por ese gobierno pero
+ * sí instrumentos activos (dependencia de la trayectoria hecha visible). Nunca con "ambos".
+ */
+export type NodoPolitica = { id: string; tipo: "pol"; pol: Politica; sinObjetivo: boolean };
 export type NodoInstrumento = { id: string; tipo: "ins"; obj: Objeto };
 export type Nodo = NodoPolitica | NodoInstrumento;
 
@@ -84,7 +88,14 @@ export function construirRed(ds: Dataset, f: Filtros, subred: Subred = { politic
   const nodos: Nodo[] = [
     ...politicas
       .filter((p) => polVisibles.has(p.id))
-      .map((p): Nodo => ({ id: idPolitica(p.id), tipo: "pol", pol: p })),
+      .map(
+        (p): Nodo => ({
+          id: idPolitica(p.id),
+          tipo: "pol",
+          pol: p,
+          sinObjetivo: f.vigencia !== "ambos" && p.objetivos !== undefined && p.objetivos[f.vigencia] === undefined,
+        }),
+      ),
     ...instrumentos.map((o): Nodo => ({ id: idInstrumento(o.id), tipo: "ins", obj: o })),
   ];
 

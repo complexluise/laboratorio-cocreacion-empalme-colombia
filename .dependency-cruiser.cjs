@@ -71,7 +71,9 @@ module.exports = {
     doNotFollow: { path: "node_modules" },
     exclude: { path: ["\\.test\\.ts$", "\\.test-util\\.ts$", "(^|/)dist/"] },
     tsPreCompilationDeps: true,
-    tsConfig: { fileName: "tsconfig.json" },
+    // tsconfig.depcruise.json suma el alias `$lib` de la web: sin él, lo importado solo vía $lib
+    // parecía huérfano y esas aristas no se chequeaban contra las reglas.
+    tsConfig: { fileName: "tsconfig.depcruise.json" },
     enhancedResolveOptions: { extensions: [".ts", ".js", ".svelte", ".json"] },
   },
 };

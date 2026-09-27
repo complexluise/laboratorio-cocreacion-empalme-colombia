@@ -21,8 +21,21 @@ function obj(p: Partial<Objeto> & Pick<Objeto, "id">): Objeto {
 export const DS: Dataset = {
   sector: "prueba",
   politicas: [
-    { id: "pA", nombre: "Política de Educación Superior" },
-    { id: "pB", nombre: "Misión Bioeconomía" },
+    {
+      id: "pA",
+      nombre: "Política de Educación Superior",
+      cambio_objetivo: "se-mantiene",
+      objetivos: {
+        "2018-2022": { enunciados: ["Ampliar cobertura"], declaradas: ["Plan de Educación 2018"] },
+        "2022-2026": { enunciados: ["Ampliar cobertura"], declaradas: ["Plan de Educación 2018"] },
+      },
+    },
+    {
+      id: "pB",
+      nombre: "Misión Bioeconomía",
+      cambio_objetivo: "no-declarado",
+      objetivos: { "2018-2022": { enunciados: ["Aprovechar la biodiversidad"], declaradas: ["Colombia BIO"] } },
+    },
     { id: "pC", nombre: "Política sin instrumentos" },
   ],
   objetos: [

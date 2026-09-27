@@ -34,21 +34,22 @@ lo que la literatura llama **instrumento de política pública** (*policy instru
   de cómo se debe gobernar y de la relación Estado–sociedad. Elegir un instrumento *es* una
   decisión política, no técnica.
 
-### Nuestras `clase` ≈ una tipología de instrumentos
+### El tipo de instrumento: `tipo_nato`
 
-| Nuestra `clase` | Tipo de instrumento | Recurso (Hood NATO) |
+Cada instrumento del mapa lleva su recurso NATO (`taxonomia.yaml`); en la red es la **forma** del nodo.
+
+| Lo que aparece en los informes | Tipo de instrumento | `tipo_nato` |
 |---|---|---|
-| `norma` | legislativo y reglamentario | Autoridad |
-| `fuente-financiacion` | económico y fiscal | Tesoro |
-| `instrumento` (convocatoria, beca, beneficio) | incentivo económico / de fomento | Tesoro / Autoridad |
-| `programa` | organizacional (programa de inversión) | Organización |
-| `sistema` | organizacional / institucionalidad | Organización |
-| `apuesta` | *(ver salvedad)* orientación / prioridad de política | — |
+| sistema de información, plataforma, orientación | informativo | `nodalidad` |
+| ley, decreto, CONPES, reglamento | legislativo y reglamentario | `autoridad` |
+| fondo, convocatoria, beca, beneficio tributario | económico y fiscal | `tesoro` |
+| programa ejecutado por una entidad, institucionalidad | organizacional | `organizacion` |
 
-**Salvedad honesta:** `apuesta` (p.ej. "Inteligencia Artificial", "reforma agraria") **no es un
-instrumento** en sentido estricto: es un **objetivo o prioridad de política** (*policy goal*). En
-v1 conviven en el mismo tipo de nodo; si genera confusión, en v2 se puede separar el eje
-*objetivo* del eje *instrumento* (los objetivos se persiguen **con** instrumentos).
+**Objetivo ≠ instrumento.** Una primera versión del modelo mezclaba en el mismo tipo de nodo
+instrumentos y **objetivos o prioridades de política** (*policy goals*: "Inteligencia Artificial",
+"reforma agraria"), bajo la etiqueta `apuesta`. Eso se separó: los objetivos se persiguen **con**
+instrumentos, y hoy el objetivo **vive en la política**, declarado por cada gobierno (§3,
+ADR-0004); no es un nodo.
 
 **Consecuencia de nomenclatura:** donde hoy decimos "objeto de política" deberíamos decir
 **"instrumento de política pública"** (y reservar "objeto" para el nivel de datos: el *nodo* que
@@ -60,34 +61,62 @@ representa al instrumento en el grafo). Ver el mapeo en `docs/ontologia.md`.
 
 Comparar dos gobiernos sobre el mismo sector es, en términos teóricos, estudiar **cómo cambia una
 institución sin rupturas** — el corazón del **institucionalismo histórico**. Nuestro vocabulario
-diacrónico (redundancia / unicidad / tensión) reproduce, sin saberlo al inicio, la tipología
+diacrónico original (redundancia / unicidad / tensión) reproducía, sin saberlo al inicio, la tipología
 estándar de **Streeck & Thelen** (*Beyond Continuity*, 2005) y **Mahoney & Thelen**
 (*Explaining Institutional Change*, 2010).
 
 Los cuatro modos de cambio gradual de Mahoney & Thelen:
 
-| Modo | Definición | Nuestro equivalente |
+| Modo | Definición | Lo que era en PID+T |
 |---|---|---|
-| **Layering** (estratificación) | se añaden reglas/instrumentos **nuevos** junto a los existentes | **unicidad** presente solo en el gobierno **posterior** (nuevo) |
-| **Displacement** (desplazamiento) | se **remueven** reglas existentes y se reemplazan | **unicidad** presente solo en el gobierno **anterior** (dejado) · **tensión** (reversión) |
-| **Conversion** (conversión) | la **misma** regla se **redespliega** hacia nuevos fines | **redundancia con cambio de modo** (mismo instrumento, otro `modo`) |
-| **Drift** (deriva) | la regla persiste formalmente pero su **efecto** cambia con el entorno | **redundancia** sin cambio formal *(no lo medimos aún; ver Pendientes)* |
+| **Layering** (estratificación) | se añaden reglas/instrumentos **nuevos** junto a los existentes | **unicidad** solo en el gobierno **posterior** |
+| **Displacement** (desplazamiento) | se **remueven** reglas existentes y se reemplazan | **unicidad** solo en el gobierno **anterior** |
+| **Conversion** (conversión) | la **misma** regla se **redespliega** hacia nuevos fines | **redundancia** con otro uso |
+| **Drift** (deriva) | la regla persiste formalmente pero su **efecto** cambia con el entorno | **redundancia** sin cambio formal |
 
-### Refinamiento que esto habilita
+### Cómo quedó en el dato: `modo_cambio`
 
-Hoy `diacronia` colapsa toda "unicidad" en una sola categoría. Pero como guardamos la
-**presencia por vigencia**, podemos **partir la unicidad en dos** con significado teórico:
+Como guardamos la **presencia por vigencia**, la unicidad se partió en dos con significado teórico
+y la redundancia se subdividió. Cada instrumento lleva un `modo_cambio` (`taxonomia.yaml`; en la red
+es el **color** del nodo):
 
-- unicidad solo-posterior → **estratificación** (el gobierno entrante *suma*).
-- unicidad solo-anterior → **terminación / desplazamiento** (el gobierno saliente lo *deja*).
+- `estratificacion` — solo en el gobierno posterior: el entrante *suma* (determinista).
+- `terminacion` — solo en el gobierno anterior: el saliente lo *deja* o se reemplaza (determinista;
+  *displacement* de Mahoney & Thelen y *termination* de deLeon).
+- `continuidad-estable` — en ambos, mismo uso (dependencia de la trayectoria, Pierson).
+- `conversion` — en ambos, redesplegado hacia otro uso.
+- `reversion` — persiste pero invierte su rumbo: **extensión propia** (la "tensión" de PID+T), no un
+  modo de Mahoney & Thelen.
+- `deriva` — persiste formalmente, pero su efecto cambia con el entorno. No tiene medición propia:
+  se asigna por lectura semántica y queda como pregunta para el plenario.
 
-Y la "redundancia" puede subdividirse según si el `modo` cambió entre vigencias:
-continuidad estable vs. **conversión** (mismo instrumento, distinto uso). Esto convierte una
-propiedad de datos en una **lectura política**.
+Los cuatro últimos son lectura semántica guiada por la evidencia. Esto convierte una propiedad de
+datos en una **lectura política**.
 
 ---
 
-## 3. El fenómeno de fondo: **sucesión de políticas**
+## 3. Fines y medios: el **objetivo** de la política
+
+El modo de cambio mira los **medios**. Pero una política pública combina **fines y medios**
+(**Howlett & Cashore**, 2009), y el cambio más profundo es el de los fines:
+
+- **Peter Hall**, "Policy Paradigms, Social Learning, and the State" (1993): el cambio de política
+  tiene **tres órdenes**. 1.º: se ajusta cómo se usa un instrumento. 2.º: se cambian los instrumentos.
+  3.º: se cambian los **objetivos** (el paradigma).
+- La **conversión** de Mahoney & Thelen (mismo instrumento, otro fin) solo es observable si el fin de
+  cada gobierno lo es.
+
+Por eso la **política es un área persistente** a la que cada gobierno le **declara su objetivo**, y
+ese cambio tiene vocabulario propio, `cambio_objetivo` (ADR-0004; en la red, el **anillo** del hub):
+**se mantiene · se reformula · no declarado · nuevo**. Se dice **"no declarado" y no "abandonado"**: el
+informe de empalme lo escribe cada gobierno sobre sí mismo y el silencio no prueba abandono. Un área
+sin objetivo declarado pero con instrumentos activos es un **área huérfana**: la dependencia de la
+trayectoria hecha visible (los medios persisten aunque el fin ya no se nombre). Un instrumento que
+continúa bajo un objetivo que se reformula es la pista para buscar conversión.
+
+---
+
+## 4. El fenómeno de fondo: **sucesión de políticas**
 
 El *empalme* —un gobierno que hereda el aparato del anterior— tiene nombre propio:
 
@@ -96,13 +125,13 @@ El *empalme* —un gobierno que hereda el aparato del anterior— tiene nombre p
   innovación o terminación**. Es, literalmente, el marco de lectura de un informe de empalme.
 - **Paul Pierson**, *Politics in Time* (2004) y "Increasing Returns…" (2000): **dependencia de la
   trayectoria** (*path dependence*). Explica **por qué** algo persiste: los rendimientos
-  crecientes hacen costoso revertir. Fundamenta teóricamente nuestra "redundancia".
+  crecientes hacen costoso revertir. Fundamenta la `continuidad-estable` (la "redundancia" de PID+T).
 - **Peter deLeon**, "A Theory of Policy Termination" (1978): la contracara — por qué y cómo se
-  terminan políticas. Fundamenta la "unicidad solo-anterior".
+  terminan políticas. Fundamenta la `terminacion` (la "unicidad solo-anterior").
 
 ---
 
-## 4. Cómo se dice (la frase para defenderlo)
+## 5. Cómo se dice (la frase para defenderlo)
 
 > "No es un concepto vago que inventamos: modelamos los **instrumentos de política pública**
 > (Lascoumes & Le Galès) de un sector como una red, y sobre los informes de empalme usamos la
@@ -115,7 +144,7 @@ Traducción del pitch anterior ("objeto de política, muy amplio") a algo recono
 
 ---
 
-## 5. Salvedad metodológica: el marco PID+T
+## 6. Salvedad metodológica: el marco PID+T
 
 El proyecto usa **PID+T** (Redundancia / Unicidad / Sinergia / Tensión). Las tres primeras vienen
 de la **Descomposición Parcial de Información** (*Partial Information Decomposition*) de
@@ -140,6 +169,11 @@ PID+T queda como *cómo medimos*, y el institucionalismo histórico como *qué s
   Political Economies*. Oxford University Press.
 - Mahoney, J. & Thelen, K. (eds.) (2010). *Explaining Institutional Change: Ambiguity, Agency,
   and Power*. Cambridge University Press.
+- Hall, P.A. (1993). "Policy Paradigms, Social Learning, and the State: The Case of Economic
+  Policymaking in Britain". *Comparative Politics*, 25(3), 275–296.
+- Howlett, M. & Cashore, B. (2009). "The Dependent Variable Problem in the Study of Policy Change:
+  Understanding Policy Change as a Methodological Problem". *Journal of Comparative Policy
+  Analysis*, 11(1), 33–46.
 - Hogwood, B. & Peters, B.G. (1983). *Policy Dynamics*. St. Martin's Press.
 - Pierson, P. (2000). "Increasing Returns, Path Dependence, and the Study of Politics".
   *American Political Science Review*, 94(2). · Pierson, P. (2004). *Politics in Time*. Princeton UP.

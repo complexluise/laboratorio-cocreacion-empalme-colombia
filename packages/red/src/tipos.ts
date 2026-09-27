@@ -27,10 +27,32 @@ export const CLASES_NATO: readonly ClaseNato[] = [...TIPOS_NATO, "objetivo"];
 export const TIPOS_RELACION = ["habilita", "financia", "depende-de", "encadena"] as const;
 export type TipoRelacion = (typeof TIPOS_RELACION)[number];
 
+/** Cómo cambia el objetivo declarado de una política entre gobiernos (taxonomia.yaml). */
+export const CAMBIOS_OBJETIVO = ["se-mantiene", "se-reformula", "no-declarado", "nuevo"] as const;
+export type CambioObjetivo = (typeof CAMBIOS_OBJETIVO)[number];
+
+/** Objetivo que declara UN gobierno para una política (uno o varios enunciados). */
+export interface ObjetivoGobierno {
+  enunciados: string[];
+  /** Nombres de las políticas declaradas en ese informe que se agrupan en esta área. */
+  declaradas?: string[];
+}
+
+/**
+ * Política pública = ÁREA persistente que atraviesa gobiernos; cada gobierno le declara su
+ * objetivo (`objetivos`). `objetivo` es el campo legado del extractor (una política por gobierno).
+ */
 export interface Politica {
   id: string;
   nombre: string;
   objetivo?: string;
+  objetivos?: Partial<Record<Vigencia, ObjetivoGobierno>>;
+  cambio_objetivo?: CambioObjetivo;
+}
+
+/** El objetivo que declara el gobierno de esa vigencia (undefined = no declarado o dato legado). */
+export function objetivoEn(p: Politica, vigencia: Vigencia): ObjetivoGobierno | undefined {
+  return p.objetivos?.[vigencia];
 }
 
 export interface Presencia {

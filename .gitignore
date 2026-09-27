@@ -8,7 +8,7 @@ __pycache__/
 *.pyc
 .venv/
 
-# Binarios crudos y datos producidos por el pipeline (se regeneran; el pipeline se rehará).
+# Binarios crudos y datos intermedios del pipeline (no se versionan; se regeneran).
 descargas/
 extraido/
 markdown/
