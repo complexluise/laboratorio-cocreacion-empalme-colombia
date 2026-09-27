@@ -72,7 +72,7 @@
     max-width: 340px;
   }
   .campo:not(.buscar):not(.politica) {
-    flex: 0 1 150px;
+    flex: 0 1 180px;
   }
   @media (max-width: 860px) {
     .buscar {

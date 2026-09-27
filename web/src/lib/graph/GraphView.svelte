@@ -30,7 +30,7 @@
   let tick = $state(0);
   let sim = $state.raw<Simulation<NodoSim, EnlaceSim> | null>(null);
   const cache: Posiciones = new Map();
-  let control: ControlZoom | null = null;
+  let control = $state.raw<ControlZoom | null>(null);
   let encuadrada = false; // la primera vez que la red se asienta, se encuadra sola
 
   // La simulación se reconstruye SOLO si cambia la topología (no con la selección ni el foco).
@@ -73,6 +73,22 @@
   }
   $effect(() => onajustar?.(ajustar));
 
+  // La simulación vive centrada en (0,0); al medir o redimensionar el lienzo, la vista se
+  // desplaza medio delta para que (0,0) siga en el centro.
+  let medido = { ancho: 0, alto: 0 };
+  $effect(() => {
+    if (!control || (ancho === medido.ancho && alto === medido.alto)) return;
+    control.desplazar((ancho - medido.ancho) / 2, (alto - medido.alto) / 2);
+    medido = { ancho, alto };
+  });
+
+  function teclaNodo(ev: KeyboardEvent, id: string) {
+    if (ev.key === "Enter" || ev.key === " ") {
+      ev.preventDefault();
+      onseleccionar(id);
+    }
+  }
+
   const apagado = (id: string) => foco !== null && !foco.nodos.has(id);
   const enlaceApagado = (id: string) => foco !== null && !foco.enlaces.has(id);
   const conEtiqueta = (n: NodoSim) =>
@@ -97,12 +113,12 @@
   <svg
     width={ancho}
     height={alto}
-    role="img"
-    aria-label="Red de políticas públicas e instrumentos"
+    role="group"
+    aria-label="Red de políticas públicas e instrumentos (Tab recorre las políticas; Enter selecciona; Esc deselecciona)"
     use:zoomable={{ onzoom: (t) => (transformacion = t), onlisto: (c) => (control = c) }}
     onclick={() => onseleccionar(null)}
   >
-    <g transform="translate({ancho / 2},{alto / 2}) {transformacion.toString()}">
+    <g transform={transformacion.toString()}>
       <g class="enlaces">
           {#each enlaces as e (e.id)}
             <line
@@ -118,20 +134,23 @@
         </g>
       <g class="nodos">
         {#each nodos as n (n.id)}
-          <!-- svelte-ignore a11y_click_events_have_key_events -->
           <g
             class="nodo {n.nodo.tipo}"
             class:apagado={apagado(n.id)}
             class:sel={n.id === seleccionado}
             transform="translate({en(tick, n.x)},{en(tick, n.y)})"
             role="button"
-            tabindex="-1"
+            tabindex={n.nodo.tipo === "pol" || foco?.nodos.has(n.id) ? 0 : -1}
+            aria-pressed={n.id === seleccionado}
             aria-label={n.nodo.tipo === "pol" ? n.nodo.pol.nombre : n.nodo.obj.nombre}
             use:arrastrable={{ nodo: n, sim }}
             onclick={(ev) => {
               ev.stopPropagation();
               onseleccionar(n.id);
             }}
+            onkeydown={(ev) => teclaNodo(ev, n.id)}
+            onfocus={() => (hover = n.id)}
+            onblur={() => (hover = null)}
             onpointerenter={() => (hover = n.id)}
             onpointerleave={() => (hover = null)}
           >
@@ -154,6 +173,9 @@
       </g>
     </g>
   </svg>
+  {#if red.nodos.length === 0}
+    <p class="vacio" role="status">Ningún instrumento cumple estos filtros. Prueba con «Limpiar filtros».</p>
+  {/if}
 </div>
 
 <style>
@@ -195,6 +217,15 @@
   line.apagado {
     opacity: 0.08;
   }
+  .vacio {
+    position: absolute;
+    inset: 40% 16px auto;
+    margin: 0;
+    text-align: center;
+    color: var(--tinta-suave);
+    font-size: 14px;
+    pointer-events: none;
+  }
   .nodo {
     cursor: pointer;
     outline: none;
@@ -212,6 +243,8 @@
     stroke: rgb(0 0 0 / 0.25);
     stroke-width: 1;
   }
+  .nodo:focus-visible circle,
+  .nodo:focus-visible path,
   .nodo.sel circle,
   .nodo.sel path {
     stroke: var(--acento, #4f46e5);

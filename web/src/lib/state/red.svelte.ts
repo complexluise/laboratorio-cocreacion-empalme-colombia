@@ -34,7 +34,8 @@ export class EstadoRed {
     }),
   );
 
-  /** El nodo seleccionado, si sigue visible tras filtrar. */
+  /** El nodo seleccionado, si sigue visible tras filtrar. Si un filtro lo oculta, la selección se
+   *  conserva y reaparece (con su foco) al quitar el filtro. */
   readonly nodoSeleccionado: Nodo | null = $derived(
     this.seleccionado === null ? null : (this.red.nodos.find((n) => n.id === this.seleccionado) ?? null),
   );

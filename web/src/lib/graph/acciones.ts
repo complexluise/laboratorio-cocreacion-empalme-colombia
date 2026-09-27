@@ -2,7 +2,7 @@ import { drag } from "d3-drag";
 import type { Simulation } from "d3-force";
 import { select } from "d3-selection";
 import "d3-transition"; // extiende Selection con .transition() para el encuadre animado
-import { zoom, zoomIdentity, type ZoomBehavior, type ZoomTransform } from "d3-zoom";
+import { zoom, zoomIdentity, zoomTransform, type ZoomBehavior, type ZoomTransform } from "d3-zoom";
 import type { EnlaceSim, NodoSim } from "./forces.ts";
 
 /**
@@ -10,8 +10,14 @@ import type { EnlaceSim, NodoSim } from "./forces.ts";
  * los gestos (zoom/pan/drag, también táctiles); Svelte manda en el markup.
  */
 
+/**
+ * El centrado del lienzo vive DENTRO del transform de d3-zoom (no como un translate aparte):
+ * así el punto bajo el cursor queda fijo al hacer zoom con rueda o pinch.
+ */
 export interface ControlZoom {
   ajustar: (caja: { x: number; y: number; ancho: number; alto: number }, lienzo: { ancho: number; alto: number }) => void;
+  /** Desplaza la vista en px de pantalla (p. ej. medio delta de un resize, para mantener el centro). */
+  desplazar: (dx: number, dy: number) => void;
 }
 
 export function zoomable(
@@ -32,10 +38,14 @@ export function zoomable(
         2,
         Math.max(0.15, Math.min((lienzo.ancho - margen) / caja.ancho, (lienzo.alto - margen) / caja.alto)),
       );
-      // El contenido ya está trasladado al centro del lienzo; centramos la caja sobre (0,0).
       const cx = caja.x + caja.ancho / 2;
       const cy = caja.y + caja.alto / 2;
-      sel.transition().duration(450).call(comportamiento.transform, zoomIdentity.scale(k).translate(-cx, -cy));
+      const destino = zoomIdentity.translate(lienzo.ancho / 2, lienzo.alto / 2).scale(k).translate(-cx, -cy);
+      sel.transition().duration(450).call(comportamiento.transform, destino);
+    },
+    desplazar(dx, dy) {
+      const t = zoomTransform(svg);
+      sel.call(comportamiento.transform, zoomIdentity.translate(t.x + dx, t.y + dy).scale(t.k));
     },
   });
 

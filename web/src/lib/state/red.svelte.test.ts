@@ -47,6 +47,10 @@ describe("EstadoRed", () => {
     e.busqueda = "b";
     expect(e.nodoSeleccionado).toBeNull();
     expect(e.foco).toBeNull();
+    // Decisión: la selección se conserva; al quitar el filtro, el foco reaparece.
+    e.busqueda = "";
+    expect(e.nodoSeleccionado?.id).toBe("ins:a");
+    expect(e.foco).not.toBeNull();
   });
 
   it("limpiar restablece todo y hayFiltros lo refleja", () => {
