@@ -23,3 +23,8 @@ logs/
 .DS_Store
 Thumbs.db
 *.part
+
+# Node / pnpm
+node_modules/
+dist/
+*.tsbuildinfo

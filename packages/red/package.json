@@ -1,0 +1,13 @@
+{
+  "name": "@laboratorio/red",
+  "version": "0.0.0",
+  "description": "Dominio de la red política↔instrumento: tipos del contrato de datos, construcción de la red filtrada y foco de vecindario. Sin DOM ni D3. La frontera es `exports`.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p ../../tsconfig.json"
+  }
+}
