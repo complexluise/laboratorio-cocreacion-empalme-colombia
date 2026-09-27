@@ -1,4 +1,4 @@
-import type { ClaseNato, ModoCambio, TipoNato, TipoRelacion } from "@laboratorio/red";
+import type { CambioObjetivo, ClaseNato, ModoCambio, TipoNato, TipoRelacion } from "@laboratorio/red";
 import {
   symbol,
   symbolCircle,
@@ -91,3 +91,18 @@ export const NOMBRE_SECTOR: Record<string, string> = {
   "ciencia-tecnologia": "Ciencia, Tecnología e Innovación",
 };
 export const nombreSector = (slug: string) => NOMBRE_SECTOR[slug] ?? slug;
+
+/** Cambio del OBJETIVO de la política entre gobiernos (se codifica en el anillo del hub). */
+export const ETIQUETA_CAMBIO_OBJETIVO: Record<CambioObjetivo, string> = {
+  "se-mantiene": "se mantiene",
+  "se-reformula": "se reformula",
+  "no-declarado": "no declarado",
+  nuevo: "nuevo",
+};
+
+export const DESCRIPCION_CAMBIO_OBJETIVO: Record<CambioObjetivo, string> = {
+  "se-mantiene": "Ambos gobiernos declaran la política con el mismo objetivo.",
+  "se-reformula": "Ambos gobiernos atienden el área, con otro enfoque u objetivo.",
+  "no-declarado": "El gobierno posterior no declara objetivo (sus instrumentos pueden seguir).",
+  nuevo: "Solo el gobierno posterior declara el área.",
+};
