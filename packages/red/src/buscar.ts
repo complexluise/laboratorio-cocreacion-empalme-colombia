@@ -26,8 +26,6 @@ export interface ResultadosBusqueda {
   total: number;
 }
 
-const VACIO: ResultadosBusqueda = { politicas: [], instrumentos: [], total: 0 };
-
 function puntuar(nombre: string, alias: readonly string[], q: string): { puntos: number; tramo?: [number, number]; alias?: string } | null {
   const n = normalizar(nombre);
   const i = n.indexOf(q);
@@ -50,7 +48,7 @@ function ordenar(xs: (Resultado & { puntos: number })[]): Resultado[] {
 
 export function buscar(ds: Dataset, consulta: string, limite = 6): ResultadosBusqueda {
   const q = normalizar(consulta);
-  if (!q) return VACIO;
+  if (!q) return { politicas: [], instrumentos: [], total: 0 };
 
   // Solo políticas que tienen instrumentos (una subred vacía no lleva a ningún lado).
   const conInstrumentos = new Set(ds.objetos.flatMap((o) => o.politicas ?? []));

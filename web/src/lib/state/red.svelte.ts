@@ -52,6 +52,16 @@ export class EstadoRed {
     ),
   );
 
+  /** Red con los filtros pero sin aislar subred: dice qué nodos ocultan los filtros. */
+  readonly #visiblesPorFiltros: Set<string> = $derived.by(
+    () =>
+      new Set(
+        construirRed(this.dataset, { vigencia: this.#vigencia, modos: this.modos, natos: this.natos }).nodos.map(
+          (n) => n.id,
+        ),
+      ),
+  );
+
   /** El nodo protagonista del foco: el instrumento si hay, si no la política. */
   readonly nodoFoco: Nodo | null = $derived.by(() => {
     const id =
@@ -120,23 +130,31 @@ export class EstadoRed {
 
   // ---- ENFOCAR ----
 
+  /** ¿Los filtros actuales ocultan este nodo? (con independencia de la subred enfocada) */
+  estaOculto(idNodo: string): boolean {
+    return !this.#visiblesPorFiltros.has(idNodo);
+  }
+
   /**
-   * Enfoca un nodo por su id (`pol:…` / `ins:…`).
+   * Enfoca un nodo por su id (`pol:…` / `ins:…`). NAVEGAR SIEMPRE LLEGA: si los filtros ocultan el
+   * destino, se limpian primero (el buscador lo avisa). Ids inexistentes no cambian nada.
    * Política → aísla su subred. Instrumento → resalta su vecindario; conserva la subred actual
    * solo si el instrumento pertenece a esa política.
    */
   enfocar(idNodo: string) {
-    if (idNodo.startsWith("pol:")) {
-      this.foco = { politica: idNodo.slice(4), instrumento: null };
+    const id = idNodo.slice(4);
+    const esPolitica = idNodo.startsWith("pol:");
+    const obj = esPolitica ? undefined : this.dataset.objetos.find((o) => o.id === id);
+    if (esPolitica ? !this.dataset.politicas?.some((p) => p.id === id) : !obj) return;
+    if (this.estaOculto(idNodo)) this.limpiarFiltros();
+
+    if (esPolitica) {
+      this.foco = { politica: id, instrumento: null };
       return;
     }
-    const id = idNodo.slice(4);
-    const obj = this.dataset.objetos.find((o) => o.id === id);
-    if (!obj) return;
     const actual = this.foco.politica;
-    const seQueda = actual !== null && (obj.politicas ?? []).includes(actual);
+    const seQueda = actual !== null && (obj!.politicas ?? []).includes(actual);
     this.foco = { politica: seQueda ? actual : null, instrumento: id };
-    this.#sanearFoco();
   }
 
   /** Vuelve a un tramo de la miga de pan. */

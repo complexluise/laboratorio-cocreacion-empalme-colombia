@@ -117,6 +117,8 @@
     }
   }
 
+  // Con una política enfocada la red ES su subred: todos sus nodos son alcanzables con Tab.
+  const enSubred = $derived(seleccionado?.startsWith("pol:") ?? false);
   const apagado = (id: string) => foco !== null && !foco.nodos.has(id);
   const enlaceApagado = (id: string) => foco !== null && !foco.enlaces.has(id);
   // Etiquetas sin solape: tamaño constante en pantalla (fuente del mundo = px / zoom), así al
@@ -199,7 +201,7 @@
             class:sel={n.id === seleccionado}
             transform="translate({en(tick, n.x)},{en(tick, n.y)})"
             role="button"
-            tabindex={n.nodo.tipo === "pol" || foco?.nodos.has(n.id) ? 0 : -1}
+            tabindex={n.nodo.tipo === "pol" || enSubred || foco?.nodos.has(n.id) ? 0 : -1}
             aria-pressed={n.id === seleccionado}
             aria-label={n.nodo.tipo === "pol" ? n.nodo.pol.nombre : n.nodo.obj.nombre}
             use:arrastrable={{ nodo: n, sim }}

@@ -44,7 +44,7 @@
   <header class="cabecera">
     <div class="fila">
       <Marca />
-      <Buscador dataset={estado.dataset} onelegir={(id) => estado.enfocar(id)} />
+      <Buscador dataset={estado.dataset} onelegir={(id) => estado.enfocar(id)} oculto={(id) => estado.estaOculto(id)} />
       {#if movil}
         <button
           type="button"

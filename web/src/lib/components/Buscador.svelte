@@ -9,8 +9,10 @@
   interface Props {
     dataset: Dataset;
     onelegir: (idNodo: string) => void;
+    /** ¿Los filtros ocultan este nodo? Elegirlo los limpia; la lista lo avisa. */
+    oculto?: (idNodo: string) => boolean;
   }
-  let { dataset, onelegir }: Props = $props();
+  let { dataset, onelegir, oculto = () => false }: Props = $props();
 
   const ID = "buscador";
   let consulta = $state("");
@@ -117,6 +119,7 @@
                   <span class="texto">
                     <span class="nombre">{antes}<mark>{match}</mark>{despues}</span>
                     {#if r.alias}<span class="alias">alias: {r.alias}</span>{/if}
+                    {#if oculto(r.id)}<span class="aviso">oculto por los filtros · al elegirlo se quitan</span>{/if}
                   </span>
                 </div>
               {/each}
@@ -210,6 +213,10 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .aviso {
+    font-size: 12px;
+    color: #9a5b00;
   }
   mark {
     background: none;

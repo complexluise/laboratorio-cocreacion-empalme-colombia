@@ -50,7 +50,7 @@ export const idInstrumento = (id: string) => `ins:${id}`;
 
 /** Minúsculas y sin tildes, para buscar "educacion" y encontrar "Educación". */
 export function normalizar(s: string): string {
-  return s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().trim();
+  return s.normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/\s+/g, " ").toLowerCase().trim();
 }
 
 export function activoEn(o: Objeto, vigencia: VigenciaSel): boolean {

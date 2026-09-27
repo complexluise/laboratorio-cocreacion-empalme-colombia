@@ -111,6 +111,34 @@ describe("EstadoRed — foco", () => {
     expect(e.foco.instrumento).toBeNull(); // no reaparece: se salió de verdad
   });
 
+  it("enfocar una política oculta por filtros: limpia los filtros y llega (sin foco colgado)", () => {
+    const e = new EstadoRed(DS);
+    e.alternarModo("conversion"); // p no tiene instrumentos en conversión
+    expect(e.estaOculto("pol:p")).toBe(true);
+    e.enfocar("pol:p");
+    expect(e.hayFiltros).toBe(false);
+    expect(e.nodoFoco?.id).toBe("pol:p");
+    expect(ids(e)).toEqual(["ins:a", "ins:c", "pol:p"]);
+  });
+
+  it("enfocar un instrumento oculto por filtros: limpia los filtros y llega", () => {
+    const e = new EstadoRed(DS);
+    e.enfocar("pol:q");
+    e.vigencia = "2022-2026"; // a solo está en 2018-2022
+    e.enfocar("ins:a");
+    expect(e.hayFiltros).toBe(false);
+    expect(e.foco).toEqual({ politica: null, instrumento: "a" });
+    expect(e.nodoFoco?.id).toBe("ins:a");
+  });
+
+  it("enfocar un id inexistente no cambia nada", () => {
+    const e = new EstadoRed(DS);
+    e.enfocar("pol:q");
+    e.enfocar("ins:nada");
+    e.enfocar("pol:nada");
+    expect(e.foco).toEqual({ politica: "q", instrumento: null });
+  });
+
   it("si un filtro vacía la subred enfocada, se sale del foco", () => {
     const e = new EstadoRed(DS);
     e.enfocar("pol:q");
