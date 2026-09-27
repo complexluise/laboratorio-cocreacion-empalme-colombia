@@ -44,7 +44,7 @@
     {
       titulo: "Describirla entre los dos gobiernos",
       texto:
-        "Qué objetivo declaró cada uno y con qué instrumentos lo persiguió. La red ya propone una lectura: el grupo la verifica y la corrige.",
+        "Qué objetivo declaró cada uno y con qué instrumentos lo persiguió. La red sirve para ubicarse: muestra la política, sus instrumentos y cómo cambiaron.",
     },
     {
       titulo: "Buscar información complementaria",
@@ -54,7 +54,7 @@
     {
       titulo: "Llenar la bitácora",
       texto:
-        "Un registro con formatos que compara la política lado a lado, anota los huecos de información y deja los hallazgos para el plenario.",
+        "Un documento de Word con formatos que compara la política lado a lado, anota los huecos de información y deja los hallazgos para el plenario.",
     },
   ];
 
@@ -230,8 +230,16 @@
     <p class="antetitulo">La bitácora</p>
     <h2 id="t-bitacora">Describir la política lado a lado</h2>
     <p>
-      Cada grupo lleva una bitácora de su política. Arranca con lo que ya sabe la red —el objetivo que declaró cada gobierno y
-      sus instrumentos— y el grupo la verifica, la corrige y la completa.
+      Cada grupo llena una bitácora de su política en un documento de Word (sirve también en Google Docs). La red sirve de
+      punto de partida para consultar; la bitácora se construye con el informe de empalme y la información complementaria.
+      Al final, el equipo la recoge y la integra al mapa.
+    </p>
+    <div class="descargas">
+      <a class="btn primario" href="./bitacora-laboratorio.docx" download>Descargar la bitácora (.docx)</a>
+      <a class="btn" href="./bitacora-ejemplo-ctei.docx" download>Ver el ejemplo lleno: CTeI</a>
+    </div>
+    <p class="nota-descarga">
+      No cambien los títulos de las tablas ni de las filas: con ellos el equipo lee la bitácora y la convierte en datos.
     </p>
     <ol class="secciones">
       {#each SECCIONES_BITACORA as s (s.n)}
@@ -536,6 +544,16 @@
     font-size: 15px;
   }
 
+  .descargas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0 6px;
+  }
+  .nota-descarga {
+    font-size: 14px !important;
+    color: var(--tinta-suave);
+  }
   .aviso {
     margin: 16px 0;
     padding: 14px 16px;

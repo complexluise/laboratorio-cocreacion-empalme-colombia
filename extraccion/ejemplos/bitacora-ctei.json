@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "sector": "ciencia-tecnologia",
+  "fecha": "Ejemplo",
+  "grupo": {"nombre": "Ejemplo del equipo", "integrantes": ["Equipo del laboratorio"]},
+  "politica": {"nombre": "Ciencia, Tecnología e Innovación (sector completo)"},
+  "ubicacion": {
+    "2018-2022": {
+      "ubicacion": "Pacto Transversal IX — «Un sistema para construir el conocimiento de la Colombia del futuro».",
+      "avance": "94,41 % de cumplimiento en el cuatrienio."
+    },
+    "2022-2026": {
+      "ubicacion": "Transformación 4.2 «CTeI para la transformación territorial» + Transformación 5.7.2 «Programas y proyectos de CTeI para la reducción de brechas».",
+      "avance": null
+    }
+  },
+  "comparabilidad": "En 2018–2022 la CTeI es un pacto transversal con su propio porcentaje de cumplimiento. En 2022–2026 está repartida en dos secciones de dos transformaciones distintas y no tiene indicador único: hace falta la tabla puente antes de comparar números.",
+  "instrumentos": {
+    "2018-2022": {
+      "principal": "Cupo de inversión para deducción y descuento tributario en CTeI (beneficio fiscal a empresas que invierten en I+D).",
+      "talento": "Becas y créditos-beca para estudios doctorales (Colciencias y aliados).",
+      "fiscal": "Sí: es el instrumento central reportado."
+    },
+    "2022-2026": {
+      "principal": "Convocatorias de financiación: ColombIA Inteligente, ECONOVA, Ciencias Básicas y del Espacio, Océanos-Clima-Recursos Marino-Costeros, Investigación Fundamental, Fondo de Investigación en Salud (FIS).",
+      "talento": "Programa «Ondas en los Territorios» (formación STEM en NNA) + «Ciencia para la Paz» (jóvenes en municipios PDET).",
+      "fiscal": "Se menciona el fortalecimiento de los beneficios tributarios para I+D, sin cifra propia."
+    }
+  },
+  "subcategorias": {
+    "2018-2022": {
+      "objetivo": "Movilizar talento, impulsar empresas de base tecnológica y cerrar brechas sociales vía capacidades productivas regionales.",
+      "instituciones": "Colciencias (y «aliados», sin especificar cuáles).",
+      "poblacion": null,
+      "normativa": null,
+      "recursos": "$6,50 billones aprobados en cupo de inversión tributaria (cuatrienio).",
+      "metas": "5.706 jóvenes investigadores apoyados; 4.327 candidatos a estudios doctorales financiables; 58.522 artículos científicos publicados (con meta cuatrienio y % de cumplimiento).",
+      "impacto": null
+    },
+    "2022-2026": {
+      "objetivo": "Consolidar capacidades científicas, tecnológicas y de innovación para la transformación productiva, con enfoque territorial y de cierre de brechas.",
+      "instituciones": "MinCiencias, ya como ministerio (creado durante el gobierno anterior).",
+      "poblacion": "Universidades, centros de investigación, empresas y actores territoriales; enfoque diferencial (jóvenes, mujeres, pueblos indígenas y NARP) y territorios priorizados (Pacífico, Amazonía, Catatumbo, PDET, ZOMAC).",
+      "normativa": null,
+      "recursos": null,
+      "metas": "42 proyectos de CTeI en 23 departamentos; 3.126 NNA en Ondas; 262 jóvenes en Ciencia para la Paz (solo cifras de ejecución, sin meta cuatrienio de referencia).",
+      "impacto": null
+    }
+  },
+  "hallazgos": "El objetivo revela un giro de enfoque: mismo sector, filosofía distinta.\nLas metas engañan si no se homologan: comparar 5.706 con 3.126 es comparar manzanas con peras; hay que buscar la meta del PND 2022–2026 en Sinergia.\nEl impacto queda vacío en ambos: solo hay métricas de gestión y producto.\nNormativa y recursos faltan de forma distinta en cada informe: esa asimetría se anota, no se rellena con supuestos.",
+  "hipotesis": "Los instrumentos de tesoro persisten entre gobiernos aunque cambie el objetivo declarado.",
+  "fuentes": [
+    {"fuente": "Sinergia (DNP)", "aporte": "Meta del cuatrienio de los indicadores de 2022–2026", "referencia": "sinergia.dnp.gov.co"},
+    {"fuente": "Informe de empalme 2022–2026, capítulo 10 «Inversión pública»", "aporte": "Recursos del sector que no aparecen en la sección de CTeI"}
+  ],
+  "sin_llenar": []
+}
