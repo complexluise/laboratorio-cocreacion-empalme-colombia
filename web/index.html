@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa de instrumentos — Ciencia y Tecnología</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <header id="barra">
+    <h1>Mapa de instrumentos de política pública</h1>
+    <span id="sector">Ciencia y Tecnología · empalme 2018-2022 ↔ 2022-2026</span>
+    <div id="toggles">
+      <strong>Relaciones:</strong>
+      <label><input type="checkbox" class="toggle-arista" value="habilita"> habilita</label>
+      <label><input type="checkbox" class="toggle-arista" value="financia"> financia</label>
+      <label><input type="checkbox" class="toggle-arista" value="depende-de"> depende-de</label>
+      <label><input type="checkbox" class="toggle-arista" value="encadena"> encadena</label>
+      <button id="ajustar">Ajustar vista</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="cy"></div>
+    <aside id="panel">
+      <p class="vacio">Clic en un instrumento para ver su evidencia.</p>
+    </aside>
+  </main>
+
+  <footer id="leyenda">
+    <div class="grupo">
+      <strong>Color · modo de cambio</strong>
+      <span class="chip" data-k="continuidad-estable">continuidad estable</span>
+      <span class="chip" data-k="conversion">conversión</span>
+      <span class="chip" data-k="estratificacion">estratificación</span>
+      <span class="chip" data-k="terminacion">terminación</span>
+      <span class="chip" data-k="reversion">reversión</span>
+      <span class="chip" data-k="deriva">deriva</span>
+    </div>
+    <div class="grupo">
+      <strong>Forma · tipo (NATO)</strong>
+      <span class="forma">◆ autoridad</span>
+      <span class="forma">▲ tesoro</span>
+      <span class="forma">■ nodalidad</span>
+      <span class="forma">● organización</span>
+      <span class="forma">★ objetivo de política</span>
+    </div>
+  </footer>
+
+  <script src="vendor/d3.min.js"></script>
+  <script src="datos.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
