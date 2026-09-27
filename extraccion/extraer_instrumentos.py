@@ -189,11 +189,11 @@ def schema_resolucion():
             "nombre": S(type="STRING"),
             "es_objetivo": S(type="BOOLEAN"),
             "tipo_nato": S(type="STRING", enum=NATO),
-            "politica": S(type="STRING"),
+            "politicas": S(type="ARRAY", items=S(type="STRING")),
             "alias": S(type="ARRAY", items=S(type="STRING")),
             "miembros": S(type="ARRAY", items=S(type="STRING")),
-        }, required=["nombre", "es_objetivo", "politica", "miembros"],
-            propertyOrdering=["nombre", "es_objetivo", "tipo_nato", "politica", "alias", "miembros"])),
+        }, required=["nombre", "es_objetivo", "politicas", "miembros"],
+            propertyOrdering=["nombre", "es_objetivo", "tipo_nato", "politicas", "alias", "miembros"])),
     }, required=["canonicos"], propertyOrdering=["politicas", "canonicos"])
 
 
@@ -202,17 +202,24 @@ def prompt_resolucion(items, politicas):
                 "es_objetivo": it.get("es_objetivo", False), "tipo_nato": it.get("tipo_nato"),
                 "politica": it.get("politica", ""), "alias": it.get("alias", [])} for it in items]
     return f"""Estos son instrumentos y objetivos de política extraídos de DOS gobiernos de un mismo
-sector colombiano (cada uno con su 'ref' y 'vigencia'). RESUELVE ENTIDADES: agrupa las 'ref' que
-son el MISMO instrumento u objetivo (aunque cambie el nombre entre gobiernos o dentro de uno) en un
-único registro canónico.
+sector colombiano (cada uno con su 'ref' y 'vigencia'). El resultado es una RED BIPARTITA entre
+políticas e instrumentos, así que resuelve entidades con cuidado.
 
-Para cada canónico:
-- 'nombre': el nombre canónico más claro; 'alias': las demás variantes.
-- 'es_objetivo' y 'tipo_nato' (si es instrumento): coherentes con los miembros.
-- 'politica': el nombre canónico de la política a la que pertenece.
-- 'miembros': la lista de 'ref' que agrupa (usa EXCLUSIVAMENTE refs de la lista; no inventes).
+1) RESUELVE ENTIDADES (fusiona sin miedo): agrupa las 'ref' que son el MISMO instrumento u objetivo
+   en UN registro canónico, AUNQUE el nombre cambie entre gobiernos o dentro de uno (p. ej. un mismo
+   fondo, sistema o misión renombrado). Busca activamente continuidades entre 2018-2022 y 2022-2026:
+   si un instrumento plausiblemente persiste, fúndelo (no lo dupliques por diferencia de nombre).
 
-En 'politicas' devuelve el catálogo unificado de políticas (nombre + objetivo).
+2) Para cada canónico:
+   - 'nombre': el nombre canónico más claro; 'alias': las demás variantes.
+   - 'es_objetivo' y 'tipo_nato' (si es instrumento): coherentes con los miembros.
+   - 'politicas': TODAS las políticas a las que sirve ese instrumento (muchos-a-muchos). Un fondo o
+     un sistema transversal sirve a varias; inclúyelas todas. Usa nombres del catálogo unificado.
+   - 'miembros': la lista de 'ref' que agrupa (usa EXCLUSIVAMENTE refs de la lista; no inventes).
+
+3) En 'politicas' (nivel raíz) devuelve el catálogo UNIFICADO de políticas (nombre + objetivo),
+   DEDUPLICADO entre vigencias: si dos políticas de distinto gobierno son la misma (p. ej. dos
+   variantes de "Bioeconomía" o de "Diplomacia científica"), fúndelas en una.
 
 POLÍTICAS POR VIGENCIA:
 {json.dumps(politicas, ensure_ascii=False)}
@@ -241,7 +248,7 @@ def prompt_relaciones(objetos):
     cam = "; ".join(f"{k}={TAX['objetos']['modo_cambio']['valores'][k]}" for k in CAMBIO_AMBAS)
     ambas = [o["id"] for o in objetos if len(o["presencia"]) == 2]
     cat = [{"id": o["id"], "nombre": o["nombre"], "es_objetivo": o["es_objetivo"],
-            "tipo_nato": o.get("tipo_nato"), "politica": o.get("politica"),
+            "tipo_nato": o.get("tipo_nato"), "politicas": o.get("politicas", []),
             "vigencias": sorted(o["presencia"].keys())} for o in objetos]
     return f"""Estos son instrumentos y objetivos de política de un sector colombiano en dos gobiernos.
 
@@ -259,8 +266,9 @@ CATÁLOGO:
 
 
 # ---------------------------------------------------------------- consolidación determinista
-def consolidar(canonicos, idx_items):
-    """Construye objetos canónicos con presencia/evidencia/modo_cambio determinista."""
+def consolidar(canonicos, idx_items, pol_ids):
+    """Construye objetos canónicos con presencia/evidencia/modo_cambio determinista.
+    pol_ids: set de ids de política válidos (para filtrar refs colgantes)."""
     objetos, vistos = [], set()
     for c in canonicos:
         miembros = [idx_items[r] for r in c.get("miembros", []) if r in idx_items]
@@ -297,9 +305,15 @@ def consolidar(canonicos, idx_items):
         else:
             modo_cambio = "continuidad-estable"
 
+        pols = []
+        for p in c.get("politicas", []):
+            pid = slug(p)
+            if pid and pid in pol_ids and pid not in pols:
+                pols.append(pid)
+
         obj = {
             "id": oid, "nombre": c["nombre"], "es_objetivo": bool(c.get("es_objetivo")),
-            "politica": slug(c.get("politica", "")) or None,
+            "politicas": pols,
             "alias": sorted({a for a in c.get("alias", []) if a}),
             "presencia": presencia, "modo_cambio": modo_cambio,
             "entidades": sorted({e for it in miembros for e in (it.get("entidades") or []) if e}),
@@ -307,8 +321,6 @@ def consolidar(canonicos, idx_items):
         }
         if not obj["es_objetivo"] and c.get("tipo_nato") in NATO:
             obj["tipo_nato"] = c["tipo_nato"]
-        if obj["politica"] is None:
-            del obj["politica"]
         objetos.append(obj)
     return objetos
 
@@ -365,9 +377,6 @@ def main():
     if not res or not res.get("canonicos"):
         sys.exit("FALLÓ la resolución de entidades.")
     idx_items = {it["_ref"]: it for it in items}
-    objetos = consolidar(res["canonicos"], idx_items)
-    ids = {o["id"] for o in objetos}
-    print(f"    -> {len(objetos)} instrumentos canónicos")
 
     # políticas: unificadas por B1 (o derivadas de las crudas si faltan)
     pol_src = res.get("politicas") or [{"nombre": p["nombre"], "objetivo": p.get("objetivo", "")}
@@ -382,6 +391,10 @@ def main():
         if p.get("objetivo"):
             reg["objetivo"] = p["objetivo"]
         politicas.append(reg)
+
+    objetos = consolidar(res["canonicos"], idx_items, vistos_pol)
+    ids = {o["id"] for o in objetos}
+    print(f"    -> {len(objetos)} instrumentos canónicos, {len(politicas)} políticas")
 
     # ---- etapa B2: relaciones + modo de cambio (para los de ambas vigencias)
     print("  B2 · relaciones + modo de cambio…")

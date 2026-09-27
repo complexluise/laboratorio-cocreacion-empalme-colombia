@@ -32,7 +32,7 @@
         "nombre": {"type": "string", "description": "nombre canónico tras resolución de entidades"},
         "es_objetivo": {"type": "boolean", "description": "true = objetivo de política; false = instrumento"},
         "tipo_nato": {"type": "string", "enum": ["nodalidad", "autoridad", "tesoro", "organizacion"], "description": "recurso NATO (Hood); requerido para instrumentos, ausente en objetivos"},
-        "politica": {"type": "string", "description": "id de la política a la que pertenece (ref a politicas[].id)"},
+        "politicas": {"type": "array", "items": {"type": "string"}, "description": "ids de las políticas a las que sirve (red bipartita, muchos-a-muchos; ref a politicas[].id)"},
         "alias": {"type": "array", "items": {"type": "string"}, "description": "variantes de nombre halladas"},
         "presencia": {
           "type": "object",
