@@ -27,15 +27,23 @@
 - **Frontera del sistema:** no evalúa ni puntúa gobiernos; no es un buscador de documentos. Clasifica
   y conecta con un vocabulario controlado (`data/schema/taxonomia.yaml`).
 - **Objeto de dominio de primera clase:** el **instrumento de política pública**, con su `tipo_nato`
-  (Hood), su `modo_cambio` entre gobiernos (Mahoney-Thelen) y su presencia por vigencia.
+  (Hood), su `modo_cambio` entre gobiernos (Mahoney-Thelen) y su presencia por vigencia. Se agrupa por
+  **política pública** = **área persistente** con el objetivo que declara cada gobierno y su
+  `cambio_objetivo` (ADR-0004).
+- **El sitio:** landing con la actividad (`#/`), la red (`#/red`) y el glosario (`#/glosario`).
+- **La bitácora:** cada grupo describe su política en un .docx en blanco
+  (`web/public/bitacora-laboratorio.docx`); el equipo la convierte a `data/bitacoras/<slug>/<grupo>.json`
+  con `extraccion/bitacora.py leer` (ADR-0005).
 
 ## Cómo correr
 
 ```bash
 pnpm install && pnpm dev                                     # explorador en desarrollo
 pnpm typecheck && pnpm test && pnpm lint:boundaries && pnpm build   # el gate de la web
-uv run scripts/validar_contrato.py                           # el gate del contrato
+uv run scripts/validar_contrato.py                           # el gate del contrato (schemas, dataset, bitácoras, .docx y Excel al día)
 uv run extraccion/generar_web.py --slug ciencia-tecnologia   # dataset -> web/src/lib/data/<slug>.json
+uv run extraccion/bitacora.py generar && uv run extraccion/bitacora.py ejemplo \
+  && uv run extraccion/red_excel.py --slug ciencia-tecnologia  # materiales del taller -> web/public/
 ```
 
 Detalle y gate de CI completo en [`AGENTS.md`](AGENTS.md) §Cómo correr.

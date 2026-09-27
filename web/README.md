@@ -29,8 +29,8 @@ de Pages, así que no hay router de historial ni dependencia de router. `App.sve
 
 | Ruta | Página | Qué es |
 |---|---|---|
-| `#/` | `PaginaInicio` | La actividad y su teoría (landing). |
-| `#/inicio/<seccion>` | `PaginaInicio` | Salta a una sección: `actividad`, `bitacora`, `teoria`, `preguntas`. |
+| `#/` | `PaginaInicio` | Landing: la actividad como recorrido de 4 pasos (`PasosActividad`), la bitácora con sus descargas, la teoría en 5 ideas, la práctica (`Practica`) y las preguntas. |
+| `#/inicio/<seccion>` | `PaginaInicio` | Salta a una sección: `actividad`, `bitacora`, `teoria`, `practica`, `preguntas`. |
 | `#/red` | `PaginaRed` | El explorador de la red (ver §Interacción). |
 | `#/glosario[/<id>]` | `PaginaGlosario` | Glosario filtrable; `<id>` salta a una entrada (p. ej. `#/glosario/modo-conversion`). |
 
@@ -91,13 +91,16 @@ src/lib/paginas/             # PaginaInicio, PaginaGlosario (lectura, sobre Pagi
                              #   + área que scrollea y salta al ancla) y PaginaRed (layout mobile
                              #   first: lienzo, hoja inferior / paneles laterales en escritorio)
 src/lib/glosario.ts          # entradas del glosario; el vocabulario controlado sale de visual.ts
+src/lib/practica.ts          # práctica «¿Qué le pasó a este instrumento?»: elige ejemplos y evalúa
 src/lib/data/                # dataset JSON commiteado + index.ts (lo tipa como Dataset)
 src/lib/state/red.svelte.ts  # EstadoRed (runes): filtros vs foco, red derivada, miga de pan
 src/lib/graph/               # GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts)
                              #   y colocación de etiquetas sin solape (etiquetas.ts)
 src/lib/components/          # Cabecera (común: marca, herramientas de la página, menú del
                              #   sitio), Buscador, Filtros, MigaDePan, Leyenda, ControlesZoom,
-                             #   DetailPanel, Marca
+                             #   DetailPanel, Marca; y de la landing: PasosActividad (recorrido en
+                             #   pestañas ARIA), Practica, BotonDescarga
+public/                      # materiales del taller (.docx, .xlsx), generados por extraccion/
 src/lib/visual.ts            # mapeo del vocabulario a colores, glifos y etiquetas
 ```
 
@@ -114,8 +117,8 @@ laterales. Mismos componentes y mismo estado en ambos. El principio: **una inten
 | **Navegar** | `Buscador` en la cabecera (siempre visible; atajo `/`) | Combobox ARIA: busca políticas e instrumentos por nombre o alias, sin tildes. **No filtra la red**: elegir un resultado lo enfoca. Si los filtros ocultan el destino, la lista lo avisa y al elegirlo se limpian. |
 | **Filtrar** | `Filtros`: hoja (mobile) o panel izquierdo plegable (escritorio); botón "Filtros" en la cabecera con el n.º de activos | Vigencia segmentada (2018–2022, 2022–2026, ambos); modo de cambio y tipo NATO como chips "mostrar solo" (sin ninguno marcado se ve todo). Componen por intersección; muestra el conteo. "Limpiar filtros" **no toca el foco**. |
 | **Enfocar** | `MigaDePan` arriba a la izquierda del lienzo: Red completa › Política › Instrumento ✕ | Política → aísla su subred (solo ella y sus instrumentos). Instrumento → resalta su vecindario (vecinos directos + un salto por relaciones instrumento↔instrumento) y atenúa el resto. Clic en el vacío sube un nivel; `Esc` o ✕ vuelve a la red completa. Si un filtro oculta lo enfocado, se sale de ese nivel. |
-| **Ver detalle** | `DetailPanel`: hoja inferior (mobile) o panel derecho (escritorio) | Solo contenido del foco: políticas que sirve, presencia por vigencia, qué fue bajo cada gobierno, relaciones, entidades, evidencia. Sin foco: "Cómo leer la red" + instrumentos por modo de cambio. |
-| **Leer** | `Leyenda` (abajo-izq, plegada) y `ControlesZoom` (abajo-der: +, −, ajustar) sobre el lienzo | La leyenda es solo lectura (color = modo de cambio, forma = tipo NATO); no filtra (eso vive en `Filtros`). |
+| **Ver detalle** | `DetailPanel`: hoja inferior (mobile) o panel derecho (escritorio) | Solo contenido del foco. Política: cambio del objetivo, objetivo que declara cada gobierno, sus instrumentos. Instrumento: políticas que sirve, presencia por vigencia, qué fue bajo cada gobierno, relaciones, entidades, alias, evidencia. Sin foco: "Cómo leer la red" + cómo cambiaron los objetivos y los instrumentos. |
+| **Leer** | `Leyenda` (abajo-izq, plegada) y `ControlesZoom` (abajo-der: +, −, ajustar) sobre el lienzo | La leyenda es solo lectura (color = modo de cambio, forma = tipo NATO, anillo = cambio del objetivo de la política); no filtra (eso vive en `Filtros`). |
 
 - **Una sola hoja a la vez** en mobile (filtros o detalle), dentro del flujo del grid: nunca tapa
   el grafo. Enfocar algo abre su detalle; salir del foco la pliega.
