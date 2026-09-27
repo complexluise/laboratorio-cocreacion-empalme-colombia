@@ -1,123 +1,64 @@
-# Taxonomía facetada — vocabularios controlados para la clasificación de ideas
+# Vocabularios controlados del laboratorio — capa de análisis del mapa
 # ---------------------------------------------------------------------------
-# Clasificación bibliotecaria mejorada: en vez de UNA faceta (tema) + UN tipo,
-# cada idea se indexa con VARIAS facetas ORTOGONALES, cada una con su vocabulario
-# controlado (authority control). Esto permite filtrar, agrupar y comparar la
-# información de forma escalable y estable entre carteras — apto para una web.
+# Fuente ÚNICA de verdad de los valores permitidos, alineada con
+# docs/encuadre-actividad-trama.md y docs/teoria-politica.md. Los scripts
+# (extraer_instrumentos.py) leen de aquí. Versionar los cambios de vocabulario.
 #
-# Este archivo es la ÚNICA fuente de verdad de los valores permitidos. Los scripts
-# (extraer_ideas.py, validar.py) leen de aquí. Versionar los cambios de vocabulario.
+# El nodo del mapa es un INSTRUMENTO DE POLÍTICA PÚBLICA (Hood 1983; Lascoumes &
+# Le Galès 2004) o un OBJETIVO DE POLÍTICA. Los instrumentos se agrupan por
+# POLÍTICA PÚBLICA y se leen entre dos gobiernos con la tipología de cambio
+# institucional gradual (Mahoney & Thelen 2010).
+#
+# NOTA: la capa de "ideas" facetadas (tema A–K, etc.) quedó DEPRECADA; ver
+# data/schema/idea.schema.json.
 
-version: 1
+version: 2
 
-facetas:
-
-  tema:                       # DE QUÉ trata (dominio temático). Cardinalidad: 1.
-    cardinalidad: uno
-    valores:
-      A: {slug: orientacion-estrategica, label: "Orientación estratégica y política", def: "Misión, visión, enfoque de política de CTeI/sector, apuestas de gobierno, PND."}
-      B: {slug: programas-instrumentos,  label: "Programas e instrumentos",           def: "Programas, convocatorias, misiones, instrumentos de fomento concretos."}
-      C: {slug: institucionalidad,        label: "Institucionalidad y estructura",      def: "Estructura, plantas, decretos de estructura, gobernanza del sistema."}
-      D: {slug: financiacion,             label: "Financiación y presupuesto",          def: "Presupuesto, ejecución, regalías, beneficios tributarios, vigencias futuras."}
-      E: {slug: talento-formacion,        label: "Talento humano y formación",          def: "Becas, formación de alto nivel, jóvenes investigadores, vocaciones."}
-      F: {slug: territorio,               label: "Territorio y regiones",               def: "Descentralización, regionalización, cierre de brechas territoriales."}
-      G: {slug: internacionalizacion,     label: "Internacionalización",                def: "Cooperación internacional, diplomacia científica, multilaterales."}
-      H: {slug: apropiacion-social,       label: "Apropiación social del conocimiento", def: "Ciencia y sociedad, saberes ancestrales, ciencia abierta, cultura."}
-      I: {slug: resultados,               label: "Resultados e indicadores",            def: "Logros, metas, cifras de gestión, indicadores de resultado."}
-      J: {slug: gestion-transversal,      label: "Gestión administrativa y transversal", def: "Control interno, jurídica, TIC, contratación, riesgos, gestión documental."}
-      K: {slug: pendientes-alertas,       label: "Pendientes, alertas y recomendaciones", def: "Tareas inconclusas, riesgos de continuidad, recomendaciones, litigios."}
-
-  tipo:                       # QUÉ CLASE de idea es. Cardinalidad: 1.
-    cardinalidad: uno
-    valores:
-      diagnostico: "Lectura de la situación/problema que motiva la acción."
-      apuesta:     "Orientación o prioridad de política que el periodo impulsa."
-      programa:    "Instrumento/programa concreto en ejecución."
-      estructura:  "Cambio institucional, normativo u organizacional."
-      logro:       "Resultado alcanzado y reportado (idealmente con cifra)."
-      pendiente:   "Tarea inconclusa, alerta o recomendación de continuidad."
-
-  instrumento:                # POR QUÉ MEDIO se materializa. Cardinalidad: varias.
-    cardinalidad: varias
-    valores:
-      normativo:    "Ley, decreto, resolución, CONPES."
-      presupuestal: "Asignación, ejecución, vigencias futuras, regalías."
-      programa:     "Programa o proyecto de inversión."
-      convocatoria: "Convocatoria/invitación pública competitiva."
-      convenio:     "Convenio, alianza, cooperación (nacional o internacional)."
-      institucional: "Creación/rediseño de dependencias, plantas, sistemas."
-      planeacion:   "Instrumento de planeación (PEI, PAI, plan estratégico)."
-
-  poblacion:                  # A QUIÉN se dirige. Cardinalidad: varias.
-    cardinalidad: varias
-    valores:
-      general:      "Sin foco poblacional específico."
-      mujeres:      "Enfoque de género / mujeres."
-      jovenes:      "Jóvenes / juventud."
-      ninez:        "Niñas, niños y adolescentes."
-      indigena:     "Pueblos indígenas."
-      narp:         "Población negra, afro, raizal, palenquera."
-      campesinado:  "Campesinado / ACFEC."
-      victimas:     "Víctimas del conflicto / firmantes de paz."
-      academia:     "Universidades, grupos e investigadores."
-      empresa:      "Sector empresarial / productivo."
-      comunidades:  "Comunidades y organizaciones sociales."
-
-  territorio:                 # A QUÉ ESCALA territorial. Cardinalidad: 1.
-    cardinalidad: uno
-    valores:
-      nacional:     "Alcance nacional."
-      regional:     "Regional / departamental / CODECTI."
-      pdet:         "Municipios PDET / ZOMAC / conflicto."
-      fronteras:    "Zonas de frontera / marítimas / no interconectadas."
-      internacional: "Fuera del país / cooperación."
-
-  continuidad:                # RELACIÓN INTERTEMPORAL. Cardinalidad: 1. Opcional
-    cardinalidad: uno         # (se puede asignar en la fase de comparación).
-    valores:
-      nuevo:        "Idea propia del periodo, sin antecedente en el otro."
-      heredado:     "Retoma algo iniciado en el periodo anterior."
-      continuidad:  "Se mantiene con cambios menores entre periodos."
-      reversion:    "Cambia de rumbo o revierte lo anterior."
-
-# Marco de comparación intertemporal (PID+T) — vocabulario de RELACIONES entre ideas
-# de dos periodos. Lo usa comparacion.schema.json (capa de evidencia).
-relaciones_pidt:
-  convergencia: "Apuntan a lo mismo aunque el lenguaje difiera."
-  redundancia:  "La idea se comparte/repite entre periodos (continuidad de Estado)."
-  unicidad:     "Idea presente en un solo periodo."
-  sinergia:     "Combinadas entre periodos producen algo mayor (acumulación, encadenamiento)."
-  tension:      "Conflicto, reversión o cambio de rumbo entre periodos."
-
-# ---------------------------------------------------------------------------
-# CAPA DE ANÁLISIS: instrumentos de política pública (el nodo del mapa del laboratorio).
-# El nodo es el INSTRUMENTO DE POLÍTICA PÚBLICA (Lascoumes & Le Galès; persiste entre gobiernos
-# con identidad); la idea baja a evidencia adjunta. La clave `objetos` se conserva por
-# compatibilidad. Lo usa objeto.schema.json. Ver docs/ontologia.md.
 objetos:
 
-  clase:                      # QUÉ CLASE de instrumento de política pública es. Cardinalidad: 1.
+  # Tipo de instrumento según el recurso que moviliza el Estado (NATO, Hood 1983).
+  # Solo aplica a instrumentos; un objetivo de política (es_objetivo) no lleva tipo_nato.
+  tipo_nato:                  # Cardinalidad: 1.
     cardinalidad: uno
     valores:
-      programa:            "Programa, misión o proyecto de inversión con nombre propio (Ondas, Orquídeas, Misión de Sabios)."
-      instrumento:         "Instrumento de fomento recurrente (convocatoria, beca, beneficio tributario)."
-      norma:               "Ley, decreto, resolución o CONPES (Ley 2162, CONPES 4069)."
-      fuente-financiacion: "Fuente o fondo de recursos (SGR/FCTeI, Fondo Francisco José de Caldas)."
-      apuesta:             "Apuesta temática o de política (Inteligencia Artificial, bioeconomía, género)."
-      sistema:             "Sistema, modelo de gestión o institucionalidad (SNCTI, MIPG, SGC)."
+      nodalidad:    "Información: datos, comunicación, orientación (p. ej. un sistema de información)."
+      autoridad:    "Normas y obligaciones (p. ej. una ley o un decreto)."
+      tesoro:       "Dinero (p. ej. un fondo o una convocatoria)."
+      organizacion: "Capacidad directa del Estado (p. ej. un programa ejecutado por una entidad)."
 
-  diacronia:                  # RELACIÓN del objeto con las dos vigencias. Derivada de 'presencia'.
+  # Modo de cambio del instrumento entre los dos gobiernos (Mahoney & Thelen 2010; + deriva).
+  # Derivado en parte de 'presencia' (ver extraer_instrumentos.py):
+  #  - solo 2018-2022 -> terminacion ; solo 2022-2026 -> estratificacion (deterministas).
+  #  - presente en ambas -> continuidad-estable / conversion / reversion / deriva (semántico).
+  modo_cambio:                # Cardinalidad: 1.
     cardinalidad: uno
     valores:
-      redundancia: "Presente en AMBAS vigencias (continuidad de Estado)."
-      unicidad:    "Presente en UNA sola vigencia (propio de un gobierno)."
-      tension:     "Persiste pero invierte de signo/rumbo entre vigencias (reversión)."
+      continuidad-estable: "Mismo instrumento, mismo modo. Persiste (dependencia de la trayectoria)."
+      conversion:          "Mismo instrumento, redesplegado hacia otro uso o modo."
+      estratificacion:     "Instrumento presente solo en el gobierno posterior (se suma)."
+      terminacion:         "Instrumento presente solo en el gobierno anterior (se deja o se reemplaza)."
+      reversion:           "Persiste pero invierte su rumbo o signo."
+      deriva:              "Persiste formalmente, pero su efecto cambia con el entorno."
 
-  # 'modo' de la presencia por vigencia: reutiliza el vocabulario de 'tipo' de las ideas
-  # (apuesta/programa/estructura/logro/pendiente/diagnostico) — cómo se manifestó el objeto ese periodo.
+  # Cómo se manifestó el instrumento en una vigencia (modo de la 'presencia').
+  modo_presencia:             # Cardinalidad: 1.
+    cardinalidad: uno
+    valores:
+      propuesto: "Anunciado o planeado, sin ejecución reportada."
+      logrado:   "Ejecutado, con resultado reportado (idealmente con cifra)."
+      pendiente: "Inconcluso, en riesgo, o recomendado al gobierno entrante."
 
-  relaciones:                 # ARISTAS dirigidas entre objetos DISTINTOS. Lo usa objeto.schema.json.
-    sinergia:   "Dos objetos se encadenan o potencian mutuamente (Misión de Sabios -> PIIOM)."
-    financia:   "Una fuente de financiación costea otro objeto (SGR -> Fondo Francisco José de Caldas)."
-    habilita:   "Una norma da existencia o soporte legal a otro objeto (Ley 2162 -> SNCTI)."
-    depende-de: "Precedencia o condición entre objetos."
+  # Confianza del grupo/extracción en la clasificación del instrumento (formato del encuadre §6).
+  confianza:                  # Cardinalidad: 1.
+    cardinalidad: uno
+    valores:
+      alta:  "Evidencia clara y suficiente."
+      media: "Evidencia parcial o interpretación razonable."
+      baja:  "Indicio débil; verificar contra el documento."
+
+  # Aristas dirigidas entre instrumentos DISTINTOS.
+  relaciones:
+    habilita:   "Una norma o instrumento da existencia o soporte legal a otro (Ley 2162 -> SNCTI)."
+    financia:   "Una fuente de financiación costea otro instrumento (SGR/FCTeI -> Fondo Francisco José de Caldas)."
+    depende-de: "Precedencia o condición entre instrumentos."
+    encadena:   "Sinergia: dos instrumentos se encadenan o potencian mutuamente (Misión de Sabios -> PIIOM)."
