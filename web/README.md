@@ -41,34 +41,41 @@ evidencia, narrativa por gobierno), que escribe `data/sectores/ciencia-tecnologi
 ## Estructura
 
 ```
-src/App.svelte               # layout: cabecera + toolbar, grafo, leyenda, panel de detalle
+src/App.svelte               # layout mobile first: cabecera (marca, buscador, botón Filtros),
+                             #   lienzo, hoja inferior / paneles laterales en escritorio
 src/lib/data/                # dataset JSON commiteado + index.ts (lo tipa como Dataset)
-src/lib/state/red.svelte.ts  # EstadoRed: filtros, selección, red derivada y foco (runes)
+src/lib/state/red.svelte.ts  # EstadoRed (runes): filtros vs foco, red derivada, miga de pan
 src/lib/graph/               # GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts)
                              #   y colocación de etiquetas sin solape (etiquetas.ts)
-src/lib/components/          # Toolbar, Legend, DetailPanel, Marca
+src/lib/components/          # Buscador, Filtros, MigaDePan, Leyenda, ControlesZoom,
+                             #   DetailPanel, Marca
 src/lib/visual.ts            # mapeo del vocabulario a colores, glifos y etiquetas
 ```
 
-La lógica del dominio (`construirRed`, `vecindario`, tipos del contrato) **no** vive acá: está en
-[`packages/red`](../packages/red/README.md) y se importa como `@laboratorio/red`.
+La lógica del dominio (`construirRed`, `buscar`, `vecindario`, tipos del contrato) **no** vive acá:
+está en [`packages/red`](../packages/red/README.md) y se importa como `@laboratorio/red`.
 
 ## Interacción
 
-- **Vigencia**: 2018–2022, 2022–2026 o ambos gobiernos.
-- **Buscar**: por nombre de instrumento, alias o política (sin distinguir tildes).
-- **Enfocar política**: deja solo una política y sus instrumentos.
-- **Filtrar por modo de cambio / tipo NATO**: clic en la leyenda (color = modo de cambio, forma =
-  tipo NATO). Todos los filtros **componen por intersección**; "Limpiar filtros" los resetea.
-- **Foco de vecindario**: clic en un nodo resalta el nodo, sus vecinos directos y un salto más por
-  relaciones instrumento↔instrumento; el panel muestra el detalle (políticas que sirve, presencia
-  por vigencia, qué fue bajo cada gobierno, relaciones, entidades, evidencia). Clic en el fondo o
-  `Esc` deselecciona. Al seleccionar, la vista se acerca al vecindario.
+**Mobile first** (referencia 390×844); en pantallas de más de 860 px se amplía con paneles
+laterales. Mismos componentes y mismo estado en ambos. El principio: **una intención = un lugar**.
+
+| Intención | Dónde | Qué hace |
+|---|---|---|
+| **Navegar** | `Buscador` en la cabecera (siempre visible; atajo `/`) | Combobox ARIA: busca políticas e instrumentos por nombre o alias, sin tildes. **No filtra la red**: elegir un resultado lo enfoca. Si los filtros ocultan el destino, la lista lo avisa y al elegirlo se limpian. |
+| **Filtrar** | `Filtros`: hoja (mobile) o panel izquierdo plegable (escritorio); botón "Filtros" en la cabecera con el n.º de activos | Vigencia segmentada (2018–2022, 2022–2026, ambos); modo de cambio y tipo NATO como chips "mostrar solo" (sin ninguno marcado se ve todo). Componen por intersección; muestra el conteo. "Limpiar filtros" **no toca el foco**. |
+| **Enfocar** | `MigaDePan` arriba a la izquierda del lienzo: Red completa › Política › Instrumento ✕ | Política → aísla su subred (solo ella y sus instrumentos). Instrumento → resalta su vecindario (vecinos directos + un salto por relaciones instrumento↔instrumento) y atenúa el resto. Clic en el vacío sube un nivel; `Esc` o ✕ vuelve a la red completa. Si un filtro oculta lo enfocado, se sale de ese nivel. |
+| **Ver detalle** | `DetailPanel`: hoja inferior (mobile) o panel derecho (escritorio) | Solo contenido del foco: políticas que sirve, presencia por vigencia, qué fue bajo cada gobierno, relaciones, entidades, evidencia. Sin foco: "Cómo leer la red" + instrumentos por modo de cambio. |
+| **Leer** | `Leyenda` (abajo-izq, plegada) y `ControlesZoom` (abajo-der: +, −, ajustar) sobre el lienzo | La leyenda es solo lectura (color = modo de cambio, forma = tipo NATO); no filtra (eso vive en `Filtros`). |
+
+- **Una sola hoja a la vez** en mobile (filtros o detalle), dentro del flujo del grid: nunca tapa
+  el grafo. Enfocar algo abre su detalle; salir del foco la pliega.
+- **Vista**: en cada cambio de topología (filtros, subred) la vista se re-encuadra cuando la física
+  casi se asienta; enfocar un instrumento encuadra su vecindario. Cualquier gesto del usuario
+  (zoom, pan, arrastre) cancela el re-encuadre pendiente.
 - **Sin solapes**: los nodos se separan por colisión (`forceCollide`, varias iteraciones) y las
   etiquetas se colocan con un algoritmo greedy por prioridad (seleccionado/hover > políticas >
   vecindario > resto) que prueba 4 posiciones y omite la que no cabe. El texto mide lo mismo en
   pantalla a cualquier zoom: **al acercarse aparecen más etiquetas** (zoom semántico).
-- Arrastrar nodos, zoom/pan (anclado al cursor), "Ajustar vista" para encuadrar la red; Tab recorre
-  las políticas y Enter selecciona.
-- **Responsive** (≤ 860 px): filtros y leyenda plegables; el panel pasa a una hoja inferior dentro
-  del layout, así nunca tapa el grafo.
+- **Teclado**: `/` al buscador (flechas + Enter en la lista); Tab recorre las políticas (con una
+  política enfocada, todos los nodos de su subred) y Enter enfoca; `Esc` vuelve a la red completa.
