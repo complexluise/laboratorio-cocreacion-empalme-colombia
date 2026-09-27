@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://empalme/bitacora.schema.json",
+  "title": "Bitácora de un grupo del laboratorio",
+  "description": "Lo que un grupo registra sobre UNA política pública (área, ADR-0004) comparando los dos gobiernos. Se llena en la plantilla .docx y el equipo la convierte a este JSON con extraccion/bitacora.py (ADR-0005). Convención de celdas: string = lo que escribió el grupo; null = HUECO de información declarado ('Sin dato': la fuente no lo dice, es un hallazgo); clave ausente = no llenado (y aparece en `sin_llenar`).",
+  "type": "object",
+  "required": ["version", "sector", "grupo", "politica", "ubicacion", "instrumentos", "subcategorias", "fuentes", "sin_llenar"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {"const": 1, "description": "versión de la estructura de la plantilla"},
+    "sector": {"type": "string", "description": "slug del sector (p. ej. ciencia-tecnologia)"},
+    "fecha": {"type": "string"},
+    "grupo": {
+      "type": "object",
+      "required": ["nombre", "integrantes"],
+      "additionalProperties": false,
+      "properties": {
+        "nombre": {"type": "string"},
+        "integrantes": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "politica": {
+      "type": "object",
+      "required": ["nombre"],
+      "additionalProperties": false,
+      "properties": {
+        "nombre": {"type": "string", "description": "como la escribió el grupo"},
+        "id": {"type": "string", "description": "id del área en el dataset del sector, si el nombre la identifica"}
+      }
+    },
+    "ubicacion": {"$ref": "#/$defs/por_vigencia_ubicacion"},
+    "comparabilidad": {"$ref": "#/$defs/celda", "description": "hallazgo de comparabilidad: la tabla puente entre las estructuras de los dos informes"},
+    "instrumentos": {"$ref": "#/$defs/por_vigencia_instrumentos"},
+    "subcategorias": {"$ref": "#/$defs/por_vigencia_subcategorias"},
+    "hallazgos": {"$ref": "#/$defs/celda", "description": "lo que el ejercicio le enseña al taller (para el plenario)"},
+    "hipotesis": {"$ref": "#/$defs/celda", "description": "qué patrón cree el grupo que comparten las otras políticas"},
+    "fuentes": {
+      "type": "array",
+      "description": "información complementaria consultada (más allá del informe de empalme)",
+      "items": {
+        "type": "object",
+        "required": ["fuente"],
+        "additionalProperties": false,
+        "properties": {
+          "fuente": {"type": "string"},
+          "aporte": {"type": "string"},
+          "referencia": {"type": "string", "description": "página, enlace o documento"}
+        }
+      }
+    },
+    "sin_llenar": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "rutas (p. ej. subcategorias.2022-2026.normativa) que quedaron vacías: no son huecos declarados"
+    }
+  },
+  "$defs": {
+    "celda": {"type": ["string", "null"]},
+    "ubicacion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ubicacion": {"$ref": "#/$defs/celda"},
+        "avance": {"$ref": "#/$defs/celda"}
+      }
+    },
+    "instrumentos": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "principal": {"$ref": "#/$defs/celda"},
+        "talento": {"$ref": "#/$defs/celda"},
+        "fiscal": {"$ref": "#/$defs/celda"}
+      }
+    },
+    "subcategorias": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "objetivo": {"$ref": "#/$defs/celda"},
+        "instituciones": {"$ref": "#/$defs/celda"},
+        "poblacion": {"$ref": "#/$defs/celda"},
+        "normativa": {"$ref": "#/$defs/celda"},
+        "recursos": {"$ref": "#/$defs/celda"},
+        "metas": {"$ref": "#/$defs/celda"},
+        "impacto": {"$ref": "#/$defs/celda"}
+      }
+    },
+    "por_vigencia_ubicacion": {
+      "type": "object",
+      "required": ["2018-2022", "2022-2026"],
+      "additionalProperties": false,
+      "properties": {"2018-2022": {"$ref": "#/$defs/ubicacion"}, "2022-2026": {"$ref": "#/$defs/ubicacion"}}
+    },
+    "por_vigencia_instrumentos": {
+      "type": "object",
+      "required": ["2018-2022", "2022-2026"],
+      "additionalProperties": false,
+      "properties": {"2018-2022": {"$ref": "#/$defs/instrumentos"}, "2022-2026": {"$ref": "#/$defs/instrumentos"}}
+    },
+    "por_vigencia_subcategorias": {
+      "type": "object",
+      "required": ["2018-2022", "2022-2026"],
+      "additionalProperties": false,
+      "properties": {"2018-2022": {"$ref": "#/$defs/subcategorias"}, "2022-2026": {"$ref": "#/$defs/subcategorias"}}
+    }
+  }
+}
