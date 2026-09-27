@@ -2,6 +2,9 @@
   import { CAMBIOS_OBJETIVO, MODOS_CAMBIO, TIPOS_NATO } from "@laboratorio/red";
   import { dataset } from "$lib/data";
   import { idCambioObjetivo, idModo, idNato } from "$lib/glosario.ts";
+  import BotonDescarga from "$lib/components/BotonDescarga.svelte";
+  import PasosActividad from "$lib/components/PasosActividad.svelte";
+  import Practica from "$lib/components/Practica.svelte";
   import PaginaTexto from "$lib/paginas/PaginaTexto.svelte";
   import { hrefDe } from "$lib/rutas.ts";
   import {
@@ -35,28 +38,8 @@
     { valor: 2, etiqueta: "gobiernos comparados" },
   ];
 
-  const PASOS = [
-    {
-      titulo: "Elegir una política pública",
-      texto:
-        "Cada grupo toma un área de la red —p. ej. bioeconomía, talento humano, ciencia abierta— y la sigue a través de los dos gobiernos.",
-    },
-    {
-      titulo: "Describirla entre los dos gobiernos",
-      texto:
-        "Qué objetivo declaró cada uno y con qué instrumentos lo persiguió. La red sirve para ubicarse: muestra la política, sus instrumentos y cómo cambiaron.",
-    },
-    {
-      titulo: "Buscar información complementaria",
-      texto:
-        "El informe de empalme no lo dice todo. Metas en Sinergia, el Plan Nacional de Desarrollo, el capítulo de inversión pública, normas y CONPES.",
-    },
-    {
-      titulo: "Llenar la bitácora",
-      texto:
-        "Un documento de Word con formatos que compara la política lado a lado, anota los huecos de información y deja los hallazgos para el plenario.",
-    },
-  ];
+  /** Excel de la red del sector (lo genera extraccion/red_excel.py en web/public). */
+  const excel = `./red-${dataset.sector}.xlsx`;
 
   const SECCIONES_BITACORA = [
     {
@@ -195,17 +178,11 @@
   <section id="actividad" tabindex="-1" aria-labelledby="t-actividad">
     <p class="antetitulo">La actividad</p>
     <h2 id="t-actividad">Una política, dos gobiernos, una bitácora</h2>
-    <ol class="pasos">
-      {#each PASOS as p, i (p.titulo)}
-        <li>
-          <span class="num" aria-hidden="true">{i + 1}</span>
-          <div>
-            <h3>{p.titulo}</h3>
-            <p>{p.texto}</p>
-          </div>
-        </li>
-      {/each}
-    </ol>
+    <p>
+      Cada grupo recorre cuatro pasos. En cada uno: qué hacer, con qué material, la pregunta que guía la conversación y lo
+      que el grupo produce.
+    </p>
+    <PasosActividad {excel} />
 
     <div class="sesiones">
       <article>
@@ -235,8 +212,9 @@
       Al final, el equipo la recoge y la integra al mapa.
     </p>
     <div class="descargas">
-      <a class="btn primario" href="./bitacora-laboratorio.docx" download>Descargar la bitácora (.docx)</a>
-      <a class="btn" href="./bitacora-ejemplo-ctei.docx" download>Ver el ejemplo lleno: CTeI</a>
+      <BotonDescarga href="./bitacora-laboratorio.docx" etiqueta="La bitácora" detalle="Word · para llenar en grupo" primario />
+      <BotonDescarga href="./bitacora-ejemplo-ctei.docx" etiqueta="Ejemplo lleno: CTeI" detalle="Word · de referencia" />
+      <BotonDescarga href={excel} etiqueta="La red en Excel" detalle="Excel · para filtrar y consultar" />
     </div>
     <p class="nota-descarga">
       No cambien los títulos de las tablas ni de las filas: con ellos el equipo lee la bitácora y la convierte en datos.
@@ -381,6 +359,17 @@
     </p>
   </section>
 
+  <!-- ─────────────── Práctica ─────────────── -->
+  <section id="practica" tabindex="-1" aria-labelledby="t-practica">
+    <p class="antetitulo">Practiquen antes de empezar</p>
+    <h2 id="t-practica">¿Qué le pasó a este instrumento?</h2>
+    <p>
+      Cuatro instrumentos reales de la red. Miren en qué gobiernos aparece cada uno y elijan su modo de cambio: es la misma
+      lectura que harán con su política.
+    </p>
+    <Practica {dataset} />
+  </section>
+
   <!-- ─────────────── Preguntas y cierre ─────────────── -->
   <section id="preguntas" tabindex="-1" aria-labelledby="t-preguntas">
     <p class="antetitulo">Las preguntas</p>
@@ -480,7 +469,6 @@
     color: var(--tinta-suave);
   }
 
-  .pasos,
   .secciones {
     display: grid;
     gap: 10px;
@@ -488,7 +476,6 @@
     padding: 0;
     list-style: none;
   }
-  .pasos li,
   .secciones li {
     display: flex;
     gap: 14px;
@@ -497,26 +484,13 @@
     border: 1px solid var(--borde);
     border-radius: 12px;
   }
-  .pasos h3,
   .secciones h3 {
     margin: 0 0 2px;
   }
-  .pasos p,
   .secciones p {
     margin: 0;
     font-size: 15px;
     color: var(--tinta-suave);
-  }
-  .num {
-    flex: none;
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--acento);
-    color: white;
-    font-weight: 700;
   }
   .n {
     flex: none;

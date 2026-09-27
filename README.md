@@ -51,6 +51,8 @@ Del informe crudo del DNP → markdown → **políticas + instrumentos** de pol�
 - `generar_web.py` — `objetos.json` → `web/src/lib/data/<slug>.json` (dataset commiteado que importa la web).
 - `bitacora.py` — la **bitácora** del grupo (ADR-0005): genera la plantilla .docx en blanco y el ejemplo
   CTeI (`web/public/`) y lee las .docx llenas → `data/bitacoras/<slug>/<grupo>.json` (sin API paga).
+- `red_excel.py` — exporta la red del sector a `web/public/red-<slug>.xlsx` (Léeme, Resumen con
+  fórmulas, Políticas, Instrumentos, Relaciones) para consultarla en el taller (determinista).
 - *(deprecados: `extraer_ideas.py`, `consolidar_objetos.py` — la capa de "ideas" ya no se usa.)*
 
 > Leen rutas relativas a la raíz del repo, así que ejecutarlos desde la raíz. Los que usan Gemini
