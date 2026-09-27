@@ -1,0 +1,13 @@
+name: ci
+on:
+  pull_request: { branches: [main, dev] }
+  push: { branches: [main, dev] }
+permissions: { contents: read }
+jobs:
+  contrato-y-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv run --no-project python -m py_compile extraccion/*.py scripts/*.py
+      - run: uv run scripts/validar_contrato.py
