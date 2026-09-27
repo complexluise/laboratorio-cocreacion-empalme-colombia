@@ -85,3 +85,9 @@ export function pathSimbolo(clase: ClaseNato, area = 200): string {
 export const RADIO_POLITICA = 14;
 
 export type { TipoNato };
+
+/** Nombre legible del sector (el dataset trae el slug). */
+export const NOMBRE_SECTOR: Record<string, string> = {
+  "ciencia-tecnologia": "Ciencia, Tecnología e Innovación",
+};
+export const nombreSector = (slug: string) => NOMBRE_SECTOR[slug] ?? slug;

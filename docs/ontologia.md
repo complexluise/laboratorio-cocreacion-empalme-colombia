@@ -117,8 +117,8 @@ El giro de nodo las desambigua; al rehacer el pipeline hay que repartirlas.
 - **Render**: la aplicación es un **explorador de la red** (Svelte 5 + D3, SPA estática; ADR-0002).
   Es una **red bipartita política↔instrumento** (un instrumento puede servir a varias políticas; los
   compartidos enlazan la red); los instrumentos van coloreados por **modo de cambio** entre gobiernos
-  y con forma por **tipo NATO**, filtrables por vigencia, política, modo y NATO, con foco de
-  vecindario al seleccionar. Dominio en `packages/red`, UI en `web/` (ver `web/README.md`).
+  y con forma por **tipo NATO**, filtrables por vigencia, modo y NATO, navegables con un buscador, y
+  con foco por política (aísla su subred) o por instrumento (resalta su vecindario). Dominio en `packages/red`, UI en `web/` (ver `web/README.md`).
 
 ## Estado en este repo
 

@@ -40,20 +40,19 @@ describe("construirRed", () => {
     ]);
   });
 
-  it("enfocar por política: aísla su subred (solo esa política y sus instrumentos)", () => {
-    const red = construirRed(DS, f({ politica: "pA" }));
+  it("los filtros componen por intersección", () => {
+    const red = construirRed(DS, f({ vigencia: "2022-2026", natos: new Set(["tesoro"]) }));
+    expect(ids(red)).toEqual(["ins:b", "pol:pA", "pol:pB"]);
+  });
+
+  it("subred de una política: solo esa política y sus instrumentos", () => {
+    const red = construirRed(DS, f(), { politica: "pA" });
     expect(ids(red)).toEqual(["ins:a", "ins:b", "pol:pA"]);
     expect(red.enlaces.every((e) => e.target !== "pol:pB")).toBe(true);
   });
 
-  it("buscar: por nombre, alias o nombre de política, sin tildes ni mayúsculas", () => {
-    expect(ids(construirRed(DS, f({ busqueda: "ondas" })))).toEqual(["ins:c", "pol:pB"]);
-    expect(ids(construirRed(DS, f({ busqueda: "2162" })))).toEqual(["ins:a", "pol:pA"]);
-    expect(ids(construirRed(DS, f({ busqueda: "EDUCACION" })))).toEqual(["ins:a", "ins:b", "pol:pA", "pol:pB"]);
-  });
-
-  it("los filtros componen por intersección", () => {
-    const red = construirRed(DS, f({ vigencia: "2022-2026", natos: new Set(["tesoro"]), politica: "pB" }));
+  it("la subred compone con los filtros", () => {
+    const red = construirRed(DS, f({ vigencia: "2022-2026", natos: new Set(["tesoro"]) }), { politica: "pB" });
     expect(ids(red)).toEqual(["ins:b", "pol:pB"]);
   });
 

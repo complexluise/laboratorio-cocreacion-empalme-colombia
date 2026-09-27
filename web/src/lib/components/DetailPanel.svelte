@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { VIGENCIAS, claseNato, idInstrumento, idPolitica, type Objeto, type Politica } from "@laboratorio/red";
+  import { MODOS_CAMBIO, VIGENCIAS, claseNato, idInstrumento, idPolitica, type Objeto, type Politica } from "@laboratorio/red";
   import type { EstadoRed } from "$lib/state/red.svelte.ts";
-  import { COLOR_MODO, ETIQUETA_MODO, ETIQUETA_NATO, ETIQUETA_RELACION, GLIFO_NATO } from "$lib/visual.ts";
+  import { COLOR_MODO, ETIQUETA_MODO, ETIQUETA_NATO, ETIQUETA_RELACION, GLIFO_NATO, nombreSector } from "$lib/visual.ts";
 
   interface Props {
     estado: EstadoRed;
   }
   let { estado }: Props = $props();
 
-  const nodo = $derived(estado.nodoSeleccionado);
+  const nodo = $derived(estado.nodoFoco);
   const polPorId = $derived(new Map((estado.dataset.politicas ?? []).map((p) => [p.id, p])));
   const objPorId = $derived(new Map(estado.dataset.objetos.map((o) => [o.id, o])));
 
@@ -27,16 +27,45 @@
       .filter((x) => x.otro !== undefined);
   }
 
+  // Resumen del sector para el estado vacío: cuántos instrumentos hay por modo de cambio.
+  const porModo = $derived(
+    MODOS_CAMBIO.map((m) => ({ m, n: estado.dataset.objetos.filter((o) => o.modo_cambio === m).length })).filter(
+      (x) => x.n > 0,
+    ),
+  );
+  const maxModo = $derived(Math.max(1, ...porModo.map((x) => x.n)));
+
   /** ¿El nodo está en la red visible? Si no, el vínculo se muestra pero no navega. */
   const visible = (id: string) => estado.red.nodos.some((n) => n.id === id);
 </script>
 
 <div class="detalle">
   {#if nodo === null}
-    <p class="vacio">
-      Selecciona un nodo para ver su detalle y resaltar su <strong>vecindario</strong>. Los círculos son
-      <strong>políticas</strong>; los símbolos, los <strong>instrumentos</strong> que las sirven.
+    <header>
+      <span class="eyebrow">Empalme 2018–2022 ↔ 2022–2026</span>
+      <h2>{nombreSector(estado.dataset.sector)}</h2>
+    </header>
+    <p>
+      {estado.dataset.politicas?.length ?? 0} políticas públicas y {estado.dataset.objetos.length} instrumentos, leídos
+      entre dos gobiernos a partir de los informes de empalme del DNP.
     </p>
+    <h3>Cómo leer la red</h3>
+    <ul class="guia">
+      <li><span class="k-pol" aria-hidden="true"></span><span>Los <strong>círculos</strong> son políticas públicas.</span></li>
+      <li><span aria-hidden="true">◆</span><span>Los <strong>símbolos</strong> son instrumentos; su forma es el tipo NATO.</span></li>
+      <li><span class="k-color" aria-hidden="true"></span><span>El <strong>color</strong> dice cómo cambió entre gobiernos.</span></li>
+      <li><span aria-hidden="true">⌕</span><span><strong>Busca</strong> una política o instrumento, o toca un nodo, para enfocarlo.</span></li>
+    </ul>
+    <h3>Cómo cambiaron los instrumentos</h3>
+    <ul class="barras">
+      {#each porModo as { m, n } (m)}
+        <li>
+          <span class="barra-etq">{ETIQUETA_MODO[m]}</span>
+          <span class="barra" style:width="{(n / maxModo) * 100}%" style:background={COLOR_MODO[m]}></span>
+          <span class="barra-n">{n}</span>
+        </li>
+      {/each}
+    </ul>
   {:else if nodo.tipo === "pol"}
     {@const p = nodo.pol}
     {@const suyos = instrumentosDe(p)}
@@ -44,13 +73,6 @@
       <span class="eyebrow">Política pública</span>
       <h2>{p.nombre}</h2>
     </header>
-    <div class="acciones">
-      {#if estado.politica === p.id}
-        <button type="button" onclick={() => estado.enfocarPolitica(null)}>Ver todas las políticas</button>
-      {:else}
-        <button type="button" onclick={() => estado.enfocarPolitica(p.id)}>Aislar su subred</button>
-      {/if}
-    </div>
     {#if p.objetivo}
       <h3>Objetivo</h3>
       <p>{p.objetivo}</p>
@@ -63,7 +85,7 @@
             type="button"
             class="vinculo"
             disabled={!visible(idInstrumento(o.id))}
-            onclick={() => estado.seleccionar(idInstrumento(o.id))}
+            onclick={() => estado.enfocar(idInstrumento(o.id))}
           >
             <span class="glifo" style:color={COLOR_MODO[o.modo_cambio]} aria-hidden="true"
               >{GLIFO_NATO[claseNato(o)]}</span
@@ -97,7 +119,7 @@
             type="button"
             class="vinculo"
             disabled={!visible(idPolitica(pid))}
-            onclick={() => estado.seleccionar(idPolitica(pid))}>{polPorId.get(pid)?.nombre ?? pid}</button
+            onclick={() => estado.enfocar(idPolitica(pid))}>{polPorId.get(pid)?.nombre ?? pid}</button
           >
         </li>
       {:else}
@@ -143,7 +165,7 @@
               type="button"
               class="vinculo"
               disabled={!visible(idInstrumento(otro!.id))}
-              onclick={() => estado.seleccionar(idInstrumento(otro!.id))}>{otro!.nombre}</button
+              onclick={() => estado.enfocar(idInstrumento(otro!.id))}>{otro!.nombre}</button
             >
           </li>
         {/each}
@@ -175,7 +197,59 @@
     line-height: 1.5;
     color: var(--tinta);
   }
-  .vacio {
+  .guia {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .guia li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .guia li > span:first-child {
+    flex: none;
+    width: 14px;
+    text-align: center;
+  }
+  .k-pol {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid var(--tinta);
+  }
+  .k-color {
+    display: inline-block;
+    height: 10px;
+    border-radius: 3px;
+    background: linear-gradient(90deg, #2e7d32, #1565c0, #7b1fa2, #9e9e9e);
+  }
+  .barras {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 5px 10px;
+    align-items: center;
+  }
+  .barras li {
+    display: contents;
+  }
+  .barra-etq {
+    font-size: 12.5px;
+  }
+  .barra {
+    height: 10px;
+    border-radius: 3px;
+    min-width: 4px;
+  }
+  .barra-n {
+    font: 12px var(--fuente-dato);
     color: var(--tinta-suave);
   }
   .eyebrow {
@@ -221,16 +295,6 @@
     color: var(--tinta);
     border: 1px solid var(--borde);
   }
-  .acciones button {
-    font: inherit;
-    font-size: 12.5px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--acento);
-    background: transparent;
-    color: var(--acento);
-    cursor: pointer;
-  }
   .lista {
     list-style: none;
     margin: 0;
@@ -244,7 +308,8 @@
     text-align: left;
     background: none;
     border: none;
-    padding: 2px 0;
+    padding: 8px 0;
+    min-height: 40px;
     color: var(--tinta);
     cursor: pointer;
   }

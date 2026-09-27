@@ -33,12 +33,12 @@
 extraccion/       # sistema viable 1: ingesta DNP -> markdown -> politicas + instrumentos (Python, uv)
 data/schema/      # FRONTERA 1: contrato de datos (JSON Schema) + vocabulario (taxonomia.yaml)
 data/correcciones/# overlay de correcciones verificadas a mano
-packages/red/     # sistema viable 2: @laboratorio/red, dominio de la red (tipos, filtros, foco). Sin DOM/D3
-web/              # sistema viable 3: @laboratorio/web, el explorador (Svelte 5 + Vite + D3)
+packages/red/     # sistema viable 2: @laboratorio/red, dominio de la red (tipos, filtros, subred, buscar, vecindario). Sin DOM/D3
+web/              # sistema viable 3: @laboratorio/web, el explorador (Svelte 5 + Vite + D3; mobile first)
   src/lib/data/   #   dataset commiteado (<slug>.json, lo escribe generar_web.py)
-  src/lib/state/  #   store de la exploración (red.svelte.ts, runes)
+  src/lib/state/  #   store de la exploración (red.svelte.ts, runes: filtros vs foco)
   src/lib/graph/  #   GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts)
-  src/lib/components/ # Toolbar, Legend, DetailPanel, Marca
+  src/lib/components/ # Buscador, Filtros, MigaDePan, Leyenda, ControlesZoom, DetailPanel, Marca
 scripts/          # utilidades del repo (validar_contrato.py: gate de la frontera 1)
 docs/             # ontologia, teoria, taxonomia, encuadre, FRONTERAS, decisiones/ (ADRs)
 .changeset/       # changesets pendientes (se consumen en el release)
@@ -88,8 +88,8 @@ uv run extraccion/generar_web.py --slug ciencia-tecnologia   # dataset -> web/sr
 - `data/sectores/`, `descargas/`, `extraido/`, `markdown/` no se versionan (se regeneran).
   `web/src/lib/data/*.json` **sí** se versiona a propósito; `web/dist/` no.
 - Archivos calientes (serializar trabajo que los toque): `pnpm-lock.yaml`,
-  `web/src/lib/state/red.svelte.ts`, `web/src/lib/graph/GraphView.svelte`,
-  `data/schema/objeto.schema.json`, `data/schema/taxonomia.yaml`.
+  `web/src/lib/state/red.svelte.ts`, `web/src/lib/graph/GraphView.svelte`, `web/src/App.svelte`
+  (layout mobile/escritorio), `data/schema/objeto.schema.json`, `data/schema/taxonomia.yaml`.
 - Al paralelizar trabajo entre agentes: archivos/fronteras disjuntas para evitar conflictos.
 
 ## Ejecución concurrente y testing

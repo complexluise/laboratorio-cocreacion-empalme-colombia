@@ -18,16 +18,26 @@ export interface ControlZoom {
   ajustar: (caja: { x: number; y: number; ancho: number; alto: number }, lienzo: { ancho: number; alto: number }) => void;
   /** Desplaza la vista en px de pantalla (p. ej. medio delta de un resize, para mantener el centro). */
   desplazar: (dx: number, dy: number) => void;
+  /** Acerca (>1) o aleja (<1) respecto del centro del lienzo (botones +/−). */
+  escalar: (factor: number) => void;
 }
 
 export function zoomable(
   svg: SVGSVGElement,
-  params: { onzoom: (t: ZoomTransform) => void; onlisto?: (c: ControlZoom) => void },
+  params: {
+    onzoom: (t: ZoomTransform) => void;
+    onlisto?: (c: ControlZoom) => void;
+    /** Zoom/pan hecho por el usuario (rueda, pinch, arrastre), no por el programa. */
+    ongesto?: () => void;
+  },
 ) {
-  let { onzoom } = params;
+  let { onzoom, ongesto } = params;
   const comportamiento: ZoomBehavior<SVGSVGElement, unknown> = zoom<SVGSVGElement, unknown>()
     .scaleExtent([0.15, 5])
-    .on("zoom", (ev: { transform: ZoomTransform }) => onzoom(ev.transform));
+    .on("zoom", (ev: { transform: ZoomTransform; sourceEvent: unknown }) => {
+      if (ev.sourceEvent) ongesto?.();
+      onzoom(ev.transform);
+    });
   const sel = select(svg).call(comportamiento).on("dblclick.zoom", null);
 
   params.onlisto?.({
@@ -47,11 +57,15 @@ export function zoomable(
       const t = zoomTransform(svg);
       sel.call(comportamiento.transform, zoomIdentity.translate(t.x + dx, t.y + dy).scale(t.k));
     },
+    escalar(factor) {
+      sel.transition().duration(250).call(comportamiento.scaleBy, factor);
+    },
   });
 
   return {
     update(p: typeof params) {
       onzoom = p.onzoom;
+      ongesto = p.ongesto;
     },
     destroy() {
       sel.on(".zoom", null);
@@ -59,8 +73,11 @@ export function zoomable(
   };
 }
 
-export function arrastrable(el: SVGGElement, params: { nodo: NodoSim; sim: Simulation<NodoSim, EnlaceSim> | null }) {
-  let { nodo, sim } = params;
+export function arrastrable(
+  el: SVGGElement,
+  params: { nodo: NodoSim; sim: Simulation<NodoSim, EnlaceSim> | null; ongesto?: () => void },
+) {
+  let { nodo, sim, ongesto } = params;
   const comportamiento = drag<SVGGElement, unknown>()
     .subject(() => ({ x: nodo.x ?? 0, y: nodo.y ?? 0 }))
     .on("start", (ev: { active: number }) => {
@@ -69,6 +86,7 @@ export function arrastrable(el: SVGGElement, params: { nodo: NodoSim; sim: Simul
       nodo.fy = nodo.y;
     })
     .on("drag", (ev: { x: number; y: number }) => {
+      ongesto?.(); // solo un arrastre real (no un toque) cancela el re-encuadre
       nodo.fx = ev.x;
       nodo.fy = ev.y;
     })
@@ -82,9 +100,18 @@ export function arrastrable(el: SVGGElement, params: { nodo: NodoSim; sim: Simul
     update(p: typeof params) {
       nodo = p.nodo;
       sim = p.sim;
+      ongesto = p.ongesto;
     },
     destroy() {
       sel.on(".drag", null);
     },
   };
 }
+/** Controles de vista que el lienzo expone a los botones que lo acompañan. */
+export interface ControlesVista {
+  ajustar: () => void;
+  acercar: () => void;
+  alejar: () => void;
+}
+
+export const CONTROLES_NULOS: ControlesVista = { ajustar() {}, acercar() {}, alejar() {} };

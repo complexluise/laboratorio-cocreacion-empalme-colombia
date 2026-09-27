@@ -1,225 +1,286 @@
 <script lang="ts">
   import { dataset } from "$lib/data";
+  import ControlesZoom from "$lib/components/ControlesZoom.svelte";
+  import Buscador from "$lib/components/Buscador.svelte";
   import DetailPanel from "$lib/components/DetailPanel.svelte";
-  import Legend from "$lib/components/Legend.svelte";
+  import Filtros from "$lib/components/Filtros.svelte";
+  import Leyenda from "$lib/components/Leyenda.svelte";
   import Marca from "$lib/components/Marca.svelte";
-  import Toolbar from "$lib/components/Toolbar.svelte";
+  import MigaDePan from "$lib/components/MigaDePan.svelte";
+  import { CONTROLES_NULOS, type ControlesVista } from "$lib/graph/acciones.ts";
   import GraphView from "$lib/graph/GraphView.svelte";
   import { EstadoRed } from "$lib/state/red.svelte.ts";
+  import { nombreSector } from "$lib/visual.ts";
 
+  /**
+   * Layout MOBILE FIRST. Una intención = un lugar:
+   * - NAVEGAR: buscador en la cabecera (siempre visible).
+   * - FILTRAR: hoja de filtros (botón con n.º de filtros activos).
+   * - ENFOCAR: miga de pan sobre el lienzo; el detalle del foco en la hoja inferior.
+   * - LEER: leyenda (solo lectura) y controles de zoom sobre el lienzo.
+   * Una sola hoja inferior, en el flujo del grid (nunca tapa el grafo).
+   */
   const estado = new EstadoRed(dataset);
-  let ajustar = $state<() => void>(() => {});
 
-  // Mobile: la toolbar y la leyenda se pliegan; el panel es una hoja inferior EN EL FLUJO (fila
-  // del grid), así nunca tapa el grafo: el lienzo se achica y la física se re-centra sola.
-  const consulta = typeof window === "undefined" ? null : window.matchMedia("(max-width: 860px)");
-  let movil = $state(consulta?.matches ?? false);
+  // Mejora progresiva: en pantallas anchas las hojas pasan a paneles laterales fijos
+  // (filtros a la izquierda, detalle a la derecha). Mismos componentes y mismo estado.
+  const mqEscritorio = typeof window === "undefined" ? null : window.matchMedia("(min-width: 861px)");
+  let escritorio = $state(mqEscritorio?.matches ?? false);
   $effect(() => {
-    if (!consulta) return;
-    const alCambiar = (e: MediaQueryListEvent) => (movil = e.matches);
-    consulta.addEventListener("change", alCambiar);
-    return () => consulta.removeEventListener("change", alCambiar);
+    if (!mqEscritorio) return;
+    const alCambiar = (e: MediaQueryListEvent) => (escritorio = e.matches);
+    mqEscritorio.addEventListener("change", alCambiar);
+    return () => mqEscritorio.removeEventListener("change", alCambiar);
   });
+  // En escritorio angosto (< 1100 px) los filtros arrancan plegados: el lienzo es lo principal.
+  let filtrosPlegados = $state(typeof window !== "undefined" && window.innerWidth < 1100);
 
-  let filtrosAbiertos = $state(false);
-  let leyendaAbierta = $state(!(consulta?.matches ?? false));
+  let controles = $state<ControlesVista>(CONTROLES_NULOS);
+  let leyendaAbierta = $state(false);
+
+  // La hoja muestra UNA cosa: filtros, o el detalle (del foco o "cómo leer la red").
+  let hoja = $state<"filtros" | "detalle">("detalle");
   let hojaAbierta = $state(false);
 
-  // Al seleccionar un nodo en mobile se abre la hoja; al deseleccionar se pliega.
+  // Enfocar algo abre su detalle; salir del foco pliega la hoja.
   $effect(() => {
-    hojaAbierta = estado.nodoSeleccionado !== null;
+    const hayFoco = estado.nodoFoco !== null;
+    hoja = "detalle";
+    hojaAbierta = hayFoco;
   });
 
-  const tituloHoja = $derived(
-    estado.nodoSeleccionado === null
-      ? "Detalle"
-      : estado.nodoSeleccionado.tipo === "pol"
-        ? estado.nodoSeleccionado.pol.nombre
-        : estado.nodoSeleccionado.obj.nombre,
+  function alternarFiltros() {
+    if (escritorio) {
+      filtrosPlegados = !filtrosPlegados;
+      return;
+    }
+    if (hoja === "filtros" && hojaAbierta) {
+      hoja = "detalle";
+      hojaAbierta = false;
+    } else {
+      hoja = "filtros";
+      hojaAbierta = true;
+    }
+  }
+
+  const tituloDetalle = $derived(
+    estado.nodoFoco === null
+      ? "Cómo leer la red"
+      : estado.nodoFoco.tipo === "pol"
+        ? estado.nodoFoco.pol.nombre
+        : estado.nodoFoco.obj.nombre,
   );
+  const tituloHoja = $derived(hoja === "filtros" ? "Filtros" : tituloDetalle);
+
+  // Al cambiar de foco, el detalle vuelve arriba (título visible sin scroll).
+  let panelDetalle: HTMLElement | undefined = $state();
+  let contenidoHoja: HTMLElement | undefined = $state();
+  $effect(() => {
+    void estado.nodoFoco?.id;
+    if (panelDetalle) panelDetalle.scrollTop = 0;
+    if (contenidoHoja) contenidoHoja.scrollTop = 0;
+  });
 </script>
 
-<div class="app" class:movil>
+<div class="app">
   <header class="cabecera">
-    <div class="fila">
-      <Marca />
-      {#if movil}
-        <button
-          type="button"
-          class="plegable"
-          aria-expanded={filtrosAbiertos}
-          aria-controls="toolbar"
-          onclick={() => {
-            filtrosAbiertos = !filtrosAbiertos;
-            if (filtrosAbiertos) hojaAbierta = false; // una cosa a la vez: el grafo no se asfixia
-          }}
-        >
-          Filtros{estado.hayFiltros ? " •" : ""}
-        </button>
-      {/if}
-    </div>
-    <div class="contexto">
-      <span class="eyebrow">Empalme 2018–2022 ↔ 2022–2026</span>
-      <h1>Red de políticas e instrumentos · <em>Ciencia y Tecnología</em></h1>
-    </div>
-    {#if !movil || filtrosAbiertos}
-      <div id="toolbar">
-        <Toolbar {estado} onajustar={() => ajustar()} />
-      </div>
-    {/if}
+    <Marca contexto="{nombreSector(estado.dataset.sector)} · empalme 2018↔2026" />
+    <Buscador dataset={estado.dataset} onelegir={(id) => estado.enfocar(id)} oculto={(id) => estado.estaOculto(id)} />
+    <button
+      type="button"
+      class="btn-filtros"
+      class:activo={estado.hayFiltros}
+      aria-expanded={escritorio ? !filtrosPlegados : hoja === "filtros" && hojaAbierta}
+      aria-controls={escritorio ? (filtrosPlegados ? undefined : "panel-filtros") : "hoja"}
+      onclick={alternarFiltros}
+    >
+      Filtros
+      {#if estado.hayFiltros}<span class="contador" aria-label="{estado.nFiltros} activos">{estado.nFiltros}</span>{/if}
+    </button>
   </header>
 
-  <main class="cuerpo">
-    <section class="grafo" aria-label="Red">
+  <main class="cuerpo" class:escritorio class:plegados={filtrosPlegados}>
+    {#if escritorio && !filtrosPlegados}
+      <aside id="panel-filtros" class="panel panel-filtros" aria-label="Filtros">
+        <div class="panel-cab">
+          <h2>Filtros</h2>
+          <button type="button" class="cerrar" aria-label="Plegar filtros" onclick={alternarFiltros}>«</button>
+        </div>
+        <Filtros {estado} />
+      </aside>
+    {/if}
+
+    <section class="lienzo" aria-label="Red de políticas e instrumentos">
       <GraphView
         red={estado.red}
-        foco={estado.foco}
-        seleccionado={estado.nodoSeleccionado?.id ?? null}
-        onseleccionar={(id) => estado.seleccionar(id)}
-        onajustar={(f) => (ajustar = f)}
+        foco={estado.vecindario}
+        seleccionado={estado.nodoFoco?.id ?? null}
+        onseleccionar={(id) => (id === null ? estado.subirNivel() : estado.enfocar(id))}
+        onsalir={() => estado.salirDelFoco()}
+        oncontroles={(c) => (controles = c)}
       />
+      <div class="sobre sup-izq"><MigaDePan {estado} /></div>
+      <div class="sobre inf-izq"><Leyenda bind:abierta={leyendaAbierta} /></div>
+      <div class="sobre inf-der"><ControlesZoom {controles} /></div>
     </section>
 
-    <aside class="panel" class:abierta={hojaAbierta} aria-label="Detalle y leyenda">
-      {#if movil}
-        <button
-          type="button"
-          class="asa"
-          aria-expanded={hojaAbierta}
-          onclick={() => (hojaAbierta = !hojaAbierta)}
-        >
+    {#if escritorio}
+      <aside class="panel panel-detalle" aria-label={tituloDetalle} bind:this={panelDetalle}>
+        <DetailPanel {estado} />
+      </aside>
+    {:else}
+    <aside id="hoja" class="hoja" class:abierta={hojaAbierta} aria-label={tituloHoja}>
+      <div class="asa">
+        <button type="button" class="asa-btn" aria-expanded={hojaAbierta} onclick={() => (hojaAbierta = !hojaAbierta)}>
           <span class="barra" aria-hidden="true"></span>
           <span class="asa-titulo">{tituloHoja}</span>
-          <span aria-hidden="true">{hojaAbierta ? "▾" : "▴"}</span>
+          {#if hoja !== "filtros"}<span aria-hidden="true">{hojaAbierta ? "▾" : "▴"}</span>{/if}
         </button>
-      {/if}
-      {#if !movil || hojaAbierta}
-        <div class="contenido">
-          <Legend {estado} bind:abierta={leyendaAbierta} />
-          <DetailPanel {estado} />
+        {#if hoja === "filtros"}
+          <button type="button" class="cerrar" aria-label="Cerrar filtros" onclick={alternarFiltros}>✕</button>
+        {/if}
+      </div>
+      {#if hojaAbierta}
+        <div class="contenido" bind:this={contenidoHoja}>
+          {#if hoja === "filtros"}
+            <Filtros {estado} />
+          {:else}
+            <DetailPanel {estado} />
+          {/if}
         </div>
       {/if}
     </aside>
+    {/if}
   </main>
 </div>
 
 <style>
+  /* ---------- Base: mobile ---------- */
   .app {
     display: grid;
+    grid-template-columns: minmax(0, 1fr); /* el svg nunca ensancha la página */
     grid-template-rows: auto minmax(0, 1fr);
     height: 100dvh;
     background: var(--fondo);
   }
   .cabecera {
-    padding: 12px 16px;
-    background: var(--papel);
-    border-bottom: 1px solid var(--borde);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 0;
-  }
-  .fila {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
+    padding: 8px 12px;
+    padding-top: max(8px, env(safe-area-inset-top));
+    background: var(--papel);
+    border-bottom: 1px solid var(--borde);
+    position: relative;
+    z-index: 20; /* la lista del buscador pasa por encima del lienzo */
   }
-  .eyebrow {
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--tinta-suave);
+  .btn-filtros {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 12px;
+    font: inherit;
+    font-size: 14px;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    background: var(--papel);
+    color: var(--tinta);
+    cursor: pointer;
   }
-  h1 {
-    font-family: var(--fuente-display);
-    font-weight: 600;
-    margin: 2px 0 0;
-    font-size: 20px;
-    letter-spacing: -0.01em;
-  }
-  h1 em {
-    font-style: normal;
+  .btn-filtros.activo {
+    border-color: var(--acento);
     color: var(--acento);
   }
+  .contador {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    background: var(--acento);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+  }
+
   .cuerpo {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
     min-height: 0;
+    min-width: 0;
   }
-  .grafo {
+  .lienzo {
+    position: relative;
     min-width: 0;
     min-height: 0;
   }
-  .panel {
-    background: var(--papel);
-    border-left: 1px solid var(--borde);
-    min-height: 0;
-    overflow-y: auto;
+  .sobre {
+    position: absolute;
+    z-index: 5;
   }
-  .contenido {
-    padding: 14px 16px 24px;
+  .sup-izq {
+    top: 10px;
+    left: 10px;
+    right: 10px;
     display: flex;
-    flex-direction: column;
-    gap: 18px;
+    pointer-events: none; /* la franja no bloquea el pan; la miga sí recibe clics */
   }
-  .plegable {
-    font: inherit;
-    font-size: 13px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--acento);
-    background: var(--acento-suave);
-    color: var(--acento);
-    cursor: pointer;
+  .sup-izq > :global(*) {
+    pointer-events: auto;
+  }
+  /* Franja con alto DEFINIDO (debajo de la miga hasta el borde inferior): la leyenda abierta se
+     acota a ella con scroll interno y nunca pisa la miga ni la cabecera. La franja no bloquea el
+     pan; solo la leyenda recibe clics. */
+  .inf-izq {
+    left: 10px;
+    top: 66px;
+    bottom: 10px;
+    right: 64px;
+    display: flex;
+    align-items: flex-end;
+    pointer-events: none;
+  }
+  .inf-izq > :global(*) {
+    pointer-events: auto;
+  }
+  .inf-der {
+    right: 10px;
+    bottom: 10px;
   }
 
-  /* ---- Mobile: grafo arriba, hoja inferior en el flujo (no se superpone) ---- */
-  .movil .cabecera {
-    padding: 10px 16px;
-    gap: 8px;
-  }
-  .movil .eyebrow {
-    display: none;
-  }
-  .movil h1 {
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .movil .cuerpo {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) auto;
-  }
-  .movil .panel {
-    border-left: none;
-    border-top: 1px solid var(--borde);
-    border-radius: 14px 14px 0 0;
-    box-shadow: 0 -6px 20px rgb(0 0 0 / 0.06);
-    max-height: 44px;
-    overflow: hidden;
+  .hoja {
     display: flex;
     flex-direction: column;
+    min-height: 0;
+    max-height: 52px;
+    background: var(--papel);
+    border-top: 1px solid var(--borde);
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -6px 20px rgb(0 0 0 / 0.06);
     padding-bottom: env(safe-area-inset-bottom);
   }
-  .movil .panel.abierta {
-    max-height: 48dvh;
-  }
-  .movil .contenido {
-    overflow-y: auto;
-    min-height: 0;
+  .hoja.abierta {
+    max-height: 55dvh;
   }
   .asa {
     flex: none;
     display: flex;
     align-items: center;
+  }
+  .asa-btn {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
     gap: 10px;
-    width: 100%;
-    height: 44px;
+    height: 52px;
     padding: 0 16px;
     font: inherit;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     background: none;
     border: none;
@@ -229,7 +290,7 @@
   }
   .barra {
     position: absolute;
-    top: 5px;
+    top: 6px;
     left: 50%;
     width: 36px;
     height: 4px;
@@ -244,8 +305,68 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  .cerrar {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    margin-right: 6px;
+    font: inherit;
+    font-size: 16px;
+    border: none;
+    background: none;
+    color: var(--tinta);
+    cursor: pointer;
+  }
+  .contenido {
+    min-height: 0;
+    overflow-y: auto;
+    padding: 4px 16px 20px;
+  }
   button:focus-visible {
     outline: 2px solid var(--acento);
     outline-offset: 1px;
+  }
+
+  /* ---------- Ampliación: escritorio (> 860 px) ---------- */
+  .cuerpo.escritorio {
+    grid-template-columns: clamp(240px, 22vw, 300px) minmax(0, 1fr) clamp(300px, 28vw, 380px);
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .cuerpo.escritorio.plegados {
+    grid-template-columns: minmax(0, 1fr) clamp(300px, 28vw, 380px);
+  }
+  .panel {
+    min-height: 0;
+    overflow-y: auto;
+    background: var(--papel);
+    padding: 14px 18px 24px;
+  }
+  .panel-filtros {
+    border-right: 1px solid var(--borde);
+  }
+  .panel-detalle {
+    border-left: 1px solid var(--borde);
+  }
+  .panel-cab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .panel-cab h2 {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+  }
+  @media (min-width: 861px) {
+    .cabecera {
+      gap: 16px;
+      padding: 10px 18px;
+    }
+    .cabecera :global(.buscador) {
+      max-width: 560px;
+    }
   }
 </style>
