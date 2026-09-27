@@ -68,8 +68,24 @@
     flex: 1 1 200px;
   }
   .politica {
-    flex: 1 1 220px;
+    flex: 1 1 160px;
     max-width: 340px;
+  }
+  .campo:not(.buscar):not(.politica) {
+    flex: 0 1 150px;
+  }
+  @media (max-width: 860px) {
+    .buscar {
+      flex-basis: 100%;
+    }
+    .politica {
+      max-width: none;
+    }
+    .acciones {
+      width: 100%;
+      justify-content: space-between;
+      margin-left: 0;
+    }
   }
   .lbl {
     font-size: 11px;

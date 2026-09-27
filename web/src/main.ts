@@ -1,5 +1,6 @@
 import { mount } from "svelte";
 import App from "./App.svelte";
+import "@fontsource-variable/space-grotesk";
 import "./app.css";
 
 const destino = document.getElementById("app");
