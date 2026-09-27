@@ -73,7 +73,7 @@
     role="combobox"
     aria-label="Buscar política o instrumento"
     aria-expanded={mostrar}
-    aria-controls="{ID}-lista"
+    aria-controls={mostrar ? `${ID}-lista` : undefined}
     aria-autocomplete="list"
     aria-activedescendant={mostrar && opciones.length ? idOpcion(activo) : undefined}
     placeholder="Buscar política o instrumento…"
@@ -87,48 +87,54 @@
 
   {#if mostrar}
     <!-- onmousedown preventDefault: elegir con el mouse sin que el blur cierre la lista antes -->
-    <div id="{ID}-lista" class="lista" role="listbox" aria-label="Resultados" tabindex="-1" onmousedown={(e) => e.preventDefault()}>
-      {#if opciones.length === 0}
-        <p class="vacio">Sin resultados para «{consulta.trim()}»</p>
-      {:else}
-        {#each [{ titulo: "Políticas", items: resultados.politicas, base: 0 }, { titulo: "Instrumentos", items: resultados.instrumentos, base: resultados.politicas.length }] as grupo (grupo.titulo)}
-          {#if grupo.items.length}
-            <div role="group" aria-label={grupo.titulo}>
-              <div class="grupo" aria-hidden="true">{grupo.titulo}</div>
-              {#each grupo.items as r, j (r.id)}
-                {@const i = grupo.base + j}
-                {@const [antes, match, despues] = partes(r)}
-                <div
-                  id={idOpcion(i)}
-                  class="opcion"
-                  class:activa={i === activo}
-                  role="option"
-                  aria-selected={i === activo}
-                  tabindex="-1"
-                  onclick={() => elegir(r)}
-                  onkeydown={() => {}}
-                  onpointermove={() => (activo = i)}
-                >
-                  {#if r.obj}
-                    <span class="glifo" style:color={COLOR_MODO[r.obj.modo_cambio]} aria-hidden="true"
-                      >{GLIFO_NATO[claseNato(r.obj)]}</span
-                    >
-                  {:else}
-                    <span class="glifo pol" aria-hidden="true">○</span>
-                  {/if}
-                  <span class="texto">
-                    <span class="nombre">{antes}<mark>{match}</mark>{despues}</span>
-                    {#if r.alias}<span class="alias">alias: {r.alias}</span>{/if}
-                    {#if oculto(r.id)}<span class="aviso">oculto por los filtros · al elegirlo se quitan</span>{/if}
-                  </span>
-                </div>
-              {/each}
-            </div>
-          {/if}
-        {/each}
-        {#if resultados.total > opciones.length}
-          <p class="mas">{opciones.length} de {resultados.total} · precisa la búsqueda</p>
+    <div class="panel" role="presentation" onmousedown={(e) => e.preventDefault()}>
+      <p class="estado" role="status">
+        {#if opciones.length === 0}
+          Sin resultados para «{consulta.trim()}»
+        {:else if resultados.total > opciones.length}
+          {opciones.length} de {resultados.total} resultados · precisa la búsqueda
+        {:else}
+          {resultados.total} {resultados.total === 1 ? "resultado" : "resultados"}
         {/if}
+      </p>
+      {#if opciones.length}
+        <div id="{ID}-lista" class="lista" role="listbox" aria-label="Resultados">
+          {#each [{ titulo: "Políticas", items: resultados.politicas, base: 0 }, { titulo: "Instrumentos", items: resultados.instrumentos, base: resultados.politicas.length }] as grupo (grupo.titulo)}
+            {#if grupo.items.length}
+              <div role="group" aria-label={grupo.titulo}>
+                <div class="grupo" aria-hidden="true">{grupo.titulo}</div>
+                {#each grupo.items as r, j (r.id)}
+                  {@const i = grupo.base + j}
+                  {@const [antes, match, despues] = partes(r)}
+                  <div
+                    id={idOpcion(i)}
+                    class="opcion"
+                    class:activa={i === activo}
+                    role="option"
+                    aria-selected={i === activo}
+                    tabindex="-1"
+                    onclick={() => elegir(r)}
+                    onkeydown={() => {}}
+                    onpointermove={() => (activo = i)}
+                  >
+                    {#if r.obj}
+                      <span class="glifo" style:color={COLOR_MODO[r.obj.modo_cambio]} aria-hidden="true"
+                        >{GLIFO_NATO[claseNato(r.obj)]}</span
+                      >
+                    {:else}
+                      <span class="glifo pol" aria-hidden="true">○</span>
+                    {/if}
+                    <span class="texto">
+                      <span class="nombre">{antes}{#if match}<mark>{match}</mark>{/if}{despues}</span>
+                      {#if r.alias}<span class="alias">alias: {r.alias}</span>{/if}
+                      {#if oculto(r.id)}<span class="aviso">oculto por los filtros · al elegirlo se quitan</span>{/if}
+                    </span>
+                  </div>
+                {/each}
+              </div>
+            {/if}
+          {/each}
+        </div>
       {/if}
     </div>
   {/if}
@@ -157,19 +163,37 @@
     outline-offset: 0;
     background: var(--papel);
   }
-  .lista {
+  /* El panel de resultados nunca es más angosto que lo usable (mobile first). */
+  .panel {
     position: absolute;
     z-index: 30;
     top: calc(100% + 6px);
     left: 0;
-    right: 0;
-    max-height: min(60dvh, 420px);
+    width: max(100%, min(420px, calc(100vw - 24px)));
+    max-height: min(60dvh, 440px);
     overflow-y: auto;
     background: var(--papel);
     border: 1px solid var(--borde);
     border-radius: 12px;
     box-shadow: 0 12px 32px rgb(0 0 0 / 0.14);
     padding: 6px;
+    box-sizing: border-box;
+  }
+  @media (max-width: 600px) {
+    /* En mobile el input es angosto: el panel se ancla a los bordes de la pantalla. */
+    .panel {
+      position: fixed;
+      top: calc(64px + env(safe-area-inset-top));
+      left: 12px;
+      right: 12px;
+      width: auto;
+    }
+  }
+  .estado {
+    margin: 0;
+    padding: 6px 10px 2px;
+    font-size: 12px;
+    color: var(--tinta-suave);
   }
   .grupo {
     font-size: 11px;
@@ -222,12 +246,5 @@
     background: none;
     color: var(--acento);
     font-weight: 650;
-  }
-  .vacio,
-  .mas {
-    margin: 0;
-    padding: 10px;
-    font-size: 13px;
-    color: var(--tinta-suave);
   }
 </style>

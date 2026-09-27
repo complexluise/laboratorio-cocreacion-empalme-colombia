@@ -5,6 +5,7 @@
   import { untrack } from "svelte";
   import { COLOR_MODO, RADIO_POLITICA, pathSimbolo } from "$lib/visual.ts";
   import { arrastrable, zoomable, type ControlZoom } from "./acciones.ts";
+  import type { ControlesVista } from "./acciones.ts";
   import { colocarEtiquetas, type Obstaculo, type PedidoEtiqueta } from "./etiquetas.ts";
   import { crearSimulacion, type EnlaceSim, type NodoSim } from "./forces.ts";
   import { guardarPosiciones, prepararSimulacion, type Posiciones } from "./posiciones.ts";
@@ -17,10 +18,10 @@
     onseleccionar: (id: string | null) => void;
     /** Esc: salir del foco (volver a la red completa). */
     onsalir?: () => void;
-    /** Recibe una función para encuadrar la red en el lienzo ("Ajustar vista"). */
-    onajustar?: (ajustar: () => void) => void;
+    /** Recibe los controles de vista (botones del lienzo): encuadrar, acercar, alejar. */
+    oncontroles?: (c: ControlesVista) => void;
   }
-  let { red, foco, seleccionado, onseleccionar, onsalir, onajustar }: Props = $props();
+  let { red, foco, seleccionado, onseleccionar, onsalir, oncontroles }: Props = $props();
 
   let ancho = $state(0);
   let alto = $state(0);
@@ -64,8 +65,11 @@
     enlaces = preparado.enlaces;
     sim = nueva;
     encuadrarAlTerminar = true;
-    if (previa) requestAnimationFrame(() => encuadrarFoco());
-    return () => nueva.stop();
+    const raf = previa ? requestAnimationFrame(() => encuadrarFoco()) : 0;
+    return () => {
+      cancelAnimationFrame(raf);
+      nueva.stop();
+    };
   });
 
   function ajustar(soloIds?: Set<string>) {
@@ -80,7 +84,16 @@
       { ancho, alto },
     );
   }
-  $effect(() => onajustar?.(() => ajustar()));
+  $effect(() =>
+    oncontroles?.({
+      ajustar: () => ajustar(),
+      acercar: () => control?.escalar(1.4),
+      alejar: () => control?.escalar(1 / 1.4),
+    }),
+  );
+
+  /** Si el usuario hace zoom, pan o arrastra, su gesto manda: no se re-encuadra al asentarse. */
+  const ongesto = () => (encuadrarAlTerminar = false);
 
   /** Encuadra el vecindario enfocado si hay, si no toda la red visible. */
   function encuadrarFoco() {
@@ -145,7 +158,7 @@
         x,
         y,
         radio,
-        texto: recortar(nombre, forzada ? 70 : esPol ? 34 : 28),
+        texto: recortar(nombre, forzada ? 44 : esPol ? 34 : 28),
         prioridad: (esPol ? 10 : 1) + (enFoco ? 5 : 0),
         forzada,
       });
@@ -176,7 +189,7 @@
     height={alto}
     role="group"
     aria-label="Red de políticas públicas e instrumentos (Tab recorre las políticas; Enter enfoca; Esc vuelve a la red completa)"
-    use:zoomable={{ onzoom: (t) => (transformacion = t), onlisto: (c) => (control = c) }}
+    use:zoomable={{ onzoom: (t) => (transformacion = t), onlisto: (c) => (control = c), ongesto }}
     onclick={() => onseleccionar(null)}
   >
     <g transform={transformacion.toString()}>
@@ -204,7 +217,7 @@
             tabindex={n.nodo.tipo === "pol" || enSubred || foco?.nodos.has(n.id) ? 0 : -1}
             aria-pressed={n.id === seleccionado}
             aria-label={n.nodo.tipo === "pol" ? n.nodo.pol.nombre : n.nodo.obj.nombre}
-            use:arrastrable={{ nodo: n, sim }}
+            use:arrastrable={{ nodo: n, sim, ongesto }}
             onclick={(ev) => {
               ev.stopPropagation();
               onseleccionar(n.id);

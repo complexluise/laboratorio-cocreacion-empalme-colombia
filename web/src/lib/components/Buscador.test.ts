@@ -57,6 +57,54 @@ describe("Buscador", () => {
     expect(screen.queryAllByRole("option")).toHaveLength(0);
   });
 
+  it("anuncia siempre el n.º de resultados en una región viva", async () => {
+    const { input } = montar();
+    await fireEvent.focus(input);
+    await fireEvent.input(input, { target: { value: "regalias" } });
+    expect(screen.getByRole("status").textContent).toMatch(/2 resultados/);
+  });
+
+  it("las flechas dan la vuelta y aria-activedescendant apunta a la opción activa", async () => {
+    const { input } = montar();
+    await fireEvent.focus(input);
+    await fireEvent.input(input, { target: { value: "regalias" } });
+    const opciones = screen.getAllByRole("option");
+    expect(input.getAttribute("aria-activedescendant")).toBe(opciones[0]!.id);
+    await fireEvent.keyDown(input, { key: "ArrowUp" }); // desde la primera, vuelve a la última
+    expect(input.getAttribute("aria-activedescendant")).toBe(opciones[1]!.id);
+    expect(opciones[1]!.getAttribute("aria-selected")).toBe("true");
+  });
+
+  it("clic con el mouse elige (el blur no cierra la lista antes)", async () => {
+    const { onelegir, input } = montar();
+    await fireEvent.focus(input);
+    await fireEvent.input(input, { target: { value: "regalias" } });
+    const politica = screen.getAllByRole("option")[0]!;
+    const noDefault = await fireEvent.mouseDown(politica); // el panel previene el blur
+    expect(noDefault).toBe(false);
+    await fireEvent.click(politica);
+    expect(onelegir).toHaveBeenCalledWith("pol:p");
+  });
+
+  it("Esc en el buscador no llega a la ventana (no saca del foco de la red)", async () => {
+    const { input } = montar();
+    const enVentana = vi.fn();
+    window.addEventListener("keydown", enVentana);
+    await fireEvent.focus(input);
+    await fireEvent.input(input, { target: { value: "regal" } });
+    await fireEvent.keyDown(input, { key: "Escape" });
+    window.removeEventListener("keydown", enVentana);
+    expect(enVentana).not.toHaveBeenCalled();
+  });
+
+  it("marca los resultados ocultos por los filtros", async () => {
+    render(Buscador, { dataset: DS, onelegir: vi.fn(), oculto: (id: string) => id === "ins:sgr" });
+    const input = screen.getByRole("combobox");
+    await fireEvent.focus(input);
+    await fireEvent.input(input, { target: { value: "regalias" } });
+    expect(screen.getByText(/oculto por los filtros/)).toBeTruthy();
+  });
+
   it("sin resultados lo dice", async () => {
     const { input } = montar();
     await fireEvent.focus(input);
