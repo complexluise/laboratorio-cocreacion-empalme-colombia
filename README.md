@@ -45,6 +45,8 @@ Del informe crudo del DNP → markdown → **políticas + instrumentos** de pol�
 - `ocr_gemini.py` — OCR para los PDF escaneados sin texto extraíble.
 - `extraer_instrumentos.py` — markdown → **políticas + instrumentos** con NATO, modo de cambio,
   presencia por vigencia, evidencia y relaciones (nodos + aristas). Con `responseSchema` + validación.
+- `aplicar_areas.py` — agrupa las políticas por gobierno en **áreas persistentes con objetivo por
+  gobierno** según la curaduría `data/correcciones/<slug>/areas.yaml` (determinista; ADR-0004).
 - `generar_web.py` — `objetos.json` → `web/src/lib/data/<slug>.json` (dataset commiteado que importa la web).
 - *(deprecados: `extraer_ideas.py`, `consolidar_objetos.py` — la capa de "ideas" ya no se usa.)*
 
