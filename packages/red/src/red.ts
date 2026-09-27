@@ -97,20 +97,28 @@ export function construirRed(ds: Dataset, f: Filtros): Red {
     ...instrumentos.map((o): Nodo => ({ id: idInstrumento(o.id), tipo: "ins", obj: o })),
   ];
 
+  // Ids de enlace únicos aunque el dato repita una política o una relación (el render los usa
+  // como clave; un duplicado rompería el {#each} keyed).
   const enlaces: Enlace[] = [];
+  const vistos = new Set<string>();
+  const agregar = (e: Enlace) => {
+    if (vistos.has(e.id)) return;
+    vistos.add(e.id);
+    enlaces.push(e);
+  };
   for (const o of instrumentos) {
-    for (const pid of o.politicas ?? []) {
+    for (const pid of new Set(o.politicas ?? [])) {
       if (!polVisibles.has(pid)) continue;
       const source = idInstrumento(o.id);
       const target = idPolitica(pid);
-      enlaces.push({ id: `${source}->${target}`, source, target, clase: "pertenencia" });
+      agregar({ id: `${source}->${target}`, source, target, clase: "pertenencia" });
     }
   }
 
   const visibles = new Set(instrumentos.map((o) => o.id));
   for (const r of ds.relaciones ?? []) {
     if (r.source === r.target || !visibles.has(r.source) || !visibles.has(r.target)) continue;
-    enlaces.push(enlaceRelacion(r));
+    agregar(enlaceRelacion(r));
   }
 
   return { nodos, enlaces };

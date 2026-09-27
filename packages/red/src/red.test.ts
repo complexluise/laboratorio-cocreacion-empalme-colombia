@@ -57,6 +57,18 @@ describe("construirRed", () => {
     expect(ids(red)).toEqual(["ins:b", "pol:pB"]);
   });
 
+  it("deduplica enlaces si el dato repite una política o una relación", () => {
+    const sucio = {
+      ...DS,
+      objetos: DS.objetos.map((o) => (o.id === "a" ? { ...o, politicas: ["pA", "pA"] } : o)),
+      relaciones: [...(DS.relaciones ?? []), { source: "a", target: "c", tipo: "habilita" as const }],
+    };
+    const red = construirRed(sucio, f());
+    const idsEnlaces = red.enlaces.map((e) => e.id);
+    expect(new Set(idsEnlaces).size).toBe(idsEnlaces.length);
+    expect(red.enlaces).toHaveLength(construirRed(DS, f()).enlaces.length);
+  });
+
   it("la firma de topología cambia con los filtros y es estable si no cambian", () => {
     expect(firmaTopologia(construirRed(DS, f()))).toBe(firmaTopologia(construirRed(DS, f())));
     expect(firmaTopologia(construirRed(DS, f()))).not.toBe(
