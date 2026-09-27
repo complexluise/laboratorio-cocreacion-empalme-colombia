@@ -1,0 +1,23 @@
+name: Bug
+description: Algo no funciona como debería (candidato a /hotfix si es urgente).
+labels: ["bug"]
+body:
+  - type: textarea
+    id: que-pasa
+    attributes:
+      label: Qué pasa
+      description: Comportamiento actual vs. esperado.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Cómo reproducirlo
+      placeholder: "1. …\n2. …\n3. → error"
+    validations:
+      required: true
+  - type: input
+    id: alcance
+    attributes:
+      label: Parte afectada
+      placeholder: "web/ · extraccion/ · data/schema/"

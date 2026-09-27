@@ -1,0 +1,28 @@
+{
+  "name": "laboratorio-cocreacion",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "description": "Laboratorio de Cocreación: red navegable de políticas públicas e instrumentos (empalme DNP). Monorepo de sistemas viables con fronteras.",
+  "scripts": {
+    "dev": "pnpm --filter @laboratorio/web dev",
+    "build": "pnpm -r build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit && pnpm -r typecheck",
+    "lint:boundaries": "depcruise --config .dependency-cruiser.cjs packages web/src",
+    "changeset": "changeset",
+    "version-packages": "changeset version"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "@types/node": "^24.19.0",
+    "dependency-cruiser": "^18.4.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.2"
+  }
+}
