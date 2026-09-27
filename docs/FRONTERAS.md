@@ -37,7 +37,9 @@ extraccion/  ──produce──►  data/schema/ (CONTRATO)  ◄──consume�
 
 - **`pnpm lint:boundaries`** (`.dependency-cruiser.cjs`, en CI): `no-circular`,
   `frontera-entre-paquetes`, `web-cruza-por-nombre`, `paquetes-no-dependen-de-web`,
-  `nadie-importa-extraccion`, `logica-sin-componentes` (error) y `no-huerfanos` (warn).
+  `nadie-importa-extraccion`, `logica-sin-componentes` (error) y `no-huerfanos` (warn). Resuelve
+  con `tsconfig.depcruise.json`, que suma el alias `$lib` de la web: sin él, las aristas vía `$lib`
+  quedaban sin resolver y no se chequeaban.
 - **`uv run scripts/validar_contrato.py`** (en CI): cada `*.schema.json` es un JSON Schema válido,
   `taxonomia.yaml` parsea, y **cada `web/src/lib/data/*.json` cumple `objeto.schema.json`**.
   `extraer_instrumentos.py` además valida su salida al producirla.

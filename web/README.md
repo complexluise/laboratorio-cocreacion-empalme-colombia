@@ -1,8 +1,9 @@
-# Explorador de la red (`@laboratorio/web`)
+# Sitio del laboratorio (`@laboratorio/web`)
 
-El mapa del Laboratorio de Cocreación: una **red bipartita** entre **políticas públicas** (hubs) e
-**instrumentos**. Un instrumento puede servir a varias políticas — los instrumentos compartidos
-enlazan la red. SPA estática en **Svelte 5 (runes) + Vite + D3** (módulos `d3-*`, bundleados).
+El sitio del Laboratorio de Cocreación: la **actividad** y su teoría, el **mapa** (una **red
+bipartita** entre **políticas públicas** (hubs) e **instrumentos**; los instrumentos compartidos
+enlazan la red) y un **glosario**. SPA estática en **Svelte 5 (runes) + Vite + D3** (módulos
+`d3-*`, bundleados).
 Decisiones: [ADR-0002](../docs/decisiones/ADR-0002-frontend-svelte-vite.md),
 [ADR-0003](../docs/decisiones/ADR-0003-preset-codigo-kybernetes.md).
 
@@ -19,6 +20,24 @@ pnpm build        # -> web/dist
 `web/dist` es estático con `base: './'`: sirve en el subpath de GitHub Pages y también abriendo
 `web/dist/index.html` por `file://` (el bundle sale como script clásico IIFE, no como módulo).
 Gate: `pnpm typecheck && pnpm test && pnpm lint:boundaries && pnpm build` (ver `AGENTS.md`).
+
+## Páginas y rutas
+
+Rutas por **hash** (`lib/rutas.ts`): el build es IIFE y se sirve por `file://` y desde el subpath
+de Pages, así que no hay router de historial ni dependencia de router. `App.svelte` escucha
+`hashchange` y elige la página; un hash desconocido cae en el inicio.
+
+| Ruta | Página | Qué es |
+|---|---|---|
+| `#/` | `PaginaInicio` | La actividad y su teoría (landing). |
+| `#/inicio/<seccion>` | `PaginaInicio` | Salta a una sección: `actividad`, `bitacora`, `teoria`, `preguntas`. |
+| `#/red` | `PaginaRed` | El explorador de la red (ver §Interacción). |
+| `#/glosario[/<id>]` | `PaginaGlosario` | Glosario filtrable; `<id>` salta a una entrada (p. ej. `#/glosario/modo-conversion`). |
+
+El **vocabulario controlado** del glosario (modos de cambio, tipos NATO, cambio del objetivo,
+relaciones) se genera de las mismas etiquetas y descripciones de `lib/visual.ts` que usa la red; un
+test (`glosario.test.ts`) falla si algún término del vocabulario queda sin entrada. Teoría,
+bitácora y siglas son texto curado en `lib/glosario.ts`.
 
 ## De dónde sale el dato
 
@@ -47,13 +66,18 @@ evidencia, narrativa por gobierno), que escribe `data/sectores/ciencia-tecnologi
 ## Estructura
 
 ```
-src/App.svelte               # layout mobile first: cabecera (marca, buscador, botón Filtros),
-                             #   lienzo, hoja inferior / paneles laterales en escritorio
+src/App.svelte               # shell: resuelve la ruta del hash y monta la página
+src/lib/rutas.ts             # rutas por hash (resolverRuta, hrefDe, títulos)
+src/lib/paginas/             # PaginaInicio, PaginaGlosario (lectura, sobre PaginaTexto: cabecera
+                             #   + área que scrollea y salta al ancla) y PaginaRed (layout mobile
+                             #   first: lienzo, hoja inferior / paneles laterales en escritorio)
+src/lib/glosario.ts          # entradas del glosario; el vocabulario controlado sale de visual.ts
 src/lib/data/                # dataset JSON commiteado + index.ts (lo tipa como Dataset)
 src/lib/state/red.svelte.ts  # EstadoRed (runes): filtros vs foco, red derivada, miga de pan
 src/lib/graph/               # GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts)
                              #   y colocación de etiquetas sin solape (etiquetas.ts)
-src/lib/components/          # Buscador, Filtros, MigaDePan, Leyenda, ControlesZoom,
+src/lib/components/          # Cabecera (común: marca, herramientas de la página, menú del
+                             #   sitio), Buscador, Filtros, MigaDePan, Leyenda, ControlesZoom,
                              #   DetailPanel, Marca
 src/lib/visual.ts            # mapeo del vocabulario a colores, glifos y etiquetas
 ```
@@ -61,7 +85,7 @@ src/lib/visual.ts            # mapeo del vocabulario a colores, glifos y etiquet
 La lógica del dominio (`construirRed`, `buscar`, `vecindario`, tipos del contrato) **no** vive acá:
 está en [`packages/red`](../packages/red/README.md) y se importa como `@laboratorio/red`.
 
-## Interacción
+## Interacción (la red)
 
 **Mobile first** (referencia 390×844); en pantallas de más de 860 px se amplía con paneles
 laterales. Mismos componentes y mismo estado en ambos. El principio: **una intención = un lugar**.
