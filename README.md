@@ -1,5 +1,7 @@
 # Laboratorio de cocreación — Trama
 
+🗺️ **Mapa en vivo:** https://complexluise.github.io/laboratorio-cocreacion-empalme-colombia/
+
 Repo de trabajo del laboratorio: acá **construimos el lab y todo lo necesario**. El fin es un
 **mapa navegable** de la política pública para que la gente **explore y cocree** sobre ella.
 Hoy están el **núcleo conceptual** (ontología + teoría política + contrato de datos), la
@@ -59,4 +61,4 @@ Tecnología — abrir `web/index.html` (ver `web/README.md`).
 - ✅ Aplicación: explorador de instrumentos (D3) — **PoC** en `web/` (CTeI).
 - 🔧 Afinar la resolución de entidades entre gobiernos (fusión de instrumentos/políticas equivalentes).
 - 🔧 Escalar a más sectores (educación, cultura, agro) cuando el portal DNP esté disponible.
-- ❔ Compartir la actividad en un GitHub público — **por decidir** (¿este repo u otro?).
+- ✅ Publicado en **GitHub Pages** (deploy automático de `web/` en cada push a `main`).
