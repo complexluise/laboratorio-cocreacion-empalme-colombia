@@ -1,5 +1,18 @@
 :root {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --tinta: #1f2430;
+  --tinta-suave: #5b6272;
+  --papel: #ffffff;
+  --fondo: #f7f7f9;
+  --borde: #e2e4ea;
+  --acento: #4f46e5;
+  --enlace: #c3c6cf;
+  --relacion: #7c83b0;
+  --fuente-ui: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --fuente-display: var(--fuente-ui);
+  --fuente-dato: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-family: var(--fuente-ui);
+  color: var(--tinta);
+  background: var(--fondo);
 }
 body {
   margin: 0;

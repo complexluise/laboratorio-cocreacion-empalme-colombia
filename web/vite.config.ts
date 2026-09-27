@@ -26,6 +26,8 @@ export default defineConfig({
   plugins: [svelte(), scriptClasico()],
   resolve: {
     alias: { $lib: fileURLToPath(new URL("./src/lib", import.meta.url)) },
+    // En tests, Svelte en su build de navegador (en SSR las runes no son reactivas).
+    ...(process.env.VITEST ? { conditions: ["browser"] } : {}),
   },
   build: {
     outDir: "dist",
