@@ -81,12 +81,12 @@ export function arrastrable(
   const comportamiento = drag<SVGGElement, unknown>()
     .subject(() => ({ x: nodo.x ?? 0, y: nodo.y ?? 0 }))
     .on("start", (ev: { active: number }) => {
-      ongesto?.();
       if (!ev.active) sim?.alphaTarget(0.25).restart();
       nodo.fx = nodo.x;
       nodo.fy = nodo.y;
     })
     .on("drag", (ev: { x: number; y: number }) => {
+      ongesto?.(); // solo un arrastre real (no un toque) cancela el re-encuadre
       nodo.fx = ev.x;
       nodo.fy = ev.y;
     })

@@ -223,12 +223,20 @@
   .sup-izq > :global(*) {
     pointer-events: auto;
   }
+  /* Franja con alto DEFINIDO (debajo de la miga hasta el borde inferior): la leyenda abierta se
+     acota a ella con scroll interno y nunca pisa la miga ni la cabecera. La franja no bloquea el
+     pan; solo la leyenda recibe clics. */
   .inf-izq {
     left: 10px;
+    top: 66px;
     bottom: 10px;
-    max-height: calc(100% - 70px);
+    right: 64px;
     display: flex;
     align-items: flex-end;
+    pointer-events: none;
+  }
+  .inf-izq > :global(*) {
+    pointer-events: auto;
   }
   .inf-der {
     right: 10px;

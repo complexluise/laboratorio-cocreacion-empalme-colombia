@@ -82,14 +82,14 @@
     background: none;
     border: none;
     padding: 0;
-    min-height: 36px;
+    min-height: 40px;
     color: var(--acento);
     cursor: pointer;
   }
   .salir {
     flex: none;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     color: var(--tinta);
     font-size: 15px;
