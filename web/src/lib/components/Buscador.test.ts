@@ -105,6 +105,19 @@ describe("Buscador", () => {
     expect(screen.getByText(/oculto por los filtros/)).toBeTruthy();
   });
 
+  it('"/" lleva al buscador, pero no si ya se escribe en un campo', async () => {
+    const { input } = montar();
+    const otro = document.createElement("input");
+    document.body.appendChild(otro);
+    otro.focus();
+    await fireEvent.keyDown(otro, { key: "/" });
+    expect(document.activeElement).toBe(otro);
+    otro.blur();
+    await fireEvent.keyDown(document.body, { key: "/" });
+    expect(document.activeElement).toBe(input);
+    otro.remove();
+  });
+
   it("sin resultados lo dice", async () => {
     const { input } = montar();
     await fireEvent.focus(input);

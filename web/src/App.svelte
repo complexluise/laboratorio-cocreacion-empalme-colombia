@@ -32,7 +32,8 @@
     mqEscritorio.addEventListener("change", alCambiar);
     return () => mqEscritorio.removeEventListener("change", alCambiar);
   });
-  let filtrosPlegados = $state(false);
+  // En escritorio angosto (< 1100 px) los filtros arrancan plegados: el lienzo es lo principal.
+  let filtrosPlegados = $state(typeof window !== "undefined" && window.innerWidth < 1100);
 
   let controles = $state<ControlesVista>(CONTROLES_NULOS);
   let leyendaAbierta = $state(false);
@@ -62,15 +63,23 @@
     }
   }
 
-  const tituloHoja = $derived(
-    hoja === "filtros"
-      ? "Filtros"
-      : estado.nodoFoco === null
-        ? "Cómo leer la red"
-        : estado.nodoFoco.tipo === "pol"
-          ? estado.nodoFoco.pol.nombre
-          : estado.nodoFoco.obj.nombre,
+  const tituloDetalle = $derived(
+    estado.nodoFoco === null
+      ? "Cómo leer la red"
+      : estado.nodoFoco.tipo === "pol"
+        ? estado.nodoFoco.pol.nombre
+        : estado.nodoFoco.obj.nombre,
   );
+  const tituloHoja = $derived(hoja === "filtros" ? "Filtros" : tituloDetalle);
+
+  // Al cambiar de foco, el detalle vuelve arriba (título visible sin scroll).
+  let panelDetalle: HTMLElement | undefined = $state();
+  let contenidoHoja: HTMLElement | undefined = $state();
+  $effect(() => {
+    void estado.nodoFoco?.id;
+    if (panelDetalle) panelDetalle.scrollTop = 0;
+    if (contenidoHoja) contenidoHoja.scrollTop = 0;
+  });
 </script>
 
 <div class="app">
@@ -82,7 +91,7 @@
       class="btn-filtros"
       class:activo={estado.hayFiltros}
       aria-expanded={escritorio ? !filtrosPlegados : hoja === "filtros" && hojaAbierta}
-      aria-controls={escritorio ? "panel-filtros" : "hoja"}
+      aria-controls={escritorio ? (filtrosPlegados ? undefined : "panel-filtros") : "hoja"}
       onclick={alternarFiltros}
     >
       Filtros
@@ -116,7 +125,7 @@
     </section>
 
     {#if escritorio}
-      <aside class="panel panel-detalle" aria-label={tituloHoja}>
+      <aside class="panel panel-detalle" aria-label={tituloDetalle} bind:this={panelDetalle}>
         <DetailPanel {estado} />
       </aside>
     {:else}
@@ -132,7 +141,7 @@
         {/if}
       </div>
       {#if hojaAbierta}
-        <div class="contenido">
+        <div class="contenido" bind:this={contenidoHoja}>
           {#if hoja === "filtros"}
             <Filtros {estado} />
           {:else}
@@ -320,11 +329,11 @@
 
   /* ---------- Ampliación: escritorio (> 860 px) ---------- */
   .cuerpo.escritorio {
-    grid-template-columns: 300px minmax(0, 1fr) 380px;
+    grid-template-columns: clamp(240px, 22vw, 300px) minmax(0, 1fr) clamp(300px, 28vw, 380px);
     grid-template-rows: minmax(0, 1fr);
   }
   .cuerpo.escritorio.plegados {
-    grid-template-columns: minmax(0, 1fr) 380px;
+    grid-template-columns: minmax(0, 1fr) clamp(300px, 28vw, 380px);
   }
   .panel {
     min-height: 0;
