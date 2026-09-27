@@ -83,7 +83,7 @@ def call_gemini(modelo, prompt, response_schema, max_tokens=45000, thinking=2048
                                  "responseMimeType": "application/json",
                                  "responseSchema": response_schema,
                                  "thinkingConfig": {"thinkingBudget": thinking}}}
-    for intento in range(4):
+    for intento in range(6):
         try:
             r = httpx.post(url, headers={"x-goog-api-key": KEY}, json=body, timeout=600.0, verify=False)
             if r.status_code == 200:
@@ -96,7 +96,7 @@ def call_gemini(modelo, prompt, response_schema, max_tokens=45000, thinking=2048
             print(f"  HTTP {r.status_code}: {r.text[:200]}", file=sys.stderr)
         except Exception as e:
             print(f"  error: {e}", file=sys.stderr)
-        time.sleep(2 ** intento * 3)
+        time.sleep(min(2 ** intento * 3, 45))
     return None
 
 
@@ -203,21 +203,42 @@ def prompt_resolucion(items, politicas):
                 "politica": it.get("politica", ""), "alias": it.get("alias", [])} for it in items]
     return f"""Estos son instrumentos y objetivos de política extraídos de DOS gobiernos de un mismo
 sector colombiano (cada uno con su 'ref' y 'vigencia'). El resultado es una RED BIPARTITA entre
-políticas e instrumentos, así que resuelve entidades con cuidado.
+políticas e instrumentos. Resuelve entidades con PRECISIÓN: ni sobre-fusionar ni sub-fusionar.
 
-1) RESUELVE ENTIDADES (fusiona sin miedo): agrupa las 'ref' que son el MISMO instrumento u objetivo
-   en UN registro canónico, AUNQUE el nombre cambie entre gobiernos o dentro de uno (p. ej. un mismo
-   fondo, sistema o misión renombrado). Busca activamente continuidades entre 2018-2022 y 2022-2026:
-   si un instrumento plausiblemente persiste, fúndelo (no lo dupliques por diferencia de nombre).
+1) FUSIONA dos o más 'ref' en UN canónico SOLO si son el MISMO instrumento concreto (el mismo fondo,
+   programa, norma o sistema), aunque lo renombren entre gobiernos. Requisitos para fusionar:
+   - mismo 'tipo_nato' y misma FUNCIÓN/mecanismo (no solo el mismo tema o palabras compartidas), y
+   - misma identidad institucional (mismo fondo/sistema/programa), no solo parecido de nombre.
+   SÍ fusiona (busca activamente estas continuidades reales entre gobiernos, aunque cambie el nombre o
+   el año/número de la convocatoria):
+   - un fondo o fuente de larga data y sus convocatorias/OCAD como UNA sola fuente (p. ej. la
+     Asignación CTeI del SGR y sus OCAD/convocatorias anuales = un instrumento de tesoro);
+   - un sistema de información o plataforma que persiste; un programa insignia recurrente
+     (p. ej. ONDAS, Colombia BIO); un régimen normativo o de beneficios que continúa (p. ej.
+     Beneficios Tributarios en CTeI); la diplomacia/cooperación científica.
+   Es decir: agrupa las INSTANCIAS del mismo mecanismo, pero NO cruces mecanismos distintos.
 
-2) Para cada canónico:
-   - 'nombre': el nombre canónico más claro; 'alias': las demás variantes.
+2) NO FUSIONES (déjalos como canónicos separados) cuando:
+   - Son instrumentos distintos que comparten tema o palabras. Ej.: una CONVOCATORIA o FONDO (p. ej.
+     "Convocatorias Asignación CTeI del SGR", "Convocatoria Pacífico") NO es un PROGRAMA de becas;
+     "Ideas para el Cambio" (apropiación) NO es "Becas para el Cambio" (formación).
+   - Es una convocatoria/instrumento puntual frente a un programa permanente.
+   - Pertenecen a políticas distintas por razones temáticas, sin ser el mismo mecanismo.
+   - Un gobierno REEMPLAZÓ un programa por otro de MODELO distinto (p. ej. "Becas/Crédito-beca
+     reembolsable" -> "Becas para el Cambio no reembolsable"): trátalos como el MISMO canónico SOLO si
+     es claramente la misma línea; en ese caso el cambio se marca luego como conversión o reversión,
+     NUNCA como continuidad. Si el mecanismo cambió de fondo, déjalos SEPARADOS (uno termina, otro se
+     estratifica).
+
+3) Para cada canónico:
+   - 'nombre': el nombre canónico más claro; 'alias': SOLO variantes del MISMO instrumento (no metas
+     nombres de otros instrumentos).
    - 'es_objetivo' y 'tipo_nato' (si es instrumento): coherentes con los miembros.
-   - 'politicas': TODAS las políticas a las que sirve ese instrumento (muchos-a-muchos). Un fondo o
-     un sistema transversal sirve a varias; inclúyelas todas. Usa nombres del catálogo unificado.
+   - 'politicas': TODAS las políticas a las que sirve ese instrumento (muchos-a-muchos). Un fondo o un
+     sistema transversal sirve a varias; inclúyelas todas. Usa nombres del catálogo unificado.
    - 'miembros': la lista de 'ref' que agrupa (usa EXCLUSIVAMENTE refs de la lista; no inventes).
 
-3) En 'politicas' (nivel raíz) devuelve el catálogo UNIFICADO de políticas (nombre + objetivo),
+4) En 'politicas' (nivel raíz) devuelve el catálogo UNIFICADO de políticas (nombre + objetivo),
    DEDUPLICADO entre vigencias: si dos políticas de distinto gobierno son la misma (p. ej. dos
    variantes de "Bioeconomía" o de "Diplomacia científica"), fúndelas en una.
 
@@ -258,6 +279,10 @@ def prompt_relaciones(objetos):
 
 2) MODO DE CAMBIO: para los instrumentos presentes en AMBAS vigencias, clasifica cómo cambiaron:
    {cam}. Devuélvelo en 'cambios' con 'id' y 'modo_cambio'. Solo estos ids: {json.dumps(ambas, ensure_ascii=False)}.
+   NO uses 'continuidad-estable' por defecto: resérvala para cuando el instrumento mantuvo el MISMO
+   modelo y rumbo. Si cambió de uso/modelo -> conversion; si invirtió el rumbo (p. ej. de crédito
+   reembolsable a beca no reembolsable, o de competitivo a asignación directa) -> reversion; si
+   persiste en la forma pero su efecto/alcance cambió con el entorno -> deriva.
 
 Usa EXCLUSIVAMENTE ids del catálogo.
 
@@ -331,6 +356,7 @@ def main():
     ap.add_argument("--match", required=True, help="substring del nombre de sector en markdown/")
     ap.add_argument("--modelo", default="gemini-flash-latest")
     ap.add_argument("--rehacer-a", action="store_true", help="ignora el cache y rehace la etapa A")
+    ap.add_argument("--rehacer-b1", action="store_true", help="ignora el cache y rehace la resolución (B1)")
     args = ap.parse_args()
     base = ROOT / "data" / "sectores" / args.slug
 
@@ -371,11 +397,18 @@ def main():
     if not items:
         sys.exit("Sin instrumentos extraídos en ninguna vigencia.")
 
-    # ---- etapa B1: resolución de entidades
-    print(f"  B1 · resolución de entidades sobre {len(items)} ítems…")
-    res = call_gemini(args.modelo, prompt_resolucion(items, politicas_raw), schema_resolucion())
-    if not res or not res.get("canonicos"):
-        sys.exit("FALLÓ la resolución de entidades.")
+    # ---- etapa B1: resolución de entidades (con cache: congela una buena fusión)
+    res_cache = base / "_resolucion.json"
+    if res_cache.exists() and not args.rehacer_b1:
+        res = json.loads(res_cache.read_text(encoding="utf-8"))
+        print(f"  B1 · (cache: {res_cache}) -> {len(res.get('canonicos', []))} canónicos")
+    else:
+        print(f"  B1 · resolución de entidades sobre {len(items)} ítems…")
+        res = call_gemini(args.modelo, prompt_resolucion(items, politicas_raw), schema_resolucion())
+        if not res or not res.get("canonicos"):
+            sys.exit("FALLÓ la resolución de entidades.")
+        base.mkdir(parents=True, exist_ok=True)
+        res_cache.write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
     idx_items = {it["_ref"]: it for it in items}
 
     # políticas: unificadas por B1 (o derivadas de las crudas si faltan)
