@@ -1,10 +1,10 @@
 # Encuadre de la actividad — Laboratorio de cocreación en TRAMA
 
-> v0.3 · Vocabulario alineado con `teoria-politica.md` · Grupos por **política pública**, que se extrae de los informes. El sector no es la unidad de asignación.
+> v0.4 (2026-09-27) · Vocabulario alineado con `teoria-politica.md` y [ADR-0004](decisiones/ADR-0004-politica-area-con-objetivo-por-gobierno.md) · Cada grupo **selecciona una política pública** (un área persistente), la describe entre los dos gobiernos, busca información complementaria y llena una **bitácora** (§6). El sector no es la unidad de asignación.
 
 ## 1. Encuadre en una frase
 
-En dos sesiones, el seminario TRAMA reconstruye por grupos la red de **instrumentos de política pública** de varias políticas públicas de distintos sectores. Lee su cambio entre dos gobiernos con la tipología de **cambio institucional gradual** y observa qué patrones **emergen solo al integrar** el trabajo de todos los grupos.
+En dos sesiones, el seminario TRAMA toma por grupos varias **políticas públicas** de distintos sectores, describe cada una entre dos gobiernos (su objetivo declarado y sus **instrumentos de política pública**) partiendo de lo que ya propone la red, y lee su cambio con la tipología de **cambio institucional gradual**. Luego observa qué patrones **emergen solo al integrar** el trabajo de todos los grupos.
 
 ## 2. Vocabulario de la actividad
 
@@ -13,8 +13,8 @@ En dos sesiones, el seminario TRAMA reconstruye por grupos la red de **instrumen
 | Término a usar | Qué designa |
 |---|---|
 | **Sector** | Agrupación administrativa bajo la que se organizan los informes de empalme (CTeI, Deporte, Agropecuario) |
-| **Política pública** | Un objetivo de política pública y el conjunto de instrumentos con que se persigue. Cada grupo trabaja una política. |
-| **Objetivo de política** | Prioridad u orientación (p. ej. Inteligencia Artificial, reforma agraria) |
+| **Política pública** | Un **área persistente**: problema o campo que atraviesa gobiernos (p. ej. Talento humano y capacidades regionales, Beneficios tributarios para CTeI), junto con los instrumentos con que se atiende. Cada grupo selecciona una. Las áreas las cura el equipo (ADR-0004). |
+| **Objetivo de política** | Lo que **cada gobierno declara** que persigue en el área (uno o varios enunciados por vigencia). Su cambio entre gobiernos se lee con `cambio_objetivo`: **se mantiene · se reformula · no declarado · nuevo**. Se dice "no declarado", no "abandonado": el informe lo escribe cada gobierno sobre sí mismo y el silencio no prueba abandono. |
 | **Instrumento de política pública** | Medio concreto con que el Estado actúa: un programa, una norma, una fuente de financiación, un sistema, una convocatoria o una beca. |
 | **Tipo de instrumento (NATO, Hood)** | Recurso que moviliza: Nodalidad, Autoridad, Tesoro, Organización |
 | **Empalme / sucesión de políticas** | El gobierno entrante hereda el aparato del saliente (Hogwood & Peters) |
@@ -24,30 +24,24 @@ En dos sesiones, el seminario TRAMA reconstruye por grupos la red de **instrumen
 
 | Tipo | Recurso | Ejemplo |
 |---|---|---|
-| **Información** | Datos, comunicación, orientación | Un sistema de información |
+| **Nodalidad** (información) | Datos, comunicación, orientación | Un sistema de información |
 | **Autoridad** | Normas y obligaciones | Una ley o un decreto |
 | **Tesoro** | Dinero | Un fondo o una convocatoria |
 | **Organización** | Capacidad directa del Estado | Un programa ejecutado por una entidad |
 
 
-### **Cómo cambia un objetivo de politica entre gobiernos**
+### Cómo cambia un instrumento entre gobiernos (Mahoney-Thelen)
 
 | Modo de cambio | Qué pasa con el instrumento |
 |---|---|
-| **Continuidad** | Sigue igual en ambos gobiernos. |
-| **Conversión** | Sigue, pero se usa para otro fin. |
-| **Estratificación** | Aparece solo en el segundo gobierno y se suma a lo que existía. |
-| **Terminación** | Existe solo en el primer gobierno y se deja o se reemplaza. |
-| **Reversión** | Sigue, pero en dirección contraria. |
-| **Deriva** | Sigue igual en el papel, pero su efecto cambia porque cambió el contexto. Se deja como pregunta para el plenario. |
+| **Continuidad estable** | Mismo instrumento, mismo modo: persiste. Se explica por dependencia de la trayectoria (Pierson). |
+| **Conversión** | Mismo instrumento, redesplegado hacia otro uso. |
+| **Estratificación** (*layering*) | Solo en el gobierno posterior: se suma a lo que existía. |
+| **Terminación** | Solo en el gobierno anterior: se deja o se reemplaza. |
+| **Reversión** | Persiste, pero invierte su rumbo. |
+| **Deriva** (*drift*) | Persiste formalmente; su efecto cambia con el entorno. Se deja como pregunta para el plenario. |
 
-| **Estratificación** (*layering*) | Instrumento presente solo en el gobierno posterior |
-| **Terminación / desplazamiento** | Instrumento presente solo en el gobierno anterior, o reemplazado |
-| **Reversión** | El instrumento persiste pero invierte su rumbo |
-| **Conversión** | Mismo instrumento, redesplegado hacia otro uso o modo |
-| **Continuidad estable** | Mismo instrumento, mismo modo. Se explica por dependencia de la trayectoria (Pierson) |
-| **Deriva** (*drift*) | Persiste formalmente, pero su efecto cambia con el entorno |
-| **Sinergia** | Encadenamiento entre instrumentos que se habilitan o potencian |
+El modo de cambio del **instrumento** complementa al `cambio_objetivo` de la **política** (§2, arriba): un instrumento que continúa bajo un objetivo que se reformula es la pista para buscar conversión. Aparte de los modos, las **sinergias** (encadenamientos entre instrumentos que se habilitan o potencian) se registran como relaciones.
 
 **Regla para facilitación.** Con los participantes se habla en términos de institucionalismo histórico (*qué significa*). PID+T queda como la capa de medición (*cómo medimos*).
 
@@ -65,17 +59,17 @@ A estas se suma una **pregunta de complejidad**, propia de la sesión 2: ¿los p
 
 ## 4. División de grupos: una política pública por grupo
 
-Cada grupo toma **una política pública** y la analiza a través de los dos gobiernos (2018–2022 y 2022–2026). La actividad trabaja con tres niveles:
+Cada grupo **selecciona una política pública** y la describe a través de los dos gobiernos (2018–2022, Duque, y 2022–2026, Petro). No se queda en el informe de empalme: **busca información complementaria** (p. ej. Sinergia/DNP, el Plan Nacional de Desarrollo de cada gobierno, el capítulo de inversión pública) y registra todo en la **bitácora** (§6). La actividad trabaja con tres niveles:
 
 | Nivel | Qué es | Papel en la actividad | Estado |
 |---|---|---|---|
 | **Sector** | Agrupación de los informes de empalme | Fuente de las políticas y escala de comparación en el plenario | CTeI: piloto validado (104 fragmentos → 32 instrumentos) · Deporte: en curso (59 → 26) · Agropecuario: objetivo declarado |
-| **Política pública** | Objetivo + mezcla de instrumentos | **Unidad asignada a cada grupo** | **Por extraer de los informes** |
+| **Política pública** | Área persistente con objetivo por gobierno + mezcla de instrumentos | **Unidad que selecciona cada grupo** | CTeI: **14 áreas curadas** (`data/correcciones/ciencia-tecnologia/areas.yaml`, ADR-0004) · Deporte y Agropecuario: por curar |
 | **Instrumento** | Programa, norma, financiación, sistema… | Unidad de análisis dentro de cada política | Nodos que ya produce el pipeline |
 
 ### Extracción de las políticas (antes de la sesión 1)
 
-Las políticas no vienen dadas: hay que identificarlas en los informes de empalme. Criterios propuestos para reconocer una política pública en un informe:
+Las políticas no vienen dadas: hay que identificarlas en los informes de empalme. Desde ADR-0004 el equipo las **cura como áreas** antes de publicar (`data/correcciones/<slug>/areas.yaml`, aplicado por `extraccion/aplicar_areas.py`); CTeI ya tiene 14. La lista queda abierta a ampliarse con el seminario. Criterios para reconocer una política pública en un informe:
 
 - Tiene un **objetivo o problema público** identificable.
 - Se persigue con **más de un instrumento** (programa, norma, financiación, etc.).
@@ -88,7 +82,7 @@ Criterios para **seleccionar** las políticas que se asignan:
 - **Carga comparable** entre grupos: un número de instrumentos que se pueda trabajar en una sesión.
 - **Diversidad**: varias políticas de un mismo sector y políticas de más de un sector, para tener las dos escalas de comparación.
 
-*Punto de partida posible:* los objetivos de política que ya detecta el pipeline (antes `apuesta`) pueden servir como semillas de candidatas, pero cada una se verifica contra el documento con los criterios anteriores.
+*Punto de partida:* las políticas que declara cada gobierno en su informe (las que detecta el pipeline) se agrupan en áreas; cada área conserva el objetivo que le declaró cada gobierno. Un área con instrumentos activos pero sin objetivo declarado en un gobierno aparece como **huérfana**: es un buen caso para un grupo.
 
 ### Qué cambia con esta división
 
@@ -104,17 +98,17 @@ Si un grupo tiene suficientes personas, se divide internamente en dos subgrupos,
 ## 5. Estructura de las dos sesiones
 
 **Antes de la sesión 1: equipo organizador**
-- Extrae de los informes las políticas públicas candidatas y selecciona una por grupo (§4).
-- Para cada política, prepara la subred de sus instrumentos y un paquete curado de evidencia.
+- Cura las políticas públicas como áreas y define cuáles se ofrecen a los grupos (§4).
+- Para cada política, prepara la subred de sus instrumentos, un paquete curado de evidencia y la **bitácora pre-llenada** con lo que sabe la red (§6).
 
 **Sesión 1: análisis por política**
 - Encuadre común: empalme, política pública, instrumento y modos de cambio gradual.
-- Cada grupo trabaja con la subred de su política (ambas vigencias) y un paquete curado de evidencia: fragmentos con página y cifra.
-- Diligencian el formato. *(La actividad concreta está por definir; ver §7.)*
-- Cierre: cada grupo deja por escrito una **hipótesis** sobre qué patrón cree que comparten las otras políticas.
+- Cada grupo selecciona su política y trabaja con su subred (ambas vigencias) y un paquete curado de evidencia: fragmentos con página y cifra.
+- La **describe entre los dos gobiernos**: verifica, corrige y completa la bitácora pre-llenada, y **busca información complementaria** fuera del informe de empalme (Sinergia/DNP, PND, inversión pública).
+- Cierre: cada grupo deja por escrito en la bitácora una **hipótesis** sobre qué patrón cree que comparten las otras políticas.
 
 **Entre sesiones: equipo organizador**
-- Digitaliza los formatos e integra los aportes al `dataset.json` de cada sector.
+- Digitaliza las bitácoras e integra los aportes al `dataset.json` de cada sector (y a `areas.yaml` si el seminario propone áreas nuevas).
 - Construye el mapa integrado de todas las políticas.
 
 **Sesión 2: integración e intergrupo**
@@ -123,26 +117,62 @@ Si un grupo tiene suficientes personas, se divide internamente en dos subgrupos,
 - Plenario sobre instrumentos compartidos, regularidades entre sectores, coherencia de gobierno y lo que le falta al mapa (p. ej. la deriva).
 - Producto: **mapa v2 con los aportes del seminario**, que es el primer acto de cocreación del laboratorio.
 
-## 6. Borrador del formato
+## 6. La bitácora
 
-A ajustar cuando se defina la actividad. Cada fila corresponde a un instrumento de política pública.
+Una bitácora por grupo y por política. Reemplaza el formato por instrumento de v0.3. Su estructura se inspira en la plantilla aplicada de CTeI del PO; los ejemplos de abajo vienen de ella.
 
-| Campo | Valores |
-|---|---|
-| Nombre | De la lista pre-sembrada, o marcado como *nuevo* |
-| ¿Instrumento u objetivo? | Instrumento / objetivo de política |
-| Tipo (NATO) | Nodalidad / Autoridad / Tesoro / Organización |
-| Presencia | 2018–2022 · 2022–2026 · ambos |
-| Modo por vigencia | Propuesto / logrado / pendiente |
-| Modo de cambio | Continuidad estable · conversión · estratificación · terminación · reversión |
-| Evidencia | Página y cifra del informe de empalme |
-| Relaciones | "Habilita a…", "depende de…", "se encadena con…" |
-| Confianza del grupo | Alta / media / baja |
+**Arranca pre-llenada con lo que sabe la red**: el objetivo declarado por cada gobierno y los instrumentos con su tipo NATO y su modo de cambio. El grupo **verifica, corrige y completa**; no parte de cero. *(El formulario en la app es el épico #26, en backlog; por ahora la landing solo la describe y la bitácora se lleva en papel o documento compartido.)*
+
+### 1. Ubicación y avance
+
+Dónde está la política en el documento de cada gobierno y qué avance reporta.
+
+| | 2018–2022 | 2022–2026 |
+|---|---|---|
+| Ubicación (pacto / transformación / sección) | | |
+| Avance reportado | | |
+
+**Hallazgo de comparabilidad (tabla puente).** Antes de comparar cifras, se deja escrito cómo se corresponden las estructuras de los dos documentos. Ejemplo CTeI: Duque la reporta como el Pacto Transversal IX, con 94,41 % de cumplimiento del cuatrienio al estilo Sinergia; Petro la reparte entre la Transformación 4.2 y la 5.7.2, sin un porcentaje único. Sin la tabla puente, cualquier comparación de números es engañosa.
+
+### 1.1 Instrumentos
+
+Por gobierno, al menos: el **principal**, el de **formación de talento** y el **fiscal/tributario**. Cada uno con su tipo NATO y su modo de cambio (§2).
+
+| Instrumento | 2018–2022 | 2022–2026 |
+|---|---|---|
+| Principal | p. ej. cupo de inversión para deducción y descuento tributario en CTeI | p. ej. convocatorias de financiación: ColombIA Inteligente, ECONOVA, Ciencias Básicas y del Espacio, FIS… |
+| Formación de talento | p. ej. becas y créditos-beca doctorales | p. ej. Ondas en los Territorios + Ciencia para la Paz (jóvenes en municipios PDET) |
+| Fiscal / tributario | p. ej. sí: es el instrumento central reportado | p. ej. se menciona el fortalecimiento de beneficios tributarios para I+D, sin cifra propia |
+
+### 2–8. Las siete subcategorías, lado a lado
+
+| # | Subcategoría | 2018–2022 | 2022–2026 | Ejemplo CTeI |
+|---|---|---|---|---|
+| 2 | **Objetivo** | | | El giro de enfoque entre gobiernos (`cambio_objetivo`) |
+| 3 | **Instituciones** | | | Colciencias → MinCiencias: un cambio institucional ocurrido dentro de 2018–2022 (Leyes 1951 de 2019 y 2162 de 2021) que cada informe reporta desde otra institucionalidad |
+| 4 | **Población** | | | No se desagrega en 2018–2022 (dato ausente) vs. enfoque diferencial y territorial explícito en 2022–2026 |
+| 5 | **Normativa** | | | Ninguno de los dos ancla la política a una ley en la sección que reporta CTeI |
+| 6 | **Recursos** | | | $6,50 billones de cupo tributario vs. sin cifra agregada |
+| 7 | **Metas** | | | Meta cuatrienio con % vs. solo cifras de ejecución |
+| 8 | **Impacto** | | | Vacío en ambos: solo métricas de gestión o producto |
+
+### Lo que enseña al plenario
+
+Lo que el grupo aprendió comparando, en pocas líneas. Los hallazgos típicos del ejemplo CTeI:
+
+- **El giro de enfoque** en el objetivo es lo primero que se ve y lo que más ordena la lectura de los instrumentos.
+- **Metas engañosas sin homologar.** No se compara 5.706 con 3.126: son manzanas con peras. Hay que buscar la meta del PND 2022–2026 en Sinergia antes de leer la diferencia.
+- **Impacto vacío en ambos gobiernos** (solo métricas de gestión o producto) es un hallazgo típico del laboratorio, no una falla del grupo.
+- **Las asimetrías documentales** (normativa, recursos) **se anotan, no se rellenan con supuestos**.
+
+### Hipótesis para la sesión 2
+
+Qué patrón cree el grupo que comparten las otras políticas (se conserva del cierre de la sesión 1, §5).
 
 ## 7. Decisiones abiertas
 
-1. **Actividad concreta de la sesión 1.** Opciones: que los grupos validen la clasificación que propone el pipeline, que la construyan desde la evidencia, o una combinación de ambas.
-2. **Extracción de políticas.** Quién las extrae, si se validan los criterios de §4 y cuántas se necesitan (una por grupo, más reservas).
+1. ~~**Actividad concreta de la sesión 1.**~~ **Resuelta (v0.4, 2026-09-27, PO):** cada grupo selecciona una política, la describe entre los dos gobiernos y llena la bitácora (§6). Es una combinación: **valida lo que propone la red** (bitácora pre-llenada) y **completa con información complementaria** fuera del informe de empalme.
+2. **Extracción de políticas.** *Resuelto por ADR-0004:* quién y cómo (el equipo las cura como áreas en `areas.yaml` antes de publicar; CTeI tiene 14). *Sigue abierto:* cuántas se ofrecen a los grupos (una por grupo, más reservas), cuáles se priorizan con los criterios de §4, y la curaduría de áreas de Deporte y Agropecuario.
 3. **Número de participantes y duración** de cada sesión, que determinan el número de grupos y si se usan subgrupos.
 4. **¿Llega Agropecuario a tiempo?** Si no, las políticas se extraen solo de CTeI y Deporte.
 5. **Visibilidad en la sesión 1.** Recomendado: cada grupo ve solo su política, para que la integración de la sesión 2 sea reveladora.

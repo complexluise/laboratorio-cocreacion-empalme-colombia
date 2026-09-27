@@ -58,7 +58,8 @@ Del informe crudo del DNP → markdown → **políticas + instrumentos** de pol�
 
 Un **explorador de la red** política↔instrumento (Svelte 5 + D3): instrumentos agrupados por
 política, coloreados por su modo de cambio entre gobiernos y con forma según su tipo NATO. Hoy cubre
-Ciencia y Tecnología.
+Ciencia y Tecnología. El sitio suma una **landing** con la actividad y su teoría (`#/`) y un
+**glosario** de la ontología, la teoría y las siglas (`#/glosario`); la red vive en `#/red`.
 
 ```bash
 pnpm install && pnpm dev     # desarrollo (Node >= 22)

@@ -121,6 +121,10 @@ El giro de nodo las desambigua; al rehacer el pipeline hay que repartirlas.
   compartidos enlazan la red); los instrumentos van coloreados por **modo de cambio** entre gobiernos
   y con forma por **tipo NATO**, filtrables por vigencia, modo y NATO, navegables con un buscador, y
   con foco por política (aísla su subred) o por instrumento (resalta su vecindario). Dominio en `packages/red`, UI en `web/` (ver `web/README.md`).
+- **Glosario del sitio** (`#/glosario`): explica esta ontología al público (tipos de nodo, atributos
+  y vocabulario controlado). Las entradas del vocabulario se generan de las mismas etiquetas que usa
+  la red (`web/src/lib/visual.ts`), así que no se desincronizan; la fuente sigue siendo
+  `data/schema/taxonomia.yaml` y este doc.
 
 ## Estado en este repo
 
@@ -147,7 +151,6 @@ resolución de entidades capturó los instrumentos persistentes reales. Se cita 
 ## Pendientes
 - **Rehacer el pipeline**: reconstruir el paso que produce el `dataset` de instrumentos (nodos +
   aristas + resumen) a partir de las ideas.
-- **Construir la aplicación**: el explorador de instrumentos (Cytoscape.js) sobre ese `dataset`.
 - **Auditar cobertura**: qué ideas no quedan ancladas a ningún instrumento (evidencia suelta) y si
   alguna merece instrumento propio.
 - **`comparacion` (idea-nivel) vs aristas de instrumento**: decidir si las relaciones PID+T de idea

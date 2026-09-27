@@ -10,6 +10,7 @@
     type Objeto,
     type Politica,
   } from "@laboratorio/red";
+  import { hrefDe } from "$lib/rutas.ts";
   import type { EstadoRed } from "$lib/state/red.svelte.ts";
   import {
     COLOR_MODO,
@@ -80,6 +81,7 @@
       <li><span aria-hidden="true">◆</span><span>Los <strong>símbolos</strong> son instrumentos; su forma es el tipo NATO.</span></li>
       <li><span class="k-color" aria-hidden="true"></span><span>El <strong>color</strong> dice cómo cambió entre gobiernos.</span></li>
       <li><span aria-hidden="true">⌕</span><span><strong>Busca</strong> una política o instrumento, o toca un nodo, para enfocarlo.</span></li>
+      <li><span aria-hidden="true">?</span><span>¿Una sigla o un término? Está en el <a href={hrefDe("glosario")}>glosario</a>; la actividad y su teoría, en <a href={hrefDe("inicio")}>el inicio</a>.</span></li>
     </ul>
     {#if porCambioObjetivo.length}
       <h3>Cómo cambiaron los objetivos de política</h3>
@@ -309,6 +311,9 @@
     flex: none;
     width: 14px;
     text-align: center;
+  }
+  .guia a {
+    color: var(--acento);
   }
   .k-pol {
     display: inline-block;
