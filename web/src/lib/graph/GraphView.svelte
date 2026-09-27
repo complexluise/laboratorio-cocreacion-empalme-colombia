@@ -5,6 +5,7 @@
   import { untrack } from "svelte";
   import { COLOR_MODO, RADIO_POLITICA, pathSimbolo } from "$lib/visual.ts";
   import { arrastrable, zoomable, type ControlZoom } from "./acciones.ts";
+  import type { ControlesVista } from "./acciones.ts";
   import { colocarEtiquetas, type Obstaculo, type PedidoEtiqueta } from "./etiquetas.ts";
   import { crearSimulacion, type EnlaceSim, type NodoSim } from "./forces.ts";
   import { guardarPosiciones, prepararSimulacion, type Posiciones } from "./posiciones.ts";
@@ -13,11 +14,14 @@
     red: Red;
     foco: Vecindario | null;
     seleccionado: string | null;
+    /** Clic en un nodo (id) o en el vacío (null: subir un nivel de foco). */
     onseleccionar: (id: string | null) => void;
-    /** Recibe una función para encuadrar la red en el lienzo ("Ajustar vista"). */
-    onajustar?: (ajustar: () => void) => void;
+    /** Esc: salir del foco (volver a la red completa). */
+    onsalir?: () => void;
+    /** Recibe los controles de vista (botones del lienzo): encuadrar, acercar, alejar. */
+    oncontroles?: (c: ControlesVista) => void;
   }
-  let { red, foco, seleccionado, onseleccionar, onajustar }: Props = $props();
+  let { red, foco, seleccionado, onseleccionar, onsalir, oncontroles }: Props = $props();
 
   let ancho = $state(0);
   let alto = $state(0);
@@ -32,7 +36,9 @@
   let sim = $state.raw<Simulation<NodoSim, EnlaceSim> | null>(null);
   const cache: Posiciones = new Map();
   let control = $state.raw<ControlZoom | null>(null);
-  let encuadrada = false; // la primera vez que la red se asienta, se encuadra sola
+  // Cada cambio de topología (filtros, subred) re-encuadra: ya con las posiciones cacheadas y otra
+  // vez cuando la física se asienta. El foco de un instrumento encuadra su vecindario.
+  let encuadrarAlTerminar = true;
 
   // La simulación se reconstruye SOLO si cambia la topología (no con la selección ni el foco).
   const firma = $derived(firmaTopologia(red));
@@ -47,18 +53,24 @@
     const preparado = prepararSimulacion(actual, cache);
     const nueva = crearSimulacion(preparado.nodos, preparado.enlaces);
     if (previa) nueva.alpha(0.5);
-    nueva.on("tick", () => tick++);
-    nueva.on("end", () => {
-      guardarPosiciones(preparado.nodos, cache);
-      if (!encuadrada) {
-        encuadrada = true;
-        ajustar();
+    nueva.on("tick", () => {
+      tick++;
+      // Encuadra apenas la red está casi asentada (no espera al final: ~2 s en vez de ~6 s).
+      if (encuadrarAlTerminar && nueva.alpha() < 0.08) {
+        encuadrarAlTerminar = false;
+        encuadrarFoco();
       }
     });
+    nueva.on("end", () => guardarPosiciones(preparado.nodos, cache));
     nodos = preparado.nodos;
     enlaces = preparado.enlaces;
     sim = nueva;
-    return () => nueva.stop();
+    encuadrarAlTerminar = true;
+    const raf = previa ? requestAnimationFrame(() => encuadrarFoco()) : 0;
+    return () => {
+      cancelAnimationFrame(raf);
+      nueva.stop();
+    };
   });
 
   function ajustar(soloIds?: Set<string>) {
@@ -73,7 +85,22 @@
       { ancho, alto },
     );
   }
-  $effect(() => onajustar?.(() => ajustar()));
+  $effect(() =>
+    oncontroles?.({
+      ajustar: () => ajustar(),
+      acercar: () => control?.escalar(1.4),
+      alejar: () => control?.escalar(1 / 1.4),
+    }),
+  );
+
+  /** Si el usuario hace zoom, pan o arrastra, su gesto manda: no se re-encuadra al asentarse. */
+  const ongesto = () => (encuadrarAlTerminar = false);
+
+  /** Encuadra el vecindario enfocado si hay, si no toda la red visible. */
+  function encuadrarFoco() {
+    const vecinos = untrack(() => foco?.nodos);
+    ajustar(vecinos && vecinos.size ? vecinos : undefined);
+  }
 
   // Al seleccionar, la vista se acerca a su vecindario: así caben sus etiquetas sin solaparse.
   let ultimoFoco: string | null = null;
@@ -104,6 +131,8 @@
     }
   }
 
+  // Con una política enfocada la red ES su subred: todos sus nodos son alcanzables con Tab.
+  const enSubred = $derived(seleccionado?.startsWith("pol:") ?? false);
   const apagado = (id: string) => foco !== null && !foco.nodos.has(id);
   const enlaceApagado = (id: string) => foco !== null && !foco.enlaces.has(id);
   // Etiquetas sin solape: tamaño constante en pantalla (fuente del mundo = px / zoom), así al
@@ -130,7 +159,7 @@
         x,
         y,
         radio,
-        texto: recortar(nombre, forzada ? 70 : esPol ? 34 : 28),
+        texto: recortar(nombre, forzada ? 44 : esPol ? 34 : 28),
         prioridad: (esPol ? 10 : 1) + (enFoco ? 5 : 0),
         forzada,
       });
@@ -146,7 +175,9 @@
   }
 
   function onkeydown(ev: KeyboardEvent) {
-    if (ev.key === "Escape") onseleccionar(null);
+    const t = ev.target as HTMLElement | null;
+    if (t?.closest("input, select, textarea, [role=dialog]")) return; // Esc de un campo es del campo
+    if (ev.key === "Escape") (onsalir ?? (() => onseleccionar(null)))();
   }
 </script>
 
@@ -158,8 +189,8 @@
     width={ancho}
     height={alto}
     role="group"
-    aria-label="Red de políticas públicas e instrumentos (Tab recorre las políticas; Enter selecciona; Esc deselecciona)"
-    use:zoomable={{ onzoom: (t) => (transformacion = t), onlisto: (c) => (control = c) }}
+    aria-label="Red de políticas públicas e instrumentos (Tab recorre las políticas; Enter enfoca; Esc vuelve a la red completa)"
+    use:zoomable={{ onzoom: (t) => (transformacion = t), onlisto: (c) => (control = c), ongesto }}
     onclick={() => onseleccionar(null)}
   >
     <g transform={transformacion.toString()}>
@@ -184,10 +215,10 @@
             class:sel={n.id === seleccionado}
             transform="translate({en(tick, n.x)},{en(tick, n.y)})"
             role="button"
-            tabindex={n.nodo.tipo === "pol" || foco?.nodos.has(n.id) ? 0 : -1}
+            tabindex={n.nodo.tipo === "pol" || enSubred || foco?.nodos.has(n.id) ? 0 : -1}
             aria-pressed={n.id === seleccionado}
             aria-label={n.nodo.tipo === "pol" ? n.nodo.pol.nombre : n.nodo.obj.nombre}
-            use:arrastrable={{ nodo: n, sim }}
+            use:arrastrable={{ nodo: n, sim, ongesto }}
             onclick={(ev) => {
               ev.stopPropagation();
               onseleccionar(n.id);

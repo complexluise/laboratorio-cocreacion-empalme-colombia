@@ -1,5 +1,9 @@
 <script lang="ts">
-  // Sin props: la marca es estática.
+  interface Props {
+    /** Línea secundaria: sector y periodo que se está explorando. */
+    contexto?: string;
+  }
+  let { contexto = "política pública · red navegable" }: Props = $props();
 </script>
 
 <!-- Wordmark del laboratorio: glifo nodo-enlace (dos políticas que comparten un instrumento). -->
@@ -13,7 +17,7 @@
   </svg>
   <div class="texto">
     <span class="nombre">Laboratorio de Cocreación</span>
-    <span class="bajada">política pública · red navegable</span>
+    <span class="bajada">{contexto}</span>
   </div>
 </div>
 
@@ -53,6 +57,15 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  /* Mobile first: en pantallas angostas solo el glifo; el nombre aparece cuando hay lugar. */
+  .texto {
+    display: none;
+  }
+  @media (min-width: 600px) {
+    .texto {
+      display: flex;
+    }
   }
   .bajada {
     font-size: 11px;

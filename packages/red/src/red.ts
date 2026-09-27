@@ -24,31 +24,33 @@ export interface Red {
 }
 
 /**
- * Filtros de análisis. Componen por INTERSECCIÓN: un instrumento es visible solo si pasa todos.
- * `modos`/`natos` vacíos = sin restricción (equivale a "todos").
+ * Filtros de análisis: QUÉ parte de la red se ve. Componen por INTERSECCIÓN: un instrumento es
+ * visible solo si pasa todos. `modos`/`natos` vacíos = sin restricción (equivale a "todos").
+ * Buscar NO es un filtro (navega: ver `buscar`) y enfocar una política tampoco (ver `Subred`).
  */
 export interface Filtros {
   vigencia: VigenciaSel;
-  busqueda: string;
-  politica: string | null;
   modos: ReadonlySet<ModoCambio>;
   natos: ReadonlySet<ClaseNato>;
 }
 
 export const FILTROS_INICIALES: Filtros = {
   vigencia: "ambos",
-  busqueda: "",
-  politica: null,
   modos: new Set(),
   natos: new Set(),
 };
+
+/** Foco en una política: aísla su subred (solo ella y sus instrumentos). */
+export interface Subred {
+  politica: string | null;
+}
 
 export const idPolitica = (id: string) => `pol:${id}`;
 export const idInstrumento = (id: string) => `ins:${id}`;
 
 /** Minúsculas y sin tildes, para buscar "educacion" y encontrar "Educación". */
 export function normalizar(s: string): string {
-  return s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().trim();
+  return s.normalize("NFD").replace(/\p{Diacritic}/gu, "").replace(/\s+/g, " ").toLowerCase().trim();
 }
 
 export function activoEn(o: Objeto, vigencia: VigenciaSel): boolean {
@@ -56,29 +58,18 @@ export function activoEn(o: Objeto, vigencia: VigenciaSel): boolean {
   return o.presencia[vigencia]?.activo === true;
 }
 
-/** Construye la red visible (nodos + enlaces) a partir del dataset y los filtros. */
-export function construirRed(ds: Dataset, f: Filtros): Red {
+/** Construye la red visible (nodos + enlaces) a partir del dataset, los filtros y la subred. */
+export function construirRed(ds: Dataset, f: Filtros, subred: Subred = { politica: null }): Red {
   const politicas = ds.politicas ?? [];
   const polPorId = new Map(politicas.map((p) => [p.id, p]));
-  const q = normalizar(f.busqueda);
-
-  const coincide = (o: Objeto): boolean => {
-    if (!q) return true;
-    if (normalizar(o.nombre).includes(q)) return true;
-    if ((o.alias ?? []).some((a) => normalizar(a).includes(q))) return true;
-    return (o.politicas ?? []).some((pid) => {
-      const p = polPorId.get(pid);
-      return p !== undefined && normalizar(p.nombre).includes(q);
-    });
-  };
+  const aislada = subred.politica;
 
   const instrumentos = ds.objetos.filter(
     (o) =>
       activoEn(o, f.vigencia) &&
       (f.modos.size === 0 || f.modos.has(o.modo_cambio)) &&
       (f.natos.size === 0 || f.natos.has(claseNato(o))) &&
-      (f.politica === null || (o.politicas ?? []).includes(f.politica)) &&
-      coincide(o),
+      (aislada === null || (o.politicas ?? []).includes(aislada)),
   );
 
   // Políticas visibles: las que tienen ≥1 instrumento visible (con foco, solo la enfocada).
@@ -86,7 +77,7 @@ export function construirRed(ds: Dataset, f: Filtros): Red {
   for (const o of instrumentos) {
     for (const pid of o.politicas ?? []) {
       if (!polPorId.has(pid)) continue;
-      if (f.politica === null || pid === f.politica) polVisibles.add(pid);
+      if (aislada === null || pid === aislada) polVisibles.add(pid);
     }
   }
 
