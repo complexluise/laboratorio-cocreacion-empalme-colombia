@@ -100,7 +100,7 @@
       svg.call(zoom);
 
       var lMemb = g.append("g").selectAll("line.memb").data(memb).enter().append("line")
-        .attr("class", "memb").attr("stroke", "#c7c7d2").attr("stroke-width", 1);
+        .attr("class", "memb");
       var lRel = g.append("g").selectAll("line.rel").data(rel).enter().append("line")
         .attr("class", function (d) { return "arista rel rel-" + d.tipo; })
         .attr("stroke", function (d) { return COLOR_REL[d.tipo] || "#999"; })
@@ -118,7 +118,7 @@
       // políticas: círculo hub; instrumentos: símbolo por NATO, color por modo de cambio
       var sym = d3.symbol().size(210);
       nodo.filter(function (d) { return d.tipo === "pol"; }).append("circle")
-        .attr("r", 15).attr("fill", "#eceff1").attr("stroke", "#546e7a").attr("stroke-width", 2.5);
+        .attr("r", 15).attr("fill", "#ffffff").attr("stroke", "#17203a").attr("stroke-width", 2.5);
       nodo.filter(function (d) { return d.tipo === "ins"; }).append("path")
         .attr("d", function (d) { return sym.type(d.obj.es_objetivo ? d3.symbolStar : (SIMBOLO[d.obj.tipo_nato] || d3.symbolCircle))(); })
         .attr("fill", function (d) { return COLOR[d.obj.modo_cambio] || "#999"; })
@@ -178,11 +178,12 @@
   function renderInst(o, polPorId) {
     var col = COLOR[o.modo_cambio] || "#555";
     var badges = ['<span class="badge" style="background:' + col + '">' + esc(LABEL_CAMBIO[o.modo_cambio] || o.modo_cambio) + "</span>",
-      '<span class="badge gris">' + (o.es_objetivo ? "objetivo de política" : "instrumento") + "</span>"];
-    if (!o.es_objetivo && o.tipo_nato) badges.push('<span class="badge gris">' + esc(LABEL_NATO[o.tipo_nato] || o.tipo_nato) + "</span>");
-    if (o.confianza) badges.push('<span class="badge gris">confianza ' + esc(o.confianza) + "</span>");
+      '<span class="badge linea">' + (o.es_objetivo ? "objetivo de política" : "instrumento") + "</span>"];
+    if (!o.es_objetivo && o.tipo_nato) badges.push('<span class="badge linea">' + esc(LABEL_NATO[o.tipo_nato] || o.tipo_nato) + "</span>");
+    if (o.confianza) badges.push('<span class="badge linea">confianza ' + esc(o.confianza) + "</span>");
 
-    var html = "<h2>" + esc(o.nombre) + "</h2><div class='badges'>" + badges.join("") + "</div>";
+    var html = "<h2>" + esc(o.nombre) + "</h2><div class='regla' style='background:" + col + "'></div>" +
+      "<div class='badges'>" + badges.join("") + "</div>";
 
     html += "<h3>Políticas que sirve</h3><ul>";
     (o.politicas || []).forEach(function (pid) { html += "<li>" + esc(polPorId[pid] ? polPorId[pid].nombre : pid) + "</li>"; });
@@ -201,7 +202,7 @@
 
     html += "<h3>Evidencia</h3>";
     (o.evidencia || []).forEach(function (ev) {
-      html += "<div><strong>" + esc(ev.vigencia) + "</strong>";
+      html += '<div class="vig-tag">' + esc(ev.vigencia);
       if (ev.paginas && ev.paginas.length) html += " · págs. " + ev.paginas.join(", ");
       html += "</div>";
       (ev.cifras || []).forEach(function (cf) {
@@ -213,7 +214,8 @@
 
   function renderPol(p, objetos) {
     var suyos = objetos.filter(function (o) { return (o.politicas || []).indexOf(p.id) !== -1; });
-    var html = "<h2>" + esc(p.nombre) + "</h2><div class='badges'><span class='badge gris'>política pública</span></div>";
+    var html = "<h2>" + esc(p.nombre) + "</h2><div class='regla' style='background:#17203a'></div>" +
+      "<div class='badges'><span class='badge linea'>política pública</span></div>";
     if (p.objetivo) html += "<h3>Objetivo</h3><div>" + esc(p.objetivo) + "</div>";
     html += "<h3>Instrumentos (" + suyos.length + ")</h3><ul>";
     suyos.forEach(function (o) {

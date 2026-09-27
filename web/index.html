@@ -3,60 +3,76 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mapa de instrumentos — Ciencia y Tecnología</title>
+  <title>trama · mapa de instrumentos de política</title>
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <header id="barra">
-    <h1>Mapa de instrumentos de política pública</h1>
-    <span id="sector">Ciencia y Tecnología · empalme 2018-2022 ↔ 2022-2026</span>
+  <header id="marca">
+    <div class="brand">
+      <svg class="weave" width="30" height="30" viewBox="0 0 28 28" aria-hidden="true">
+        <rect width="28" height="28" fill="#f3f2ee"/>
+        <g fill="#17203a"><rect x="4" width="5" height="28"/><rect x="16" width="5" height="28"/></g>
+        <g fill="#b07d2b" fill-opacity="0.78"><rect y="4" width="28" height="5"/><rect y="16" width="28" height="5"/></g>
+      </svg>
+      <div class="wordmark">
+        <span class="logo">trama</span>
+        <span class="tagline">laboratorio de cocreación</span>
+      </div>
+    </div>
+
     <div id="controles">
-      <label id="sel-vigencia"><strong>Vigencia:</strong>
+      <label class="ctrl-vig"><span>Vigencia</span>
         <select id="vigencia">
           <option value="ambos">Ambos gobiernos</option>
-          <option value="2018-2022">2018-2022</option>
-          <option value="2022-2026">2022-2026</option>
+          <option value="2018-2022">2018–2022</option>
+          <option value="2022-2026">2022–2026</option>
         </select>
       </label>
-      <span class="sep">·</span>
-      <strong>Relaciones:</strong>
-      <label><input type="checkbox" class="toggle-arista" value="habilita"> habilita</label>
-      <label><input type="checkbox" class="toggle-arista" value="financia"> financia</label>
-      <label><input type="checkbox" class="toggle-arista" value="depende-de"> depende-de</label>
-      <label><input type="checkbox" class="toggle-arista" value="encadena"> encadena</label>
+      <div class="chips" role="group" aria-label="Relaciones entre instrumentos">
+        <span class="chips-lbl">Relaciones</span>
+        <label class="chip"><input type="checkbox" class="toggle-arista" value="habilita"> habilita</label>
+        <label class="chip"><input type="checkbox" class="toggle-arista" value="financia"> financia</label>
+        <label class="chip"><input type="checkbox" class="toggle-arista" value="depende-de"> depende</label>
+        <label class="chip"><input type="checkbox" class="toggle-arista" value="encadena"> encadena</label>
+      </div>
       <button id="ajustar">Ajustar vista</button>
     </div>
   </header>
 
+  <div id="contexto">
+    <span class="eyebrow">Empalme 2018–2022 ↔ 2022–2026</span>
+    <h1>Mapa de instrumentos de política pública · <em>Ciencia y Tecnología</em></h1>
+  </div>
+
   <main>
     <div id="cy"></div>
     <aside id="panel">
-      <p class="vacio">Clic en un instrumento para ver su evidencia.</p>
+      <p class="vacio">Clic en un nodo para ver su detalle. Las políticas son los círculos; los instrumentos, los símbolos que cuelgan de ellas.</p>
     </aside>
   </main>
 
   <footer id="leyenda">
     <div class="grupo">
-      <strong>Nodos</strong>
-      <span class="forma">⬤ política</span>
-      <span class="forma">instrumentos ↓</span>
+      <span class="grupo-lbl">Nodos</span>
+      <span class="key"><span class="k-pol"></span>política</span>
+      <span class="key">símbolo = instrumento</span>
     </div>
     <div class="grupo">
-      <strong>Color · modo de cambio</strong>
-      <span class="chip" data-k="continuidad-estable">continuidad estable</span>
-      <span class="chip" data-k="conversion">conversión</span>
-      <span class="chip" data-k="estratificacion">estratificación</span>
-      <span class="chip" data-k="terminacion">terminación</span>
-      <span class="chip" data-k="reversion">reversión</span>
-      <span class="chip" data-k="deriva">deriva</span>
+      <span class="grupo-lbl">Color · modo de cambio</span>
+      <span class="chip-c" data-k="continuidad-estable">continuidad estable</span>
+      <span class="chip-c" data-k="conversion">conversión</span>
+      <span class="chip-c" data-k="estratificacion">estratificación</span>
+      <span class="chip-c" data-k="terminacion">terminación</span>
+      <span class="chip-c" data-k="reversion">reversión</span>
+      <span class="chip-c" data-k="deriva">deriva</span>
     </div>
     <div class="grupo">
-      <strong>Forma · tipo (NATO)</strong>
-      <span class="forma">◆ autoridad</span>
-      <span class="forma">▲ tesoro</span>
-      <span class="forma">■ nodalidad</span>
-      <span class="forma">● organización</span>
-      <span class="forma">★ objetivo de política</span>
+      <span class="grupo-lbl">Forma · tipo NATO</span>
+      <span class="key">◆ autoridad</span>
+      <span class="key">▲ tesoro</span>
+      <span class="key">■ nodalidad</span>
+      <span class="key">● organización</span>
+      <span class="key">★ objetivo</span>
     </div>
   </footer>
 
