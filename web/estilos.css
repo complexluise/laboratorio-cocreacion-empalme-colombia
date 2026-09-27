@@ -23,8 +23,10 @@ body {
 }
 #barra h1 { font-size: 16px; margin: 0; }
 #sector { color: #666; font-size: 12px; }
-#toggles { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 13px; }
-#toggles label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+#controles { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 13px; flex-wrap: wrap; }
+#controles label { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; }
+#controles .sep { color: #ccc; }
+#vigencia { font: inherit; padding: 2px 4px; }
 #ajustar { padding: 4px 10px; cursor: pointer; }
 
 main { flex: 1; display: flex; min-height: 0; }
@@ -32,10 +34,14 @@ main { flex: 1; display: flex; min-height: 0; }
 #cy svg { display: block; }
 
 /* nodos y etiquetas (D3/SVG) */
-.pol-label { font-size: 12px; font-weight: bold; fill: #b9b9c8; pointer-events: none; }
-.nodo-label { font-size: 8.5px; fill: #333; pointer-events: none; }
-.nodo.sel path { stroke: #111; stroke-width: 2.5; }
-.arista { opacity: 0.85; }
+.label { pointer-events: none; }
+.label.pol { font-size: 11px; font-weight: bold; fill: #37474f; }
+.label.ins { font-size: 8.5px; fill: #333; }
+.nodo.sel circle, .nodo.sel path { stroke: #111 !important; stroke-width: 3; }
+.arista { opacity: 0.9; }
+.memb { opacity: 0.7; }
+#panel .punto { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+#panel li { margin: 2px 0; }
 #panel {
   width: 340px; border-left: 1px solid var(--borde); padding: 14px;
   overflow-y: auto; background: #fff;

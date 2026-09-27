@@ -2,29 +2,29 @@ window.DATASET = {
   "sector": "ciencia-tecnologia",
   "politicas": [
     {
-      "id": "fortalecimiento-de-capacidades-regionales-y-formacion-de-capital-humano-en-ctei",
-      "nombre": "Fortalecimiento de Capacidades Regionales y Formación de Capital Humano en CTeI",
-      "objetivo": "Potenciar las capacidades regionales de la ciencia, la tecnología y la innovación como motor de desarrollo económico y social basados en el nuevo conocimiento científico y cerrar brechas territoriales y poblacionales."
+      "id": "formacion-de-talento-humano-y-capacidades-regionales-en-ctei",
+      "nombre": "Formación de Talento Humano y Capacidades Regionales en CTeI",
+      "objetivo": "Potenciar las capacidades territoriales de CTeI, democratizar el acceso a la formación avanzada y promover vocaciones científicas tempranas sin endeudamiento y con enfoque diferencial para cerrar brechas."
     },
     {
-      "id": "apropiacion-social-y-reconocimiento-de-saberes",
-      "nombre": "Apropiación Social y Reconocimiento de Saberes",
-      "objetivo": "Ampliar las dinámicas de generación, circulación y uso de conocimiento y los saberes ancestrales propiciando sinergias entre actores del SNCTI para cerrar brechas de inequidad."
+      "id": "apropiacion-social-del-conocimiento-y-reconocimiento-de-saberes",
+      "nombre": "Apropiación Social del Conocimiento y Reconocimiento de Saberes",
+      "objetivo": "Ampliar las dinámicas de generación, circulación y uso del conocimiento y los saberes ancestrales propiciando sinergias entre los actores del SNCTI."
     },
     {
-      "id": "internacionalizacion-del-conocimiento-y-diplomacia-cientifica",
-      "nombre": "Internacionalización del Conocimiento y Diplomacia Científica",
-      "objetivo": "Aumentar la producción de conocimiento científico y tecnológico de alto impacto promoviendo la participación en redes, cooperación e internacionalización."
+      "id": "internacionalizacion-y-diplomacia-cientifica",
+      "nombre": "Internacionalización y Diplomacia Científica",
+      "objetivo": "Posicionar a Colombia en escenarios de gobernanza científica multilateral y bilateral para el apalancamiento de recursos, redes de cooperación, transferencia tecnológica y producción científica de alto impacto."
     },
     {
-      "id": "economia-bioproductiva-y-mision-de-bioeconomia",
-      "nombre": "Economía Bioproductiva y Misión de Bioeconomía",
-      "objetivo": "Promover el aprovechamiento sostenible de la biodiversidad y potenciar las ventajas comparativas del país frente a los efectos del cambio climático mediante programas orientados por misión."
+      "id": "bioeconomia-y-aprovechamiento-sostenible-del-territorio",
+      "nombre": "Bioeconomía y Aprovechamiento Sostenible del Territorio",
+      "objetivo": "Impulsar la transformación productiva del país mediante el aprovechamiento sostenible de la biodiversidad y la biomasa a través de programas e investigación orientados por misión."
     },
     {
-      "id": "sofisticacion-del-sector-productivo-e-innovacion-empresarial",
-      "nombre": "Sofisticación del Sector Productivo e Innovación Empresarial",
-      "objetivo": "Impulsar el desarrollo tecnológico y la innovación para lograr un crecimiento empresarial basado en la sofisticación y el aumento de la inversión en I+D privada."
+      "id": "sofisticacion-productiva-e-innovacion-empresarial",
+      "nombre": "Sofisticación Productiva e Innovación Empresarial",
+      "objetivo": "Impulsar el desarrollo tecnológico, la innovación y el aumento de la inversión privada en I+D mediante incentivos tributarios y mecanismos de transferencia."
     },
     {
       "id": "modernizacion-institucional-y-gobernanza-del-sncti",
@@ -34,17 +34,12 @@ window.DATASET = {
     {
       "id": "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
       "nombre": "Políticas de Investigación e Innovación Orientadas por Misiones (PIIOM)",
-      "objetivo": "Dirigir y articular las capacidades científicas y tecnológicas nacionales hacia retos prioritarios de desarrollo social, económico y ambiental a través de cinco misiones estratégicas de largo plazo."
-    },
-    {
-      "id": "mision-bioeconomia-y-territorio",
-      "nombre": "Misión Bioeconomía y Territorio",
-      "objetivo": "Impulsar la transformación de la economía colombiana a través del fortalecimiento de las cadenas de valor basadas en el aprovechamiento sostenible de la biodiversidad y la biomasa en el territorio nacional."
+      "objetivo": "Dirigir y articular las capacidades científicas y tecnológicas nacionales hacia retos prioritarios de desarrollo social, económico y ambiental a través de misiones estratégicas de largo plazo."
     },
     {
       "id": "mision-transicion-energetica",
       "nombre": "Misión Transición Energética",
-      "objetivo": "Garantizar la incorporación de nuevos servicios, modelos de negocio y desarrollos tecnológicos nacionales en proyectos de generación con fuentes renovables de energía, eficiencia energética y descarbonización."
+      "objetivo": "Garantizar la incorporación de nuevos servicios, modelos de negocio y desarrollos tecnológicos en proyectos de fuentes renovables, eficiencia energética y descarbonización."
     },
     {
       "id": "mision-ciencia-para-la-paz",
@@ -54,32 +49,17 @@ window.DATASET = {
     {
       "id": "mision-derecho-humano-a-la-alimentacion",
       "nombre": "Misión Derecho Humano a la Alimentación",
-      "objetivo": "Garantizar la soberanía alimentaria y el derecho a la alimentación mediante el diálogo de saberes, la agroecología comunitaria y campesina, y el desarrollo científico y tecnológico apropiado."
+      "objetivo": "Garantizar la soberanía alimentaria mediante el diálogo de saberes, la agroecología comunitaria y campesina, y el desarrollo científico y tecnológico apropiado."
     },
     {
       "id": "mision-soberania-sanitaria-y-bienestar-social",
       "nombre": "Misión Soberanía Sanitaria y Bienestar Social",
-      "objetivo": "Fortalecer las capacidades nacionales científicas, tecnológicas e industriales para desarrollar y producir tecnologías en salud, medicamentos esenciales, vacunas y alternativas terapéuticas."
+      "objetivo": "Fortalecer las capacidades nacionales científicas, tecnológicas e industriales para desarrollar y producir tecnologías en salud, medicamentos esenciales y vacunas."
     },
     {
       "id": "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes",
       "nombre": "Política Nacional de Inteligencia Artificial y Tecnologías Emergentes",
-      "objetivo": "Generar capacidades para la investigación, desarrollo, adopción y aprovechamiento ético y sostenible de sistemas de IA y ciencias cuánticas para la transformación social y productiva del país."
-    },
-    {
-      "id": "formacion-de-talento-humano-de-alto-nivel-y-fomento-de-vocaciones-cientificas",
-      "nombre": "Formación de Talento Humano de Alto Nivel y Fomento de Vocaciones Científicas",
-      "objetivo": "Democratizar el acceso a la formación avanzada y promover vocaciones científicas desde edades tempranas sin endeudamiento y con enfoque territorial, étnico y de género."
-    },
-    {
-      "id": "politica-de-beneficios-tributarios-en-ctei",
-      "nombre": "Política de Beneficios Tributarios en CTeI",
-      "objetivo": "Fomentar la inversión del sector productivo en investigación, desarrollo tecnológico e innovación orientada a resolver problemas y desafíos sociales, ambientales y de equidad regional."
-    },
-    {
-      "id": "diplomacia-cientifica-y-cooperacion-internacional",
-      "nombre": "Diplomacia Científica y Cooperación Internacional",
-      "objetivo": "Posicionar a Colombia en escenarios de gobernanza científica multilateral y bilateral para el apalancamiento de recursos, transferencia tecnológica y cierre de brechas."
+      "objetivo": "Generar capacidades para la investigación, desarrollo, adopción y aprovechamiento ético y sostenible de sistemas de IA y ciencias cuánticas para la transformación social y productiva."
     }
   ],
   "objetos": [
@@ -87,7 +67,9 @@ window.DATASET = {
       "id": "potenciar-las-capacidades-regionales-de-ctei-hacia-una-colombia-cientifica",
       "nombre": "Potenciar las capacidades regionales de CTeI hacia una Colombia Científica",
       "es_objetivo": true,
-      "politica": "fortalecimiento-de-capacidades-regionales-y-formacion-de-capital-humano-en-ctei",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "Objetivo Estratégico 1 Minciencias"
       ],
@@ -124,7 +106,9 @@ window.DATASET = {
       "id": "centros-regionales-de-investigacion-innovacion-y-emprendimiento-criie",
       "nombre": "Centros Regionales de Investigación, Innovación y Emprendimiento (CRIIE)",
       "es_objetivo": false,
-      "politica": "fortalecimiento-de-capacidades-regionales-y-formacion-de-capital-humano-en-ctei",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "CRIIE",
         "Distritos de Innovación"
@@ -161,10 +145,12 @@ window.DATASET = {
       "tipo_nato": "organizacion"
     },
     {
-      "id": "programa-de-becas-y-formacion-avanzada-de-alto-nivel",
-      "nombre": "Programa de Becas y Formación Avanzada de Alto Nivel",
+      "id": "programa-de-formacion-avanzada-de-alto-nivel-becas-y-creditos-beca",
+      "nombre": "Programa de Formación Avanzada de Alto Nivel (Becas y Créditos Beca)",
       "es_objetivo": false,
-      "politica": "formacion-de-talento-humano-de-alto-nivel-y-fomento-de-vocaciones-cientificas",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "Becas Bicentenario",
         "Convocatoria 15 Asignación SGR",
@@ -184,7 +170,7 @@ window.DATASET = {
           "modo": "logrado"
         }
       },
-      "modo_cambio": "conversion",
+      "modo_cambio": "continuidad-estable",
       "entidades": [
         "COLFUTURO",
         "FULBRIGHT",
@@ -253,7 +239,9 @@ window.DATASET = {
       "id": "programa-de-estancias-posdoctorales",
       "nombre": "Programa de Estancias Posdoctorales",
       "es_objetivo": false,
-      "politica": "fortalecimiento-de-capacidades-regionales-y-formacion-de-capital-humano-en-ctei",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "Convocatoria Programa de Estancias Postdoctorales",
         "Estancias con Propósito"
@@ -301,7 +289,9 @@ window.DATASET = {
       "id": "programa-jovenes-investigadores-e-innovadores",
       "nombre": "Programa Jóvenes Investigadores e Innovadores",
       "es_objetivo": false,
-      "politica": "formacion-de-talento-humano-de-alto-nivel-y-fomento-de-vocaciones-cientificas",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "Convocatoria 21 SGR",
         "Convocatoria 907",
@@ -384,7 +374,9 @@ window.DATASET = {
       "id": "programa-ondas",
       "nombre": "Programa ONDAS",
       "es_objetivo": false,
-      "politica": "formacion-de-talento-humano-de-alto-nivel-y-fomento-de-vocaciones-cientificas",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "Estrategia Ondas",
         "Fomento de vocaciones en CTeI",
@@ -466,11 +458,21 @@ window.DATASET = {
       "tipo_nato": "organizacion"
     },
     {
-      "id": "convocatorias-asignacion-ctei-del-sistema-general-de-regalias-sgr",
-      "nombre": "Convocatorias Asignación CTeI del Sistema General de Regalías (SGR)",
+      "id": "convocatorias-y-mecanismos-de-la-asignacion-ctei-del-sistema-general-de-regalias",
+      "nombre": "Convocatorias y Mecanismos de la Asignación CTeI del Sistema General de Regalías",
       "es_objetivo": false,
-      "politica": "fortalecimiento-de-capacidades-regionales-y-formacion-de-capital-humano-en-ctei",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei",
+        "mision-transicion-energetica",
+        "mision-derecho-humano-a-la-alimentacion",
+        "mision-soberania-sanitaria-y-bienestar-social",
+        "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes"
+      ],
       "alias": [
+        "Convocatoria 38 OCAD Seguridad Sanitaria, Salud y Bienestar",
+        "Convocatoria 46 OCAD ColombIA Inteligente",
+        "Convocatoria 47 OCAD Agro por la vida y por la tierra",
+        "Convocatoria 49 OCAD Energía Sostenible para el Territorio",
         "OCAD de CTeI",
         "Plan Bienal de Mecanismos del SGR"
       ],
@@ -478,11 +480,17 @@ window.DATASET = {
         "2018-2022": {
           "activo": true,
           "modo": "logrado"
+        },
+        "2022-2026": {
+          "activo": true,
+          "modo": "pendiente"
         }
       },
-      "modo_cambio": "terminacion",
+      "modo_cambio": "conversion",
       "entidades": [
         "Ministerio de Ciencia, Tecnología e Innovación",
+        "OCAD de CTeI",
+        "Sistema General de Regalías",
         "Órgano Colegiado de Administración y Decisión (OCAD) de CTeI"
       ],
       "evidencia": [
@@ -516,6 +524,41 @@ window.DATASET = {
               "valor": 1.421
             }
           ]
+        },
+        {
+          "vigencia": "2022-2026",
+          "paginas": [
+            25,
+            28,
+            30,
+            43
+          ],
+          "cifras": [
+            {
+              "texto": "$377.639 millones",
+              "metrica": "recursos SGR asignados",
+              "unidad": "COP",
+              "valor": 377639000000
+            },
+            {
+              "texto": "$446.514 millones",
+              "metrica": "recursos SGR asignados",
+              "unidad": "COP",
+              "valor": 446514000000
+            },
+            {
+              "texto": "$158.287 millones",
+              "metrica": "recursos SGR asignados",
+              "unidad": "COP",
+              "valor": 158287000000
+            },
+            {
+              "texto": "$630.000 millones",
+              "metrica": "recursos aprobados OCAD SGR",
+              "unidad": "COP",
+              "valor": 630000000000
+            }
+          ]
         }
       ],
       "tipo_nato": "tesoro"
@@ -524,7 +567,10 @@ window.DATASET = {
       "id": "modelo-de-reconocimiento-y-clasificacion-de-actores-del-sncti",
       "nombre": "Modelo de Reconocimiento y Clasificación de Actores del SNCTI",
       "es_objetivo": false,
-      "politica": "fortalecimiento-de-capacidades-regionales-y-formacion-de-capital-humano-en-ctei",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei",
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom"
+      ],
       "alias": [
         "Reconocimiento de actores del SNCTI"
       ],
@@ -561,7 +607,9 @@ window.DATASET = {
       "id": "ampliar-dinamicas-de-generacion-circulacion-y-uso-de-conocimiento-y-saberes-ancestrales",
       "nombre": "Ampliar dinámicas de generación, circulación y uso de conocimiento y saberes ancestrales",
       "es_objetivo": true,
-      "politica": "apropiacion-social-y-reconocimiento-de-saberes",
+      "politicas": [
+        "apropiacion-social-del-conocimiento-y-reconocimiento-de-saberes"
+      ],
       "alias": [
         "Objetivo Estratégico 2 Minciencias"
       ],
@@ -589,7 +637,9 @@ window.DATASET = {
       "id": "estrategia-a-ciencia-cierta-e-ideas-para-el-cambio",
       "nombre": "Estrategia A Ciencia Cierta e Ideas para el Cambio",
       "es_objetivo": false,
-      "politica": "apropiacion-social-y-reconocimiento-de-saberes",
+      "politicas": [
+        "apropiacion-social-del-conocimiento-y-reconocimiento-de-saberes"
+      ],
       "alias": [
         "A Ciencia Cierta Desarrollo Local 2020",
         "Ideas para el Cambio"
@@ -626,7 +676,9 @@ window.DATASET = {
       "id": "estrategia-todo-es-ciencia",
       "nombre": "Estrategia Todo es Ciencia",
       "es_objetivo": false,
-      "politica": "apropiacion-social-y-reconocimiento-de-saberes",
+      "politicas": [
+        "apropiacion-social-del-conocimiento-y-reconocimiento-de-saberes"
+      ],
       "alias": [
         "Estrategia de comunicación pública de la ciencia y divulgación científica Todo es Ciencia"
       ],
@@ -664,7 +716,9 @@ window.DATASET = {
       "id": "red-colombiana-de-informacion-cientifica-ciencia-abierta",
       "nombre": "Red Colombiana de Información Científica (Ciencia Abierta)",
       "es_objetivo": false,
-      "politica": "apropiacion-social-y-reconocimiento-de-saberes",
+      "politicas": [
+        "apropiacion-social-del-conocimiento-y-reconocimiento-de-saberes"
+      ],
       "alias": [
         "Estrategia de Ciencia Abierta",
         "Plataforma de Ciencia Abierta"
@@ -694,7 +748,9 @@ window.DATASET = {
       "id": "aumentar-la-produccion-de-conocimiento-cientifico-y-tecnologico-de-alto-impacto-e-internacionalizacion",
       "nombre": "Aumentar la producción de conocimiento científico y tecnológico de alto impacto e internacionalización",
       "es_objetivo": true,
-      "politica": "internacionalizacion-del-conocimiento-y-diplomacia-cientifica",
+      "politicas": [
+        "internacionalizacion-y-diplomacia-cientifica"
+      ],
       "alias": [
         "Objetivo Estratégico 3 Minciencias"
       ],
@@ -734,23 +790,34 @@ window.DATASET = {
       ]
     },
     {
-      "id": "nodos-de-diplomacia-cientifica",
-      "nombre": "Nodos de Diplomacia Científica",
+      "id": "nodos-e-instrumentos-de-diplomacia-cientifica-y-cooperacion-internacional",
+      "nombre": "Nodos e Instrumentos de Diplomacia Científica y Cooperación Internacional",
       "es_objetivo": false,
-      "politica": "internacionalizacion-del-conocimiento-y-diplomacia-cientifica",
+      "politicas": [
+        "internacionalizacion-y-diplomacia-cientifica"
+      ],
       "alias": [
-        "Programa piloto de los nodos de Diplomacia Científica"
+        "Agenda Multilateral y Acuerdos Bilaterales de Diplomacia Científica",
+        "Cumbre Ministerial UE-CELAC",
+        "Foro CILAC 2024",
+        "Nodos de Diplomacia Científica",
+        "Presidencia IV Conferencia CEPAL"
       ],
       "presencia": {
         "2018-2022": {
           "activo": true,
           "modo": "logrado"
+        },
+        "2022-2026": {
+          "activo": true,
+          "modo": "logrado"
         }
       },
-      "modo_cambio": "terminacion",
+      "modo_cambio": "continuidad-estable",
       "entidades": [
         "Cancillería - Ministerio de Relaciones Exteriores",
-        "Ministerio de Ciencia, Tecnología e Innovación"
+        "Ministerio de Ciencia, Tecnología e Innovación",
+        "Ministerio de Relaciones Exteriores"
       ],
       "evidencia": [
         {
@@ -767,6 +834,28 @@ window.DATASET = {
               "valor": 9
             }
           ]
+        },
+        {
+          "vigencia": "2022-2026",
+          "paginas": [
+            51,
+            52,
+            53
+          ],
+          "cifras": [
+            {
+              "texto": "3.350 participantes",
+              "metrica": "participantes en CILAC 2024",
+              "unidad": "personas",
+              "valor": 3350
+            },
+            {
+              "texto": "46 países",
+              "metrica": "países participantes en CILAC 2024",
+              "unidad": "países",
+              "valor": 46
+            }
+          ]
         }
       ],
       "tipo_nato": "organizacion"
@@ -775,7 +864,9 @@ window.DATASET = {
       "id": "convocatorias-de-movilidad-academica-internacional-europa-y-amsud",
       "nombre": "Convocatorias de Movilidad Académica Internacional (Europa y AmSud)",
       "es_objetivo": false,
-      "politica": "internacionalizacion-del-conocimiento-y-diplomacia-cientifica",
+      "politicas": [
+        "internacionalizacion-y-diplomacia-cientifica"
+      ],
       "alias": [
         "Movilidad Académica con Europa 2021",
         "STIC, MATH y CLIMAT Amsud 2021"
@@ -817,7 +908,9 @@ window.DATASET = {
       "id": "mision-de-bioeconomia-y-aprovechamiento-sostenible-de-la-biodiversidad",
       "nombre": "Misión de Bioeconomía y Aprovechamiento Sostenible de la Biodiversidad",
       "es_objetivo": true,
-      "politica": "economia-bioproductiva-y-mision-de-bioeconomia",
+      "politicas": [
+        "bioeconomia-y-aprovechamiento-sostenible-del-territorio"
+      ],
       "alias": [
         "Misión de Bioeconomía",
         "Objetivo Estratégico 4 Minciencias"
@@ -851,21 +944,33 @@ window.DATASET = {
       ]
     },
     {
-      "id": "programa-colombia-bio",
-      "nombre": "Programa Colombia BIO",
+      "id": "programa-colombia-bio-e-instrumentos-de-bioeconomia",
+      "nombre": "Programa Colombia BIO e Instrumentos de Bioeconomía",
       "es_objetivo": false,
-      "politica": "economia-bioproductiva-y-mision-de-bioeconomia",
+      "politicas": [
+        "bioeconomia-y-aprovechamiento-sostenible-del-territorio",
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom"
+      ],
       "alias": [
-        "Colombia BIO",
-        "Expediciones BIO"
+        "Convocatoria 936-2023",
+        "Convocatoria 969-2025",
+        "Expediciones BIO",
+        "Invitaciones CABBIO",
+        "MAPBIO",
+        "Mecanismos y Convocatorias de la Misión Bioeconomía y Territorio",
+        "Programa Colombia BIO"
       ],
       "presencia": {
         "2018-2022": {
           "activo": true,
           "modo": "logrado"
+        },
+        "2022-2026": {
+          "activo": true,
+          "modo": "logrado"
         }
       },
-      "modo_cambio": "terminacion",
+      "modo_cambio": "conversion",
       "entidades": [
         "Instituto SINCHI",
         "Ministerio de Ambiente y Desarrollo Sostenible",
@@ -894,6 +999,34 @@ window.DATASET = {
               "valor": 134
             }
           ]
+        },
+        {
+          "vigencia": "2022-2026",
+          "paginas": [
+            21,
+            22,
+            23
+          ],
+          "cifras": [
+            {
+              "texto": "32 proyectos de I+D+i",
+              "metrica": "proyectos de I+D+i financiados",
+              "unidad": "proyectos",
+              "valor": 32
+            },
+            {
+              "texto": "247 personas",
+              "metrica": "beneficiarios",
+              "unidad": "personas",
+              "valor": 247
+            },
+            {
+              "texto": "$ 46.157 millones",
+              "metrica": "asignación de recursos PGN",
+              "unidad": "COP",
+              "valor": 46157000000
+            }
+          ]
         }
       ],
       "tipo_nato": "organizacion"
@@ -902,7 +1035,9 @@ window.DATASET = {
       "id": "impulsar-el-desarrollo-tecnologico-y-la-innovacion-para-la-sofisticacion-productiva",
       "nombre": "Impulsar el desarrollo tecnológico y la innovación para la sofisticación productiva",
       "es_objetivo": true,
-      "politica": "sofisticacion-del-sector-productivo-e-innovacion-empresarial",
+      "politicas": [
+        "sofisticacion-productiva-e-innovacion-empresarial"
+      ],
       "alias": [
         "Objetivo Estratégico 5 Minciencias"
       ],
@@ -942,17 +1077,14 @@ window.DATASET = {
       ]
     },
     {
-      "id": "beneficios-tributarios-en-ctei",
-      "nombre": "Beneficios Tributarios en CTeI",
+      "id": "instrumentos-y-convocatorias-de-beneficios-tributarios-en-ctei",
+      "nombre": "Instrumentos y Convocatorias de Beneficios Tributarios en CTeI",
       "es_objetivo": false,
-      "politica": "politica-de-beneficios-tributarios-en-ctei",
+      "politicas": [
+        "sofisticacion-productiva-e-innovacion-empresarial"
+      ],
       "alias": [
         "Acuerdo 022 de 2019 CNBT",
-        "Convocatoria 913 de 2022",
-        "Convocatoria 944 de 2023",
-        "Convocatoria 955",
-        "Convocatoria 968",
-        "Convocatoria 970",
         "Convocatorias de Beneficios Tributarios por Inversión en CTeI",
         "Crédito Fiscal",
         "Decreto 1011 de 2020",
@@ -970,7 +1102,7 @@ window.DATASET = {
           "modo": "logrado"
         }
       },
-      "modo_cambio": "continuidad-estable",
+      "modo_cambio": "deriva",
       "entidades": [
         "Consejo Nacional de Beneficios Tributarios (CNBT)",
         "DIAN",
@@ -1042,7 +1174,9 @@ window.DATASET = {
       "id": "estrategia-pactos-por-la-innovacion",
       "nombre": "Estrategia Pactos por la Innovación",
       "es_objetivo": false,
-      "politica": "sofisticacion-del-sector-productivo-e-innovacion-empresarial",
+      "politicas": [
+        "sofisticacion-productiva-e-innovacion-empresarial"
+      ],
       "alias": [
         "Pactos por la Innovación"
       ],
@@ -1089,7 +1223,9 @@ window.DATASET = {
       "id": "estrategia-nacional-de-propiedad-intelectual",
       "nombre": "Estrategia Nacional de Propiedad Intelectual",
       "es_objetivo": false,
-      "politica": "sofisticacion-del-sector-productivo-e-innovacion-empresarial",
+      "politicas": [
+        "sofisticacion-productiva-e-innovacion-empresarial"
+      ],
       "alias": [
         "Protección de invenciones vía patente"
       ],
@@ -1135,7 +1271,9 @@ window.DATASET = {
       "id": "programa-de-apoyo-a-creacion-de-empresas-de-base-tecnologica-spin-off",
       "nombre": "Programa de Apoyo a Creación de Empresas de Base Tecnológica Spin-off",
       "es_objetivo": false,
-      "politica": "sofisticacion-del-sector-productivo-e-innovacion-empresarial",
+      "politicas": [
+        "sofisticacion-productiva-e-innovacion-empresarial"
+      ],
       "alias": [
         "Convocatoria creación de empresas tipo spin-off"
       ],
@@ -1171,7 +1309,9 @@ window.DATASET = {
       "id": "ley-de-creacion-del-ministerio-de-ciencia-tecnologia-e-innovacion-ley-2162-de-2021",
       "nombre": "Ley de Creación del Ministerio de Ciencia, Tecnología e Innovación (Ley 2162 de 2021)",
       "es_objetivo": false,
-      "politica": "modernizacion-institucional-y-gobernanza-del-sncti",
+      "politicas": [
+        "modernizacion-institucional-y-gobernanza-del-sncti"
+      ],
       "alias": [
         "Ley 2162 de 2021"
       ],
@@ -1200,10 +1340,12 @@ window.DATASET = {
       "tipo_nato": "autoridad"
     },
     {
-      "id": "decreto-de-gobernanza-del-sistema-nacional-de-ctei-decreto-1666-de-2021",
-      "nombre": "Decreto de Gobernanza del Sistema Nacional de CTeI (Decreto 1666 de 2021)",
+      "id": "marco-normativo-de-gobernanza-del-sistema-nacional-de-ctei-decreto-1666-de-2021",
+      "nombre": "Marco Normativo de Gobernanza del Sistema Nacional de CTeI (Decreto 1666 de 2021)",
       "es_objetivo": false,
-      "politica": "modernizacion-institucional-y-gobernanza-del-sncti",
+      "politicas": [
+        "modernizacion-institucional-y-gobernanza-del-sncti"
+      ],
       "alias": [
         "Decreto 1666 de 2021",
         "Gobernanza del SNCTI"
@@ -1235,7 +1377,9 @@ window.DATASET = {
       "id": "politica-nacional-de-ciencia-tecnologia-e-innovacion-conpes-4069-de-2021",
       "nombre": "Política Nacional de Ciencia, Tecnología e Innovación (CONPES 4069 de 2021)",
       "es_objetivo": false,
-      "politica": "modernizacion-institucional-y-gobernanza-del-sncti",
+      "politicas": [
+        "modernizacion-institucional-y-gobernanza-del-sncti"
+      ],
       "alias": [
         "CONPES 4069 de 2021"
       ],
@@ -1279,11 +1423,17 @@ window.DATASET = {
       "tipo_nato": "autoridad"
     },
     {
-      "id": "modelo-integrado-de-planeacion-y-gestion-e-indice-minciencias-integra-efectiva-e-innovadora-ie-i",
-      "nombre": "Modelo Integrado de Planeación y Gestión e Índice Minciencias Íntegra, Efectiva e Innovadora (IE+i)",
+      "id": "estructura-institucional-gestion-publica-y-planta-de-personal-de-minciencias",
+      "nombre": "Estructura Institucional, Gestión Pública y Planta de Personal de MinCiencias",
       "es_objetivo": false,
-      "politica": "modernizacion-institucional-y-gobernanza-del-sncti",
+      "politicas": [
+        "modernizacion-institucional-y-gobernanza-del-sncti",
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom"
+      ],
       "alias": [
+        "Artículo 225 PND",
+        "Modelo Integrado de Planeación y Gestión e Índice Minciencias Íntegra, Efectiva e Innovadora (IE+i)",
+        "Rediseño Institucional y Nueva Planta de Personal de MinCiencias",
         "SGC+i GINA",
         "Índice IE+i"
       ],
@@ -1291,11 +1441,16 @@ window.DATASET = {
         "2018-2022": {
           "activo": true,
           "modo": "logrado"
+        },
+        "2022-2026": {
+          "activo": true,
+          "modo": "pendiente"
         }
       },
-      "modo_cambio": "terminacion",
+      "modo_cambio": "deriva",
       "entidades": [
         "Departamento Administrativo de la Función Pública",
+        "Departamento Administrativo de la Presidencia de la República",
         "Ministerio de Ciencia, Tecnología e Innovación"
       ],
       "evidencia": [
@@ -1321,6 +1476,24 @@ window.DATASET = {
               "valor": 328
             }
           ]
+        },
+        {
+          "vigencia": "2022-2026",
+          "paginas": [
+            55,
+            56,
+            78,
+            79,
+            109
+          ],
+          "cifras": [
+            {
+              "texto": "setenta y cinco (75) empleos permanentes",
+              "metrica": "nuevos empleos proyectados para creación",
+              "unidad": "cargos",
+              "valor": 75
+            }
+          ]
         }
       ],
       "tipo_nato": "organizacion"
@@ -1329,7 +1502,9 @@ window.DATASET = {
       "id": "resolucion-1452-de-2024-adopcion-de-las-piiom",
       "nombre": "Resolución 1452 de 2024 (Adopción de las PIIOM)",
       "es_objetivo": false,
-      "politica": "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
+      "politicas": [
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom"
+      ],
       "alias": [
         "Resolución No. 1452 de 2024"
       ],
@@ -1359,7 +1534,9 @@ window.DATASET = {
       "id": "fondo-francisco-jose-de-caldas-ffjc",
       "nombre": "Fondo Francisco José de Caldas (FFJC)",
       "es_objetivo": false,
-      "politica": "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
+      "politicas": [
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom"
+      ],
       "alias": [
         "Contrato de Fiducia Mercantil No. 333 de 2023",
         "FFJC"
@@ -1402,63 +1579,13 @@ window.DATASET = {
       "tipo_nato": "tesoro"
     },
     {
-      "id": "mecanismos-y-convocatorias-de-la-mision-bioeconomia-y-territorio",
-      "nombre": "Mecanismos y Convocatorias de la Misión Bioeconomía y Territorio",
-      "es_objetivo": false,
-      "politica": "mision-bioeconomia-y-territorio",
-      "alias": [
-        "Convocatoria 936-2023",
-        "Convocatoria 969-2025",
-        "Invitaciones CABBIO",
-        "MAPBIO"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "logrado"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "Ministerio de Ciencia, Tecnología e Innovación"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            21,
-            22,
-            23
-          ],
-          "cifras": [
-            {
-              "texto": "32 proyectos de I+D+i",
-              "metrica": "proyectos de I+D+i financiados",
-              "unidad": "proyectos",
-              "valor": 32
-            },
-            {
-              "texto": "247 personas",
-              "metrica": "beneficiarios",
-              "unidad": "personas",
-              "valor": 247
-            },
-            {
-              "texto": "$ 46.157 millones",
-              "metrica": "asignación de recursos PGN",
-              "unidad": "COP",
-              "valor": 46157000000
-            }
-          ]
-        }
-      ],
-      "tipo_nato": "tesoro"
-    },
-    {
       "id": "convocatorias-y-mecanismos-de-la-mision-transicion-energetica",
       "nombre": "Convocatorias y Mecanismos de la Misión Transición Energética",
       "es_objetivo": false,
-      "politica": "mision-transicion-energetica",
+      "politicas": [
+        "mision-transicion-energetica",
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom"
+      ],
       "alias": [
         "Convocatoria 931-2022",
         "Convocatoria 938-2023",
@@ -1516,47 +1643,13 @@ window.DATASET = {
       "tipo_nato": "tesoro"
     },
     {
-      "id": "convocatoria-49-ocad-energia-sostenible-para-el-territorio",
-      "nombre": "Convocatoria 49 OCAD Energía Sostenible para el Territorio",
-      "es_objetivo": false,
-      "politica": "mision-transicion-energetica",
-      "alias": [
-        "Convocatoria 49 SGR"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "pendiente"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "OCAD de CTeI",
-        "Sistema General de Regalías"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            25
-          ],
-          "cifras": [
-            {
-              "texto": "$377.639 millones",
-              "metrica": "recursos SGR asignados",
-              "unidad": "COP",
-              "valor": 377639000000
-            }
-          ]
-        }
-      ],
-      "tipo_nato": "tesoro"
-    },
-    {
       "id": "programa-jovenes-en-ciencia-para-la-paz",
       "nombre": "Programa Jóvenes en Ciencia para la Paz",
       "es_objetivo": false,
-      "politica": "mision-ciencia-para-la-paz",
+      "politicas": [
+        "mision-ciencia-para-la-paz",
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "Jóvenes en Ciencia para la Paz"
       ],
@@ -1606,7 +1699,10 @@ window.DATASET = {
       "id": "convocatorias-de-investigacion-y-desarrollo-de-la-mision-ciencia-para-la-paz",
       "nombre": "Convocatorias de Investigación y Desarrollo de la Misión Ciencia para la Paz",
       "es_objetivo": false,
-      "politica": "mision-ciencia-para-la-paz",
+      "politicas": [
+        "mision-ciencia-para-la-paz",
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom"
+      ],
       "alias": [
         "Convocatoria 956-2024",
         "Convocatoria Ecosistema Intercultural Del Pacifico Nariñense"
@@ -1656,7 +1752,10 @@ window.DATASET = {
       "id": "convocatorias-senainnova-agroalimentario",
       "nombre": "Convocatorias SENAinnova Agroalimentario",
       "es_objetivo": false,
-      "politica": "mision-derecho-humano-a-la-alimentacion",
+      "politicas": [
+        "mision-derecho-humano-a-la-alimentacion",
+        "sofisticacion-productiva-e-innovacion-empresarial"
+      ],
       "alias": [
         "SENAinnova 943-2023",
         "SENAinnova 962-2024"
@@ -1705,47 +1804,13 @@ window.DATASET = {
       "tipo_nato": "tesoro"
     },
     {
-      "id": "convocatoria-47-ocad-agro-por-la-vida-y-por-la-tierra",
-      "nombre": "Convocatoria 47 OCAD Agro por la vida y por la tierra",
-      "es_objetivo": false,
-      "politica": "mision-derecho-humano-a-la-alimentacion",
-      "alias": [
-        "Convocatoria 47 OCAD SGR"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "pendiente"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "OCAD de CTeI",
-        "Sistema General de Regalías"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            28
-          ],
-          "cifras": [
-            {
-              "texto": "$446.514 millones",
-              "metrica": "recursos SGR asignados",
-              "unidad": "COP",
-              "valor": 446514000000
-            }
-          ]
-        }
-      ],
-      "tipo_nato": "tesoro"
-    },
-    {
       "id": "convenio-especial-de-cooperacion-con-el-cric-acuerdo-it3-93",
       "nombre": "Convenio Especial de Cooperación con el CRIC (Acuerdo IT3-93)",
       "es_objetivo": false,
-      "politica": "mision-derecho-humano-a-la-alimentacion",
+      "politicas": [
+        "mision-derecho-humano-a-la-alimentacion",
+        "apropiacion-social-del-conocimiento-y-reconocimiento-de-saberes"
+      ],
       "alias": [
         "Convenio 269-2025",
         "Convenio especial de cooperación CRIC"
@@ -1792,7 +1857,10 @@ window.DATASET = {
       "id": "fondo-de-investigacion-en-salud-fis",
       "nombre": "Fondo de Investigación en Salud (FIS)",
       "es_objetivo": false,
-      "politica": "mision-soberania-sanitaria-y-bienestar-social",
+      "politicas": [
+        "mision-soberania-sanitaria-y-bienestar-social",
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom"
+      ],
       "alias": [
         "FIS",
         "Mecanismo FIS"
@@ -1841,47 +1909,12 @@ window.DATASET = {
       "tipo_nato": "tesoro"
     },
     {
-      "id": "convocatoria-38-ocad-seguridad-sanitaria-salud-y-bienestar",
-      "nombre": "Convocatoria 38 OCAD Seguridad Sanitaria, Salud y Bienestar",
-      "es_objetivo": false,
-      "politica": "mision-soberania-sanitaria-y-bienestar-social",
-      "alias": [
-        "Convocatoria 38 OCAD SGR"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "pendiente"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "OCAD de CTeI",
-        "Sistema General de Regalías"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            30
-          ],
-          "cifras": [
-            {
-              "texto": "$158.287 millones",
-              "metrica": "recursos SGR asignados",
-              "unidad": "COP",
-              "valor": 158287000000
-            }
-          ]
-        }
-      ],
-      "tipo_nato": "tesoro"
-    },
-    {
       "id": "conpes-4144-politica-nacional-de-inteligencia-artificial",
       "nombre": "CONPES 4144 - Política Nacional de Inteligencia Artificial",
       "es_objetivo": false,
-      "politica": "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes",
+      "politicas": [
+        "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes"
+      ],
       "alias": [
         "CONPES 4144"
       ],
@@ -1913,7 +1946,9 @@ window.DATASET = {
       "id": "proyecto-de-ley-estatutaria-de-regulacion-de-inteligencia-artificial",
       "nombre": "Proyecto de Ley Estatutaria de Regulación de Inteligencia Artificial",
       "es_objetivo": false,
-      "politica": "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes",
+      "politicas": [
+        "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes"
+      ],
       "alias": [
         "Proyecto de Ley 043 de 2025 Senado - 324 de 2025 Cámara",
         "Regulación de IA"
@@ -1946,7 +1981,9 @@ window.DATASET = {
       "id": "programa-colombia-inteligente",
       "nombre": "Programa ColombIA Inteligente",
       "es_objetivo": false,
-      "politica": "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes",
+      "politicas": [
+        "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes"
+      ],
       "alias": [
         "Convocatoria 950 de 2024",
         "Convocatoria 966 de 2025",
@@ -1995,47 +2032,12 @@ window.DATASET = {
       "tipo_nato": "organizacion"
     },
     {
-      "id": "convocatoria-46-ocad-colombia-inteligente",
-      "nombre": "Convocatoria 46 OCAD ColombIA Inteligente",
-      "es_objetivo": false,
-      "politica": "politica-nacional-de-inteligencia-artificial-y-tecnologias-emergentes",
-      "alias": [
-        "Convocatoria 46/2025 ColombIA Inteligente SGR"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "pendiente"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "OCAD de CTeI",
-        "Sistema General de Regalías"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            43
-          ],
-          "cifras": [
-            {
-              "texto": "$630.000 millones",
-              "metrica": "recursos aprobados OCAD SGR",
-              "unidad": "COP",
-              "valor": 630000000000
-            }
-          ]
-        }
-      ],
-      "tipo_nato": "tesoro"
-    },
-    {
       "id": "programa-orquideas-mujeres-en-la-ciencia",
       "nombre": "Programa Orquídeas: Mujeres en la Ciencia",
       "es_objetivo": false,
-      "politica": "formacion-de-talento-humano-de-alto-nivel-y-fomento-de-vocaciones-cientificas",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "Convocatoria 935 de 2023",
         "Convocatoria 948 de 2024",
@@ -2094,7 +2096,9 @@ window.DATASET = {
       "id": "conpes-die-4182-de-2026-fortalecimiento-del-talento-humano-ctei",
       "nombre": "CONPES DIE 4182 de 2026 (Fortalecimiento del Talento Humano CTeI)",
       "es_objetivo": false,
-      "politica": "formacion-de-talento-humano-de-alto-nivel-y-fomento-de-vocaciones-cientificas",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "CONPES 4182"
       ],
@@ -2135,7 +2139,9 @@ window.DATASET = {
       "id": "programa-colombia-robotica-y-laboratorios-steam",
       "nombre": "Programa Colombia Robótica y Laboratorios STEAM",
       "es_objetivo": false,
-      "politica": "formacion-de-talento-humano-de-alto-nivel-y-fomento-de-vocaciones-cientificas",
+      "politicas": [
+        "formacion-de-talento-humano-y-capacidades-regionales-en-ctei"
+      ],
       "alias": [
         "Centros de Interés en CTeI",
         "Colombia Robótica"
@@ -2186,7 +2192,10 @@ window.DATASET = {
       "id": "plataforma-scienti-cvlac-gruplac-institulac",
       "nombre": "Plataforma ScienTI (CvLAC, GrupLAC, InstituLAC)",
       "es_objetivo": false,
-      "politica": "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
+      "politicas": [
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
+        "modernizacion-institucional-y-gobernanza-del-sncti"
+      ],
       "alias": [
         "Convocatoria 957 de 2024",
         "CvLAC",
@@ -2234,7 +2243,10 @@ window.DATASET = {
       "id": "sistema-de-informacion-de-gestion-de-proyectos-sigp",
       "nombre": "Sistema de Información de Gestión de Proyectos (SIGP)",
       "es_objetivo": false,
-      "politica": "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
+      "politicas": [
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
+        "modernizacion-institucional-y-gobernanza-del-sncti"
+      ],
       "alias": [
         "SIGP"
       ],
@@ -2279,7 +2291,10 @@ window.DATASET = {
       "id": "sistema-de-indexacion-de-publicaciones-cientificas-publindex",
       "nombre": "Sistema de Indexación de Publicaciones Científicas (Publindex)",
       "es_objetivo": false,
-      "politica": "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
+      "politicas": [
+        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
+        "apropiacion-social-del-conocimiento-y-reconocimiento-de-saberes"
+      ],
       "alias": [
         "Modelo Publindex",
         "Publindex"
@@ -2305,147 +2320,68 @@ window.DATASET = {
         }
       ],
       "tipo_nato": "nodalidad"
-    },
-    {
-      "id": "agenda-multilateral-y-acuerdos-bilaterales-de-diplomacia-cientifica",
-      "nombre": "Agenda Multilateral y Acuerdos Bilaterales de Diplomacia Científica",
-      "es_objetivo": false,
-      "politica": "diplomacia-cientifica-y-cooperacion-internacional",
-      "alias": [
-        "Cumbre Ministerial UE-CELAC",
-        "Foro CILAC 2024",
-        "Presidencia IV Conferencia CEPAL"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "logrado"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "Ministerio de Ciencia, Tecnología e Innovación",
-        "Ministerio de Relaciones Exteriores"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            51,
-            52,
-            53
-          ],
-          "cifras": [
-            {
-              "texto": "3.350 participantes",
-              "metrica": "participantes en CILAC 2024",
-              "unidad": "personas",
-              "valor": 3350
-            },
-            {
-              "texto": "46 países",
-              "metrica": "países participantes en CILAC 2024",
-              "unidad": "países",
-              "valor": 46
-            }
-          ]
-        }
-      ],
-      "tipo_nato": "organizacion"
-    },
-    {
-      "id": "rediseno-institucional-y-nueva-planta-de-personal-de-minciencias",
-      "nombre": "Rediseño Institucional y Nueva Planta de Personal de MinCiencias",
-      "es_objetivo": false,
-      "politica": "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom",
-      "alias": [
-        "Artículo 225 PND",
-        "Proyecto de Decreto Estructura del Ministerio",
-        "Proyecto de Decreto Planta"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "pendiente"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "Departamento Administrativo de la Función Pública",
-        "Departamento Administrativo de la Presidencia de la República",
-        "Ministerio de Ciencia, Tecnología e Innovación"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            55,
-            56,
-            78,
-            79,
-            109
-          ],
-          "cifras": [
-            {
-              "texto": "setenta y cinco (75) empleos permanentes",
-              "metrica": "nuevos empleos proyectados para creación",
-              "unidad": "cargos",
-              "valor": 75
-            }
-          ]
-        }
-      ],
-      "tipo_nato": "organizacion"
     }
   ],
   "relaciones": [
     {
       "source": "ley-de-creacion-del-ministerio-de-ciencia-tecnologia-e-innovacion-ley-2162-de-2021",
-      "target": "decreto-de-gobernanza-del-sistema-nacional-de-ctei-decreto-1666-de-2021",
+      "target": "estructura-institucional-gestion-publica-y-planta-de-personal-de-minciencias",
       "tipo": "habilita",
-      "nota": "La Ley 2162 establece las bases orgánicas que sustentan la reglamentación del SNCTI mediante el Decreto 1666."
+      "nota": "La Ley 2162 otorga el marco legal de creación y sustento institucional al Ministerio."
     },
     {
-      "source": "resolucion-1452-de-2024-adopcion-de-las-piiom",
-      "target": "mecanismos-y-convocatorias-de-la-mision-bioeconomia-y-territorio",
+      "source": "ley-de-creacion-del-ministerio-de-ciencia-tecnologia-e-innovacion-ley-2162-de-2021",
+      "target": "marco-normativo-de-gobernanza-del-sistema-nacional-de-ctei-decreto-1666-de-2021",
       "tipo": "habilita",
-      "nota": "La adopción de las PIIOM da fundamento normativo y metodológico a las convocatorias de misiones específicas."
+      "nota": "La ley crea el ministerio y faculta la reglamentación del sistema y su gobernanza mediante decreto."
+    },
+    {
+      "source": "convocatorias-y-mecanismos-de-la-asignacion-ctei-del-sistema-general-de-regalias",
+      "target": "programa-de-formacion-avanzada-de-alto-nivel-becas-y-creditos-beca",
+      "tipo": "financia",
+      "nota": "Los recursos del SGR CTeI financian convocatorias regionales de becas de alto nivel."
+    },
+    {
+      "source": "fondo-francisco-jose-de-caldas-ffjc",
+      "target": "convocatorias-y-mecanismos-de-la-mision-transicion-energetica",
+      "tipo": "financia",
+      "nota": "El Fondo Francisco José de Caldas administra y canaliza los recursos financieros para las convocatorias de la misión."
     },
     {
       "source": "fondo-francisco-jose-de-caldas-ffjc",
       "target": "convocatorias-de-investigacion-y-desarrollo-de-la-mision-ciencia-para-la-paz",
       "tipo": "financia",
-      "nota": "El FFJC es el principal vehículo fiduciario para financiar las convocatorias temáticas de las misiones."
+      "nota": "El FFJC provee los recursos para las convocatorias de I+D de la Misión Ciencia para la Paz."
     },
     {
-      "source": "conpes-4144-politica-nacional-de-inteligencia-artificial",
-      "target": "programa-colombia-inteligente",
+      "source": "resolucion-1452-de-2024-adopcion-de-las-piiom",
+      "target": "convocatorias-y-mecanismos-de-la-mision-transicion-energetica",
       "tipo": "habilita",
-      "nota": "El documento CONPES define los lineamientos estratégicos y la creación de programas nacionales de IA."
+      "nota": "La adopción formal de las PIIOM establece el marco de operación para las convocatorias temáticas por misiones."
     },
     {
-      "source": "convocatoria-46-ocad-colombia-inteligente",
-      "target": "programa-colombia-inteligente",
-      "tipo": "financia",
-      "nota": "Los recursos asignados vía convocatorias OCAD financian proyectos enmarcados en ColombIA Inteligente."
+      "source": "resolucion-1452-de-2024-adopcion-de-las-piiom",
+      "target": "convocatorias-de-investigacion-y-desarrollo-de-la-mision-ciencia-para-la-paz",
+      "tipo": "habilita",
+      "nota": "Formaliza la política de misiones que fundamenta las convocatorias de Ciencia para la Paz."
+    },
+    {
+      "source": "programa-jovenes-investigadores-e-innovadores",
+      "target": "programa-jovenes-en-ciencia-para-la-paz",
+      "tipo": "encadena",
+      "nota": "El programa de Jóvenes Investigadores se articula y orienta temáticamente hacia la iniciativa territorial y comunitaria de Ciencia para la Paz."
     },
     {
       "source": "programa-ondas",
       "target": "programa-jovenes-investigadores-e-innovadores",
       "tipo": "encadena",
-      "nota": "Articulación de la trayectoria de vocaciones científicas desde la etapa escolar hacia la formación en investigación temprana."
+      "nota": "Fomenta vocaciones científicas tempranas que nutren la cantera para jóvenes investigadores."
     },
     {
-      "source": "programa-jovenes-investigadores-e-innovadores",
-      "target": "programa-de-becas-y-formacion-avanzada-de-alto-nivel",
-      "tipo": "encadena",
-      "nota": "Conexión sucesiva del semillero de jóvenes investigadores con la formación en posgrados avanzados."
-    },
-    {
-      "source": "modelo-de-reconocimiento-y-clasificacion-de-actores-del-sncti",
-      "target": "beneficios-tributarios-en-ctei",
-      "tipo": "depende-de",
-      "nota": "El acceso y calificación para beneficios tributarios en CTeI requiere el aval o reconocimiento previo bajo los criterios del SNCTI."
+      "source": "conpes-4144-politica-nacional-de-inteligencia-artificial",
+      "target": "programa-colombia-inteligente",
+      "tipo": "habilita",
+      "nota": "El documento CONPES define los lineamientos estratégicos y habilita las iniciativas ejecutivas de ColombIA Inteligente."
     }
   ]
 };

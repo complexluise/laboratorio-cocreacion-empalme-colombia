@@ -1,8 +1,10 @@
 # Mapa de instrumentos (PoC)
 
-Prueba de concepto del mapa del laboratorio: un grafo de **instrumentos de política pública**
-agrupados por **política**, coloreados por su **modo de cambio** entre los dos gobiernos y con la
-forma según su **tipo NATO**. Render con **D3.js** (vendorizado en `vendor/`, sin CDN en runtime).
+Prueba de concepto del mapa del laboratorio: una **red bipartita** entre **políticas públicas** (hubs)
+e **instrumentos**. Un instrumento puede servir a varias políticas — los instrumentos compartidos
+enlazan la red. Los instrumentos van coloreados por su **modo de cambio** entre los dos gobiernos y
+con la forma según su **tipo NATO**. Un **selector de vigencia** permite ver 2018-2022, 2022-2026 o
+ambos. Render con **D3.js** (vendorizado en `vendor/`, sin CDN en runtime).
 
 ## Cómo abrirlo
 Doble clic en `web/index.html` (abre por `file://`, sin servidor). El dato va horneado en
@@ -23,10 +25,13 @@ uv run extraccion/generar_web.py --slug ciencia-tecnologia
 el PoC abra sin correr nada.
 
 ## Interacción
-- **Color** = modo de cambio (continuidad estable · conversión · estratificación · terminación · reversión · deriva).
+- **Vigencia**: selector para ver solo 2018-2022, solo 2022-2026, o ambos gobiernos.
+- **Nodos**: círculo grande = política; símbolo = instrumento.
+- **Color** (instrumentos) = modo de cambio (continuidad estable · conversión · estratificación · terminación · reversión · deriva).
 - **Forma** = tipo NATO (◆ autoridad · ▲ tesoro · ■ nodalidad · ● organización · ★ objetivo de política).
-- **Relaciones**: ocultas por defecto; se muestran con los checkboxes por tipo.
-- **Clic** en un nodo: panel con política, presencia por vigencia, entidades y evidencia (páginas y cifras).
+- **Aristas grises** = pertenencia instrumento↔política (la red bipartita, siempre visible).
+- **Relaciones instrumento-instrumento** (habilita/financia/depende-de/encadena): ocultas por defecto; toggles por tipo.
+- **Clic** en instrumento: panel con políticas que sirve, presencia por vigencia, entidades y evidencia (páginas/cifras). Clic en política: su objetivo e instrumentos.
 - Arrastrar nodos, zoom/pan con la rueda, "Ajustar vista" para resetear.
 
 ## Archivos

@@ -10,7 +10,15 @@
   <header id="barra">
     <h1>Mapa de instrumentos de política pública</h1>
     <span id="sector">Ciencia y Tecnología · empalme 2018-2022 ↔ 2022-2026</span>
-    <div id="toggles">
+    <div id="controles">
+      <label id="sel-vigencia"><strong>Vigencia:</strong>
+        <select id="vigencia">
+          <option value="ambos">Ambos gobiernos</option>
+          <option value="2018-2022">2018-2022</option>
+          <option value="2022-2026">2022-2026</option>
+        </select>
+      </label>
+      <span class="sep">·</span>
       <strong>Relaciones:</strong>
       <label><input type="checkbox" class="toggle-arista" value="habilita"> habilita</label>
       <label><input type="checkbox" class="toggle-arista" value="financia"> financia</label>
@@ -28,6 +36,11 @@
   </main>
 
   <footer id="leyenda">
+    <div class="grupo">
+      <strong>Nodos</strong>
+      <span class="forma">⬤ política</span>
+      <span class="forma">instrumentos ↓</span>
+    </div>
     <div class="grupo">
       <strong>Color · modo de cambio</strong>
       <span class="chip" data-k="continuidad-estable">continuidad estable</span>
