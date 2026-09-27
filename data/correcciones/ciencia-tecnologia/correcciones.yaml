@@ -1,0 +1,91 @@
+# Correcciones verificadas contra los informes de empalme (revisión adversarial Sonnet, 2026-09-27).
+# Overlay determinista aplicado por extraccion/aplicar_correcciones.py sobre objetos.json.
+# Patrón corregido: el pipeline sobre-marcaba 'terminacion' en instrumentos de infraestructura
+# normativa/sistemas que en realidad continuaron o se convirtieron bajo el gobierno 2022-2026.
+# Fuente/evidencia por instrumento: data/sectores/ciencia-tecnologia/revision.json.
+
+# --- reclasificar modo_cambio (y asegurar presencia 2022-2026 activa) ---
+reclasificar:
+  programa-de-estancias-posdoctorales: conversion
+  convocatorias-asignacion-ctei-del-sistema-general-de-regalias-sgr: continuidad-estable
+  modelo-de-reconocimiento-y-clasificacion-de-actores-del-sncti: conversion
+  ley-de-creacion-del-ministerio-de-ciencia-tecnologia-e-innovacion-ley-2162-de-2021: continuidad-estable
+  decreto-de-gobernanza-del-sistema-nacional-de-ctei-decreto-1666-de-2021: continuidad-estable
+  politica-nacional-de-ciencia-tecnologia-e-innovacion-conpes-4069-de-2021: continuidad-estable
+  fondo-francisco-jose-de-caldas-ffjc: continuidad-estable
+  sistema-de-informacion-de-gestion-de-proyectos-sigp: continuidad-estable
+  fondo-de-investigacion-en-salud-fis: conversion
+  red-colombiana-de-informacion-cientifica-ciencia-abierta: conversion
+
+# modo de la presencia 2022-2026 a agregar (si el nodo aún no la tiene). Default logrado.
+presencia_2022:
+  programa-de-estancias-posdoctorales: logrado
+  convocatorias-asignacion-ctei-del-sistema-general-de-regalias-sgr: logrado
+  modelo-de-reconocimiento-y-clasificacion-de-actores-del-sncti: logrado
+  ley-de-creacion-del-ministerio-de-ciencia-tecnologia-e-innovacion-ley-2162-de-2021: logrado
+  decreto-de-gobernanza-del-sistema-nacional-de-ctei-decreto-1666-de-2021: logrado
+  politica-nacional-de-ciencia-tecnologia-e-innovacion-conpes-4069-de-2021: logrado
+  fondo-francisco-jose-de-caldas-ffjc: logrado
+  sistema-de-informacion-de-gestion-de-proyectos-sigp: logrado
+  fondo-de-investigacion-en-salud-fis: logrado
+  red-colombiana-de-informacion-cientifica-ciencia-abierta: logrado
+
+# --- fusiones (mismo instrumento partido en dos, o linaje directo) ---
+merges:
+  - into: programa-de-becas-y-creditos-beca-para-doctorados-y-maestrias
+    from: [programa-becas-para-el-cambio]
+    nombre: "Programa de Formación de Alto Nivel (becas)"
+    modo_cambio: conversion
+    alias_set: ["Becas Bicentenario", "Crédito Beca Minciencias-Colfuturo", "Programa Becas para el Cambio", "Convocatoria 975 de 2026"]
+  - into: mision-de-bioeconomia-y-aprovechamiento-sostenible-de-la-biodiversidad
+    from: [programa-colombia-bio]
+    modo_cambio: conversion
+  - into: mecanismos-y-convocatorias-de-la-mision-bioeconomia-y-territorio
+    from: [convenio-especial-de-cooperacion-con-el-cric-acuerdo-it3-93]
+
+# --- deduplicar políticas equivalentes entre gobiernos ---
+dedup_politicas:
+  - into: formacion-de-talento-humano-de-alto-nivel-y-fomento-de-vocaciones-cientificas
+    from: [fortalecimiento-de-capacidades-regionales-y-formacion-de-capital-humano-en-ctei]
+    nombre: "Formación de talento humano y capacidades regionales en CTeI"
+
+# --- splits (nodos sobre-fusionados que agrupan cosas distintas) ---
+splits:
+  - id: plataforma-scienti-cvlac-gruplac-institulac
+    en:
+      - id: plataforma-scienti-cvlac-gruplac-institulac
+        nombre: "Plataforma ScienTI (CvLAC, GrupLAC, InstituLAC)"
+        tipo_nato: nodalidad
+        modo_cambio: continuidad-estable
+        presencia: {"2018-2022": logrado, "2022-2026": logrado}
+      - id: convocatoria-957-2024-reconocimiento-y-medicion
+        nombre: "Convocatoria 957/2024 (reconocimiento y medición de grupos e investigadores)"
+        tipo_nato: nodalidad
+        modo_cambio: estratificacion
+        presencia: {"2022-2026": logrado}
+        politicas: [modernizacion-institucional-y-gobernanza-del-sncti]
+  - id: modelo-integrado-de-planeacion-y-gestion-e-indice-minciencias-integra-efectiva-e-innovadora-ie-i
+    en:
+      - id: indice-ie-mas-i-desempeno-institucional
+        nombre: "Índice IE+i / Índice de Desempeño Institucional (IDI)"
+        tipo_nato: nodalidad
+        modo_cambio: conversion
+        presencia: {"2018-2022": logrado, "2022-2026": logrado}
+      - id: sistema-gestion-calidad-innovacion-sgci-gina
+        nombre: "Sistema de Gestión de Calidad e Innovación (SGC+i / GINA, ISO 9001)"
+        tipo_nato: organizacion
+        modo_cambio: continuidad-estable
+        presencia: {"2018-2022": logrado, "2022-2026": logrado}
+
+# --- enriquecer alias con mecanismos/convocatorias documentados ---
+alias_add:
+  mecanismos-y-convocatorias-de-la-mision-bioeconomia-y-territorio:
+    ["Invitación 1049-2023 (expediciones Bio)", "Convenio 117-2024 (CRIC)", "Convenio 94-2025 (CRIC)", "Convenio 429-2024 (Yunguillo)"]
+  convocatorias-y-mecanismos-de-la-mision-transicion-energetica:
+    ["Convocatoria 951-2024", "Convocatoria 958-2024", "Convocatoria 967-2025", "Convocatoria 972-2025"]
+
+# --- correcciones puntuales de cifras (se agregan como evidencia aclaratoria) ---
+cifra_add:
+  programa-ondas:
+    vigencia: "2022-2026"
+    texto: "Inversión SGR del programa Ondas: $8.860 millones (corrige un error de un orden de magnitud)."

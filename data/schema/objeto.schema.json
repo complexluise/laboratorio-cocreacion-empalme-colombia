@@ -47,6 +47,16 @@
         "modo_cambio": {"type": "string", "enum": ["continuidad-estable", "conversion", "estratificacion", "terminacion", "reversion", "deriva"]},
         "entidades": {"type": "array", "items": {"type": "string"}},
         "confianza": {"type": "string", "enum": ["alta", "media", "baja"]},
+        "narrativa": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "detalle verificado por gobierno (revisión contra los informes)",
+          "properties": {
+            "g2018": {"type": "string", "description": "qué fue el instrumento en 2018-2022"},
+            "g2022": {"type": "string", "description": "qué fue en 2022-2026"},
+            "cambio": {"type": "string", "description": "narrativa del cambio entre gobiernos"}
+          }
+        },
         "evidencia": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidencia"}}
       }
     },
