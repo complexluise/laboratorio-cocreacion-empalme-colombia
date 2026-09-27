@@ -67,7 +67,7 @@
     {
       n: "1.1",
       titulo: "Instrumentos",
-      texto: "El principal, el de formación de talento y el fiscal, con su tipo (NATO) y su modo de cambio.",
+      texto: "El principal, el de formación de talento y el fiscal o tributario, en cada gobierno.",
     },
     {
       n: "2–8",

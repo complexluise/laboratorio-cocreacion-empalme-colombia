@@ -124,7 +124,7 @@ Una bitácora por grupo y por política. Reemplaza el formato por instrumento de
 
 **Es un .docx listo para llenar, en blanco** ([ADR-0005](decisiones/ADR-0005-bitacora-docx-a-dato-estructurado.md)). Se descarga desde la landing (`bitacora-laboratorio.docx`, con un ejemplo lleno de CTeI) y se llena en Word o Google Docs. La red sirve de **consulta** (la política, sus instrumentos y cómo cambiaron), no de borrador: el grupo construye la bitácora con el informe de empalme y la información complementaria. Además de las secciones de abajo, la plantilla pide los datos del grupo y una tabla de **fuentes complementarias** (fuente, qué aportó, página o enlace).
 
-Dos reglas para que el equipo pueda convertirla en dato: **no cambiar los títulos de las tablas ni de las filas**, y escribir **«Sin dato»** cuando la fuente no dice algo (es un hueco declarado, un hallazgo), distinto de dejar la celda vacía (no llenado). La estructura exacta vive en la plantilla (definida en `extraccion/bitacora.py`); las tablas de abajo la resumen.
+Dos reglas para que el equipo pueda convertirla en dato: **no cambiar los títulos de las tablas ni de las filas**, y escribir **«Sin dato»** cuando la fuente no dice algo (es un hueco declarado, un hallazgo; se puede aclarar: «Sin dato: el balance no lo desagrega»), distinto de dejar la celda vacía (no llenado). La estructura exacta vive en la plantilla (definida en `extraccion/bitacora.py`); las tablas de abajo la resumen.
 
 ### 1. Ubicación y avance
 

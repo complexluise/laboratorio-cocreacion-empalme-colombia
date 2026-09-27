@@ -39,7 +39,7 @@
       "description": "información complementaria consultada (más allá del informe de empalme)",
       "items": {
         "type": "object",
-        "required": ["fuente"],
+        "minProperties": 1,
         "additionalProperties": false,
         "properties": {
           "fuente": {"type": "string"},
@@ -48,10 +48,15 @@
         }
       }
     },
+    "notas": {
+      "type": "object",
+      "additionalProperties": {"type": "string"},
+      "description": "aclaraciones de los huecos, por ruta: «Sin dato: <nota>» en la plantilla -> la celda es null y la nota va aquí"
+    },
     "sin_llenar": {
       "type": "array",
       "items": {"type": "string"},
-      "description": "rutas (p. ej. subcategorias.2022-2026.normativa) que quedaron vacías: no son huecos declarados"
+      "description": "rutas (p. ej. subcategorias.2022-2026.normativa, o grupo / integrantes / politica / fecha) que quedaron vacías: no son huecos declarados. Los datos del grupo vacíos quedan como \"\" o [] y se listan aquí"
     }
   },
   "$defs": {

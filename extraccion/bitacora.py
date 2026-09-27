@@ -176,7 +176,11 @@ def slug(s: str) -> str:
 
 
 def _texto_celda(celda) -> str:
+    """Todo el texto de la celda, incluidas tablas pegadas dentro (se leen fila por fila)."""
     lineas = [p.text.strip() for p in celda.paragraphs]
+    for anidada in celda.tables:
+        for fila in anidada.rows:
+            lineas.append(" · ".join(t for t in (_texto_celda(c) for c in fila.cells) if t))
     return "\n".join(l for l in lineas if l)
 
 
@@ -187,13 +191,19 @@ def _primera_linea(celda) -> str:
     return ""
 
 
+_HUECO = re.compile(r"^\s*(sin\s+datos?|s\s*/\s*d|no\s+hay\s+datos?)\b\.?(.*)$", re.IGNORECASE | re.DOTALL)
+
+
 def _valor(texto: str):
-    """texto -> (presente, valor): «Sin dato» es null; vacío es no llenado."""
+    """texto -> (presente, valor, nota). «Sin dato» (o «S/D», «No hay dato») es null: hueco
+    declarado; «Sin dato: <nota>» o «Sin dato (<nota>)» conserva la nota aparte. Vacío = no llenado."""
     if not texto:
-        return False, None
-    if normalizar(texto).rstrip(".") in {"sin dato", "sin datos"}:
-        return True, None
-    return True, texto
+        return False, None, None
+    m = _HUECO.match(texto)
+    if m:
+        nota = m.group(2).strip().lstrip(":-–—(").strip().rstrip(".)").strip()
+        return True, None, nota or None
+    return True, texto, None
 
 
 # ─────────────────────────── Generar ───────────────────────────
@@ -363,8 +373,9 @@ def plantilla() -> Document:
     r = regla.add_run("Regla: si la fuente no lo dice, escriban «Sin dato». ")
     r.bold = True
     regla.add_run(
-        "Un hueco de información es un hallazgo: se anota, no se rellena con supuestos. No cambien los "
-        "títulos de las tablas ni de las filas: con ellos el equipo lee la bitácora y la integra al mapa."
+        "Pueden aclarar el porqué: «Sin dato: el balance no lo desagrega». Un hueco de información es un "
+        "hallazgo: se anota, no se rellena con supuestos. No cambien los títulos de las tablas ni de las "
+        "filas, ni combinen celdas: con ellos el equipo lee la bitácora y la integra al mapa."
     )
 
     datos = doc.add_table(rows=len(DATOS), cols=2)
@@ -459,11 +470,13 @@ class PlantillaInvalida(Exception):
 
 
 def _fila_de(filas: tuple[Fila, ...], etiqueta: str) -> str | None:
+    """Etiqueta exacta, o ampliada por el grupo en la misma línea («Objetivo del gobierno»)."""
     n = normalizar(etiqueta)
     for f in filas:
         if n == normalizar(f.etiqueta):
             return f.clave
-    return None
+    ampliadas = [f for f in filas if n.startswith(normalizar(f.etiqueta) + " ")]
+    return max(ampliadas, key=lambda f: len(f.etiqueta)).clave if ampliadas else None
 
 
 def _indexar(doc: Document) -> dict:
@@ -489,14 +502,19 @@ def _indexar(doc: Document) -> dict:
 
 
 def _columnas_vigencia(t) -> dict[str, int]:
+    """Columna de cada gobierno por su encabezado: «2018» marca el primero y «2026» el segundo, en
+    cualquier parte del texto («Gobierno Duque (2018–2022)» sirve)."""
     cols = {}
-    for i, celda in enumerate(t.rows[0].cells):
+    for i, celda in enumerate(t.rows[0].cells[1:], start=1):
         n = normalizar(_primera_linea(celda), numeracion=False)
-        for v in VIGENCIAS:
-            if n.startswith(v[:4]) and v not in cols:
-                cols[v] = i
+        v = "2018-2022" if "2018" in n else "2022-2026" if "2026" in n else None
+        if v and v not in cols:
+            cols[v] = i
     if set(cols) != set(VIGENCIAS):
-        raise PlantillaInvalida(f"la tabla «{_primera_linea(t.rows[0].cells[0])}» perdió las columnas de gobierno")
+        raise PlantillaInvalida(
+            f"en la tabla «{_primera_linea(t.rows[0].cells[0])}» no se reconocen las columnas de los dos "
+            "gobiernos: sus encabezados deben mencionar 2018–2022 y 2022–2026"
+        )
     return cols
 
 
@@ -515,27 +533,41 @@ def _id_politica(nombre: str, sector: str) -> str | None:
 def leer(doc: Document, sector: str) -> dict:
     tablas = _indexar(doc)
     sin_llenar: list[str] = []
+    notas: dict[str, str] = {}
 
-    datos = {}
+    def celda(ruta: str, texto: str):
+        """Registra la celda: (presente, valor). Vacía -> sin_llenar; «Sin dato: nota» -> notas."""
+        presente, valor, nota = _valor(texto)
+        if not presente:
+            sin_llenar.append(ruta)
+        if nota:
+            notas[ruta] = nota
+        return presente, valor
+
+    datos: dict[str, str] = {}
     for fila in tablas["datos"].rows:
         clave = _fila_de(DATOS, _primera_linea(fila.cells[0]))
-        if clave and len(fila.cells) > 1:
-            datos[clave] = _texto_celda(fila.cells[1])
-    integrantes = [s.strip() for s in re.split(r"[,;\n]", datos.get("integrantes", "")) if s.strip()]
-    politica = {"nombre": datos.get("politica", "")}
+        if clave and clave not in datos:
+            datos[clave] = _texto_celda(fila.cells[1]) if len(fila.cells) > 1 and fila.cells[1]._tc is not fila.cells[0]._tc else ""
+    for d in DATOS:
+        if d.clave not in datos:
+            raise PlantillaInvalida(f"falta la fila «{d.etiqueta}» en la tabla de datos del grupo")
+    valores = {}
+    for d in DATOS:
+        presente, valor = celda(d.clave, datos[d.clave])
+        valores[d.clave] = valor if presente and valor is not None else ""
+    integrantes = [x.strip() for x in re.split(r"[,;\n]", valores["integrantes"]) if x.strip()]
+    politica = {"nombre": valores["politica"]}
     if (pid := _id_politica(politica["nombre"], sector)) is not None:
         politica["id"] = pid
     b: dict = {
         "version": VERSION,
         "sector": sector,
-        "grupo": {"nombre": datos.get("grupo", ""), "integrantes": integrantes},
+        "grupo": {"nombre": valores["grupo"], "integrantes": integrantes},
         "politica": politica,
     }
-    if datos.get("fecha"):
-        b["fecha"] = datos["fecha"]
-    for clave in ("grupo", "politica"):
-        if not datos.get(clave):
-            sin_llenar.append(f"{clave}")
+    if valores["fecha"]:
+        b["fecha"] = valores["fecha"]
 
     for c in COMPARATIVAS:
         t = tablas[c.clave]
@@ -544,36 +576,38 @@ def leer(doc: Document, sector: str) -> dict:
         vistas = set()
         for fila in t.rows[1:]:
             clave = _fila_de(c.filas, _primera_linea(fila.cells[0]))
-            if clave is None:
-                continue  # fila agregada por el grupo o vacía
+            if clave is None or clave in vistas:
+                continue  # fila agregada por el grupo, vacía o repetida
             vistas.add(clave)
-            for v, i in cols.items():
-                presente, valor = _valor(_texto_celda(fila.cells[i]) if i < len(fila.cells) else "")
+            celdas = {v: fila.cells[i] if i < len(fila.cells) else None for v, i in cols.items()}
+            tcs = [x._tc for x in celdas.values() if x is not None]
+            if len(set(map(id, tcs))) < len(tcs) or any(x is fila.cells[0]._tc for x in tcs):
+                etiqueta = next(f.etiqueta for f in c.filas if f.clave == clave)
+                raise PlantillaInvalida(
+                    f"en «{c.cabecera}», la fila «{etiqueta}» tiene celdas combinadas: cada gobierno va en su columna"
+                )
+            for v, x in celdas.items():
+                presente, valor = celda(f"{c.clave}.{v}.{clave}", _texto_celda(x) if x is not None else "")
                 if presente:
                     b[c.clave][v][clave] = valor
-                else:
-                    sin_llenar.append(f"{c.clave}.{v}.{clave}")
         for f in c.filas:
             if f.clave not in vistas:
                 raise PlantillaInvalida(f"falta la fila «{f.etiqueta}» en la tabla «{c.cabecera}»")
 
     for c in CAJAS:
         filas = tablas[c.clave].rows
-        presente, valor = _valor("\n".join(_texto_celda(f.cells[0]) for f in filas[1:]).strip())
+        presente, valor = celda(c.clave, "\n".join(_texto_celda(f.cells[0]) for f in filas[1:]).strip())
         if presente:
             b[c.clave] = valor
-        else:
-            sin_llenar.append(c.clave)
 
     fuentes = []
     for fila in tablas["fuentes"].rows[1:]:
-        textos = [_texto_celda(c) for c in fila.cells[: len(FUENTES_CLAVES)]]
-        if not any(textos):
-            continue
-        fuente = {k: t for k, t in zip(FUENTES_CLAVES, textos) if t}
-        fuente.setdefault("fuente", "(sin nombre)")
-        fuentes.append(fuente)
+        textos = [_texto_celda(x) for x in fila.cells[: len(FUENTES_CLAVES)]]
+        if any(textos):  # sin inventar valores: solo lo que el grupo escribió
+            fuentes.append({k: t for k, t in zip(FUENTES_CLAVES, textos) if t})
     b["fuentes"] = fuentes
+    if notas:
+        b["notas"] = notas
     b["sin_llenar"] = sin_llenar
     return b
 
@@ -607,7 +641,7 @@ def probar() -> list[str]:
         errores.append(f"ida y vuelta: difiere en {', '.join(distintas)}")
     if any(vacia[c.clave][v] for c in COMPARATIVAS for v in VIGENCIAS) or vacia["fuentes"]:
         errores.append("la plantilla vacía no debería tener contenido")
-    esperadas = 2 + sum(len(c.filas) * len(VIGENCIAS) for c in COMPARATIVAS) + len(CAJAS)
+    esperadas = len(DATOS) + sum(len(c.filas) * len(VIGENCIAS) for c in COMPARATIVAS) + len(CAJAS)
     if len(vacia["sin_llenar"]) != esperadas:
         errores.append(f"plantilla vacía: {len(vacia['sin_llenar'])} campos sin llenar, se esperaban {esperadas}")
     errores += _probar_tolerancia(ejemplo)
@@ -641,6 +675,86 @@ def _probar_tolerancia(ejemplo: dict) -> list[str]:
         errores.append("tolerancia: un documento ajeno debería rechazarse")
     except PlantillaInvalida:
         pass
+    errores += _probar_casos_reales(ejemplo)
+    return errores
+
+
+def _fila(tabla, etiqueta: str):
+    return next(f for f in tabla.rows if normalizar(_primera_linea(f.cells[0])) == normalizar(etiqueta))
+
+
+def _leer_editada(ejemplo: dict, editar) -> dict:
+    doc = llenar(plantilla(), ejemplo)
+    editar(_indexar(doc))
+    with tempfile.TemporaryDirectory() as tmp:
+        ruta = Path(tmp) / "e.docx"
+        doc.save(ruta)
+        return leer(Document(ruta), ejemplo["sector"])
+
+
+def _rechaza(ejemplo: dict, editar) -> bool:
+    try:
+        _leer_editada(ejemplo, editar)
+        return False
+    except PlantillaInvalida:
+        return True
+
+
+def _probar_casos_reales(ejemplo: dict) -> list[str]:
+    """Casos de edición real que antes perdían o torcían datos en silencio."""
+    errores = []
+
+    # Columnas de gobierno combinadas: se rechaza (antes duplicaba el dato en las dos vigencias).
+    def combinar(t):
+        f = _fila(t["subcategorias"], "7. Metas")
+        f.cells[1].merge(f.cells[2])
+    if not _rechaza(ejemplo, combinar):
+        errores.append("casos: celdas de gobierno combinadas deberían rechazarse")
+
+    # Fila de datos borrada o renombrada: se rechaza (antes perdía lo escrito).
+    def borrar_integrantes(t):
+        f = _fila(t["datos"], "Integrantes")
+        f._tr.getparent().remove(f._tr)
+    if not _rechaza(ejemplo, borrar_integrantes):
+        errores.append("casos: falta de la fila «Integrantes» debería rechazarse")
+
+    # Variantes de «Sin dato», con nota: null + la nota en `notas`.
+    def variantes(t):
+        _fila(t["subcategorias"], "6. Recursos").cells[1].paragraphs[0].text = "S/D"
+        _fila(t["subcategorias"], "3. Instituciones").cells[1].paragraphs[0].text = "Sin dato: el balance no nombra entidades"
+    leida = _leer_editada(ejemplo, variantes)
+    s18 = leida["subcategorias"]["2018-2022"]
+    if s18.get("recursos", "x") is not None or s18.get("instituciones", "x") is not None:
+        errores.append("casos: «S/D» y «Sin dato: nota» deberían leerse como hueco (null)")
+    if leida.get("notas", {}).get("subcategorias.2018-2022.instituciones") != "el balance no nombra entidades":
+        errores.append("casos: la nota de un «Sin dato: …» debería guardarse en `notas`")
+
+    # Tabla anidada dentro de una celda: su texto se conserva.
+    def anidar(t):
+        celda = _fila(t["subcategorias"], "2. Objetivo").cells[2]
+        celda.add_table(rows=1, cols=1).rows[0].cells[0].paragraphs[0].text = "texto anidado"
+    if "texto anidado" not in (_leer_editada(ejemplo, anidar)["subcategorias"]["2022-2026"].get("objetivo") or ""):
+        errores.append("casos: el texto de una tabla anidada se pierde")
+
+    # Encabezado de gobierno con el año en medio, y etiqueta con texto agregado en la misma línea.
+    def reescribir(t):
+        t["ubicacion"].rows[0].cells[1].paragraphs[0].text = "Gobierno Duque (2018–2022)"
+        _fila(t["subcategorias"], "2. Objetivo").cells[0].paragraphs[0].text = "2. Objetivo del gobierno"
+    try:
+        leida = _leer_editada(ejemplo, reescribir)
+        if leida["ubicacion"] != ejemplo["ubicacion"] or leida["subcategorias"] != ejemplo["subcategorias"]:
+            errores.append("casos: encabezado «Gobierno Duque (2018–2022)» o etiqueta ampliada leen mal")
+    except PlantillaInvalida as e:
+        errores.append(f"casos: encabezado con el año en medio o etiqueta ampliada se rechazan ({e})")
+
+    # Datos vacíos: todos quedan registrados en `sin_llenar`.
+    def vaciar(t):
+        for f in t["datos"].rows:
+            for p in f.cells[1].paragraphs:
+                p.text = ""
+    faltan = set(_leer_editada(ejemplo, vaciar)["sin_llenar"])
+    if not {"grupo", "integrantes", "politica", "fecha"} <= faltan:
+        errores.append(f"casos: los datos vacíos del grupo deberían ir a sin_llenar (hay {sorted(faltan)})")
     return errores
 
 
@@ -679,6 +793,7 @@ def main() -> int:
     l.add_argument("docx", type=Path)
     l.add_argument("--slug", required=True, help="sector, p. ej. ciencia-tecnologia")
     l.add_argument("--salida", type=Path, help="por defecto data/bitacoras/<slug>/<grupo>.json")
+    l.add_argument("--forzar", action="store_true", help="sobrescribir si ya existe")
     sub.add_parser("probar", help="ida y vuelta con el ejemplo CTeI")
     a = ap.parse_args()
 
@@ -709,6 +824,9 @@ def main() -> int:
     if errores:
         return 1
     salida = a.salida or SALIDA / a.slug / f"{slug(b['grupo']['nombre'] or b['politica']['nombre'] or a.docx.stem)}.json"
+    if salida.exists() and not a.forzar:
+        print(f"ERROR {salida} ya existe (¿otro grupo con el mismo nombre?): use --salida o --forzar", file=sys.stderr)
+        return 1
     salida.parent.mkdir(parents=True, exist_ok=True)
     salida.write_text(json.dumps(b, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     huecos = sum(1 for c in COMPARATIVAS for v in VIGENCIAS for x in b[c.clave][v].values() if x is None)

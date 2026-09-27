@@ -77,11 +77,14 @@ def validar_bitacoras() -> list[str]:
             errores.append(f"{d}: {'/'.join(str(x) for x in f.absolute_path)}: {f.message}")
         if not fallos:
             print(f"ok  {d} (conforme a bitacora.schema.json)")
-    spec = importlib.util.spec_from_file_location("bitacora", Path("extraccion/bitacora.py"))
-    bitacora = importlib.util.module_from_spec(spec)
-    sys.modules["bitacora"] = bitacora  # las dataclasses resuelven sus anotaciones por el módulo
-    spec.loader.exec_module(bitacora)
-    fallos = bitacora.probar() + bitacora.publicadas_al_dia()
+    try:
+        spec = importlib.util.spec_from_file_location("bitacora", Path("extraccion/bitacora.py"))
+        bitacora = importlib.util.module_from_spec(spec)
+        sys.modules["bitacora"] = bitacora  # las dataclasses resuelven sus anotaciones por el módulo
+        spec.loader.exec_module(bitacora)
+        fallos = bitacora.probar() + bitacora.publicadas_al_dia()
+    except Exception as e:  # noqa: BLE001 — un fallo del lector es un fallo del contrato
+        return errores + [f"extraccion/bitacora.py: {type(e).__name__}: {e}"]
     errores += [f"bitácora: {f}" for f in fallos]
     if not fallos:
         print("ok  bitácora .docx: ida y vuelta y plantillas publicadas al día")

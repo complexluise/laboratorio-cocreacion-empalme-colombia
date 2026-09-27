@@ -25,11 +25,15 @@ los participantes trabajan con naturalidad en Word o Google Docs, no en un formu
   `uv run extraccion/bitacora.py leer <grupo>.docx --slug <slug>` → `data/bitacoras/<slug>/<grupo>.json`.
 - **Convención de celdas**, igual en la plantilla, el lector y el contrato:
   - texto → lo que escribió el grupo;
-  - «Sin dato» → `null`: **hueco de información declarado** (la fuente no lo dice; es un hallazgo);
+  - «Sin dato» (también «S/D» o «No hay dato») → `null`: **hueco de información declarado** (la
+    fuente no lo dice; es un hallazgo). «Sin dato: <nota>» conserva la aclaración en `notas`;
   - celda vacía → **no llenada**: la clave se omite y su ruta se lista en `sin_llenar`.
 - **Lectura por etiquetas, no por posición.** Cada tabla se reconoce por el texto de su primera celda
-  y cada fila por su etiqueta; se toleran mayúsculas, tildes, filas agregadas o vacías y varios
-  párrafos. Un documento que no es la bitácora se rechaza con un mensaje claro.
+  y cada fila por su etiqueta; se toleran mayúsculas, tildes, filas agregadas o vacías, varios
+  párrafos, etiquetas ampliadas en la misma línea, tablas pegadas dentro de una celda y encabezados
+  de gobierno reescritos (basta que digan 2018 o 2026). **Nunca se pierde un dato en silencio:** si
+  falta una fila (también de los datos del grupo) o dos gobiernos quedaron en celdas combinadas, el
+  lector rechaza con un mensaje claro; un documento ajeno, también.
 - **Definición única de la estructura** en `extraccion/bitacora.py`: la misma sirve para generar la
   plantilla, llenarla (ejemplo y pruebas) y leerla. La plantilla lleva versión (`VERSION`, impresa en
   el pie).
