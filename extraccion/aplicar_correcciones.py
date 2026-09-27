@@ -6,7 +6,7 @@
 Aplica correcciones verificadas (overlay) sobre el objetos.json generado por el pipeline.
 
 Las correcciones salieron de una revisión adversarial contra los informes de empalme y viven,
-versionadas, en data/sectores/<slug>/correcciones.yaml (estructural) y narrativa.json (detalle por
+versionadas, en data/correcciones/<slug>/correcciones.yaml (estructural) y narrativa.json (detalle por
 gobierno). Este paso es DETERMINISTA y RE-APLICABLE: correr después de extraer_instrumentos.py y
 antes de generar_web.py. Así las correcciones no las pisa una futura corrida de Gemini.
 

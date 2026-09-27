@@ -20,14 +20,17 @@ feat/x ──PR──► dev ──(release)──► main ──► GitHub Page
 ## Commits (Conventional + atómicos)
 
 `tipo(scope): asunto` — `feat` `fix` `docs` `chore` `ci` `build` `test` `refactor`. Scopes habituales:
-`web`, `red`, `extraccion`, `schema`, `tooling`, `pipeline`, `adr`, `proceso`. Un commit = un cambio lógico.
+`web`, `red`, `extraccion`, `schema`, `contrato`, `bitacora`, `encuadre`, `tooling`, `pipeline`, `adr`,
+`proceso`. Un commit = un cambio lógico.
 Referenciá el issue: `Refs #N` (o `Closes #N` en el PR).
 
 ## TDD (test-first)
 
 Toda regla nueva con lógica (transformaciones del dataset, filtros, foco de vecindario, cálculo de
-modo de cambio) arranca con un test que falla → lo hacés pasar → refactor. Esa lógica vive en
-`packages/red` (sin DOM) y se testea con vitest, en `*.test.ts` co-locados. Lo exploratorio o visual
+modo de cambio) arranca con un test que falla → lo hacés pasar → refactor. La lógica del dominio vive
+en `packages/red` (sin DOM); la del sitio (rutas, glosario, práctica), en `web/src/lib/*.ts`. Se testea
+con vitest, en `*.test.ts` co-locados. En `extraccion/`, la lógica de la bitácora se prueba con la ida
+y vuelta que corre el gate (`bitacora.py probar`). Lo exploratorio o visual
 se verifica con un smoke (abrir el mapa, captura) y se dice explícito en el PR.
 
 Un PR no se mergea con el gate de CI (`ci.yml`) en rojo. Antes de abrirlo, localmente:
@@ -36,8 +39,9 @@ Un PR no se mergea con el gate de CI (`ci.yml`) en rojo. Antes de abrirlo, local
 
 ## Fronteras (⭐ el corazón)
 
-- `extraccion/` **produce** el dataset; `web/` lo **consume**. Se encuentran **solo** en el contrato
-  `data/schema/objeto.schema.json` (+ `taxonomia.yaml`).
+- `extraccion/` **produce** el dataset (y los materiales de `web/public/`); `web/` lo **consume**. Se
+  encuentran **solo** en el contrato `data/schema/objeto.schema.json` (+ `taxonomia.yaml`). Las
+  bitácoras de los grupos tienen su propio contrato, `bitacora.schema.json` (no cruza a la web).
 - `packages/red` es el dominio de la red; `web/` lo usa por nombre (`@laboratorio/red`), nunca por
   ruta a su `src/`. Si cambiás su API pública (`exports`), sumá un **changeset** (`pnpm changeset`).
 - Cambiar el contrato es un acto explícito: PR propio (`feat(schema)`/`refactor(schema)`), con ADR si

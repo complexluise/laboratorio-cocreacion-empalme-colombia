@@ -1,10 +1,10 @@
 # Encuadre de la actividad — Laboratorio de cocreación en TRAMA
 
-> v0.5 (2026-09-27) · Vocabulario alineado con `teoria-politica.md` y [ADR-0004](decisiones/ADR-0004-politica-area-con-objetivo-por-gobierno.md) · Cada grupo **selecciona una política pública** (un área persistente), la describe entre los dos gobiernos, busca información complementaria y llena una **bitácora** (§6): un .docx en blanco que el equipo convierte en dato ([ADR-0005](decisiones/ADR-0005-bitacora-docx-a-dato-estructurado.md)). El sector no es la unidad de asignación.
+> v0.5 (2026-09-27) · Vocabulario alineado con `teoria-politica.md` y [ADR-0004](decisiones/ADR-0004-politica-area-con-objetivo-por-gobierno.md) · Cada grupo **selecciona una política pública** (un área persistente), la describe entre los dos gobiernos, busca información complementaria y llena una **bitácora** (§6): un .docx en blanco que el equipo convierte en dato ([ADR-0005](decisiones/ADR-0005-bitacora-docx-a-dato-estructurado.md)). En el sitio la actividad es un **recorrido de 4 pasos** con sus materiales (bitácora, ejemplo CTeI, la red en Excel) y una práctica previa (§5). El sector no es la unidad de asignación.
 
 ## 1. Encuadre en una frase
 
-En dos sesiones, el seminario TRAMA toma por grupos varias **políticas públicas** de distintos sectores, describe cada una entre dos gobiernos (su objetivo declarado y sus **instrumentos de política pública**) partiendo de lo que ya propone la red, y lee su cambio con la tipología de **cambio institucional gradual**. Luego observa qué patrones **emergen solo al integrar** el trabajo de todos los grupos.
+En dos sesiones, el seminario TRAMA toma por grupos varias **políticas públicas** de distintos sectores, describe cada una entre dos gobiernos (su objetivo declarado y sus **instrumentos de política pública**) usando la red como consulta, y lee su cambio con la tipología de **cambio institucional gradual**. Luego observa qué patrones **emergen solo al integrar** el trabajo de todos los grupos.
 
 ## 2. Vocabulario de la actividad
 
@@ -63,7 +63,7 @@ Cada grupo **selecciona una política pública** y la describe a través de los 
 
 | Nivel | Qué es | Papel en la actividad | Estado |
 |---|---|---|---|
-| **Sector** | Agrupación de los informes de empalme | Fuente de las políticas y escala de comparación en el plenario | CTeI: piloto validado (104 fragmentos → 32 instrumentos) · Deporte: en curso (59 → 26) · Agropecuario: objetivo declarado |
+| **Sector** | Agrupación de los informes de empalme | Fuente de las políticas y escala de comparación en el plenario | CTeI: publicado (93 instrumentos, 22 relaciones) · Deporte: en curso (59 fragmentos → 26 instrumentos) · Agropecuario: objetivo declarado |
 | **Política pública** | Área persistente con objetivo por gobierno + mezcla de instrumentos | **Unidad que selecciona cada grupo** | CTeI: **14 áreas curadas** (`data/correcciones/ciencia-tecnologia/areas.yaml`, ADR-0004) · Deporte y Agropecuario: por curar |
 | **Instrumento** | Programa, norma, financiación, sistema… | Unidad de análisis dentro de cada política | Nodos que ya produce el pipeline |
 
@@ -99,17 +99,26 @@ Si un grupo tiene suficientes personas, se divide internamente en dos subgrupos,
 
 **Antes de la sesión 1: equipo organizador**
 - Cura las políticas públicas como áreas y define cuáles se ofrecen a los grupos (§4).
-- Para cada política, prepara la subred de sus instrumentos y un paquete curado de evidencia. La **bitácora** es la misma plantilla .docx para todos, en blanco, descargable desde la landing (§6).
+- Para cada política, prepara la subred de sus instrumentos y un paquete curado de evidencia. La **bitácora** es la misma plantilla .docx para todos, en blanco, descargable desde la landing (§6), junto con un ejemplo lleno de CTeI y la **red del sector en Excel** (`red-<slug>.xlsx`: políticas, instrumentos y relaciones para filtrar por tipo NATO y modo de cambio), que generan `extraccion/bitacora.py` y `extraccion/red_excel.py`.
 
 **Sesión 1: análisis por política**
-- Encuadre común: empalme, política pública, instrumento y modos de cambio gradual.
+- Encuadre común: empalme, política pública, instrumento y modos de cambio gradual (en la landing, «Cinco ideas para leer el mapa» y el glosario). Para ensayar la lectura, la práctica **«¿Qué le pasó a este instrumento?»**: ejemplos reales de la red, uno por modo (continuidad, conversión, estratificación, terminación), con pista si la respuesta no es la correcta.
 - Cada grupo selecciona su política y trabaja con su subred (ambas vigencias) y un paquete curado de evidencia: fragmentos con página y cifra.
 - La **describe entre los dos gobiernos** en la bitácora (Word o Google Docs), usando la red como consulta para ubicarse, y **busca información complementaria** fuera del informe de empalme (Sinergia/DNP, PND, inversión pública).
 - Cierre: cada grupo deja por escrito en la bitácora una **hipótesis** sobre qué patrón cree que comparten las otras políticas.
 
+El sitio guía la sesión como un **recorrido de 4 pasos**; cada uno dice qué hacer, con qué material, qué pregunta guía la conversación y qué produce:
+
+| Paso | Qué hace el grupo | Material | Produce |
+|---|---|---|---|
+| 1. **Elegir** | Explora la red y elige un área (mira el anillo: cómo cambió su objetivo) | la red, la bitácora | La política elegida, en los datos del grupo |
+| 2. **Describir** | Ubica la política en cada gobierno y compara sus instrumentos | la red en Excel, la tabla puente | Secciones 1 y 1.1 de la bitácora |
+| 3. **Buscar** | Busca información complementaria; si algo no aparece, «Sin dato» | glosario: meta del cuatrienio, gestión/producto/impacto | Las siete subcategorías y la tabla de fuentes |
+| 4. **Concluir** | Cierra con lo aprendido y la hipótesis para el plenario | el ejemplo lleno de CTeI | La bitácora completa, entregada al equipo |
+
 **Entre sesiones: equipo organizador**
 - Recoge los .docx y los convierte en dato: `uv run extraccion/bitacora.py leer <grupo>.docx --slug <slug>` → `data/bitacoras/<slug>/<grupo>.json` (validado por `scripts/validar_contrato.py`).
-- Integra los aportes al `dataset.json` de cada sector (y a `areas.yaml` si el seminario propone áreas nuevas).
+- Integra los aportes al dataset de cada sector (y a `areas.yaml` si el seminario propone áreas nuevas).
 - Construye el mapa integrado de todas las políticas.
 
 **Sesión 2: integración e intergrupo**
@@ -178,4 +187,4 @@ Qué patrón cree el grupo que comparten las otras políticas (se conserva del c
 2. **Extracción de políticas.** *Resuelto por ADR-0004:* quién y cómo (el equipo las cura como áreas en `areas.yaml` antes de publicar; CTeI tiene 14). *Sigue abierto:* cuántas se ofrecen a los grupos (una por grupo, más reservas), cuáles se priorizan con los criterios de §4, y la curaduría de áreas de Deporte y Agropecuario.
 3. **Número de participantes y duración** de cada sesión, que determinan el número de grupos y si se usan subgrupos.
 4. **¿Llega Agropecuario a tiempo?** Si no, las políticas se extraen solo de CTeI y Deporte.
-5. **Visibilidad en la sesión 1.** Recomendado: cada grupo ve solo su política, para que la integración de la sesión 2 sea reveladora.
+5. **Visibilidad en la sesión 1.** Recomendado: cada grupo ve solo su política, para que la integración de la sesión 2 sea reveladora. *Abierto (decide el PO):* el sitio publica la red completa y el Excel de todo el sector, y el paso 1 del recorrido pide explorar la red para elegir; hay que decidir si la recomendación se sostiene (p. ej. pedir a los grupos que usen el foco de su política) o se abandona.

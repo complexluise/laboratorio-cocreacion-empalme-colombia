@@ -7,8 +7,9 @@ frontera. En este repo hay tres sistemas viables y dos fronteras entre ellos:
 ```
 extraccion/  ──produce──►  data/schema/ (CONTRATO)  ◄──consume──  web/  (@laboratorio/web)
  (Python, uv)               objeto.schema.json                     ▲  Svelte 5 + D3
-                            taxonomia.yaml                         │  importa por nombre
-                                                                   │
+     │                      taxonomia.yaml                         │  importa por nombre
+     │                      bitacora.schema.json ◄─ data/bitacoras/│
+     └──escribe──► web/public/ (.docx, .xlsx: la web solo enlaza)  │
                                           packages/red (@laboratorio/red) ── frontera: `exports`
                                           dominio de la red, sin DOM ni D3
 ```
@@ -17,10 +18,12 @@ extraccion/  ──produce──►  data/schema/ (CONTRATO)  ◄──consume�
   `data/schema/objeto.schema.json`, copiado a `web/src/lib/data/<slug>.json` por `generar_web.py`.
   Del mismo modo, `extraccion/bitacora.py` escribe las plantillas de la bitácora en `web/public/`
   (`bitacora-laboratorio.docx`, `bitacora-ejemplo-ctei.docx`) y `extraccion/red_excel.py` el Excel
-  de la red (`red-<slug>.xlsx`): productor → artefacto estático que la web solo enlaza. En sentido inverso, lee las .docx llenas a `data/bitacoras/<slug>/*.json`
-  conforme a `bitacora.schema.json` (ADR-0005); eso no cruza a la web.
-- **Frontera 2 — `exports` de `@laboratorio/red`** (`packages/red` → `web/`): tipos del contrato,
-  `construirRed`, `vecindario`. La web no entra a `packages/red/src/` por ruta.
+  de la red (`red-<slug>.xlsx`): productor → artefacto estático que la web solo enlaza. En sentido
+  inverso, `bitacora.py` lee las .docx llenas a `data/bitacoras/<slug>/*.json` conforme a
+  `bitacora.schema.json` (ADR-0005); eso no cruza a la web.
+- **Frontera 2 — `exports` de `@laboratorio/red`** (`packages/red` → `web/`): tipos y vocabulario del
+  contrato (con `objetivoEn`), `construirRed`, `buscar`, `vecindario`. La web no entra a
+  `packages/red/src/` por ruta.
 
 ## Las reglas
 
