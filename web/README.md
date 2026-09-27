@@ -16,16 +16,18 @@ Alternativa servida: `python -m http.server` desde la raíz del repo y abrir
 ## Cómo regenerar el dato
 El mapa lee `datos.js`, generado desde el dataset del pipeline:
 
+**Fuente vigente (Ciencia y Tecnología): reconstrucción con Claude (sin Gemini).** El dataset se
+regenera con el workflow multi-agente `extraccion/rebuild-ctei-claude.workflow.js`, que lee los
+informes de empalme y produce políticas + instrumentos (bipartito muchos-a-muchos), modo de cambio
+guiado por evidencia y narrativa por gobierno. Su salida se escribe en
+`data/sectores/ciencia-tecnologia/objetos.json` y luego:
+
 ```
-uv run extraccion/extraer_instrumentos.py --slug ciencia-tecnologia --match Ciencia
-uv run extraccion/aplicar_correcciones.py --slug ciencia-tecnologia   # overlay verificado
 uv run extraccion/generar_web.py --slug ciencia-tecnologia
 ```
 
-Las correcciones verificadas contra los informes (revisión adversarial) viven versionadas en
-`data/correcciones/ciencia-tecnologia/` (`correcciones.yaml` + `narrativa.json`, con `revision.json`
-como evidencia). `aplicar_correcciones.py` las funde sobre `objetos.json` de forma determinista, así
-no las pisa una nueva corrida de Gemini.
+> Legado (no usar para CTeI): `extraer_instrumentos.py` (Gemini) + `aplicar_correcciones.py` (overlay
+> en `data/correcciones/`) quedaron como referencia; Gemini resultó poco fiable (cuota/calidad).
 
 `data/sectores/` está gitignoreado (se regenera); **`web/datos.js` se versiona a propósito** para que
 el PoC abra sin correr nada.
