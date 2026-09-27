@@ -13,7 +13,11 @@ descargas/
 extraido/
 markdown/
 manifiesto.json
+manifiesto-*.json
 data/sectores/
+
+# Logs de las corridas (scraper, conversión).
+logs/
 
 # Sistema
 .DS_Store
