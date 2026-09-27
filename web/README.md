@@ -18,8 +18,14 @@ El mapa lee `datos.js`, generado desde el dataset del pipeline:
 
 ```
 uv run extraccion/extraer_instrumentos.py --slug ciencia-tecnologia --match Ciencia
+uv run extraccion/aplicar_correcciones.py --slug ciencia-tecnologia   # overlay verificado
 uv run extraccion/generar_web.py --slug ciencia-tecnologia
 ```
+
+Las correcciones verificadas contra los informes (revisión adversarial) viven versionadas en
+`data/correcciones/ciencia-tecnologia/` (`correcciones.yaml` + `narrativa.json`, con `revision.json`
+como evidencia). `aplicar_correcciones.py` las funde sobre `objetos.json` de forma determinista, así
+no las pisa una nueva corrida de Gemini.
 
 `data/sectores/` está gitignoreado (se regenera); **`web/datos.js` se versiona a propósito** para que
 el PoC abra sin correr nada.

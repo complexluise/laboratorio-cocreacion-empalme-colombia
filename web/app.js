@@ -197,6 +197,13 @@
     });
     html += "</table>";
 
+    if (o.narrativa && (o.narrativa.g2018 || o.narrativa.g2022 || o.narrativa.cambio)) {
+      html += "<h3>Qué fue bajo cada gobierno</h3>";
+      if (o.narrativa.g2018) html += '<div class="vig-tag">2018–2022</div><div class="cifra">' + esc(o.narrativa.g2018) + "</div>";
+      if (o.narrativa.g2022) html += '<div class="vig-tag">2022–2026</div><div class="cifra">' + esc(o.narrativa.g2022) + "</div>";
+      if (o.narrativa.cambio) html += '<div class="narr-cambio">' + esc(o.narrativa.cambio) + "</div>";
+    }
+
     if (o.entidades && o.entidades.length) html += "<h3>Entidades</h3><div>" + o.entidades.map(esc).join(", ") + "</div>";
     if (o.alias && o.alias.length) html += "<h3>Alias</h3><div class='cifra'>" + o.alias.map(esc).join(" · ") + "</div>";
 

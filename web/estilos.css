@@ -95,6 +95,7 @@ main { flex: 1; display: flex; min-height: 0; }
 #panel li .punto { position: absolute; left: 0; top: 6px; width: 8px; height: 8px; border-radius: 50%; }
 #panel .cifra { font: 12px/1.5 var(--mono); color: var(--ink-soft); }
 #panel .vig-tag { font: 600 12px/1 var(--mono); color: var(--ink); margin-top: 8px; }
+#panel .narr-cambio { margin: 8px 0 2px; padding-left: 10px; border-left: 3px solid var(--brass); font-style: italic; color: var(--ink); font-size: 13px; }
 
 /* ── leyenda ── */
 #leyenda { border-top: 1px solid var(--hair); padding: 9px 18px; background: var(--surface);
