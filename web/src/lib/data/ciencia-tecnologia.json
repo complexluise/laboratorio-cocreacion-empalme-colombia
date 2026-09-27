@@ -2,99 +2,276 @@
   "sector": "ciencia-tecnologia",
   "politicas": [
     {
-      "id": "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-      "nombre": "Políticas de Investigación e Innovación Orientadas por Misiones (PIIOM)",
-      "objetivo": "Orientar la ciencia, tecnología e innovación del país hacia cinco grandes desafíos nacionales de desarrollo mediante articulación multisectorial."
+      "id": "orientacion-estrategica",
+      "nombre": "Orientación estratégica de la CTeI",
+      "objetivos": {
+        "2018-2022": {
+          "enunciados": [
+            "Recomendar al país una hoja de ruta de política pública de CTeI orientada por ocho focos temáticos estratégicos.",
+            "Incrementar la contribución de la CTeI al desarrollo social, económico, ambiental y sostenible del país con enfoque diferencial, territorial y participativo."
+          ],
+          "declaradas": [
+            "Misión Internacional de Sabios (MIS) 2019 y sus recomendaciones",
+            "Política Nacional de Ciencia, Tecnología e Innovación"
+          ]
+        },
+        "2022-2026": {
+          "enunciados": [
+            "Orientar la ciencia, tecnología e innovación del país hacia cinco grandes desafíos nacionales de desarrollo mediante articulación multisectorial.",
+            "Incrementar la contribución de la CTeI al desarrollo social, económico, ambiental y sostenible del país con enfoque diferencial, territorial y participativo."
+          ],
+          "declaradas": [
+            "Políticas de Investigación e Innovación Orientadas por Misiones (PIIOM)",
+            "Política Nacional de Ciencia, Tecnología e Innovación"
+          ]
+        }
+      },
+      "cambio_objetivo": "se-reformula"
     },
     {
-      "id": "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-      "nombre": "Misión Bioeconomía y Territorio",
-      "objetivo": "Impulsar la transformación de la economía colombiana fortaleciendo cadenas de valor basadas en el aprovechamiento sostenible de la biodiversidad y la biomasa."
+      "id": "bioeconomia",
+      "nombre": "Bioeconomía",
+      "objetivos": {
+        "2018-2022": {
+          "enunciados": [
+            "Diseñar e implementar la misión de bioeconomía para promover el aprovechamiento sostenible de la biodiversidad."
+          ],
+          "declaradas": [
+            "Economía Bioproductiva / Programa Colombia BIO"
+          ]
+        },
+        "2022-2026": {
+          "enunciados": [
+            "Impulsar la transformación de la economía colombiana fortaleciendo cadenas de valor basadas en el aprovechamiento sostenible de la biodiversidad y la biomasa."
+          ],
+          "declaradas": [
+            "Misión Bioeconomía y Territorio"
+          ]
+        }
+      },
+      "cambio_objetivo": "se-reformula"
     },
     {
-      "id": "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-      "nombre": "Misión Transición Energética",
-      "objetivo": "Garantizar la incorporación de nuevos servicios, modelos de negocio y desarrollos tecnológicos nacionales en proyectos de energías renovables y transición energética."
+      "id": "transicion-energetica",
+      "nombre": "Transición energética",
+      "objetivos": {
+        "2022-2026": {
+          "enunciados": [
+            "Garantizar la incorporación de nuevos servicios, modelos de negocio y desarrollos tecnológicos nacionales en proyectos de energías renovables y transición energética."
+          ],
+          "declaradas": [
+            "Misión Transición Energética"
+          ]
+        }
+      },
+      "cambio_objetivo": "nuevo"
     },
     {
-      "id": "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-      "nombre": "Misión Ciencia para la Paz",
-      "objetivo": "Comprender las causas del conflicto para construir soluciones que fomenten la Convivencia Pacífica en condiciones de Equidad y Justicia Social."
+      "id": "ciencia-para-la-paz",
+      "nombre": "Ciencia para la paz",
+      "objetivos": {
+        "2022-2026": {
+          "enunciados": [
+            "Comprender las causas del conflicto para construir soluciones que fomenten la Convivencia Pacífica en condiciones de Equidad y Justicia Social."
+          ],
+          "declaradas": [
+            "Misión Ciencia para la Paz"
+          ]
+        }
+      },
+      "cambio_objetivo": "nuevo"
     },
     {
-      "id": "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-      "nombre": "Misión Derecho Humano a la Alimentación",
-      "objetivo": "Garantizar el diálogo de saberes, la creación de conocimiento y el desarrollo de tecnología e investigación agroecológica con participación social."
+      "id": "derecho-alimentacion",
+      "nombre": "Derecho humano a la alimentación",
+      "objetivos": {
+        "2022-2026": {
+          "enunciados": [
+            "Garantizar el diálogo de saberes, la creación de conocimiento y el desarrollo de tecnología e investigación agroecológica con participación social."
+          ],
+          "declaradas": [
+            "Misión Derecho Humano a la Alimentación"
+          ]
+        }
+      },
+      "cambio_objetivo": "nuevo"
     },
     {
-      "id": "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-      "nombre": "Misión Soberanía Sanitaria y Bienestar Social",
-      "objetivo": "Garantizar la disponibilidad de conocimientos, tecnologías y servicios innovadores para la salud y el bienestar de la población."
+      "id": "soberania-sanitaria",
+      "nombre": "Soberanía sanitaria y bienestar social",
+      "objetivos": {
+        "2022-2026": {
+          "enunciados": [
+            "Garantizar la disponibilidad de conocimientos, tecnologías y servicios innovadores para la salud y el bienestar de la población."
+          ],
+          "declaradas": [
+            "Misión Soberanía Sanitaria y Bienestar Social"
+          ]
+        }
+      },
+      "cambio_objetivo": "nuevo"
     },
     {
-      "id": "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-      "nombre": "Misión Internacional de Sabios (MIS) 2019 y sus recomendaciones",
-      "objetivo": "Recomendar al país una hoja de ruta de política pública de CTeI orientada por ocho focos temáticos estratégicos."
+      "id": "talento-humano",
+      "nombre": "Talento humano y capacidades regionales",
+      "objetivos": {
+        "2018-2022": {
+          "enunciados": [
+            "Potenciar las capacidades regionales de CTeI (investigación, infraestructura, talento) como motor de desarrollo social y productivo."
+          ],
+          "declaradas": [
+            "Fortalecer las Capacidades Regionales / Formación y vinculación de capital humano de alto nivel"
+          ]
+        },
+        "2022-2026": {
+          "enunciados": [
+            "Fortalecer el talento humano de alto nivel del país priorizando territorios históricamente excluidos y jóvenes con menor acceso a formación.",
+            "Fortalecer la participación de mujeres investigadoras y doctoras en el sistema científico mediante estancias postdoctorales y apoyo económico."
+          ],
+          "declaradas": [
+            "Programa de Formación de Alto Nivel (doctorados y maestrías)",
+            "Programa Orquídeas: Mujeres en la Ciencia"
+          ]
+        }
+      },
+      "cambio_objetivo": "se-reformula"
     },
     {
-      "id": "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-      "nombre": "Política Nacional de Ciencia, Tecnología e Innovación",
-      "objetivo": "Incrementar la contribución de la CTeI al desarrollo social, económico, ambiental y sostenible del país con enfoque diferencial, territorial y participativo."
+      "id": "apropiacion-social",
+      "nombre": "Apropiación social del conocimiento",
+      "objetivos": {
+        "2018-2022": {
+          "enunciados": [
+            "Ampliar las dinámicas de generación, circulación y uso del conocimiento científico y de los saberes ancestrales, cerrando brechas históricas de inequidad en CTeI."
+          ],
+          "declaradas": [
+            "Apropiación Social del Conocimiento (ASC) y Democratización de la Ciencia"
+          ]
+        },
+        "2022-2026": {
+          "enunciados": [
+            "Ampliar las dinámicas de generación, circulación y uso del conocimiento científico y de los saberes ancestrales, cerrando brechas históricas de inequidad en CTeI."
+          ],
+          "declaradas": [
+            "Apropiación Social del Conocimiento (ASC) y Democratización de la Ciencia"
+          ]
+        }
+      },
+      "cambio_objetivo": "se-mantiene"
     },
     {
-      "id": "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-      "nombre": "Fortalecer las Capacidades Regionales / Formación y vinculación de capital humano de alto nivel",
-      "objetivo": "Potenciar las capacidades regionales de CTeI (investigación, infraestructura, talento) como motor de desarrollo social y productivo."
+      "id": "ciencia-abierta",
+      "nombre": "Ciencia abierta",
+      "objetivos": {
+        "2022-2026": {
+          "enunciados": [
+            "Fomentar la ciencia abierta en el país mediante principios de apertura, inclusión y transparencia."
+          ],
+          "declaradas": [
+            "Política Nacional de Ciencia Abierta"
+          ]
+        }
+      },
+      "cambio_objetivo": "nuevo"
     },
     {
-      "id": "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026",
-      "nombre": "Programa de Formación de Alto Nivel (doctorados y maestrías)",
-      "objetivo": "Fortalecer el talento humano de alto nivel del país priorizando territorios históricamente excluidos y jóvenes con menor acceso a formación."
+      "id": "innovacion-empresarial",
+      "nombre": "Innovación empresarial y sofisticación productiva",
+      "objetivos": {
+        "2018-2022": {
+          "enunciados": [
+            "Impulsar el desarrollo tecnológico y la innovación para la sofisticación del sector productivo."
+          ],
+          "declaradas": [
+            "Sofisticación del Sector Productivo / Fortalecimiento de capacidades para la innovación empresarial"
+          ]
+        }
+      },
+      "cambio_objetivo": "no-declarado"
     },
     {
-      "id": "programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026",
-      "nombre": "Programa Orquídeas: Mujeres en la Ciencia",
-      "objetivo": "Fortalecer la participación de mujeres investigadoras y doctoras en el sistema científico mediante estancias postdoctorales y apoyo económico."
+      "id": "beneficios-tributarios",
+      "nombre": "Beneficios tributarios para CTeI",
+      "objetivos": {
+        "2018-2022": {
+          "enunciados": [
+            "Incentivar la inversión privada en actividades de investigación, desarrollo tecnológico e innovación mediante beneficios tributarios."
+          ],
+          "declaradas": [
+            "Programa de Beneficios Tributarios para Ciencia, Tecnología e Innovación"
+          ]
+        },
+        "2022-2026": {
+          "enunciados": [
+            "Incentivar la inversión privada en actividades de investigación, desarrollo tecnológico e innovación mediante beneficios tributarios."
+          ],
+          "declaradas": [
+            "Programa de Beneficios Tributarios para Ciencia, Tecnología e Innovación"
+          ]
+        }
+      },
+      "cambio_objetivo": "se-mantiene"
     },
     {
-      "id": "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026",
-      "nombre": "Apropiación Social del Conocimiento (ASC) y Democratización de la Ciencia",
-      "objetivo": "Ampliar las dinámicas de generación, circulación y uso del conocimiento científico y de los saberes ancestrales, cerrando brechas históricas de inequidad en CTeI."
+      "id": "internacionalizacion",
+      "nombre": "Internacionalización y diplomacia científica",
+      "objetivos": {
+        "2018-2022": {
+          "enunciados": [
+            "Aumentar la producción de conocimiento científico de alto impacto y posicionar a Colombia en escenarios multilaterales y bilaterales de ciencia global."
+          ],
+          "declaradas": [
+            "Diplomacia Científica y Cooperación Internacional / Internacionalización del Conocimiento"
+          ]
+        },
+        "2022-2026": {
+          "enunciados": [
+            "Aumentar la producción de conocimiento científico de alto impacto y posicionar a Colombia en escenarios multilaterales y bilaterales de ciencia global."
+          ],
+          "declaradas": [
+            "Diplomacia Científica y Cooperación Internacional / Internacionalización del Conocimiento"
+          ]
+        }
+      },
+      "cambio_objetivo": "se-mantiene"
     },
     {
-      "id": "politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026",
-      "nombre": "Política Nacional de Ciencia Abierta",
-      "objetivo": "Fomentar la ciencia abierta en el país mediante principios de apertura, inclusión y transparencia."
+      "id": "gobernanza-sncti",
+      "nombre": "Gobernanza del sistema de CTeI",
+      "objetivos": {
+        "2018-2022": {
+          "enunciados": [
+            "Fortalecer la gobernabilidad de la entidad rectora y la gobernanza del Sistema Nacional de Ciencia, Tecnología e Innovación."
+          ],
+          "declaradas": [
+            "Modernización institucional y fortalecimiento de la gobernanza del SNCTI"
+          ]
+        },
+        "2022-2026": {
+          "enunciados": [
+            "Fortalecer la gobernabilidad de la entidad rectora y la gobernanza del Sistema Nacional de Ciencia, Tecnología e Innovación."
+          ],
+          "declaradas": [
+            "Modernización institucional y fortalecimiento de la gobernanza del SNCTI"
+          ]
+        }
+      },
+      "cambio_objetivo": "se-mantiene"
     },
     {
-      "id": "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026",
-      "nombre": "Diplomacia Científica y Cooperación Internacional / Internacionalización del Conocimiento",
-      "objetivo": "Aumentar la producción de conocimiento científico de alto impacto y posicionar a Colombia en escenarios multilaterales y bilaterales de ciencia global."
-    },
-    {
-      "id": "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026",
-      "nombre": "Modernización institucional y fortalecimiento de la gobernanza del SNCTI",
-      "objetivo": "Fortalecer la gobernabilidad de la entidad rectora y la gobernanza del Sistema Nacional de Ciencia, Tecnología e Innovación."
-    },
-    {
-      "id": "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022",
-      "nombre": "Sofisticación del Sector Productivo / Fortalecimiento de capacidades para la innovación empresarial",
-      "objetivo": "Impulsar el desarrollo tecnológico y la innovación para la sofisticación del sector productivo."
-    },
-    {
-      "id": "economia-bioproductiva-programa-colombia-bio-informe-2018-2022",
-      "nombre": "Economía Bioproductiva / Programa Colombia BIO",
-      "objetivo": "Diseñar e implementar la misión de bioeconomía para promover el aprovechamiento sostenible de la biodiversidad."
-    },
-    {
-      "id": "conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026",
-      "nombre": "CONPES 4144 – Política Nacional de Inteligencia Artificial",
-      "objetivo": "Generar capacidades para la investigación, desarrollo, adopción y aprovechamiento ético y sostenible de sistemas de inteligencia artificial en Colombia."
-    },
-    {
-      "id": "programa-de-beneficios-tributarios-para-ciencia-tecnologia-e-innovacion-informe-2018-2022-e-informe-2022-2026",
-      "nombre": "Programa de Beneficios Tributarios para Ciencia, Tecnología e Innovación",
-      "objetivo": "Incentivar la inversión privada en actividades de investigación, desarrollo tecnológico e innovación mediante beneficios tributarios."
+      "id": "inteligencia-artificial",
+      "nombre": "Inteligencia artificial",
+      "objetivos": {
+        "2022-2026": {
+          "enunciados": [
+            "Generar capacidades para la investigación, desarrollo, adopción y aprovechamiento ético y sostenible de sistemas de inteligencia artificial en Colombia."
+          ],
+          "declaradas": [
+            "CONPES 4144 – Política Nacional de Inteligencia Artificial"
+          ]
+        }
+      },
+      "cambio_objetivo": "nuevo"
     }
   ],
   "objetos": [
@@ -103,12 +280,12 @@
       "nombre": "Resolución 1452 de 2024 (adopción PIIOM)",
       "es_objetivo": false,
       "politicas": [
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "orientacion-estrategica",
+        "bioeconomia",
+        "transicion-energetica",
+        "ciencia-para-la-paz",
+        "derecho-alimentacion",
+        "soberania-sanitaria"
       ],
       "alias": [
         "Resolución 1452 de 2024",
@@ -157,7 +334,7 @@
       "nombre": "Metodología nacional de seis etapas de las PIIOM",
       "es_objetivo": false,
       "politicas": [
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026"
+        "orientacion-estrategica"
       ],
       "alias": [
         "Metodología de co-creación de las PIIOM",
@@ -211,13 +388,13 @@
       "nombre": "Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)",
       "es_objetivo": false,
       "politicas": [
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026"
+        "orientacion-estrategica",
+        "bioeconomia",
+        "transicion-energetica",
+        "ciencia-para-la-paz",
+        "derecho-alimentacion",
+        "soberania-sanitaria",
+        "talento-humano"
       ],
       "alias": [
         "Mecanismos de la Oferta Institucional Minciencias por misión",
@@ -315,19 +492,15 @@
       "nombre": "Fondo Francisco José de Caldas (FFJC)",
       "es_objetivo": false,
       "politicas": [
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026",
-        "economia-bioproductiva-programa-colombia-bio-informe-2018-2022",
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026",
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "programa-de-beneficios-tributarios-para-ciencia-tecnologia-e-innovacion-informe-2018-2022-e-informe-2022-2026"
+        "orientacion-estrategica",
+        "talento-humano",
+        "bioeconomia",
+        "internacionalizacion",
+        "transicion-energetica",
+        "ciencia-para-la-paz",
+        "derecho-alimentacion",
+        "soberania-sanitaria",
+        "beneficios-tributarios"
       ],
       "alias": [
         "Fondo Francisco José de Caldas",
@@ -447,18 +620,15 @@
       "nombre": "Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI",
       "es_objetivo": false,
       "politicas": [
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026",
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026",
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022"
+        "orientacion-estrategica",
+        "talento-humano",
+        "innovacion-empresarial",
+        "bioeconomia",
+        "transicion-energetica",
+        "ciencia-para-la-paz",
+        "derecho-alimentacion",
+        "soberania-sanitaria",
+        "inteligencia-artificial"
       ],
       "alias": [
         "SGR Asignación para la Ciencia, Tecnología e Innovación",
@@ -675,15 +845,14 @@
       "nombre": "Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)",
       "es_objetivo": false,
       "politicas": [
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026",
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026",
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026"
+        "orientacion-estrategica",
+        "talento-humano",
+        "ciencia-para-la-paz",
+        "transicion-energetica",
+        "derecho-alimentacion",
+        "soberania-sanitaria",
+        "bioeconomia",
+        "inteligencia-artificial"
       ],
       "alias": [
         "Convocatoria 935/2023 Mujeres en la Ciencia, Agentes para la Paz",
@@ -824,10 +993,9 @@
       "nombre": "Articulación MinCiencias - Ministerio de Educación para formación de talento (PIIOM)",
       "es_objetivo": false,
       "politicas": [
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026",
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "orientacion-estrategica",
+        "talento-humano",
+        "apropiacion-social"
       ],
       "alias": [
         "articulación intersectorial MinCiencias-MinEducación",
@@ -870,7 +1038,7 @@
       "nombre": "Invitaciones CABBIO (formación en biotecnología)",
       "es_objetivo": false,
       "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026"
+        "bioeconomia"
       ],
       "alias": [
         "Invitación CABBIO 2022",
@@ -915,8 +1083,8 @@
       "nombre": "Invitación 1049-2023 Expediciones científicas Bio, Paz y Territorio",
       "es_objetivo": false,
       "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026"
+        "bioeconomia",
+        "ciencia-para-la-paz"
       ],
       "alias": [
         "1049-2023",
@@ -966,7 +1134,7 @@
       "nombre": "Convocatoria 936-2023 Ecosistemas en Bioeconomía",
       "es_objetivo": false,
       "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026"
+        "bioeconomia"
       ],
       "alias": [
         "936-2023",
@@ -1030,7 +1198,7 @@
       "nombre": "MAPBIO (Mecanismos de aceleración de proyectos en bioeconomía 3.0/3.1)",
       "es_objetivo": false,
       "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026"
+        "bioeconomia"
       ],
       "alias": [
         "MAPBIO 3.0",
@@ -1073,8 +1241,8 @@
       "nombre": "Convenios especiales de cooperación con el CRIC (bioeconomía)",
       "es_objetivo": false,
       "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026"
+        "bioeconomia",
+        "derecho-alimentacion"
       ],
       "alias": [
         "Convenio 117-2024 CRIC",
@@ -1137,7 +1305,7 @@
       "nombre": "Convenio 429-2024 Monitoreo de biodiversidad en Resguardo de Yunguillo",
       "es_objetivo": false,
       "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026"
+        "bioeconomia"
       ],
       "alias": [
         "Monitoreo Comunitario de la Biodiversidad en el Resguardo Inga de Yunguillo",
@@ -1189,8 +1357,8 @@
       "nombre": "Convocatoria 969-2025 Océanos, clima y recursos marino-costeros",
       "es_objetivo": false,
       "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026"
+        "bioeconomia",
+        "transicion-energetica"
       ],
       "alias": [
         "969-2025",
@@ -1232,7 +1400,7 @@
       "nombre": "Financiación PGN para la Misión Bioeconomía y Territorio ($46.157 millones)",
       "es_objetivo": false,
       "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026"
+        "bioeconomia"
       ],
       "alias": [
         "Presupuesto General de la Nación - Misión Bioeconomía y Territorio",
@@ -1278,53 +1446,12 @@
       }
     },
     {
-      "id": "mision-bioeconomia-y-territorio-marco-misional-piiom",
-      "nombre": "Misión Bioeconomía y Territorio (marco misional PIIOM)",
-      "es_objetivo": true,
-      "politicas": [
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026"
-      ],
-      "alias": [
-        "Misión 1 Bioeconomía y Territorio"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "propuesto"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "MinCiencias"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            22
-          ],
-          "cifras": [
-            {
-              "texto": "El objetivo general de la Misión Bioeconomía y Territorio es impulsar la transformación de la economía colombiana a través del fortalecimiento de las cadenas de valor basadas en el aprovechamiento sostenible de la biodiversidad y la biomasa en el territorio colombiano.",
-              "metrica": "objetivo"
-            }
-          ]
-        }
-      ],
-      "narrativa": {
-        "g2018": "Antecedente conceptual en el Programa Colombia BIO y en recomendaciones de la Misión Internacional de Sabios sobre bioeconomía, sin la arquitectura formal de 'Misión' bajo PIIOM.",
-        "g2022": "Se formaliza como una de las 5 Misiones (PIIOM, Resolución 1452 de 2024), con objetivo general y 4 objetivos especificos propios, y una oferta de 11 mecanismos con $46.157 millones PGN.",
-        "cambio": "El objetivo/apuesta de bioeconomia se reencuadra bajo la logica de Mision de politica publica orientada por misiones, sucediendo al marco previo de programa (Colombia BIO)."
-      }
-    },
-    {
       "id": "convocatoria-931-2022-fortalecimiento-actores-industria-hidrocarburos",
       "nombre": "Convocatoria 931-2022 Fortalecimiento actores industria hidrocarburos",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022"
+        "transicion-energetica",
+        "talento-humano"
       ],
       "alias": [
         "931-2022",
@@ -1374,9 +1501,8 @@
       "nombre": "Convocatoria 938-2023 Ecosistemas en energía sostenible",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026"
+        "transicion-energetica",
+        "talento-humano"
       ],
       "alias": [
         "938-2023",
@@ -1421,7 +1547,7 @@
       "nombre": "Red Econova – Ecopetrol",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026"
+        "transicion-energetica"
       ],
       "alias": [
         "946-2023 Red Econova – Ecopetrol",
@@ -1463,7 +1589,7 @@
       "nombre": "Convocatoria 951-2024 Fuentes no convencionales de energía y CO2",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026"
+        "transicion-energetica"
       ],
       "alias": [
         "951-2024",
@@ -1505,7 +1631,7 @@
       "nombre": "Convocatoria 958-2024 Planeación minero-energética",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026"
+        "transicion-energetica"
       ],
       "alias": [
         "958-2024",
@@ -1547,8 +1673,8 @@
       "nombre": "Convocatoria 967-2025 Jóvenes Investigadores en energía",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022"
+        "transicion-energetica",
+        "talento-humano"
       ],
       "alias": [
         "967-2025",
@@ -1592,8 +1718,8 @@
       "nombre": "Convocatoria 971-2025 Comunidades energéticas",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "transicion-energetica",
+        "apropiacion-social"
       ],
       "alias": [
         "971-2025",
@@ -1635,7 +1761,7 @@
       "nombre": "Convocatoria 972-2025 Recobro mejorado de hidrocarburos",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026"
+        "transicion-energetica"
       ],
       "alias": [
         "972-2025",
@@ -1698,11 +1824,11 @@
       "nombre": "Convocatoria 49 OCAD SGR – Energía sostenible para el territorio",
       "es_objetivo": false,
       "politicas": [
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "transicion-energetica",
+        "orientacion-estrategica",
+        "ciencia-para-la-paz",
+        "derecho-alimentacion",
+        "soberania-sanitaria"
       ],
       "alias": [
         "Convocatoria 49 OCAD",
@@ -1747,8 +1873,8 @@
       "nombre": "Concurso Nacional Otto de Greiff (Mejores Trabajos de Grado)",
       "es_objetivo": false,
       "politicas": [
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026"
+        "ciencia-para-la-paz",
+        "talento-humano"
       ],
       "alias": [
         "2022 Concurso Nacional Otto De Greiff",
@@ -1799,7 +1925,7 @@
       "nombre": "Jóvenes en Ciencia para la Paz (2023 y 2025)",
       "es_objetivo": false,
       "politicas": [
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026"
+        "ciencia-para-la-paz"
       ],
       "alias": [
         "Programa Jóvenes en Ciencia para la Paz",
@@ -1862,9 +1988,9 @@
       "nombre": "Ecosistema Intercultural del Pacífico Nariñense",
       "es_objetivo": false,
       "politicas": [
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026"
+        "ciencia-para-la-paz",
+        "bioeconomia",
+        "derecho-alimentacion"
       ],
       "alias": [
         "Convocatoria Ecosistema Intercultural Del Pacifico Nariñense",
@@ -1917,9 +2043,9 @@
       "nombre": "Convocatoria 956-2024 Ecosistemas de Ciencia y Paz",
       "es_objetivo": false,
       "politicas": [
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026"
+        "ciencia-para-la-paz",
+        "bioeconomia",
+        "derecho-alimentacion"
       ],
       "alias": [
         "956-2024",
@@ -1977,65 +2103,11 @@
       }
     },
     {
-      "id": "mision-derecho-humano-a-la-alimentacion-marco-misional-piiom",
-      "nombre": "Misión Derecho Humano a la Alimentación (marco misional PIIOM)",
-      "es_objetivo": true,
-      "politicas": [
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026"
-      ],
-      "alias": [
-        "Misión 2 Derecho Humano a la Alimentación",
-        "Misión DHA",
-        "Misión Derecho Humano a la Alimentación (PIIOM - Resolución 1452 de 2024)"
-      ],
-      "presencia": {
-        "2022-2026": {
-          "activo": true,
-          "modo": "logrado"
-        }
-      },
-      "modo_cambio": "estratificacion",
-      "entidades": [
-        "Ministerio de Ciencia, Tecnología e Innovación (Minciencias)",
-        "OAPII - Minciencias"
-      ],
-      "evidencia": [
-        {
-          "vigencia": "2022-2026",
-          "paginas": [
-            27,
-            28,
-            57
-          ],
-          "cifras": [
-            {
-              "texto": "81 proyectos de I+D+i y 44 beneficiarios",
-              "metrica": "proyectos financiados",
-              "valor": 81,
-              "unidad": "proyectos"
-            },
-            {
-              "texto": "$15.624 millones de Minciencias y $24.770 millones de entidades aliadas",
-              "metrica": "inversión Minciencias+aliados",
-              "valor": 15624,
-              "unidad": "millones COP"
-            }
-          ]
-        }
-      ],
-      "narrativa": {
-        "g2018": "No existe como categoría de política en el gobierno Duque; no hay mención equivalente en el informe de empalme 2018-2022.",
-        "g2022": "El gobierno Petro crea formalmente esta Misión el 3 de septiembre de 2024 mediante Resolución 1452 de 2024, como una de las 5 PIIOM, con el reto de garantizar la soberanía alimentaria y el derecho a la alimentación mediante gobernanza participativa con voz y voto de comunidades ACFEC.",
-        "cambio": "Instrumento nuevo (estratificación): no hay antecedente 2018-2022; nace como marco misional que reagrupa y redespliega convocatorias, convenios y recursos SGR bajo una lógica de derechos y agroecología."
-      }
-    },
-    {
       "id": "convocatorias-senainnova-943-2023-y-962-2024",
       "nombre": "Convocatorias SENAinnova (943-2023 y 962-2024)",
       "es_objetivo": false,
       "politicas": [
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026"
+        "derecho-alimentacion"
       ],
       "alias": [
         "Convocatoria 943/2023 SENAinnova Por Un Campo Productivo Y Sostenible",
@@ -2077,7 +2149,7 @@
       "nombre": "Invitación 1045-2023 Cadena láctea (Cauca, Nariño, Putumayo)",
       "es_objetivo": false,
       "politicas": [
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026"
+        "derecho-alimentacion"
       ],
       "alias": [
         "Invitación 1045-2023",
@@ -2117,8 +2189,8 @@
       "nombre": "Invitación 1051-2023 Apropiación social comunidades negras/afro/raizales/palenqueras",
       "es_objetivo": false,
       "politicas": [
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "derecho-alimentacion",
+        "apropiacion-social"
       ],
       "alias": [
         "Invitación 1051-2023",
@@ -2158,8 +2230,8 @@
       "nombre": "Convenio Especial de Cooperación SINCHI 179-2023",
       "es_objetivo": false,
       "politicas": [
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026"
+        "derecho-alimentacion",
+        "bioeconomia"
       ],
       "alias": [
         "Convenio SINCHI 179-2023"
@@ -2199,7 +2271,7 @@
       "nombre": "Convenio Especial de Cooperación con el CRIC 269-2025 (DHA)",
       "es_objetivo": false,
       "politicas": [
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026"
+        "derecho-alimentacion"
       ],
       "alias": [
         "Convenio 269-2025 CRIC",
@@ -2253,7 +2325,7 @@
       "nombre": "Acuerdo Mesa Permanente de Concertación (MPC) - IT3-93",
       "es_objetivo": false,
       "politicas": [
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026"
+        "derecho-alimentacion"
       ],
       "alias": [
         "Acuerdo IT3-93"
@@ -2301,8 +2373,8 @@
       "nombre": "Convocatoria 47 OCAD SGR 'Agro por la vida y por la tierra' (DHA)",
       "es_objetivo": false,
       "politicas": [
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026"
+        "derecho-alimentacion",
+        "orientacion-estrategica"
       ],
       "alias": [
         "Convocatoria 47 OCAD Agro por la vida y por la tierra",
@@ -2347,8 +2419,8 @@
       "nombre": "Misión Soberanía Sanitaria y Bienestar Social (marco misional PIIOM)",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026"
+        "soberania-sanitaria",
+        "orientacion-estrategica"
       ],
       "alias": [
         "Misión 4 Soberanía Sanitaria y Bienestar Social",
@@ -2404,7 +2476,7 @@
       "nombre": "Fondo de Investigación en Salud (FIS)",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "soberania-sanitaria"
       ],
       "alias": [
         "FIS",
@@ -2466,7 +2538,7 @@
       "nombre": "Convocatoria 918-2022 Capacidades regionales en salud pública",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "soberania-sanitaria"
       ],
       "alias": [
         "Convocatoria 918-2022",
@@ -2507,7 +2579,7 @@
       "nombre": "Convocatoria 920-2022 Ecosistemas científicos para atención integral",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "soberania-sanitaria"
       ],
       "alias": [
         "Convocatoria 920-2022",
@@ -2548,8 +2620,8 @@
       "nombre": "Convocatoria 927-2022 Ciencias de la vida y de la salud",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022"
+        "soberania-sanitaria",
+        "innovacion-empresarial"
       ],
       "alias": [
         "Convocatoria 927-2022",
@@ -2590,7 +2662,7 @@
       "nombre": "Convocatoria 930-2022 Reactivos e insumos en salud pública",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "soberania-sanitaria"
       ],
       "alias": [
         "Convocatoria 930-2022",
@@ -2631,7 +2703,7 @@
       "nombre": "Convocatoria 919-2022 Ecosistemas científicos para salud mental",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "soberania-sanitaria"
       ],
       "alias": [
         "Convocatoria 919-2022",
@@ -2672,7 +2744,7 @@
       "nombre": "Convocatoria 949-2024 Territorios garantes de la salud",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "soberania-sanitaria"
       ],
       "alias": [
         "Convocatoria 949-2024",
@@ -2713,8 +2785,8 @@
       "nombre": "Convocatoria/OCAD SGR 38 - Seguridad sanitaria y bienestar",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion"
+        "soberania-sanitaria",
+        "orientacion-estrategica"
       ],
       "alias": [
         "Convocatoria 38 SGR",
@@ -2761,7 +2833,7 @@
       "nombre": "Proyecto SGR BPIN 2017011000194 (impacto investigación científica en salud)",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "soberania-sanitaria"
       ],
       "alias": [
         "BPIN 2017011000194",
@@ -2810,11 +2882,10 @@
       "nombre": "Estrategia Jóvenes Salud",
       "es_objetivo": false,
       "politicas": [
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026"
+        "soberania-sanitaria",
+        "talento-humano",
+        "transicion-energetica",
+        "derecho-alimentacion"
       ],
       "alias": [
         "Jóvenes Salud",
@@ -2888,10 +2959,9 @@
       "nombre": "Ley 2162 de 2021 (creación del Ministerio de Ciencia, Tecnología e Innovación)",
       "es_objetivo": false,
       "politicas": [
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026",
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026"
+        "orientacion-estrategica",
+        "gobernanza-sncti",
+        "ciencia-abierta"
       ],
       "alias": [
         "Ley de creación de MinCiencias",
@@ -2964,9 +3034,8 @@
       "nombre": "Decreto 1666 de 2021 (Gobernanza del SNCTI)",
       "es_objetivo": false,
       "politicas": [
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026",
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion"
+        "orientacion-estrategica",
+        "gobernanza-sncti"
       ],
       "alias": [
         "Decreto 1666 de 2021",
@@ -3062,11 +3131,9 @@
       "nombre": "CONPES 4069 de 2021 - Política Nacional de CTeI 2022-2031",
       "es_objetivo": false,
       "politicas": [
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "programa-de-beneficios-tributarios-para-ciencia-tecnologia-e-innovacion-informe-2018-2022-e-informe-2022-2026"
+        "orientacion-estrategica",
+        "ciencia-abierta",
+        "beneficios-tributarios"
       ],
       "alias": [
         "CONPES 4069",
@@ -3151,10 +3218,9 @@
       "nombre": "Convocatorias SGR-CTeI orientadas a los ocho focos de la Misión de Sabios",
       "es_objetivo": false,
       "politicas": [
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026"
+        "orientacion-estrategica",
+        "bioeconomia",
+        "transicion-energetica"
       ],
       "alias": [
         "Convocatoria 24 (océanos y recursos hidrobiológicos)",
@@ -3222,8 +3288,8 @@
       "nombre": "Consejo Nacional de Política de Ciencia, Tecnología e Innovación (CONACTI)",
       "es_objetivo": false,
       "politicas": [
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026"
+        "orientacion-estrategica",
+        "gobernanza-sncti"
       ],
       "alias": [
         "CONACTI"
@@ -3288,8 +3354,8 @@
       "nombre": "Consejo Científico Nacional (CCN)",
       "es_objetivo": false,
       "politicas": [
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026"
+        "orientacion-estrategica",
+        "gobernanza-sncti"
       ],
       "alias": [
         "Consejo Científico Nacional"
@@ -3351,9 +3417,9 @@
       "nombre": "Consejos Departamentales de Ciencia, Tecnología e Innovación (CODECTI)",
       "es_objetivo": false,
       "politicas": [
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022",
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022"
+        "orientacion-estrategica",
+        "gobernanza-sncti",
+        "talento-humano"
       ],
       "alias": [
         "CODECTI"
@@ -3417,11 +3483,10 @@
       "nombre": "Programa de Beneficios Tributarios para CTeI",
       "es_objetivo": false,
       "politicas": [
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022",
-        "programa-de-beneficios-tributarios-para-ciencia-tecnologia-e-innovacion-informe-2018-2022-e-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022"
+        "orientacion-estrategica",
+        "innovacion-empresarial",
+        "beneficios-tributarios",
+        "talento-humano"
       ],
       "alias": [
         "Beneficios Tributarios en CTeI",
@@ -3723,9 +3788,9 @@
       "nombre": "Política Nacional de Ciencia Abierta 2022-2031 (Resolución 0777 de 2022)",
       "es_objetivo": false,
       "politicas": [
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026",
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "orientacion-estrategica",
+        "ciencia-abierta",
+        "apropiacion-social"
       ],
       "alias": [
         "Ciencia Abierta",
@@ -3789,13 +3854,12 @@
       "nombre": "PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069",
       "es_objetivo": false,
       "politicas": [
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "orientacion-estrategica",
+        "bioeconomia",
+        "transicion-energetica",
+        "ciencia-para-la-paz",
+        "derecho-alimentacion",
+        "soberania-sanitaria"
       ],
       "alias": [
         "PIIOM",
@@ -3830,10 +3894,10 @@
       "nombre": "Modernización institucional / rediseño del Ministerio",
       "es_objetivo": false,
       "politicas": [
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026",
-        "politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026",
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "orientacion-estrategica",
+        "gobernanza-sncti",
+        "ciencia-abierta",
+        "apropiacion-social"
       ],
       "alias": [
         "Artículo 225 Ley 2294 de 2023",
@@ -3905,8 +3969,7 @@
       "nombre": "Becas y créditos-beca para doctorados y maestrías (906/885, Doctorados Nacionales, COLFUTURO/FULBRIGHT/ICETEX)",
       "es_objetivo": false,
       "politicas": [
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026"
+        "talento-humano"
       ],
       "alias": [
         "Convocatoria 906",
@@ -3998,9 +4061,8 @@
       "nombre": "Programa de Formación de Alto Nivel (doctorados y maestrías) 2022-2026",
       "es_objetivo": false,
       "politicas": [
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026"
+        "talento-humano",
+        "orientacion-estrategica"
       ],
       "alias": [
         "Programa Becas para el Cambio",
@@ -4102,8 +4164,7 @@
       "nombre": "Estancias Postdoctorales",
       "es_objetivo": false,
       "politicas": [
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026"
+        "talento-humano"
       ],
       "alias": [
         "Convocatoria Programa de Estancias Postdoctorales en entidades del SNCTI 2019-2020",
@@ -4168,11 +4229,10 @@
       "nombre": "Programa Jóvenes Investigadores e Innovadores",
       "es_objetivo": false,
       "politicas": [
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026"
+        "talento-humano",
+        "transicion-energetica",
+        "derecho-alimentacion",
+        "soberania-sanitaria"
       ],
       "alias": [
         "Jóvenes Investigadores e Innovadores apoyados por Colciencias y aliados",
@@ -4237,8 +4297,8 @@
       "nombre": "Programa ONDAS",
       "es_objetivo": false,
       "politicas": [
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "talento-humano",
+        "apropiacion-social"
       ],
       "alias": [
         "Niños, niñas y adolescentes certificados en procesos de fortalecimiento de sus capacidades en I+i",
@@ -4318,7 +4378,7 @@
       "nombre": "Centros Regionales de Investigación, Innovación y Emprendimiento (CRIIE)",
       "es_objetivo": false,
       "politicas": [
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022"
+        "talento-humano"
       ],
       "alias": [
         "Distritos de Innovación",
@@ -4364,9 +4424,9 @@
       "nombre": "Reconocimiento de actores del SNCTI (grupos de investigación, OTRI, etc.)",
       "es_objetivo": false,
       "politicas": [
-        "fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022",
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026",
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion"
+        "talento-humano",
+        "gobernanza-sncti",
+        "orientacion-estrategica"
       ],
       "alias": [
         "Reconocimiento y clasificación de grupos de investigación e investigadores",
@@ -4432,7 +4492,7 @@
       "nombre": "Becas para el Cambio (convocatoria 975, ICETEX) / CONPES 4182 de 2026",
       "es_objetivo": false,
       "politicas": [
-        "programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026"
+        "talento-humano"
       ],
       "alias": [
         "Becas para el Cambio",
@@ -4520,7 +4580,7 @@
       "nombre": "Unidades de Apropiación Social del Conocimiento en IES",
       "es_objetivo": false,
       "politicas": [
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "apropiacion-social"
       ],
       "alias": [
         "Unidades de ASC en Instituciones de Educación Superior",
@@ -4568,7 +4628,7 @@
       "nombre": "Reconocimiento de Museos y Centros de Ciencia",
       "es_objetivo": false,
       "politicas": [
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "apropiacion-social"
       ],
       "alias": [
         "Museos y centros de ciencia reconocidos",
@@ -4623,8 +4683,8 @@
       "nombre": "Estrategia de comunicación pública 'Todo es Ciencia'",
       "es_objetivo": false,
       "politicas": [
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026",
-        "politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026"
+        "apropiacion-social",
+        "ciencia-abierta"
       ],
       "alias": [
         "Todo es Ciencia",
@@ -4724,8 +4784,8 @@
       "nombre": "Red Colombiana de Información Científica (RedCol)",
       "es_objetivo": false,
       "politicas": [
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026",
-        "politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026"
+        "apropiacion-social",
+        "ciencia-abierta"
       ],
       "alias": [
         "Red Colombiana de Información Científica",
@@ -4799,7 +4859,7 @@
       "nombre": "Convocatorias de apropiación social del conocimiento (organizaciones comunitarias, pescadores, víctimas)",
       "es_objetivo": false,
       "politicas": [
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "apropiacion-social"
       ],
       "alias": [
         "Convocatorias de apropiación social del conocimiento",
@@ -4850,7 +4910,7 @@
       "nombre": "Laboratorios STEAM (Colombia Robótica)",
       "es_objetivo": false,
       "politicas": [
-        "apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026"
+        "apropiacion-social"
       ],
       "alias": [
         "Laboratorios STEAM",
@@ -4908,10 +4968,10 @@
       "nombre": "ScienTI (CvLAC / GrupLAC / InstituLAC)",
       "es_objetivo": false,
       "politicas": [
-        "politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026",
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026",
-        "politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion",
-        "programa-de-beneficios-tributarios-para-ciencia-tecnologia-e-innovacion-informe-2018-2022-e-informe-2022-2026"
+        "ciencia-abierta",
+        "gobernanza-sncti",
+        "orientacion-estrategica",
+        "beneficios-tributarios"
       ],
       "alias": [
         "ScienTI",
@@ -4964,7 +5024,7 @@
       "nombre": "Nodos de Diplomacia Científica (Embajadas)",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026"
+        "internacionalizacion"
       ],
       "alias": [
         "Nodos de diplomacia científica fortalecidos",
@@ -5014,7 +5074,7 @@
       "nombre": "Modelos Cienciométricos",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026"
+        "internacionalizacion"
       ],
       "alias": [
         "Modelos cienciométricos",
@@ -5065,8 +5125,8 @@
       "nombre": "Memorandos de Entendimiento (MoU) y alianzas bilaterales de cooperación científica",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026",
-        "conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026"
+        "internacionalizacion",
+        "inteligencia-artificial"
       ],
       "alias": [
         "Alianzas o redes internacionales formalizadas",
@@ -5163,7 +5223,7 @@
       "nombre": "Presidencia Pro Tempore CELAC en Ciencia y Cumbre UE-CELAC",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026"
+        "internacionalizacion"
       ],
       "alias": [
         "I Reunión Ministerial CELAC-UE en Ciencia, Innovación e Investigación",
@@ -5211,7 +5271,7 @@
       "nombre": "Presidencia de la Conferencia de Ciencia, Innovación y TIC de la CEPAL",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026"
+        "internacionalizacion"
       ],
       "alias": [
         "IV Conferencia de Ciencia, Innovación y TIC de la CEPAL",
@@ -5255,7 +5315,7 @@
       "nombre": "Foro CILAC",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026"
+        "internacionalizacion"
       ],
       "alias": [
         "IV Foro Abierto de Ciencias de América Latina y el Caribe",
@@ -5308,7 +5368,7 @@
       "nombre": "Membresía en SCAR (Antártida)",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026"
+        "internacionalizacion"
       ],
       "alias": [
         "SCAR",
@@ -5354,8 +5414,8 @@
       "nombre": "Programa Antártico Colombiano (PAC)",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026"
+        "internacionalizacion",
+        "bioeconomia"
       ],
       "alias": [
         "PAC",
@@ -5414,8 +5474,8 @@
       "nombre": "Concurso de Movilidad Académica Internacional Sur-Sur (África)",
       "es_objetivo": false,
       "politicas": [
-        "diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026",
-        "programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026"
+        "internacionalizacion",
+        "talento-humano"
       ],
       "alias": [
         "Concurso de Movilidad Académica Internacional en el Continente Africano",
@@ -5454,7 +5514,7 @@
       "nombre": "Decreto 1450/1449 de 2022 (nueva organización administrativa del Ministerio)",
       "es_objetivo": false,
       "politicas": [
-        "modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026"
+        "gobernanza-sncti"
       ],
       "alias": [
         "Decreto 1450 de 2022",
@@ -5507,8 +5567,8 @@
       "nombre": "Cupo de inversión para deducción y descuento tributario en CTeI (2018-2022, precursor)",
       "es_objetivo": false,
       "politicas": [
-        "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022",
-        "programa-de-beneficios-tributarios-para-ciencia-tecnologia-e-innovacion-informe-2018-2022-e-informe-2022-2026"
+        "innovacion-empresarial",
+        "beneficios-tributarios"
       ],
       "alias": [
         "Beneficios Tributarios por Inversión en CTeI",
@@ -5640,7 +5700,7 @@
       "nombre": "Pactos por la Innovación",
       "es_objetivo": false,
       "politicas": [
-        "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022"
+        "innovacion-empresarial"
       ],
       "alias": [
         "Organizaciones articuladas en los pactos por la innovación",
@@ -5721,7 +5781,7 @@
       "nombre": "Estrategia Nacional de Propiedad Intelectual (patentes PCT)",
       "es_objetivo": false,
       "politicas": [
-        "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022"
+        "innovacion-empresarial"
       ],
       "alias": [
         "Solicitudes de patentes presentadas por residentes en Oficina Nacional",
@@ -5788,7 +5848,7 @@
       "nombre": "Acuerdos de transferencia de tecnología o conocimiento",
       "es_objetivo": false,
       "politicas": [
-        "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022"
+        "innovacion-empresarial"
       ],
       "alias": [
         "Acuerdos de transferencia tecnológica",
@@ -5844,7 +5904,7 @@
       "nombre": "Medición de la inversión privada en I+D como % del PIB",
       "es_objetivo": false,
       "politicas": [
-        "sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022"
+        "innovacion-empresarial"
       ],
       "alias": [
         "Inversión en I+D del sector privado como porcentaje del PIB",
@@ -5905,8 +5965,8 @@
       "nombre": "Programa Colombia BIO",
       "es_objetivo": false,
       "politicas": [
-        "economia-bioproductiva-programa-colombia-bio-informe-2018-2022",
-        "mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022"
+        "bioeconomia",
+        "orientacion-estrategica"
       ],
       "alias": [
         "Colombia Bio",
@@ -5979,7 +6039,7 @@
       "nombre": "iBOL Colombia (código de barras de ADN en BoldSystems)",
       "es_objetivo": false,
       "politicas": [
-        "economia-bioproductiva-programa-colombia-bio-informe-2018-2022"
+        "bioeconomia"
       ],
       "alias": [
         "iBOL Colombia",
@@ -6034,7 +6094,7 @@
       "nombre": "Comité Asesor Nacional en Inteligencia Artificial",
       "es_objetivo": false,
       "politicas": [
-        "conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026"
+        "inteligencia-artificial"
       ],
       "alias": [
         "Comité Asesor Nacional en IA"
@@ -6073,7 +6133,7 @@
       "nombre": "Hoja de Ruta de IA en Colombia",
       "es_objetivo": false,
       "politicas": [
-        "conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026"
+        "inteligencia-artificial"
       ],
       "alias": [
         "Hoja de Ruta de IA",
@@ -6113,7 +6173,7 @@
       "nombre": "Proyecto de Ley de Inteligencia Artificial (radicado mayo 2025)",
       "es_objetivo": false,
       "politicas": [
-        "conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026"
+        "inteligencia-artificial"
       ],
       "alias": [
         "Proyecto de Ley de IA",
@@ -6158,13 +6218,13 @@
       "nombre": "Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)",
       "es_objetivo": false,
       "politicas": [
-        "conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026",
-        "politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026",
-        "mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026",
-        "mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026",
-        "mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026",
-        "mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026",
-        "programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026"
+        "inteligencia-artificial",
+        "orientacion-estrategica",
+        "transicion-energetica",
+        "bioeconomia",
+        "soberania-sanitaria",
+        "derecho-alimentacion",
+        "talento-humano"
       ],
       "alias": [
         "Programa ColombIA Inteligente",
@@ -6289,18 +6349,6 @@
     },
     {
       "source": "sistema-general-de-regalias-sgr-asignacion-para-la-ctei-ocad-ctei",
-      "target": "mision-bioeconomia-y-territorio-marco-misional-piiom",
-      "tipo": "financia",
-      "nota": "La Misión Bioeconomía y Territorio suma recursos del SGR por $377.639 millones adicionales al presupuesto ministerial (Informe 2022-2026, línea 1542)."
-    },
-    {
-      "source": "sistema-general-de-regalias-sgr-asignacion-para-la-ctei-ocad-ctei",
-      "target": "mision-derecho-humano-a-la-alimentacion-marco-misional-piiom",
-      "tipo": "financia",
-      "nota": "La Misión Derecho Humano a la Alimentación suma recursos del SGR por $446.514 millones (Informe 2022-2026, línea 1724)."
-    },
-    {
-      "source": "sistema-general-de-regalias-sgr-asignacion-para-la-ctei-ocad-ctei",
       "target": "mision-soberania-sanitaria-y-bienestar-social-marco-misional-piiom",
       "tipo": "financia",
       "nota": "La Misión Soberanía Sanitaria suma recursos del SGR por $158.287 millones a través de la Convocatoria/OCAD SGR 38 (Informe 2022-2026, línea 1819)."
@@ -6313,33 +6361,9 @@
     },
     {
       "source": "resolucion-1452-de-2024-adopcion-piiom",
-      "target": "mision-bioeconomia-y-territorio-marco-misional-piiom",
-      "tipo": "habilita",
-      "nota": "La Resolución 1452 de 2024 adopta formalmente las cinco PIIOM, entre ellas la Misión Bioeconomía y Territorio, dándole marco normativo (Informe 2022-2026, líneas 803, 3312-3402)."
-    },
-    {
-      "source": "resolucion-1452-de-2024-adopcion-piiom",
-      "target": "mision-derecho-humano-a-la-alimentacion-marco-misional-piiom",
-      "tipo": "habilita",
-      "nota": "La Resolución 1452 de 2024 adopta formalmente las cinco PIIOM, entre ellas la Misión Derecho Humano a la Alimentación (Informe 2022-2026, líneas 803, 3312-3402)."
-    },
-    {
-      "source": "resolucion-1452-de-2024-adopcion-piiom",
       "target": "mision-soberania-sanitaria-y-bienestar-social-marco-misional-piiom",
       "tipo": "habilita",
       "nota": "La Resolución 1452 de 2024 adopta formalmente las cinco PIIOM, entre ellas la Misión Soberanía Sanitaria (Informe 2022-2026, líneas 803, 3312-3402)."
-    },
-    {
-      "source": "mision-bioeconomia-y-territorio-marco-misional-piiom",
-      "target": "convocatorias-y-mecanismos-propios-de-cada-mision-piiom-oferta-institucional-por-mision",
-      "tipo": "encadena",
-      "nota": "Cada misión PIIOM (Bioeconomía y Territorio) despliega su oferta institucional propia mediante convocatorias específicas como mecanismo operativo de implementación (Informe 2022-2026, líneas 279, 1925)."
-    },
-    {
-      "source": "mision-derecho-humano-a-la-alimentacion-marco-misional-piiom",
-      "target": "convocatorias-y-mecanismos-propios-de-cada-mision-piiom-oferta-institucional-por-mision",
-      "tipo": "encadena",
-      "nota": "La Misión Derecho Humano a la Alimentación despliega su oferta institucional propia mediante convocatorias como SENAinnova, Cadena láctea, entre otras (Informe 2022-2026, líneas 279, 1925)."
     },
     {
       "source": "programa-de-beneficios-tributarios-para-ctei",

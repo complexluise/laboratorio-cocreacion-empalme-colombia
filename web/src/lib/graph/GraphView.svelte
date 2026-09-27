@@ -230,7 +230,15 @@
             onpointerleave={() => (hover = null)}
           >
             {#if n.nodo.tipo === "pol"}
-              <circle r={RADIO_POLITICA} />
+              {@const cambio = n.nodo.pol.cambio_objetivo}
+              <!-- Anillo = cambio del objetivo: doble (se reformula), acento (nuevo), punteado
+                   (no declarado). Hueco y punteado: sin objetivo en la vigencia elegida. -->
+              {#if cambio === "se-reformula"}<circle class="anillo-ext" r={RADIO_POLITICA + 4} />{/if}
+              <circle
+                r={RADIO_POLITICA}
+                class="hub cambio-{cambio ?? 'sin-dato'}"
+                class:huerfana={n.nodo.sinObjetivo}
+              />
             {:else}
               <path
                 d={pathSimbolo(claseNato(n.nodo.obj))}
@@ -318,6 +326,22 @@
     fill: var(--papel, #fff);
     stroke: var(--tinta, #1f2430);
     stroke-width: 2.5;
+  }
+  .nodo .anillo-ext {
+    fill: none;
+    stroke-width: 1.5;
+  }
+  .nodo .hub.cambio-nuevo {
+    stroke: var(--acento, #4f46e5);
+  }
+  .nodo .hub.cambio-no-declarado {
+    stroke-dasharray: 4 3;
+  }
+  /* Área sin objetivo declarado por el gobierno de la vigencia elegida, con instrumentos vivos. */
+  .nodo .hub.huerfana {
+    fill: var(--fondo, #f5f5f3);
+    stroke: var(--tinta-suave, #5d6371);
+    stroke-dasharray: 3 3;
   }
   .nodo path {
     stroke: rgb(0 0 0 / 0.25);

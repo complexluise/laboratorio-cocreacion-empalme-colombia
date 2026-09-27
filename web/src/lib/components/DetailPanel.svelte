@@ -1,7 +1,26 @@
 <script lang="ts">
-  import { MODOS_CAMBIO, VIGENCIAS, claseNato, idInstrumento, idPolitica, type Objeto, type Politica } from "@laboratorio/red";
+  import {
+    CAMBIOS_OBJETIVO,
+    MODOS_CAMBIO,
+    VIGENCIAS,
+    claseNato,
+    idInstrumento,
+    idPolitica,
+    objetivoEn,
+    type Objeto,
+    type Politica,
+  } from "@laboratorio/red";
   import type { EstadoRed } from "$lib/state/red.svelte.ts";
-  import { COLOR_MODO, ETIQUETA_MODO, ETIQUETA_NATO, ETIQUETA_RELACION, GLIFO_NATO, nombreSector } from "$lib/visual.ts";
+  import {
+    COLOR_MODO,
+    DESCRIPCION_CAMBIO_OBJETIVO,
+    ETIQUETA_CAMBIO_OBJETIVO,
+    ETIQUETA_MODO,
+    ETIQUETA_NATO,
+    ETIQUETA_RELACION,
+    GLIFO_NATO,
+    nombreSector,
+  } from "$lib/visual.ts";
 
   interface Props {
     estado: EstadoRed;
@@ -34,6 +53,12 @@
     ),
   );
   const maxModo = $derived(Math.max(1, ...porModo.map((x) => x.n)));
+  const porCambioObjetivo = $derived(
+    CAMBIOS_OBJETIVO.map((c) => ({
+      c,
+      n: (estado.dataset.politicas ?? []).filter((p) => p.cambio_objetivo === c).length,
+    })).filter((x) => x.n > 0),
+  );
 
   /** ¿El nodo está en la red visible? Si no, el vínculo se muestra pero no navega. */
   const visible = (id: string) => estado.red.nodos.some((n) => n.id === id);
@@ -56,6 +81,14 @@
       <li><span class="k-color" aria-hidden="true"></span><span>El <strong>color</strong> dice cómo cambió entre gobiernos.</span></li>
       <li><span aria-hidden="true">⌕</span><span><strong>Busca</strong> una política o instrumento, o toca un nodo, para enfocarlo.</span></li>
     </ul>
+    {#if porCambioObjetivo.length}
+      <h3>Cómo cambiaron los objetivos de política</h3>
+      <ul class="cambios-obj">
+        {#each porCambioObjetivo as { c, n } (c)}
+          <li title={DESCRIPCION_CAMBIO_OBJETIVO[c]}><strong>{n}</strong> {ETIQUETA_CAMBIO_OBJETIVO[c]}</li>
+        {/each}
+      </ul>
+    {/if}
     <h3>Cómo cambiaron los instrumentos</h3>
     <ul class="barras">
       {#each porModo as { m, n } (m)}
@@ -73,7 +106,39 @@
       <span class="eyebrow">Política pública</span>
       <h2>{p.nombre}</h2>
     </header>
-    {#if p.objetivo}
+    {#if p.cambio_objetivo}
+      <div class="badges">
+        <span class="badge linea" title={DESCRIPCION_CAMBIO_OBJETIVO[p.cambio_objetivo]}
+          >objetivo: {ETIQUETA_CAMBIO_OBJETIVO[p.cambio_objetivo]}</span
+        >
+      </div>
+    {/if}
+    {#if p.objetivos}
+      <h3>Objetivo que declara cada gobierno</h3>
+      <div class="objetivos">
+        {#each VIGENCIAS as v (v)}
+          {@const ob = objetivoEn(p, v)}
+          {@const activos = suyos.filter((o) => o.presencia[v]?.activo).length}
+          <section class="gobierno" class:sin={!ob}>
+            <div class="vig">{v.replace("-", "–")}</div>
+            {#if ob}
+              {#each ob.enunciados as e, i (i)}<p>{e}</p>{/each}
+              {#if ob.declaradas?.length}
+                <p class="tenue declarada">Declarada como: {ob.declaradas.join(" · ")}</p>
+              {/if}
+            {:else}
+              <p class="tenue">No declarado en el informe de este gobierno.</p>
+              {#if activos > 0}
+                <p class="huella">
+                  Aun así, {activos}
+                  {activos === 1 ? "instrumento del área sigue activo" : "instrumentos del área siguen activos"} en este gobierno.
+                </p>
+              {/if}
+            {/if}
+          </section>
+        {/each}
+      </div>
+    {:else if p.objetivo}
       <h3>Objetivo</h3>
       <p>{p.objetivo}</p>
     {/if}
@@ -196,6 +261,36 @@
     font-size: 13.5px;
     line-height: 1.5;
     color: var(--tinta);
+  }
+  .objetivos {
+    display: grid;
+    gap: 10px;
+  }
+  .gobierno {
+    border-left: 3px solid var(--tinta);
+    padding-left: 10px;
+  }
+  .gobierno.sin {
+    border-left-style: dashed;
+    border-left-color: var(--tinta-suave);
+  }
+  .gobierno p {
+    margin: 2px 0 4px;
+  }
+  .declarada {
+    font-size: 12px;
+  }
+  .huella {
+    font-size: 12.5px;
+    color: #9a5b00;
+  }
+  .cambios-obj {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
   }
   .guia {
     list-style: none;

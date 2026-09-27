@@ -1,6 +1,15 @@
 <script lang="ts">
-  import { CLASES_NATO, MODOS_CAMBIO } from "@laboratorio/red";
-  import { COLOR_MODO, DESCRIPCION_MODO, DESCRIPCION_NATO, ETIQUETA_MODO, ETIQUETA_NATO, GLIFO_NATO } from "$lib/visual.ts";
+  import { CAMBIOS_OBJETIVO, CLASES_NATO, MODOS_CAMBIO } from "@laboratorio/red";
+  import {
+    COLOR_MODO,
+    DESCRIPCION_CAMBIO_OBJETIVO,
+    DESCRIPCION_MODO,
+    DESCRIPCION_NATO,
+    ETIQUETA_CAMBIO_OBJETIVO,
+    ETIQUETA_MODO,
+    ETIQUETA_NATO,
+    GLIFO_NATO,
+  } from "$lib/visual.ts";
 
   /** Cómo LEER la red. Solo lectura: filtrar vive en el panel de filtros. */
   interface Props {
@@ -29,6 +38,23 @@
           {#each CLASES_NATO as c (c)}
             <li title={DESCRIPCION_NATO[c]}><span class="glifo" aria-hidden="true">{GLIFO_NATO[c]}</span>{ETIQUETA_NATO[c]}</li>
           {/each}
+        </ul>
+      </div>
+      <div class="grupo">
+        <span class="titulo">Anillo de la política · cambio de su objetivo</span>
+        <ul>
+          {#each CAMBIOS_OBJETIVO as c (c)}
+            <li title={DESCRIPCION_CAMBIO_OBJETIVO[c]}>
+              <svg class="k-anillo" viewBox="-11 -11 22 22" aria-hidden="true">
+                {#if c === "se-reformula"}<circle r="9.5" class="ext" />{/if}
+                <circle r="6" class="hub {c}" />
+              </svg>{ETIQUETA_CAMBIO_OBJETIVO[c]}
+            </li>
+          {/each}
+          <li title="Con una vigencia elegida: ese gobierno no declara objetivo, pero el área tiene instrumentos activos.">
+            <svg class="k-anillo" viewBox="-11 -11 22 22" aria-hidden="true"><circle r="6" class="hub huerfana" /></svg>sin
+            objetivo en ese gobierno
+          </li>
         </ul>
       </div>
       <div class="grupo">
@@ -107,6 +133,31 @@
     width: 12px;
     text-align: center;
     color: var(--tinta-suave);
+  }
+  .k-anillo {
+    width: 16px;
+    height: 16px;
+    flex: none;
+  }
+  .k-anillo circle {
+    fill: var(--papel);
+    stroke: var(--tinta);
+    stroke-width: 1.8;
+  }
+  .k-anillo .ext {
+    fill: none;
+    stroke-width: 1.1;
+  }
+  .k-anillo .nuevo {
+    stroke: var(--acento);
+  }
+  .k-anillo .no-declarado {
+    stroke-dasharray: 3 2;
+  }
+  .k-anillo .huerfana {
+    fill: var(--fondo);
+    stroke: var(--tinta-suave);
+    stroke-dasharray: 2 2;
   }
   .k-pol {
     width: 10px;

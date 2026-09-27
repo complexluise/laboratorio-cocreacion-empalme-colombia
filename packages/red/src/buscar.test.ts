@@ -25,6 +25,11 @@ describe("buscar", () => {
     expect(a).toMatchObject({ id: "ins:a", nombre: "Ley de Ciencia", alias: "Ley 2162" });
   });
 
+  it("encuentra un área por el nombre de una política declarada (y lo informa como alias)", () => {
+    const [p] = buscar(DS, "colombia bio").politicas;
+    expect(p).toMatchObject({ id: "pol:pB", alias: "Colombia BIO" });
+  });
+
   it("marca el tramo coincidente del nombre (para resaltar)", () => {
     const [o] = buscar(DS, "ondas").instrumentos;
     expect(o!.nombre.slice(o!.tramo![0], o!.tramo![1])).toBe("Ondas");

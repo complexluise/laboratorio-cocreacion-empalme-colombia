@@ -115,7 +115,9 @@ El giro de nodo las desambigua; al rehacer el pipeline hay que repartirlas.
 ## Decisiones técnicas
 - **Sin OWL/Protégé en v1**: esquema en YAML/JSON-LD, versionable, validado contra los JSON.
 - **Render**: la aplicación es un **explorador de la red** (Svelte 5 + D3, SPA estática; ADR-0002).
-  Es una **red bipartita política↔instrumento** (un instrumento puede servir a varias políticas; los
+  Es una **red bipartita política↔instrumento**, donde la **política es un área persistente** con el
+  **objetivo que declara cada gobierno** y su cambio (se mantiene / se reformula / no declarado / nuevo;
+  ADR-0004). Un instrumento puede servir a varias políticas (los
   compartidos enlazan la red); los instrumentos van coloreados por **modo de cambio** entre gobiernos
   y con forma por **tipo NATO**, filtrables por vigencia, modo y NATO, navegables con un buscador, y
   con foco por política (aísla su subred) o por instrumento (resalta su vecindario). Dominio en `packages/red`, UI en `web/` (ver `web/README.md`).

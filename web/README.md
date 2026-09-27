@@ -27,8 +27,14 @@ propósito** y conforme a `data/schema/objeto.schema.json` (lo verifica
 `uv run scripts/validar_contrato.py` en CI). Se regenera desde el dataset del pipeline:
 
 ```bash
+uv run extraccion/aplicar_areas.py --slug ciencia-tecnologia  # políticas por gobierno -> áreas con objetivo por gobierno
 uv run extraccion/generar_web.py --slug ciencia-tecnologia   # data/sectores/<slug>/objetos.json -> src/lib/data/<slug>.json
 ```
+
+Las **políticas son áreas persistentes** con el objetivo que declara cada gobierno (ADR-0004). En la
+red, el **anillo del hub** codifica el cambio del objetivo: doble = se reformula, acento = nuevo,
+punteado = no declarado; **hueco y punteado** = el gobierno de la vigencia elegida no declara objetivo
+pero el área tiene instrumentos activos. El detalle de la política compara el objetivo de cada gobierno.
 
 **Fuente vigente (CTeI):** reconstrucción con Claude vía el workflow multi-agente
 `extraccion/rebuild-ctei-claude.workflow.js` (políticas + instrumentos, modo de cambio guiado por

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CLASES_NATO, MODOS_CAMBIO, type VigenciaSel } from "@laboratorio/red";
+  import { CLASES_NATO, MODOS_CAMBIO, claseNato, type VigenciaSel } from "@laboratorio/red";
   import type { EstadoRed } from "$lib/state/red.svelte.ts";
   import { COLOR_MODO, DESCRIPCION_MODO, DESCRIPCION_NATO, ETIQUETA_MODO, ETIQUETA_NATO, GLIFO_NATO } from "$lib/visual.ts";
 
@@ -17,6 +17,9 @@
     { valor: "ambos", etiqueta: "Ambos" },
     { valor: "2022-2026", etiqueta: "2022–26" },
   ];
+
+  // Solo las clases NATO que existen en el dato (p. ej. ya no hay nodos "objetivo de política").
+  const clases = $derived(CLASES_NATO.filter((c) => estado.dataset.objetos.some((o) => claseNato(o) === c)));
 
   const nInstrumentos = $derived(estado.red.nodos.filter((n) => n.tipo === "ins").length);
   const nPoliticas = $derived(estado.red.nodos.length - nInstrumentos);
@@ -57,7 +60,7 @@
   <fieldset>
     <legend>Tipo de instrumento (NATO) <span class="ayuda">mostrar solo</span></legend>
     <div class="chips">
-      {#each CLASES_NATO as c (c)}
+      {#each clases as c (c)}
         <button
           type="button"
           class="chip"

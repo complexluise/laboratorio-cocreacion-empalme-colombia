@@ -138,7 +138,7 @@
                     {/if}
                     <span class="texto">
                       <span class="nombre">{antes}{#if match}<mark>{match}</mark>{/if}{despues}</span>
-                      {#if r.alias}<span class="alias">alias: {r.alias}</span>{/if}
+                      {#if r.alias}<span class="alias">{r.obj ? "alias" : "declarada como"}: {r.alias}</span>{/if}
                       {#if oculto(r.id)}<span class="aviso">oculto por los filtros · al elegirlo se quitan</span>{/if}
                     </span>
                   </div>
