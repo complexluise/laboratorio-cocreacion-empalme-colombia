@@ -1,5 +1,11 @@
 # Taxonomía facetada — clasificación bibliotecaria de ideas
 
+> **DEPRECADO (histórico).** La capa de "ideas" facetadas (A–K) ya no se usa: el pipeline extrae
+> directo **políticas + instrumentos** con el vocabulario del encuadre (NATO + modos de cambio
+> gradual + política). El vocabulario vigente vive en `data/schema/taxonomia.yaml` (sección `objetos`)
+> y se explica en `docs/encuadre-actividad-trama.md` y `docs/teoria-politica.md`. Este documento se
+> conserva como referencia del enfoque anterior.
+
 Esquema compartido para clasificar las ideas extraídas de **ambos** empalmes, de modo
 que sean comparables. Cada idea se etiqueta con **una faceta temática (A–K)** y **un tipo**.
 Un esquema único y estable es lo que hace el ejercicio *reproducible y defendible*.
