@@ -15,13 +15,19 @@ extraccion/  ──produce──►  data/schema/ (CONTRATO)  ◄──consume�
 
 - **Frontera 1 — el contrato de datos** (`extraccion/` → `web/`): un dataset conforme a
   `data/schema/objeto.schema.json`, copiado a `web/src/lib/data/<slug>.json` por `generar_web.py`.
+  Del mismo modo, `extraccion/bitacora.py` escribe las plantillas de la bitácora en `web/public/`
+  (`bitacora-laboratorio.docx`, `bitacora-ejemplo-ctei.docx`): productor → artefacto estático que
+  la web solo enlaza. En sentido inverso, lee las .docx llenas a `data/bitacoras/<slug>/*.json`
+  conforme a `bitacora.schema.json` (ADR-0005); eso no cruza a la web.
 - **Frontera 2 — `exports` de `@laboratorio/red`** (`packages/red` → `web/`): tipos del contrato,
   `construirRed`, `vecindario`. La web no entra a `packages/red/src/` por ruta.
 
 ## Las reglas
 
-1. **De la extracción a la web cruza el dato, no el código.** Nadie importa ni ejecuta
-   `extraccion/`; `extraccion/` no conoce detalles de render (colores, layout, física).
+1. **De la extracción a la web cruza el dato, no el código.** La web (y `packages/`) nunca importa
+   ni ejecuta `extraccion/`; `extraccion/` no conoce detalles de render (colores, layout, física).
+   La única excepción es el gate: `scripts/validar_contrato.py` ejecuta `extraccion/bitacora.py`
+   para probar la ida y vuelta de la plantilla (validar el pipeline no es consumirlo).
 2. **Vocabulario único.** Los enums (`tipo_nato`, `modo_cambio`, …) salen de `taxonomia.yaml` (y se
    reflejan en los tipos de `packages/red`). La web puede *mapearlos* a colores/formas, pero no
    inventar valores nuevos.
@@ -41,7 +47,9 @@ extraccion/  ──produce──►  data/schema/ (CONTRATO)  ◄──consume�
   con `tsconfig.depcruise.json`, que suma el alias `$lib` de la web: sin él, las aristas vía `$lib`
   quedaban sin resolver y no se chequeaban.
 - **`uv run scripts/validar_contrato.py`** (en CI): cada `*.schema.json` es un JSON Schema válido,
-  `taxonomia.yaml` parsea, y **cada `web/src/lib/data/*.json` cumple `objeto.schema.json`**.
+  `taxonomia.yaml` parsea, **cada `web/src/lib/data/*.json` cumple `objeto.schema.json`** y cada
+  `data/bitacoras/<slug>/*.json` cumple `bitacora.schema.json`; además corre la ida y vuelta de la
+  plantilla .docx y chequea que las de `web/public/` estén al día con `extraccion/bitacora.py`.
   `extraer_instrumentos.py` además valida su salida al producirla.
 - **Revisión**: el `verifier` chequea que un PR no cruce fronteras salvo PR de contrato.
 

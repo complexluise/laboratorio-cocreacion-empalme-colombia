@@ -139,6 +139,10 @@ que produce los instrumentos **está por rehacer** sobre esta base (ver README).
   anti-hairball). Pasada 2 (Gemini): aristas entre instrumentos. La `presencia` por vigencia y la
   `diacronia` (redundancia/unicidad) se calculan de forma **determinista**.
 
+- `data/schema/bitacora.schema.json` + `data/bitacoras/` — **capa de aportes del seminario**: lo que
+  cada grupo registra sobre una política (área) por vigencia, con «Sin dato» como hueco declarado;
+  se vincula al mapa por `politica.id` y no modifica nodos ni aristas (ADR-0005).
+
 Diseño **aditivo**: la capa de evidencia (ideas + `comparacion`) queda intacta y la capa de
 instrumentos se construye encima, para reprocesar un sector sin desincronizar los demás.
 

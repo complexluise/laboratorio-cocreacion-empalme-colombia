@@ -27,11 +27,12 @@ sueltas. Las preguntas que guían todo (ver `docs/ontologia.md`):
 | `docs/taxonomia.md` | La clasificación facetada explicada. |
 | `docs/encuadre-actividad-trama.md` | La **actividad del seminario TRAMA**: cómo los grupos reconstruyen y comparan políticas. |
 | `data/schema/taxonomia.yaml` | Vocabulario controlado (fuente única de verdad de los enums). |
-| `data/schema/*.schema.json` | Contratos de datos: `idea` (evidencia), `comparacion`, `objeto` (instrumento). |
+| `data/schema/*.schema.json` | Contratos de datos: `idea` (evidencia), `comparacion`, `objeto` (instrumento), `bitacora` (aportes de los grupos). |
+| `data/bitacoras/` | Bitácoras de los grupos convertidas a JSON (`<slug>/<grupo>.json`; ADR-0005). |
 | `extraccion/` | Scripts de ingesta y extracción (ver abajo). |
 | `packages/red/` | `@laboratorio/red`: dominio de la red (tipos del contrato, filtros, foco de vecindario), sin DOM. |
 | `web/` | `@laboratorio/web`: el explorador (Svelte 5 + Vite + D3). Ver `web/README.md`. |
-| `scripts/` | `validar_contrato.py`: valida los schemas y el dataset de la web (gate de CI). |
+| `scripts/` | `validar_contrato.py`: valida los schemas, el dataset de la web y las bitácoras (gate de CI). |
 | `docs/decisiones/` | **ADRs**: los porqués que condicionan el código. |
 | `docs/FRONTERAS.md` | Las fronteras del repo: `extraccion/` → contrato `data/schema/` → `web/`, y `packages/red` → `web/`. |
 | `CONTRIBUTING.md`, `AGENTS.md`, `CLAUDE.md`, `.claude/` | La **disciplina de trabajo** (ver abajo). |
@@ -48,6 +49,8 @@ Del informe crudo del DNP → markdown → **políticas + instrumentos** de pol�
 - `aplicar_areas.py` — agrupa las políticas por gobierno en **áreas persistentes con objetivo por
   gobierno** según la curaduría `data/correcciones/<slug>/areas.yaml` (determinista; ADR-0004).
 - `generar_web.py` — `objetos.json` → `web/src/lib/data/<slug>.json` (dataset commiteado que importa la web).
+- `bitacora.py` — la **bitácora** del grupo (ADR-0005): genera la plantilla .docx en blanco y el ejemplo
+  CTeI (`web/public/`) y lee las .docx llenas → `data/bitacoras/<slug>/<grupo>.json` (sin API paga).
 - *(deprecados: `extraer_ideas.py`, `consolidar_objetos.py` — la capa de "ideas" ya no se usa.)*
 
 > Leen rutas relativas a la raíz del repo, así que ejecutarlos desde la raíz. Los que usan Gemini
