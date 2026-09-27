@@ -14,5 +14,6 @@ Se gradúan con la skill `graduar-adr` (fase DECIDIR del flujo).
 
 | # | Título | Estado |
 |---|--------|--------|
-| [0001](ADR-0001-adoptar-disciplina-kybernetes.md) | Adoptar la disciplina kybernetes | aceptada |
-| [0002](ADR-0002-frontend-svelte-vite.md) | Frontend del explorador en Svelte 5 + Vite | aceptada |
+| [0001](ADR-0001-adoptar-disciplina-kybernetes.md) | Adoptar la disciplina kybernetes | aceptada (enmendada por 0003) |
+| [0002](ADR-0002-frontend-svelte-vite.md) | Frontend del explorador en Svelte 5 + Vite | aceptada (enmendada por 0003) |
+| [0003](ADR-0003-preset-codigo-kybernetes.md) | Adoptar el preset de código de kybernetes (monorepo pnpm + TS) | aceptada |

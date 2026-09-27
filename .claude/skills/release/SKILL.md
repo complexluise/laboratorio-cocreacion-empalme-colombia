@@ -4,8 +4,8 @@ description: >-
   Corta un release liberando el trabajo acumulado en `dev` hacia `main` con el
   flujo GitFlow-lite. Usala cuando el usuario quiere "hacer el release", "cortar
   versión", "publicar el mapa", "liberar dev a main" o escribe /release. Es la fase
-  LIBERAR del flujo: PR dev→main (merge commit) → Pages publica → tag + GitHub
-  Release → back-merge main→dev. NO es para subir un fix suelto (eso es /hotfix)
+  LIBERAR del flujo: changesets → PR dev→main (merge commit) → Pages publica →
+  tag + GitHub Release → back-merge main→dev. NO es para subir un fix suelto (eso es /hotfix)
   ni para abrir trabajo nuevo.
 ---
 
@@ -29,18 +29,23 @@ el procedimiento y **parás a avisar** ante cualquier cosa que no esté verde. E
 1. **Resumí lo que entra** — Conventional Commits desde el último tag
    (`git log <ultimo-tag>..origin/dev`; si no hay tags, desde el inicio). Bump en 0.x: breaking
    (`!`) o `feat` → minor; solo `fix`/`docs` → patch. Decíselo al PO en una línea.
-2. **PR `dev → main`** — título `release: dev → main (vX.Y.Z)`, cuerpo con
+2. **Consumí los changesets** — si hay `.changeset/*.md` pendientes, en una rama desde `dev`
+   corré `pnpm changeset version` (bump de los paquetes + su `CHANGELOG.md`, borra los changesets
+   consumidos), commit `chore(release): version packages`, PR a `dev` con CI verde. Así el
+   bump entra al corte. Sin changesets pendientes, saltá este paso. (La versión `vX.Y.Z` del
+   repo la sigue decidiendo el paso 1; los changesets versionan cada paquete.)
+3. **PR `dev → main`** — título `release: dev → main (vX.Y.Z)`, cuerpo con
    breaking/features/fixes.
-3. **Esperá CI verde del PR.** Si falla, pará y reportá la causa.
-4. **Mergeá con MERGE COMMIT** (no squash): la historia de `main` conserva cada commit.
-5. **Verificá el deploy** — el workflow `pages` corre sobre `main`; confirmá que terminó verde y
-   que el mapa publicado responde (HTTP 200) y se ve.
-6. **Tag + Release** — tag `vX.Y.Z` sobre el merge commit en `main` y GitHub Release con las notas
+4. **Esperá CI verde del PR.** Si falla, pará y reportá la causa.
+5. **Mergeá con MERGE COMMIT** (no squash): la historia de `main` conserva cada commit.
+6. **Verificá el deploy** — el workflow `pages` (build con pnpm, publica `web/dist`) corre sobre
+   `main`; confirmá que terminó verde y que el mapa publicado responde (HTTP 200) y se ve.
+7. **Tag + Release** — tag `vX.Y.Z` sobre el merge commit en `main` y GitHub Release con las notas
    (secciones Breaking / Features / Fixes armadas desde los commits). El número lo decidís con el
-   PO en el paso 1; no hay release-please.
-7. **Back-merge `main → dev`** — PR de sincronización (`--base dev --head main`), CI verde,
+   PO en el paso 1; no hay release-please ni publish a registry (paquetes internos).
+8. **Back-merge `main → dev`** — PR de sincronización (`--base dev --head main`), CI verde,
    **merge commit**. **Obligatorio**: sin esto las ramas divergen.
-8. **Cerrá el milestone** `X.Y.Z`.
+9. **Cerrá el milestone** `X.Y.Z`.
 
 ## Cierra cuando
 El mapa está publicado desde `main`, el tag/Release existe, `dev` quedó sincronizado y el milestone

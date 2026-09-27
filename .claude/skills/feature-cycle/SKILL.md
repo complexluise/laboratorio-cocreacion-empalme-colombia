@@ -73,7 +73,7 @@ Antes de despachar N issues en paralelo, **mapear qué archivos toca cada uno**.
 - **Dos issues que tocan el mismo archivo caliente → serializar** (mergear uno, rebasar
   el siguiente). Archivos calientes típicos: índices (`__init__.py`, `cli/__init__.py`,
   routers, registries), archivos de envelope/contrato compartido, manifests, el lockfile
-  (`uv.lock`/`package-lock.json`).
+  (`pnpm-lock.yaml`).
 - **Issues sobre archivos disjuntos → se pueden paralelizar** con un fan-out de N
   coder/verifier, siempre que el `architect` haya confirmado que el solapamiento es cero.
 - **La verificación de archivos disjuntos es barata** (`git diff --name-only origin/dev..HEAD`

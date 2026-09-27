@@ -8,9 +8,13 @@
 
 - **Cómo trabajamos:** GitFlow-lite (`dev` integra, `main` solo releases = lo que publica Pages).
   Ver [`CONTRIBUTING.md`](CONTRIBUTING.md).
-- **Fronteras:** `extraccion/` → **contrato de datos** (`data/schema/`) → `web/`. La web consume el
-  dataset, nunca importa del pipeline. Ver [`docs/FRONTERAS.md`](docs/FRONTERAS.md).
-- **Test-first** donde hay código con lógica. Nada se mergea con CI en rojo.
+- **Fronteras:** `extraccion/` → **contrato de datos** (`data/schema/`) → `web/`; y `packages/red`
+  (dominio, sin DOM/D3) → `web/` por `exports`. La web nunca importa del pipeline. Enforcement:
+  `pnpm lint:boundaries` + `validar_contrato.py`. Ver [`docs/FRONTERAS.md`](docs/FRONTERAS.md).
+- **Stack JS/TS:** monorepo pnpm (Node >= 22), TS estricto, Svelte 5 (runes), vitest,
+  dependency-cruiser, changesets ([ADR-0003](docs/decisiones/ADR-0003-preset-codigo-kybernetes.md)).
+- **Test-first** donde hay código con lógica (la lógica vive en `packages/red`). Nada se mergea con CI
+  en rojo.
 - **Decisiones → ADR** (`docs/decisiones/`). **Trabajo → issues** (no `.md` de "lo que falta").
 - **El flujo** (encuadrar/decidir/ejecutar/liberar/retroalimentar) vive en `.claude/skills/`
   (empezá por `flujo`). El cierre de ciclo, en `.claude/commands/retro-ciclo.md`.
@@ -28,9 +32,13 @@
 ## Cómo correr
 
 ```bash
-uv run extraccion/generar_web.py --slug ciencia-tecnologia   # dataset -> web/datos.js
-python -m http.server                                        # abrir http://localhost:8000/web/
+pnpm install && pnpm dev                                     # explorador en desarrollo
+pnpm typecheck && pnpm test && pnpm lint:boundaries && pnpm build   # el gate de la web
+uv run scripts/validar_contrato.py                           # el gate del contrato
+uv run extraccion/generar_web.py --slug ciencia-tecnologia   # dataset -> web/src/lib/data/<slug>.json
 ```
+
+Detalle y gate de CI completo en [`AGENTS.md`](AGENTS.md) §Cómo correr.
 
 Los scripts de `extraccion/` se ejecutan **desde la raíz** (rutas relativas) con `uv run` (deps
 inline PEP 723). Los que usan Gemini necesitan `GEMINI_API_KEY` en `.env` — **no los corras sin

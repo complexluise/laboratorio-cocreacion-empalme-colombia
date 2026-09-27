@@ -31,8 +31,10 @@ completo): apagar un fuego con su test de regresión, no rediseñar nada.
 3. **Fix + test de regresión** — disciplina del repo: cada bug entra con un test que falla
    antes y pasa después. Acá podés despachar `coder` + `verifier` (ciclo liviano) o hacerlo
    directo si es chico.
-4. **Gate local** — corré el gate del repo (ver `AGENTS.md` §Cómo correr: hoy
-   `uv run scripts/validar_contrato.py` + el build/tests de `web/` cuando existan).
+4. **Gate local** — el mismo de CI (ver `AGENTS.md` §Cómo correr):
+   `pnpm install --frozen-lockfile && pnpm typecheck && pnpm test && pnpm lint:boundaries && pnpm build`
+   y `uv run scripts/validar_contrato.py`. Si el fix cambia la API de un paquete de
+   `packages/`, sumá un changeset (`pnpm changeset`, nivel `patch`).
 5. **PR a `main`** — `gh pr create --base main`, **linkeá el issue** (`Closes #<n>`). Commit
    `fix(...): ...` en Conventional Commits.
 6. **Esperá CI verde** (`gh pr checks <n> --watch`). Si falla, pará y reportá. **Nunca

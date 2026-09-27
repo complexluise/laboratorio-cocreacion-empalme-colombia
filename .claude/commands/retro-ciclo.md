@@ -24,7 +24,7 @@ mejor que como lo encontraste.
    - Wall-clock por agente (`duration_ms` de las notificaciones) y por rol
      (coder/verifier/architect).
    - Para los coders más lentos: #Bash/#Edit/#Read; **cuántas veces corrió el suite
-     completo de tests/build vs subconjuntos**; instalaciones (`npm ci`, `uv`); y **qué
+     completo de tests/build vs subconjuntos**; instalaciones (`pnpm install`, `uv`); y **qué
      fracción del tiempo fue esperando tests/build**.
    - Reintentos, loops editar→test→fallar, errores de formato/CRLF/encoding, timeouts,
      conflictos de merge, y **trabajo perdido/rehecho** (p.ej. agentes que escribieron en
@@ -38,7 +38,7 @@ mejor que como lo encontraste.
    - Separá **desperdicio** de **inversión valiosa** (el rework que nace de un verifier que
      cazó un bug real NO es desperdicio).
    - Clasificá las lecciones: (a) generales, (b) específicas del repo (suite lento,
-     archivos calientes como `web/app.js`/`objeto.schema.json`), (c) errores puntuales de la sesión.
+     archivos calientes como `web/src/lib/state/red.svelte.ts`/`objeto.schema.json`), (c) errores puntuales de la sesión.
 
 3. **Traé el veredicto al PO y esperá su OK.** Top 3 cuellos de botella con evidencia +
    3-5 mejoras accionables. No cambies el proceso sin confirmar el rumbo.

@@ -1,6 +1,6 @@
 # ADR-0001: Adoptar la disciplina kybernetes
 
-- **Estado:** aceptada
+- **Estado:** aceptada — enmendada por [ADR-0003](ADR-0003-preset-codigo-kybernetes.md)
 - **Fecha:** 2026-09-27
 - **Decide:** PO (@complexluise)
 

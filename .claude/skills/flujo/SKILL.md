@@ -77,7 +77,8 @@ La tabla de géneros no resuelve los bordes. Estos son los casos frecuentes:
 - **Sector nuevo** (educación, cultura, agro…) o **fuente nueva** → epic propio, no un
   issue: arrastra extracción, resolución de entidades y verificación, cada una con su DoD.
 - **Cambio del contrato de datos** (`data/schema/`) → issue propio + PR de contrato que ajusta
-  productor (`extraccion/`) y consumidor (`web/`) en el mismo movimiento; ADR si cambia el porqué.
+  productor (`extraccion/`) y consumidores (tipos de `packages/red`, `web/`) en el mismo
+  movimiento; ADR si cambia el porqué.
 - **"Disciplina con projects" / sincronización milestone ↔ project board** → no es
   una skill sola, es un sub-paso de cualquier flujo de milestone. Si lo detectás
   derivando, abrí/cerrá con el PO antes de seguir.

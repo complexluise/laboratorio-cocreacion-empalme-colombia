@@ -114,17 +114,16 @@ El giro de nodo las desambigua; al rehacer el pipeline hay que repartirlas.
 
 ## Decisiones técnicas
 - **Sin OWL/Protégé en v1**: esquema en YAML/JSON-LD, versionable, validado contra los JSON.
-- **Render**: la aplicación es un **explorador de instrumentos** con **D3.js**, autocontenido
-  (vendorizado, sin CDN en runtime). Es una **red bipartita política↔instrumento** (un instrumento
-  puede servir a varias políticas; los compartidos enlazan la red); los instrumentos van coloreados por
-  **modo de cambio** entre gobiernos y con forma por **tipo NATO**. Un **selector de vigencia** muestra
-  2018-2022, 2022-2026 o ambos. Las relaciones instrumento-instrumento (habilita/financia/…) son un
-  overlay bajo demanda. PoC en `web/` (Ciencia y Tecnología).
+- **Render**: la aplicación es un **explorador de la red** (Svelte 5 + D3, SPA estática; ADR-0002).
+  Es una **red bipartita política↔instrumento** (un instrumento puede servir a varias políticas; los
+  compartidos enlazan la red); los instrumentos van coloreados por **modo de cambio** entre gobiernos
+  y con forma por **tipo NATO**, filtrables por vigencia, política, modo y NATO, con foco de
+  vecindario al seleccionar. Dominio en `packages/red`, UI en `web/` (ver `web/README.md`).
 
 ## Estado en este repo
 
-Están **el contrato de datos y la extracción de referencia**; el pipeline que produce los
-instrumentos y la aplicación **están por rehacer** sobre esta base (ver README).
+Están **el contrato de datos, la extracción de referencia y el explorador** (`web/`); el pipeline
+que produce los instrumentos **está por rehacer** sobre esta base (ver README).
 
 - `data/schema/taxonomia.yaml` — sección `objetos` (clase / diacronía / relaciones).
 - `data/schema/objeto.schema.json` — contrato del nodo y sus aristas.
