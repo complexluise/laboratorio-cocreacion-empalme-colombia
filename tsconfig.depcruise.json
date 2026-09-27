@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": { "$lib": ["./web/src/lib"], "$lib/*": ["./web/src/lib/*"] }
+  },
+  "include": ["packages/*/src/**/*.ts", "web/src/**/*.ts"]
+}

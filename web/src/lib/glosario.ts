@@ -1,0 +1,525 @@
+import {
+  CAMBIOS_OBJETIVO,
+  MODOS_CAMBIO,
+  TIPOS_NATO,
+  TIPOS_RELACION,
+  type CambioObjetivo,
+  type ModoCambio,
+  type TipoNato,
+  type TipoRelacion,
+} from "@laboratorio/red";
+import {
+  DESCRIPCION_CAMBIO_OBJETIVO,
+  DESCRIPCION_MODO,
+  DESCRIPCION_NATO,
+  ETIQUETA_CAMBIO_OBJETIVO,
+  ETIQUETA_MODO,
+  ETIQUETA_NATO,
+  ETIQUETA_RELACION,
+} from "$lib/visual.ts";
+
+/**
+ * Glosario del laboratorio. El vocabulario CONTROLADO (modos de cambio, tipos NATO, cambio del
+ * objetivo, relaciones) se genera de las mismas etiquetas y descripciones que usa la red, para que
+ * glosario y mapa no se desincronicen. El resto (teoría, siglas, términos de la bitácora) es texto
+ * curado.
+ */
+export const GRUPOS = ["ontologia", "teoria", "bitacora", "siglas"] as const;
+export type Grupo = (typeof GRUPOS)[number];
+
+export const TITULO_GRUPO: Record<Grupo, string> = {
+  ontologia: "La ontología del mapa",
+  teoria: "Teoría política",
+  bitacora: "Términos de la bitácora",
+  siglas: "Siglas e instituciones",
+};
+
+export const INTRO_GRUPO: Record<Grupo, string> = {
+  ontologia:
+    "Qué representa cada cosa en la red: los tipos de nodo, sus atributos y el vocabulario controlado con que se clasifican.",
+  teoria: "Los conceptos de la teoría política con que se lee el cambio entre dos gobiernos.",
+  bitacora: "Las palabras que aparecen al describir una política en la bitácora del grupo.",
+  siglas: "Siglas, entidades e instrumentos que aparecen en los informes de empalme y en la red.",
+};
+
+export interface Entrada {
+  /** Slug estable: es el ancla de `#/glosario/<id>`. */
+  id: string;
+  grupo: Grupo;
+  termino: string;
+  /** Qué significa la sigla, o el término en inglés de la literatura. */
+  expansion?: string;
+  definicion: string;
+  /** Autor u obra de referencia. */
+  fuente?: string;
+  /** Ids de entradas relacionadas. */
+  ver?: string[];
+}
+
+export const idModo = (m: ModoCambio) => `modo-${m}`;
+export const idNato = (t: TipoNato) => `nato-${t}`;
+export const idCambioObjetivo = (c: CambioObjetivo) => `objetivo-${c}`;
+export const idRelacion = (r: TipoRelacion) => `relacion-${r}`;
+
+const TERMINO_EN_INGLES: Partial<Record<ModoCambio, string>> = {
+  "continuidad-estable": "path dependence",
+  conversion: "conversion",
+  estratificacion: "layering",
+  terminacion: "displacement / termination",
+  deriva: "drift",
+};
+
+const DESCRIPCION_RELACION: Record<TipoRelacion, string> = {
+  habilita: "Una norma o instrumento da existencia o soporte legal a otro (p. ej. una ley que crea un sistema).",
+  financia: "Una fuente de financiación costea a otro instrumento (p. ej. regalías que fondean convocatorias).",
+  "depende-de": "Un instrumento requiere a otro como condición o precedente.",
+  encadena: "Dos instrumentos se encadenan o se potencian (sinergia): uno origina o alimenta al otro.",
+};
+
+const VOCABULARIO: Entrada[] = [
+  ...MODOS_CAMBIO.map(
+    (m): Entrada => ({
+      id: idModo(m),
+      grupo: "ontologia",
+      termino: `Modo de cambio: ${ETIQUETA_MODO[m]}`,
+      ...(TERMINO_EN_INGLES[m] ? { expansion: TERMINO_EN_INGLES[m] } : {}),
+      definicion: DESCRIPCION_MODO[m],
+      fuente: "Mahoney & Thelen (2010)",
+      ver: ["modo-de-cambio"],
+    }),
+  ),
+  ...TIPOS_NATO.map(
+    (t): Entrada => ({
+      id: idNato(t),
+      grupo: "ontologia",
+      termino: `Tipo NATO: ${ETIQUETA_NATO[t]}`,
+      definicion: DESCRIPCION_NATO[t],
+      fuente: "Hood (1983)",
+      ver: ["nato"],
+    }),
+  ),
+  ...CAMBIOS_OBJETIVO.map(
+    (c): Entrada => ({
+      id: idCambioObjetivo(c),
+      grupo: "ontologia",
+      termino: `Cambio del objetivo: ${ETIQUETA_CAMBIO_OBJETIVO[c]}`,
+      definicion: DESCRIPCION_CAMBIO_OBJETIVO[c],
+      ver: ["cambio-del-objetivo"],
+    }),
+  ),
+  ...TIPOS_RELACION.map(
+    (r): Entrada => ({
+      id: idRelacion(r),
+      grupo: "ontologia",
+      termino: `Relación: ${ETIQUETA_RELACION[r]}`,
+      definicion: DESCRIPCION_RELACION[r],
+      ver: ["relacion-entre-instrumentos"],
+    }),
+  ),
+];
+
+
+const ONTOLOGIA: Entrada[] = [
+  {
+    id: "politica-publica",
+    grupo: "ontologia",
+    termino: "Política pública",
+    definicion:
+      "Un área o problema público que atraviesa gobiernos (p. ej. bioeconomía, talento humano). Combina fines —el objetivo que declara cada gobierno— y medios —los instrumentos con que lo persigue. En la red es el nodo grande (hub) y es lo que cada grupo elige para trabajar.",
+    fuente: "Howlett & Cashore (2009); ADR-0004 del proyecto",
+    ver: ["objetivo-de-politica", "instrumento", "fines-y-medios"],
+  },
+  {
+    id: "objetivo-de-politica",
+    grupo: "ontologia",
+    termino: "Objetivo de política",
+    definicion:
+      "Lo que un gobierno declara que busca en un área: su prioridad u orientación. La misma política puede tener un objetivo distinto en cada gobierno; por eso se registra por vigencia, con los nombres con que cada informe la declara.",
+    ver: ["politica-publica", "cambio-del-objetivo"],
+  },
+  {
+    id: "cambio-del-objetivo",
+    grupo: "ontologia",
+    termino: "Cambio del objetivo",
+    definicion:
+      "Cómo cambia el objetivo de una política entre los dos gobiernos: se mantiene, se reformula, no declarado o nuevo. En la red se lee en el anillo del hub. Es el cambio de «tercer orden» de Hall: el más profundo, porque cambia el fin y no solo los medios.",
+    fuente: "Hall (1993)",
+    ver: ["ordenes-del-cambio", "no-declarado-no-es-abandono"],
+  },
+  {
+    id: "no-declarado-no-es-abandono",
+    grupo: "ontologia",
+    termino: "No declarado (y no «abandonado»)",
+    definicion:
+      "Cada informe de empalme lo escribe un gobierno sobre sí mismo: que no mencione un objetivo no prueba que lo haya abandonado. Por eso el mapa dice «no declarado». Si el área conserva instrumentos activos, se muestra como área huérfana.",
+    ver: ["area-huerfana", "informe-de-empalme"],
+  },
+  {
+    id: "area-huerfana",
+    grupo: "ontologia",
+    termino: "Área huérfana",
+    definicion:
+      "Una política que en un gobierno no tiene objetivo declarado, pero cuyos instrumentos siguen activos. Hace visible la dependencia de la trayectoria: los medios persisten aunque el fin ya no se nombre.",
+    ver: ["dependencia-de-la-trayectoria", "no-declarado-no-es-abandono"],
+  },
+  {
+    id: "instrumento",
+    grupo: "ontologia",
+    termino: "Instrumento de política pública",
+    expansion: "policy instrument",
+    definicion:
+      "El medio concreto con que el Estado actúa: un programa, una norma, una fuente de financiación, un sistema, una convocatoria o una beca. Tiene identidad propia y puede cruzar gobiernos con el mismo nombre. No es neutro: condensa una idea de cómo gobernar.",
+    fuente: "Hood (1983); Lascoumes & Le Galès (2004)",
+    ver: ["nato", "modo-de-cambio"],
+  },
+  {
+    id: "nato",
+    grupo: "ontologia",
+    termino: "NATO (tipos de instrumento)",
+    expansion: "Nodalidad, Autoridad, Tesoro, Organización",
+    definicion:
+      "Clasifica un instrumento según el recurso del Estado que moviliza: información (nodalidad), normas (autoridad), dinero (tesoro) o capacidad propia (organización). En la red es la forma del nodo.",
+    fuente: "Hood, The Tools of Government (1983)",
+    ver: TIPOS_NATO.map(idNato),
+  },
+  {
+    id: "modo-de-cambio",
+    grupo: "ontologia",
+    termino: "Modo de cambio",
+    definicion:
+      "Qué le pasó a un instrumento entre un gobierno y otro: continuidad, conversión, estratificación, terminación, reversión o deriva. En la red es el color del nodo.",
+    fuente: "Mahoney & Thelen (2010)",
+    ver: [...MODOS_CAMBIO.map(idModo), "cambio-institucional-gradual"],
+  },
+  {
+    id: "vigencia",
+    grupo: "ontologia",
+    termino: "Vigencia",
+    definicion:
+      "El periodo de un gobierno: 2018–2022 (gobierno Duque) y 2022–2026 (gobierno Petro). Cada instrumento registra en qué vigencias aparece y en qué modo (propuesto, logrado, pendiente).",
+    ver: ["presencia"],
+  },
+  {
+    id: "presencia",
+    grupo: "ontologia",
+    termino: "Presencia (propuesto · logrado · pendiente)",
+    definicion:
+      "Cómo aparece un instrumento en el informe de una vigencia: propuesto (anunciado, sin ejecución reportada), logrado (ejecutado, con resultado reportado) o pendiente (inconcluso, en riesgo o recomendado al gobierno siguiente).",
+    ver: ["vigencia"],
+  },
+  {
+    id: "relacion-entre-instrumentos",
+    grupo: "ontologia",
+    termino: "Relación entre instrumentos",
+    definicion:
+      "Arista entre dos instrumentos distintos: uno habilita, financia, depende de o se encadena con otro. En la red son las líneas que no pasan por una política.",
+    ver: TIPOS_RELACION.map(idRelacion),
+  },
+  {
+    id: "red-bipartita",
+    grupo: "ontologia",
+    termino: "Red bipartita",
+    definicion:
+      "Una red con dos clases de nodo —políticas e instrumentos— donde las líneas unen un instrumento con las políticas a las que sirve. Un instrumento compartido por varias políticas es un puente: ahí se ve lo que ningún grupo ve solo.",
+    ver: ["emergencia"],
+  },
+];
+
+const TEORIA: Entrada[] = [
+  {
+    id: "fines-y-medios",
+    grupo: "teoria",
+    termino: "Fines y medios",
+    definicion:
+      "Una política pública combina fines (objetivos) y medios (instrumentos), en distintos niveles de abstracción. Separarlos permite ver cuándo cambia el fin sin cambiar los medios, y al revés.",
+    fuente: "Howlett & Cashore (2009)",
+    ver: ["politica-publica", "ordenes-del-cambio"],
+  },
+  {
+    id: "ordenes-del-cambio",
+    grupo: "teoria",
+    termino: "Órdenes del cambio de política",
+    definicion:
+      "Primer orden: se ajusta cómo se usa un instrumento. Segundo orden: se cambian los instrumentos. Tercer orden: se cambian los objetivos, el paradigma. En el mapa, el tercer orden es el cambio del objetivo.",
+    fuente: "Hall, «Policy Paradigms, Social Learning, and the State» (1993)",
+    ver: ["cambio-del-objetivo"],
+  },
+  {
+    id: "institucionalismo-historico",
+    grupo: "teoria",
+    termino: "Institucionalismo histórico",
+    definicion:
+      "Corriente que estudia cómo las instituciones se forman y cambian en el tiempo, y cómo decisiones pasadas condicionan las presentes. Es el marco con que se lee el empalme.",
+    fuente: "Streeck & Thelen (2005); Pierson (2004)",
+    ver: ["cambio-institucional-gradual", "dependencia-de-la-trayectoria"],
+  },
+  {
+    id: "cambio-institucional-gradual",
+    grupo: "teoria",
+    termino: "Cambio institucional gradual",
+    definicion:
+      "Las instituciones rara vez cambian de golpe: cambian sumando capas, redirigiendo lo que existe, dejando de mantenerlo o reemplazándolo. De ahí salen los modos de cambio del mapa.",
+    fuente: "Mahoney & Thelen, Explaining Institutional Change (2010)",
+    ver: ["modo-de-cambio"],
+  },
+  {
+    id: "dependencia-de-la-trayectoria",
+    grupo: "teoria",
+    termino: "Dependencia de la trayectoria",
+    expansion: "path dependence",
+    definicion:
+      "Lo que ya existe tiende a persistir porque revertirlo es costoso: se acumulan capacidades, beneficiarios y compromisos. Explica la continuidad de instrumentos entre gobiernos distintos.",
+    fuente: "Pierson (2000; 2004)",
+    ver: [idModo("continuidad-estable"), "area-huerfana"],
+  },
+  {
+    id: "sucesion-de-politicas",
+    grupo: "teoria",
+    termino: "Sucesión de políticas",
+    expansion: "policy succession",
+    definicion:
+      "Los gobiernos casi nunca parten de cero: con lo heredado hacen mantenimiento, sucesión, innovación o terminación. Es el marco de lectura natural de un informe de empalme.",
+    fuente: "Hogwood & Peters, Policy Dynamics (1983)",
+    ver: ["empalme"],
+  },
+  {
+    id: "terminacion-de-politicas",
+    grupo: "teoria",
+    termino: "Terminación de políticas",
+    definicion: "Por qué y cómo se termina una política o un instrumento; la contracara de la persistencia.",
+    fuente: "deLeon (1978)",
+    ver: [idModo("terminacion")],
+  },
+  {
+    id: "pid",
+    grupo: "teoria",
+    termino: "PID+T",
+    expansion: "Descomposición Parcial de Información + Tensión",
+    definicion:
+      "Analogía metodológica propia del proyecto: descompone qué aporta cada gobierno en redundancia (ambos), unicidad (uno solo), sinergia (la combinación) y tensión (reversión). Viene de la teoría de la información, no de la ciencia política: es cómo medimos; el institucionalismo histórico dice qué significa.",
+    fuente: "Williams & Beer (2010)",
+    ver: ["cambio-institucional-gradual"],
+  },
+  {
+    id: "emergencia",
+    grupo: "teoria",
+    termino: "Emergencia",
+    definicion:
+      "Patrones que solo aparecen al integrar las partes: instrumentos que comparten varias políticas, regularidades del cambio entre sectores, coherencia de un gobierno. Es lo que busca la sesión de integración.",
+    ver: ["red-bipartita", "plenario"],
+  },
+  {
+    id: "cocreacion",
+    grupo: "teoria",
+    termino: "Laboratorio de cocreación",
+    definicion:
+      "Espacio donde las personas participantes no solo consultan el mapa: lo corrigen y lo amplían con su lectura y con información complementaria. El mapa con los aportes del seminario es el producto.",
+    ver: ["bitacora"],
+  },
+];
+
+const BITACORA: Entrada[] = [
+  {
+    id: "bitacora",
+    grupo: "bitacora",
+    termino: "Bitácora",
+    definicion:
+      "El registro que llena cada grupo sobre su política: ubicación y avance, instrumentos, siete subcategorías comparadas entre gobiernos (objetivo, instituciones, población, normativa, recursos, metas, impacto) y los hallazgos para el plenario.",
+    ver: ["tabla-puente", "hueco-de-informacion"],
+  },
+  {
+    id: "empalme",
+    grupo: "bitacora",
+    termino: "Empalme",
+    definicion:
+      "Transición entre el gobierno saliente y el entrante: el primero entrega el estado de lo que deja y el segundo lo recibe.",
+    ver: ["informe-de-empalme", "sucesion-de-politicas"],
+  },
+  {
+    id: "informe-de-empalme",
+    grupo: "bitacora",
+    termino: "Informe de empalme",
+    definicion:
+      "Documento con que un gobierno reporta su gestión al siguiente. Es la fuente primaria del mapa. Lo escribe cada gobierno sobre sí mismo: informa, pero no es una evaluación independiente.",
+    ver: ["no-declarado-no-es-abandono"],
+  },
+  {
+    id: "tabla-puente",
+    grupo: "bitacora",
+    termino: "Tabla puente",
+    definicion:
+      "Correspondencia entre cómo organiza cada gobierno su informe (pactos, transformaciones, secciones) para saber qué parte de uno se compara con qué parte del otro. Sin ella, se comparan números que no miden lo mismo.",
+    ver: ["pacto-transversal", "transformacion"],
+  },
+  {
+    id: "pacto-transversal",
+    grupo: "bitacora",
+    termino: "Pacto (PND 2018–2022)",
+    definicion:
+      "Unidad de organización del Plan Nacional de Desarrollo «Pacto por Colombia, pacto por la equidad». La CTeI fue el Pacto Transversal IX, con su propio porcentaje de cumplimiento.",
+    ver: ["pnd", "tabla-puente"],
+  },
+  {
+    id: "transformacion",
+    grupo: "bitacora",
+    termino: "Transformación (PND 2022–2026)",
+    definicion:
+      "Unidad de organización del Plan Nacional de Desarrollo «Colombia, potencia mundial de la vida». La CTeI quedó repartida en secciones de dos transformaciones distintas, sin un indicador único.",
+    ver: ["pnd", "tabla-puente"],
+  },
+  {
+    id: "avance-reportado",
+    grupo: "bitacora",
+    termino: "Avance reportado",
+    definicion:
+      "El porcentaje de cumplimiento que declara un informe. Solo es comparable si ambos gobiernos miden contra metas equivalentes; si uno reporta porcentaje y el otro solo narra logros, se anota la asimetría.",
+    ver: ["meta-cuatrienio", "sinergia"],
+  },
+  {
+    id: "meta-cuatrienio",
+    grupo: "bitacora",
+    termino: "Meta del cuatrienio",
+    definicion:
+      "Valor que el Plan Nacional de Desarrollo se propone alcanzar en los cuatro años de gobierno. Una cifra de ejecución sin su meta no dice si se cumplió: comparar 5.706 contra 3.126 sin metas es comparar manzanas con peras.",
+    ver: ["sinergia", "avance-reportado"],
+  },
+  {
+    id: "gestion-vs-impacto",
+    grupo: "bitacora",
+    termino: "Métrica de gestión, producto e impacto",
+    definicion:
+      "La gestión mide lo que hizo la entidad (convocatorias abiertas); el producto, lo que entregó (becas otorgadas, artículos publicados); el impacto, lo que cambió en la población gracias a eso, y requiere una evaluación. Los informes de empalme casi siempre reportan gestión y producto.",
+    ver: ["evaluacion-de-impacto"],
+  },
+  {
+    id: "evaluacion-de-impacto",
+    grupo: "bitacora",
+    termino: "Evaluación de impacto",
+    definicion:
+      "Estudio que estima el efecto causal de una política comparándolo con lo que habría pasado sin ella. Si no la hay, la fila «impacto» de la bitácora queda vacía, y ese vacío es un hallazgo.",
+    ver: ["gestion-vs-impacto"],
+  },
+  {
+    id: "hueco-de-informacion",
+    grupo: "bitacora",
+    termino: "Hueco de información (asimetría documental)",
+    definicion:
+      "Dato que un informe no trae (la norma, los recursos, la población). Se anota como hueco, se busca en información complementaria y nunca se rellena con supuestos.",
+    ver: ["informacion-complementaria"],
+  },
+  {
+    id: "informacion-complementaria",
+    grupo: "bitacora",
+    termino: "Información complementaria",
+    definicion:
+      "Fuentes más allá del informe de empalme para llenar los huecos: Sinergia, el PND y sus bases, el capítulo de inversión pública, normas y documentos CONPES, informes de la entidad.",
+    ver: ["sinergia", "pnd", "conpes"],
+  },
+  {
+    id: "enfoque-diferencial",
+    grupo: "bitacora",
+    termino: "Enfoque diferencial",
+    definicion:
+      "Atención explícita a grupos con necesidades o derechos particulares (mujeres, jóvenes, pueblos indígenas, comunidades NARP, personas con discapacidad) al definir la población de una política.",
+    ver: ["narp"],
+  },
+  {
+    id: "enfoque-territorial",
+    grupo: "bitacora",
+    termino: "Enfoque territorial y cierre de brechas",
+    definicion:
+      "Orientar la política según las diferencias entre regiones y priorizar los territorios rezagados (p. ej. Pacífico, Amazonía, Catatumbo, municipios PDET y ZOMAC).",
+    ver: ["pdet", "zomac"],
+  },
+  {
+    id: "hipotesis",
+    grupo: "bitacora",
+    termino: "Hipótesis del grupo",
+    definicion:
+      "Al cerrar la primera sesión, cada grupo escribe qué patrón cree que comparten las demás políticas. En la integración se contrasta con el mapa completo.",
+    ver: ["plenario", "emergencia"],
+  },
+  {
+    id: "plenario",
+    grupo: "bitacora",
+    termino: "Plenario",
+    definicion:
+      "Sesión conjunta donde se integran los aportes de todos los grupos y se discuten los patrones que emergen: instrumentos compartidos, regularidades del cambio, coherencia de gobierno y lo que le falta al mapa.",
+    ver: ["emergencia"],
+  },
+];
+
+type Sigla = [id: string, sigla: string, expansion: string, definicion: string, ver?: string[]];
+
+const SIGLAS: Sigla[] = [
+  ["ctei", "CTeI", "Ciencia, Tecnología e Innovación", "El sector piloto del mapa."],
+  ["dnp", "DNP", "Departamento Nacional de Planeación", "Entidad que coordina la planeación del país, el PND y el seguimiento con Sinergia.", ["pnd", "sinergia"]],
+  ["pnd", "PND", "Plan Nacional de Desarrollo", "La hoja de ruta de cada gobierno, aprobada por ley. 2018–2022: «Pacto por Colombia, pacto por la equidad»; 2022–2026: «Colombia, potencia mundial de la vida».", ["pacto-transversal", "transformacion"]],
+  ["sinergia", "Sinergia", "Sistema Nacional de Evaluación de Gestión y Resultados", "Sistema del DNP que hace seguimiento a las metas del PND. Ahí se busca la meta de un indicador para poder comparar cifras. No confundir con la sinergia entre instrumentos.", ["meta-cuatrienio", idRelacion("encadena")]],
+  ["minciencias", "MinCiencias", "Ministerio de Ciencia, Tecnología e Innovación", "Cabeza del sector desde 2019, cuando reemplazó a Colciencias. Pasar de departamento administrativo a ministerio es un cambio institucional en sí mismo.", ["colciencias"]],
+  ["colciencias", "Colciencias", "Departamento Administrativo de Ciencia, Tecnología e Innovación", "Entidad rectora de la CTeI hasta su transformación en MinCiencias (2019).", ["minciencias"]],
+  ["sncti", "SNCTI", "Sistema Nacional de Ciencia, Tecnología e Innovación", "El conjunto de actores (Estado, universidades, centros, empresas, sociedad) y reglas que articulan la CTeI en el país."],
+  ["sgr", "SGR", "Sistema General de Regalías", "Distribuye los ingresos de la explotación de recursos naturales no renovables. Tiene una asignación para CTeI que se adjudica por convocatorias.", ["ocad", "fctei"]],
+  ["fctei", "FCTeI", "Fondo / Asignación de CTeI del SGR", "La porción de las regalías destinada a ciencia, tecnología e innovación.", ["sgr"]],
+  ["ocad", "OCAD", "Órgano Colegiado de Administración y Decisión", "Instancia que decide qué proyectos se financian con regalías; en CTeI, el OCAD CTeI aprueba las convocatorias.", ["sgr"]],
+  ["ffjc", "FFJC", "Fondo Francisco José de Caldas", "Fondo que administra recursos de distintas fuentes para financiar la CTeI."],
+  ["conpes", "CONPES", "Consejo Nacional de Política Económica y Social", "Máxima autoridad de planeación; sus documentos CONPES fijan políticas (p. ej. CONPES 4069 de 2021, Política Nacional de CTeI 2022–2031)."],
+  ["piiom", "PIIOM", "Políticas de Investigación e Innovación Orientadas por Misiones", "Marco del gobierno 2022–2026 que organiza la CTeI en misiones (bioeconomía, transición energética, derecho a la alimentación, soberanía sanitaria, ciencia para la paz). En el mapa, cada misión es un área.", ["mision-de-sabios"]],
+  ["mision-de-sabios", "Misión de Sabios", "Misión Internacional de Sabios (2019)", "Grupo de expertos convocado en 2019 que propuso focos y recomendaciones para la CTeI; antecedente de las políticas orientadas por misiones.", ["piiom"]],
+  ["conacti", "CONACTI", "Consejo Nacional de Política de Ciencia, Tecnología e Innovación", "Instancia de gobernanza del SNCTI."],
+  ["codecti", "CODECTI", "Consejos Departamentales de Ciencia, Tecnología e Innovación", "Instancias regionales del SNCTI."],
+  ["ccn", "CCN", "Consejo Científico Nacional", "Órgano asesor del SNCTI."],
+  ["cnbt", "CNBT", "Consejo Nacional de Beneficios Tributarios en CTeI", "Aprueba el cupo y los proyectos que acceden a deducciones y descuentos tributarios por invertir en CTeI.", ["cupo-tributario"]],
+  ["cupo-tributario", "Cupo de inversión tributaria", "Deducción y descuento tributario por inversión en CTeI", "Beneficio fiscal a empresas que invierten en investigación y desarrollo: un instrumento de tesoro (el Estado deja de recaudar).", [idNato("tesoro")]],
+  ["pgn", "PGN", "Presupuesto General de la Nación", "El presupuesto anual del Gobierno nacional."],
+  ["bpin", "BPIN", "Banco de Programas y Proyectos de Inversión Nacional", "Registro donde se identifican los proyectos de inversión pública."],
+  ["pdet", "PDET", "Programas de Desarrollo con Enfoque Territorial", "Planes para los 170 municipios más afectados por el conflicto, creados por el Acuerdo de Paz de 2016.", ["enfoque-territorial"]],
+  ["zomac", "ZOMAC", "Zonas Más Afectadas por el Conflicto Armado", "Municipios con beneficios especiales (p. ej. tributarios) para promover su desarrollo.", ["enfoque-territorial"]],
+  ["narp", "NARP", "Negros, Afrocolombianos, Raizales y Palenqueros", "Denominación de las comunidades étnicas afrodescendientes en la política pública.", ["enfoque-diferencial"]],
+  ["nna", "NNA", "Niños, Niñas y Adolescentes", "Población objetivo de programas como Ondas."],
+  ["dha", "DHA", "Derecho Humano a la Alimentación", "Área de política (misión PIIOM) del gobierno 2022–2026."],
+  ["steam", "STEAM", "Ciencia, Tecnología, Ingeniería, Artes y Matemáticas", "Enfoque de formación que integra esas áreas."],
+  ["ies", "IES", "Instituciones de Educación Superior", "Universidades, instituciones universitarias, tecnológicas y técnicas."],
+  ["icetex", "ICETEX", "Instituto Colombiano de Crédito Educativo y Estudios Técnicos en el Exterior", "Entidad que administra créditos y becas educativas, incluidos créditos-beca de posgrado."],
+  ["i-d", "I+D", "Investigación y Desarrollo", "Actividad creativa y sistemática para aumentar el conocimiento y aplicarlo."],
+  ["acti", "ACTI", "Actividades de Ciencia, Tecnología e Innovación", "Categoría estadística más amplia que la I+D (incluye formación, apropiación, servicios científicos)."],
+  ["ocyt", "OCyT", "Observatorio Colombiano de Ciencia y Tecnología", "Produce los indicadores del sector."],
+  ["cric", "CRIC", "Consejo Regional Indígena del Cauca", "Organización indígena con la que MinCiencias firmó convenios de cooperación."],
+  ["mpc", "MPC", "Mesa Permanente de Concertación con los Pueblos y Organizaciones Indígenas", "Espacio de concertación entre el Gobierno y los pueblos indígenas."],
+  ["scienti", "ScienTI (CvLAC, GrupLAC)", "Plataforma de información del SNCTI", "Registra investigadores (CvLAC) y grupos (GrupLAC); es la base del reconocimiento de actores."],
+  ["otri", "OTRI", "Oficina de Transferencia de Resultados de Investigación", "Unidad que lleva los resultados de investigación al sector productivo."],
+  ["ia", "IA", "Inteligencia Artificial", "Área de política nueva en el gobierno 2022–2026 (hoja de ruta, comité asesor, proyecto de ley)."],
+  ["celac", "CELAC", "Comunidad de Estados Latinoamericanos y Caribeños", "Espacio regional en el que Colombia ejerció la presidencia pro tempore en ciencia."],
+  ["cepal", "CEPAL", "Comisión Económica para América Latina y el Caribe", "Comisión regional de Naciones Unidas."],
+  ["dane", "DANE", "Departamento Administrativo Nacional de Estadística", "Entidad de estadísticas oficiales."],
+  ["sena", "SENA", "Servicio Nacional de Aprendizaje", "Entidad de formación para el trabajo; SENAinnova es su línea de innovación."],
+  ["cop", "COP", "Peso colombiano", "Moneda en que se expresan las cifras (p. ej. «$6,50 billones COP»)."],
+  ["pib", "PIB", "Producto Interno Bruto", "La inversión en I+D suele expresarse como porcentaje del PIB."],
+];
+
+const SIGLAS_ENTRADAS: Entrada[] = SIGLAS.map(([id, termino, expansion, definicion, ver]) => ({
+  id,
+  grupo: "siglas",
+  termino,
+  expansion,
+  definicion,
+  ...(ver ? { ver } : {}),
+}));
+
+export const GLOSARIO: readonly Entrada[] = [...ONTOLOGIA, ...VOCABULARIO, ...TEORIA, ...BITACORA, ...SIGLAS_ENTRADAS];
+
+const POR_ID = new Map(GLOSARIO.map((e) => [e.id, e]));
+export const entradaPorId = (id: string): Entrada | undefined => POR_ID.get(id);
+
+const normalizar = (s: string) =>
+  s
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase();
+
+/** Filtra por texto en término, expansión y definición (sin tildes ni mayúsculas). */
+export function filtrarGlosario(consulta: string, entradas: readonly Entrada[] = GLOSARIO): Entrada[] {
+  const q = normalizar(consulta.trim());
+  if (q === "") return [...entradas];
+  return entradas.filter((e) => normalizar(`${e.termino} ${e.expansion ?? ""} ${e.definicion}`).includes(q));
+}

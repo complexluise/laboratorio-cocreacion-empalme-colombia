@@ -2,12 +2,14 @@
   interface Props {
     /** Línea secundaria: sector y periodo que se está explorando. */
     contexto?: string;
+    /** Mostrar el nombre también en pantallas angostas (páginas sin herramientas en la cabecera). */
+    nombreSiempre?: boolean;
   }
-  let { contexto = "política pública · red navegable" }: Props = $props();
+  let { contexto = "política pública · red navegable", nombreSiempre = false }: Props = $props();
 </script>
 
 <!-- Wordmark del laboratorio: glifo nodo-enlace (dos políticas que comparten un instrumento). -->
-<div class="marca">
+<div class="marca" class:nombre-siempre={nombreSiempre}>
   <svg class="glifo" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
     <line x1="8" y1="10" x2="16" y2="22" />
     <line x1="24" y1="10" x2="16" y2="22" />
@@ -61,6 +63,9 @@
   /* Mobile first: en pantallas angostas solo el glifo; el nombre aparece cuando hay lugar. */
   .texto {
     display: none;
+  }
+  .nombre-siempre .texto {
+    display: flex;
   }
   @media (min-width: 600px) {
     .texto {
