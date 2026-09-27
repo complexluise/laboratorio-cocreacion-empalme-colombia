@@ -63,6 +63,25 @@ evidencia, narrativa por gobierno), que escribe `data/sectores/ciencia-tecnologi
 > Legado (no usar para CTeI): `extraer_instrumentos.py` (Gemini) + `aplicar_correcciones.py`
 > (overlay en `data/correcciones/`); Gemini resultó poco fiable (cuota/calidad).
 
+### Materiales del taller (`public/`)
+
+La landing los ofrece con `BotonDescarga` (microinteracción; respeta `prefers-reduced-motion`) en el
+recorrido de la actividad (`PasosActividad`) y en la sección de la bitácora. Los genera el pipeline y
+no se editan a mano: `bitacora-laboratorio.docx` (la plantilla en blanco),
+`bitacora-ejemplo-ctei.docx` (el ejemplo lleno, desde `extraccion/ejemplos/bitacora-ctei.json`) y
+`red-<slug>.xlsx` (la red en Excel). Se regeneran desde la raíz (ADR-0005; `validar_contrato.py` falla
+si quedan desactualizados respecto de la estructura o del dataset):
+
+```bash
+uv run extraccion/bitacora.py generar                   # -> public/bitacora-laboratorio.docx
+uv run extraccion/bitacora.py ejemplo                   # -> public/bitacora-ejemplo-ctei.docx
+uv run extraccion/red_excel.py --slug ciencia-tecnologia # -> public/red-ciencia-tecnologia.xlsx
+```
+
+La **práctica** «¿Qué le pasó a este instrumento?» (`Practica.svelte`, lógica en `lib/practica.ts`
+con test) toma de la red un ejemplo coherente por modo de cambio: presencia acorde al modo y
+narrativa que no nombra otro modo.
+
 ## Estructura
 
 ```

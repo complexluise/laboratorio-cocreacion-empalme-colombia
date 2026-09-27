@@ -18,3 +18,4 @@ Se gradúan con la skill `graduar-adr` (fase DECIDIR del flujo).
 | [0002](ADR-0002-frontend-svelte-vite.md) | Frontend del explorador en Svelte 5 + Vite | aceptada (enmendada por 0003) |
 | [0003](ADR-0003-preset-codigo-kybernetes.md) | Adoptar el preset de código de kybernetes (monorepo pnpm + TS) | aceptada |
 | [0004](ADR-0004-politica-area-con-objetivo-por-gobierno.md) | La política pública es un área persistente con objetivo por gobierno | aceptada |
+| [0005](ADR-0005-bitacora-docx-a-dato-estructurado.md) | La bitácora es un .docx no pre-llenado que el equipo convierte a dato estructurado | aceptada |

@@ -1,6 +1,6 @@
 # Encuadre de la actividad — Laboratorio de cocreación en TRAMA
 
-> v0.4 (2026-09-27) · Vocabulario alineado con `teoria-politica.md` y [ADR-0004](decisiones/ADR-0004-politica-area-con-objetivo-por-gobierno.md) · Cada grupo **selecciona una política pública** (un área persistente), la describe entre los dos gobiernos, busca información complementaria y llena una **bitácora** (§6). El sector no es la unidad de asignación.
+> v0.5 (2026-09-27) · Vocabulario alineado con `teoria-politica.md` y [ADR-0004](decisiones/ADR-0004-politica-area-con-objetivo-por-gobierno.md) · Cada grupo **selecciona una política pública** (un área persistente), la describe entre los dos gobiernos, busca información complementaria y llena una **bitácora** (§6): un .docx en blanco que el equipo convierte en dato ([ADR-0005](decisiones/ADR-0005-bitacora-docx-a-dato-estructurado.md)). El sector no es la unidad de asignación.
 
 ## 1. Encuadre en una frase
 
@@ -99,16 +99,17 @@ Si un grupo tiene suficientes personas, se divide internamente en dos subgrupos,
 
 **Antes de la sesión 1: equipo organizador**
 - Cura las políticas públicas como áreas y define cuáles se ofrecen a los grupos (§4).
-- Para cada política, prepara la subred de sus instrumentos, un paquete curado de evidencia y la **bitácora pre-llenada** con lo que sabe la red (§6).
+- Para cada política, prepara la subred de sus instrumentos y un paquete curado de evidencia. La **bitácora** es la misma plantilla .docx para todos, en blanco, descargable desde la landing (§6).
 
 **Sesión 1: análisis por política**
 - Encuadre común: empalme, política pública, instrumento y modos de cambio gradual.
 - Cada grupo selecciona su política y trabaja con su subred (ambas vigencias) y un paquete curado de evidencia: fragmentos con página y cifra.
-- La **describe entre los dos gobiernos**: verifica, corrige y completa la bitácora pre-llenada, y **busca información complementaria** fuera del informe de empalme (Sinergia/DNP, PND, inversión pública).
+- La **describe entre los dos gobiernos** en la bitácora (Word o Google Docs), usando la red como consulta para ubicarse, y **busca información complementaria** fuera del informe de empalme (Sinergia/DNP, PND, inversión pública).
 - Cierre: cada grupo deja por escrito en la bitácora una **hipótesis** sobre qué patrón cree que comparten las otras políticas.
 
 **Entre sesiones: equipo organizador**
-- Digitaliza las bitácoras e integra los aportes al `dataset.json` de cada sector (y a `areas.yaml` si el seminario propone áreas nuevas).
+- Recoge los .docx y los convierte en dato: `uv run extraccion/bitacora.py leer <grupo>.docx --slug <slug>` → `data/bitacoras/<slug>/<grupo>.json` (validado por `scripts/validar_contrato.py`).
+- Integra los aportes al `dataset.json` de cada sector (y a `areas.yaml` si el seminario propone áreas nuevas).
 - Construye el mapa integrado de todas las políticas.
 
 **Sesión 2: integración e intergrupo**
@@ -121,7 +122,9 @@ Si un grupo tiene suficientes personas, se divide internamente en dos subgrupos,
 
 Una bitácora por grupo y por política. Reemplaza el formato por instrumento de v0.3. Su estructura se inspira en la plantilla aplicada de CTeI del PO; los ejemplos de abajo vienen de ella.
 
-**Arranca pre-llenada con lo que sabe la red**: el objetivo declarado por cada gobierno y los instrumentos con su tipo NATO y su modo de cambio. El grupo **verifica, corrige y completa**; no parte de cero. *(El formulario en la app es el épico #26, en backlog; por ahora la landing solo la describe y la bitácora se lleva en papel o documento compartido.)*
+**Es un .docx listo para llenar, en blanco** ([ADR-0005](decisiones/ADR-0005-bitacora-docx-a-dato-estructurado.md)). Se descarga desde la landing (`bitacora-laboratorio.docx`, con un ejemplo lleno de CTeI) y se llena en Word o Google Docs. La red sirve de **consulta** (la política, sus instrumentos y cómo cambiaron), no de borrador: el grupo construye la bitácora con el informe de empalme y la información complementaria. Además de las secciones de abajo, la plantilla pide los datos del grupo y una tabla de **fuentes complementarias** (fuente, qué aportó, página o enlace).
+
+Dos reglas para que el equipo pueda convertirla en dato: **no cambiar los títulos de las tablas ni de las filas**, y escribir **«Sin dato»** cuando la fuente no dice algo (es un hueco declarado, un hallazgo; se puede aclarar: «Sin dato: el balance no lo desagrega»), distinto de dejar la celda vacía (no llenado). La estructura exacta vive en la plantilla (definida en `extraccion/bitacora.py`); las tablas de abajo la resumen.
 
 ### 1. Ubicación y avance
 
@@ -171,7 +174,7 @@ Qué patrón cree el grupo que comparten las otras políticas (se conserva del c
 
 ## 7. Decisiones abiertas
 
-1. ~~**Actividad concreta de la sesión 1.**~~ **Resuelta (v0.4, 2026-09-27, PO):** cada grupo selecciona una política, la describe entre los dos gobiernos y llena la bitácora (§6). Es una combinación: **valida lo que propone la red** (bitácora pre-llenada) y **completa con información complementaria** fuera del informe de empalme.
+1. ~~**Actividad concreta de la sesión 1.**~~ **Resuelta (v0.4, 2026-09-27, PO; ajustada en v0.5):** cada grupo selecciona una política, la describe entre los dos gobiernos y llena la bitácora (§6). **Consulta la red** para ubicarse y **completa con información complementaria** fuera del informe de empalme; la bitácora arranca en blanco (ADR-0005).
 2. **Extracción de políticas.** *Resuelto por ADR-0004:* quién y cómo (el equipo las cura como áreas en `areas.yaml` antes de publicar; CTeI tiene 14). *Sigue abierto:* cuántas se ofrecen a los grupos (una por grupo, más reservas), cuáles se priorizan con los criterios de §4, y la curaduría de áreas de Deporte y Agropecuario.
 3. **Número de participantes y duración** de cada sesión, que determinan el número de grupos y si se usan subgrupos.
 4. **¿Llega Agropecuario a tiempo?** Si no, las políticas se extraen solo de CTeI y Deporte.
