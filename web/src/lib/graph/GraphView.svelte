@@ -13,11 +13,14 @@
     red: Red;
     foco: Vecindario | null;
     seleccionado: string | null;
+    /** Clic en un nodo (id) o en el vacío (null: subir un nivel de foco). */
     onseleccionar: (id: string | null) => void;
+    /** Esc: salir del foco (volver a la red completa). */
+    onsalir?: () => void;
     /** Recibe una función para encuadrar la red en el lienzo ("Ajustar vista"). */
     onajustar?: (ajustar: () => void) => void;
   }
-  let { red, foco, seleccionado, onseleccionar, onajustar }: Props = $props();
+  let { red, foco, seleccionado, onseleccionar, onsalir, onajustar }: Props = $props();
 
   let ancho = $state(0);
   let alto = $state(0);
@@ -146,7 +149,7 @@
   }
 
   function onkeydown(ev: KeyboardEvent) {
-    if (ev.key === "Escape") onseleccionar(null);
+    if (ev.key === "Escape") (onsalir ?? (() => onseleccionar(null)))();
   }
 </script>
 
@@ -158,7 +161,7 @@
     width={ancho}
     height={alto}
     role="group"
-    aria-label="Red de políticas públicas e instrumentos (Tab recorre las políticas; Enter selecciona; Esc deselecciona)"
+    aria-label="Red de políticas públicas e instrumentos (Tab recorre las políticas; Enter enfoca; Esc vuelve a la red completa)"
     use:zoomable={{ onzoom: (t) => (transformacion = t), onlisto: (c) => (control = c) }}
     onclick={() => onseleccionar(null)}
   >

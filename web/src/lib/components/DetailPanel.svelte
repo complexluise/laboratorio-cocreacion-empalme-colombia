@@ -8,7 +8,7 @@
   }
   let { estado }: Props = $props();
 
-  const nodo = $derived(estado.nodoSeleccionado);
+  const nodo = $derived(estado.nodoFoco);
   const polPorId = $derived(new Map((estado.dataset.politicas ?? []).map((p) => [p.id, p])));
   const objPorId = $derived(new Map(estado.dataset.objetos.map((o) => [o.id, o])));
 
@@ -44,13 +44,6 @@
       <span class="eyebrow">Política pública</span>
       <h2>{p.nombre}</h2>
     </header>
-    <div class="acciones">
-      {#if estado.politica === p.id}
-        <button type="button" onclick={() => estado.enfocarPolitica(null)}>Ver todas las políticas</button>
-      {:else}
-        <button type="button" onclick={() => estado.enfocarPolitica(p.id)}>Aislar su subred</button>
-      {/if}
-    </div>
     {#if p.objetivo}
       <h3>Objetivo</h3>
       <p>{p.objetivo}</p>
@@ -63,7 +56,7 @@
             type="button"
             class="vinculo"
             disabled={!visible(idInstrumento(o.id))}
-            onclick={() => estado.seleccionar(idInstrumento(o.id))}
+            onclick={() => estado.enfocar(idInstrumento(o.id))}
           >
             <span class="glifo" style:color={COLOR_MODO[o.modo_cambio]} aria-hidden="true"
               >{GLIFO_NATO[claseNato(o)]}</span
@@ -97,7 +90,7 @@
             type="button"
             class="vinculo"
             disabled={!visible(idPolitica(pid))}
-            onclick={() => estado.seleccionar(idPolitica(pid))}>{polPorId.get(pid)?.nombre ?? pid}</button
+            onclick={() => estado.enfocar(idPolitica(pid))}>{polPorId.get(pid)?.nombre ?? pid}</button
           >
         </li>
       {:else}
@@ -143,7 +136,7 @@
               type="button"
               class="vinculo"
               disabled={!visible(idInstrumento(otro!.id))}
-              onclick={() => estado.seleccionar(idInstrumento(otro!.id))}>{otro!.nombre}</button
+              onclick={() => estado.enfocar(idInstrumento(otro!.id))}>{otro!.nombre}</button
             >
           </li>
         {/each}
@@ -220,16 +213,6 @@
   .badge.linea {
     color: var(--tinta);
     border: 1px solid var(--borde);
-  }
-  .acciones button {
-    font: inherit;
-    font-size: 12.5px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--acento);
-    background: transparent;
-    color: var(--acento);
-    cursor: pointer;
   }
   .lista {
     list-style: none;

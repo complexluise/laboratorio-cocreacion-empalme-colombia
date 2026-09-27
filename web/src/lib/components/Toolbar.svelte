@@ -7,19 +7,11 @@
   }
   let { estado, onajustar }: Props = $props();
 
-  const politicas = $derived(
-    [...(estado.dataset.politicas ?? [])].sort((a, b) => a.nombre.localeCompare(b.nombre, "es")),
-  );
   const nInstrumentos = $derived(estado.red.nodos.filter((n) => n.tipo === "ins").length);
   const nPoliticas = $derived(estado.red.nodos.length - nInstrumentos);
 </script>
 
-<div class="toolbar" role="search">
-  <label class="campo buscar">
-    <span class="lbl">Buscar</span>
-    <input type="search" placeholder="Instrumento, alias o política…" bind:value={estado.busqueda} />
-  </label>
-
+<div class="toolbar">
   <label class="campo">
     <span class="lbl">Vigencia</span>
     <select bind:value={estado.vigencia}>
@@ -29,23 +21,10 @@
     </select>
   </label>
 
-  <label class="campo politica">
-    <span class="lbl">Enfocar política</span>
-    <select
-      value={estado.politica ?? ""}
-      onchange={(e) => estado.enfocarPolitica(e.currentTarget.value || null)}
-    >
-      <option value="">Todas las políticas</option>
-      {#each politicas as p (p.id)}
-        <option value={p.id}>{p.nombre}</option>
-      {/each}
-    </select>
-  </label>
-
   <div class="acciones">
     <span class="conteo" aria-live="polite">{nPoliticas} políticas · {nInstrumentos} instrumentos</span>
     {#if estado.hayFiltros}
-      <button type="button" class="sec" onclick={() => estado.limpiar()}>Limpiar filtros</button>
+      <button type="button" class="sec" onclick={() => estado.limpiarFiltros()}>Limpiar filtros</button>
     {/if}
     <button type="button" onclick={onajustar}>Ajustar vista</button>
   </div>
@@ -62,30 +41,6 @@
     display: flex;
     flex-direction: column;
     gap: 3px;
-    min-width: 0;
-  }
-  .buscar {
-    flex: 1 1 200px;
-  }
-  .politica {
-    flex: 1 1 160px;
-    max-width: 340px;
-  }
-  .campo:not(.buscar):not(.politica) {
-    flex: 0 1 180px;
-  }
-  @media (max-width: 860px) {
-    .buscar {
-      flex-basis: 100%;
-    }
-    .politica {
-      max-width: none;
-    }
-    .acciones {
-      width: 100%;
-      justify-content: space-between;
-      margin-left: 0;
-    }
   }
   .lbl {
     font-size: 11px;
@@ -93,11 +48,7 @@
     text-transform: uppercase;
     color: var(--tinta-suave);
   }
-  input,
   select {
-    width: 100%;
-    min-width: 0;
-    box-sizing: border-box;
     font: inherit;
     font-size: 14px;
     padding: 7px 9px;
@@ -106,7 +57,6 @@
     background: var(--papel);
     color: var(--tinta);
   }
-  input:focus-visible,
   select:focus-visible,
   button:focus-visible {
     outline: 2px solid var(--acento);

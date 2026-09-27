@@ -27,15 +27,15 @@
 
   // Al seleccionar un nodo en mobile se abre la hoja; al deseleccionar se pliega.
   $effect(() => {
-    hojaAbierta = estado.nodoSeleccionado !== null;
+    hojaAbierta = estado.nodoFoco !== null;
   });
 
   const tituloHoja = $derived(
-    estado.nodoSeleccionado === null
+    estado.nodoFoco === null
       ? "Detalle"
-      : estado.nodoSeleccionado.tipo === "pol"
-        ? estado.nodoSeleccionado.pol.nombre
-        : estado.nodoSeleccionado.obj.nombre,
+      : estado.nodoFoco.tipo === "pol"
+        ? estado.nodoFoco.pol.nombre
+        : estado.nodoFoco.obj.nombre,
   );
 </script>
 
@@ -73,9 +73,10 @@
     <section class="grafo" aria-label="Red">
       <GraphView
         red={estado.red}
-        foco={estado.foco}
-        seleccionado={estado.nodoSeleccionado?.id ?? null}
-        onseleccionar={(id) => estado.seleccionar(id)}
+        foco={estado.vecindario}
+        seleccionado={estado.nodoFoco?.id ?? null}
+        onseleccionar={(id) => (id === null ? estado.subirNivel() : estado.enfocar(id))}
+        onsalir={() => estado.salirDelFoco()}
         onajustar={(f) => (ajustar = f)}
       />
     </section>

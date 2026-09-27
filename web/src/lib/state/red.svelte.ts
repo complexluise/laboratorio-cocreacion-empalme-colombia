@@ -1,5 +1,7 @@
 import {
   construirRed,
+  idInstrumento,
+  idPolitica,
   vecindario,
   type ClaseNato,
   type Dataset,
@@ -12,70 +14,158 @@ import {
 import { SvelteSet } from "svelte/reactivity";
 
 /**
- * Store central de la exploración (runes). Los filtros COMPONEN POR INTERSECCIÓN (ver
- * `construirRed`); `modos`/`natos` vacíos = sin restricción. La selección no altera la
- * topología: solo el foco de vecindario.
+ * Foco de la exploración (ids crudos del dataset, sin prefijo):
+ * - `politica` → aísla su subred (solo ella y sus instrumentos).
+ * - `instrumento` → resalta su vecindario y atenúa el resto (dentro de la subred si hay una).
+ */
+export interface Foco {
+  politica: string | null;
+  instrumento: string | null;
+}
+
+/** Un tramo de la miga de pan: `Red completa › Política › Instrumento`. */
+export interface TramoRuta {
+  nivel: "red" | "politica" | "instrumento";
+  etiqueta: string;
+}
+
+const SIN_FOCO: Foco = { politica: null, instrumento: null };
+
+/**
+ * Store central de la exploración (runes). Separa las intenciones del usuario:
+ * - FILTRAR (`vigencia`, `modos`, `natos`): qué parte de la red se ve. Componen por intersección.
+ * - ENFOCAR (`foco`): dónde está mirando. Independiente de los filtros; si un filtro oculta lo
+ *   enfocado, se sale de ese nivel de foco (nunca queda un foco invisible colgado).
+ * - NAVEGAR (buscar) no vive acá: `buscar()` de @laboratorio/red + `enfocar()`.
  */
 export class EstadoRed {
-  vigencia = $state<VigenciaSel>("ambos");
-  busqueda = $state("");
-  politica = $state<string | null>(null);
+  #vigencia = $state<VigenciaSel>("ambos");
   readonly modos = new SvelteSet<ModoCambio>();
   readonly natos = new SvelteSet<ClaseNato>();
-  seleccionado = $state<string | null>(null);
+  foco = $state<Foco>(SIN_FOCO);
 
   readonly red: Red = $derived.by(() =>
-    construirRed(this.dataset, {
-      vigencia: this.vigencia,
-      busqueda: this.busqueda,
-      politica: this.politica,
-      modos: this.modos,
-      natos: this.natos,
-    }),
+    construirRed(
+      this.dataset,
+      { vigencia: this.#vigencia, modos: this.modos, natos: this.natos },
+      { politica: this.foco.politica },
+    ),
   );
 
-  /** El nodo seleccionado, si sigue visible tras filtrar. Si un filtro lo oculta, la selección se
-   *  conserva y reaparece (con su foco) al quitar el filtro. */
-  readonly nodoSeleccionado: Nodo | null = $derived(
-    this.seleccionado === null ? null : (this.red.nodos.find((n) => n.id === this.seleccionado) ?? null),
+  /** El nodo protagonista del foco: el instrumento si hay, si no la política. */
+  readonly nodoFoco: Nodo | null = $derived.by(() => {
+    const id =
+      this.foco.instrumento !== null
+        ? idInstrumento(this.foco.instrumento)
+        : this.foco.politica !== null
+          ? idPolitica(this.foco.politica)
+          : null;
+    return id === null ? null : (this.red.nodos.find((n) => n.id === id) ?? null);
+  });
+
+  /** Vecindario resaltado: solo con un instrumento enfocado (la política ya aísla su subred). */
+  readonly vecindario: Vecindario | null = $derived(
+    this.foco.instrumento === null ? null : vecindario(this.red, idInstrumento(this.foco.instrumento)),
   );
 
-  readonly foco: Vecindario | null = $derived(
-    this.nodoSeleccionado === null ? null : vecindario(this.red, this.nodoSeleccionado.id),
-  );
+  readonly ruta: TramoRuta[] = $derived.by(() => {
+    const tramos: TramoRuta[] = [{ nivel: "red", etiqueta: "Red completa" }];
+    const { politica, instrumento } = this.foco;
+    if (politica !== null) {
+      const p = this.dataset.politicas?.find((x) => x.id === politica);
+      tramos.push({ nivel: "politica", etiqueta: p?.nombre ?? politica });
+    }
+    if (instrumento !== null) {
+      const o = this.dataset.objetos.find((x) => x.id === instrumento);
+      tramos.push({ nivel: "instrumento", etiqueta: o?.nombre ?? instrumento });
+    }
+    return tramos;
+  });
 
-  readonly hayFiltros: boolean = $derived(
-    this.vigencia !== "ambos" ||
-      this.busqueda.trim() !== "" ||
-      this.politica !== null ||
-      this.modos.size > 0 ||
-      this.natos.size > 0,
-  );
+  readonly hayFoco: boolean = $derived(this.foco.politica !== null || this.foco.instrumento !== null);
+
+  readonly nFiltros: number = $derived((this.#vigencia !== "ambos" ? 1 : 0) + this.modos.size + this.natos.size);
+
+  readonly hayFiltros: boolean = $derived(this.nFiltros > 0);
 
   // Propiedad de parámetro: se asigna antes que los campos derivados que la leen.
   constructor(readonly dataset: Dataset) {}
 
-  seleccionar(id: string | null) {
-    this.seleccionado = id;
+  // ---- FILTRAR ----
+
+  get vigencia(): VigenciaSel {
+    return this.#vigencia;
+  }
+  set vigencia(v: VigenciaSel) {
+    this.#vigencia = v;
+    this.#sanearFoco();
   }
 
   alternarModo(m: ModoCambio) {
     if (!this.modos.delete(m)) this.modos.add(m);
+    this.#sanearFoco();
   }
 
   alternarNato(c: ClaseNato) {
     if (!this.natos.delete(c)) this.natos.add(c);
+    this.#sanearFoco();
   }
 
-  enfocarPolitica(id: string | null) {
-    this.politica = id;
-  }
-
-  limpiar() {
-    this.vigencia = "ambos";
-    this.busqueda = "";
-    this.politica = null;
+  /** Solo limpia filtros: el foco se conserva (y sigue visible en la miga de pan). */
+  limpiarFiltros() {
+    this.#vigencia = "ambos";
     this.modos.clear();
     this.natos.clear();
+  }
+
+  // ---- ENFOCAR ----
+
+  /**
+   * Enfoca un nodo por su id (`pol:…` / `ins:…`).
+   * Política → aísla su subred. Instrumento → resalta su vecindario; conserva la subred actual
+   * solo si el instrumento pertenece a esa política.
+   */
+  enfocar(idNodo: string) {
+    if (idNodo.startsWith("pol:")) {
+      this.foco = { politica: idNodo.slice(4), instrumento: null };
+      return;
+    }
+    const id = idNodo.slice(4);
+    const obj = this.dataset.objetos.find((o) => o.id === id);
+    if (!obj) return;
+    const actual = this.foco.politica;
+    const seQueda = actual !== null && (obj.politicas ?? []).includes(actual);
+    this.foco = { politica: seQueda ? actual : null, instrumento: id };
+    this.#sanearFoco();
+  }
+
+  /** Vuelve a un tramo de la miga de pan. */
+  irA(nivel: TramoRuta["nivel"]) {
+    if (nivel === "red") this.salirDelFoco();
+    else if (nivel === "politica") this.foco = { politica: this.foco.politica, instrumento: null };
+  }
+
+  /** Sube un nivel: instrumento → su subred (o red completa) → red completa. */
+  subirNivel() {
+    if (this.foco.instrumento !== null) this.foco = { politica: this.foco.politica, instrumento: null };
+    else this.salirDelFoco();
+  }
+
+  salirDelFoco() {
+    this.foco = SIN_FOCO;
+  }
+
+  /** Si un filtro deja fuera lo enfocado, se sale de ese nivel (sin estado colgado). */
+  #sanearFoco() {
+    const visibles = new Set(this.red.nodos.map((n) => n.id));
+    let { politica, instrumento } = this.foco;
+    if (politica !== null && !visibles.has(idPolitica(politica))) {
+      politica = null;
+      instrumento = null;
+    }
+    if (instrumento !== null && !visibles.has(idInstrumento(instrumento))) instrumento = null;
+    if (politica !== this.foco.politica || instrumento !== this.foco.instrumento) {
+      this.foco = { politica, instrumento };
+    }
   }
 }
