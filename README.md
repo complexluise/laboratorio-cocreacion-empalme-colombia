@@ -1,4 +1,4 @@
-# Laboratorio de cocreación — Trama
+# Laboratorio de Cocreación
 
 🗺️ **Mapa en vivo:** https://complexluise.github.io/laboratorio-cocreacion-empalme-colombia/
 
@@ -6,7 +6,7 @@ Repo de trabajo del laboratorio: acá **construimos el lab y todo lo necesario**
 **mapa navegable** de la política pública para que la gente **explore y cocree** sobre ella.
 Hoy están el **núcleo conceptual** (ontología + teoría política + contrato de datos), la
 **extracción** (ingesta de informes de empalme del DNP) y la **actividad del seminario**
-documentada. El pipeline de procesamiento y la aplicación se (re)construyen sobre esta base.
+documentada, y el **explorador** de la red (Svelte) publicado en GitHub Pages.
 
 ## Por qué
 
@@ -29,6 +29,12 @@ sueltas. Las preguntas que guían todo (ver `docs/ontologia.md`):
 | `data/schema/taxonomia.yaml` | Vocabulario controlado (fuente única de verdad de los enums). |
 | `data/schema/*.schema.json` | Contratos de datos: `idea` (evidencia), `comparacion`, `objeto` (instrumento). |
 | `extraccion/` | Scripts de ingesta y extracción (ver abajo). |
+| `packages/red/` | `@laboratorio/red`: dominio de la red (tipos del contrato, filtros, foco de vecindario), sin DOM. |
+| `web/` | `@laboratorio/web`: el explorador (Svelte 5 + Vite + D3). Ver `web/README.md`. |
+| `scripts/` | `validar_contrato.py`: valida los schemas y el dataset de la web (gate de CI). |
+| `docs/decisiones/` | **ADRs**: los porqués que condicionan el código. |
+| `docs/FRONTERAS.md` | Las fronteras del repo: `extraccion/` → contrato `data/schema/` → `web/`, y `packages/red` → `web/`. |
+| `CONTRIBUTING.md`, `AGENTS.md`, `CLAUDE.md`, `.claude/` | La **disciplina de trabajo** (ver abajo). |
 | `descargas/`, `extraido/`, `markdown/` | Informes de empalme del DNP: PDF/ZIP descargados, anexos descomprimidos y su conversión a markdown. *(no versionado; se regeneran)* |
 
 ### Sobre `extraccion/`
@@ -39,7 +45,7 @@ Del informe crudo del DNP → markdown → **políticas + instrumentos** de pol�
 - `ocr_gemini.py` — OCR para los PDF escaneados sin texto extraíble.
 - `extraer_instrumentos.py` — markdown → **políticas + instrumentos** con NATO, modo de cambio,
   presencia por vigencia, evidencia y relaciones (nodos + aristas). Con `responseSchema` + validación.
-- `generar_web.py` — `objetos.json` → `web/datos.js` (dato horneado para el mapa).
+- `generar_web.py` — `objetos.json` → `web/src/lib/data/<slug>.json` (dataset commiteado que importa la web).
 - *(deprecados: `extraer_ideas.py`, `consolidar_objetos.py` — la capa de "ideas" ya no se usa.)*
 
 > Leen rutas relativas a la raíz del repo, así que ejecutarlos desde la raíz. Los que usan Gemini
@@ -48,9 +54,26 @@ Del informe crudo del DNP → markdown → **políticas + instrumentos** de pol�
 
 ## La aplicación
 
-Un **explorador de instrumentos** (D3.js): el mapa navegable de instrumentos agrupados por política,
-coloreados por su modo de cambio entre gobiernos. **PoC funcionando en `web/`** para Ciencia y
-Tecnología — abrir `web/index.html` (ver `web/README.md`).
+Un **explorador de la red** política↔instrumento (Svelte 5 + D3): instrumentos agrupados por
+política, coloreados por su modo de cambio entre gobiernos y con forma según su tipo NATO. Hoy cubre
+Ciencia y Tecnología.
+
+```bash
+pnpm install && pnpm dev     # desarrollo (Node >= 22)
+pnpm build                   # web/dist: estático, abre en Pages o por file://
+```
+
+Interacción, estructura y de dónde sale el dato: [`web/README.md`](web/README.md).
+
+## Cómo trabajamos
+
+Con la disciplina de [`kybernetes`](https://github.com/Sostaina/kybernetes) (ver
+[ADR-0001](docs/decisiones/ADR-0001-adoptar-disciplina-kybernetes.md) y
+[ADR-0003](docs/decisiones/ADR-0003-preset-codigo-kybernetes.md)): GitFlow-lite (`dev` integra,
+`main` publica), Conventional Commits, trabajo en issues, decisiones en ADRs, monorepo pnpm con TS
+estricto, fronteras verificadas (dependency-cruiser), changesets, y un harness para
+agentes en `.claude/` (skills del flujo, agentes `architect`/`coder`/`verifier`, `/retro-ciclo`).
+Empezá por [`CONTRIBUTING.md`](CONTRIBUTING.md); si sos un agente, por [`AGENTS.md`](AGENTS.md).
 
 ## Estado
 
@@ -58,7 +81,7 @@ Tecnología — abrir `web/index.html` (ver `web/README.md`).
 - ✅ Ingesta de informes de empalme del DNP y conversión a markdown.
 - ✅ Actividad del seminario documentada (`docs/encuadre-actividad-trama.md`).
 - ✅ Pipeline `extraer_instrumentos.py` corrido sobre Ciencia y Tecnología (piloto/PoC).
-- ✅ Aplicación: explorador de instrumentos (D3) — **PoC** en `web/` (CTeI).
+- ✅ Aplicación: explorador de la red en **Svelte 5 + D3** (`web/` + `packages/red`), responsive (CTeI).
 - 🔧 Afinar la resolución de entidades entre gobiernos (fusión de instrumentos/políticas equivalentes).
 - 🔧 Escalar a más sectores (educación, cultura, agro) cuando el portal DNP esté disponible.
-- ✅ Publicado en **GitHub Pages** (deploy automático de `web/` en cada push a `main`).
+- ✅ Publicado en **GitHub Pages** (build con pnpm y deploy de `web/dist` en cada push a `main`).

@@ -1,0 +1,15 @@
+name: Idea / dirección
+description: Algo exploratorio, sin decidir todavía (fase DIVERGIR). Puede madurar a feature o ADR.
+labels: ["discussion"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: La idea
+      description: El pensamiento en crudo. No hace falta que esté resuelto.
+    validations:
+      required: true
+  - type: textarea
+    id: por-que-importa
+    attributes:
+      label: Por qué podría importar

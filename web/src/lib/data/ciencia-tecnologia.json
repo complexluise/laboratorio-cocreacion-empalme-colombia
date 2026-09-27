@@ -1,4 +1,4 @@
-window.DATASET = {
+{
   "sector": "ciencia-tecnologia",
   "politicas": [
     {
@@ -6396,4 +6396,4 @@ window.DATASET = {
       "nota": "Las Estancias Postdoctorales, Jóvenes Investigadoras y doctoras del Programa de Formación de Alto Nivel se articulan y encadenan con las beneficiarias del Programa Orquídeas (Informe 2022-2026, líneas 1254, 2120, 2466-2467)."
     }
   ]
-};
+}
