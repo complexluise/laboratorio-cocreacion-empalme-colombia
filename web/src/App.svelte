@@ -1,8 +1,19 @@
 <script lang="ts">
+  import { FILTROS_INICIALES, construirRed, vecindario } from "@laboratorio/red";
   import { dataset } from "$lib/data";
+  import GraphView from "$lib/graph/GraphView.svelte";
+
+  const red = construirRed(dataset, FILTROS_INICIALES);
+  let seleccionado = $state<string | null>(null);
+  const foco = $derived(seleccionado ? vecindario(red, seleccionado) : null);
 </script>
 
 <main>
-  <h1>Laboratorio de Cocreación</h1>
-  <p>{dataset.objetos.length} instrumentos · {dataset.politicas?.length ?? 0} políticas</p>
+  <GraphView {red} {foco} {seleccionado} onseleccionar={(id) => (seleccionado = id)} />
 </main>
+
+<style>
+  main {
+    height: 100dvh;
+  }
+</style>
