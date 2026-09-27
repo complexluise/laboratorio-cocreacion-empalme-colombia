@@ -18,9 +18,28 @@
       "required": ["id", "nombre"],
       "additionalProperties": false,
       "properties": {
-        "id": {"type": "string", "description": "slug estable de la política"},
-        "nombre": {"type": "string", "description": "nombre de la política pública"},
-        "objetivo": {"type": "string", "description": "problema o prioridad que persigue"}
+        "id": {"type": "string", "description": "slug estable de la política (área persistente)"},
+        "nombre": {"type": "string", "description": "nombre de la política pública (área que atraviesa gobiernos)"},
+        "objetivo": {"type": "string", "description": "LEGADO (salida del extractor, una política por gobierno): problema o prioridad que persigue. Tras aplicar_areas.py se usa `objetivos`."},
+        "objetivos": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "objetivo que DECLARA cada gobierno para esta política (Howlett & Cashore: fines; Hall 1993: cambio de 3er orden). Ausente en una vigencia = no declarado en ese informe.",
+          "properties": {
+            "2018-2022": {"$ref": "#/$defs/objetivo_gobierno"},
+            "2022-2026": {"$ref": "#/$defs/objetivo_gobierno"}
+          }
+        },
+        "cambio_objetivo": {"type": "string", "enum": ["se-mantiene", "se-reformula", "no-declarado", "nuevo"], "description": "cómo cambia el objetivo declarado entre gobiernos (vocabulario en taxonomia.yaml)"}
+      }
+    },
+    "objetivo_gobierno": {
+      "type": "object",
+      "required": ["enunciados"],
+      "additionalProperties": false,
+      "properties": {
+        "enunciados": {"type": "array", "minItems": 1, "items": {"type": "string"}, "description": "objetivo(s) tal como los declara el informe de ese gobierno"},
+        "declaradas": {"type": "array", "items": {"type": "string"}, "description": "nombres de las políticas declaradas en ese informe que se agrupan en esta área"}
       }
     },
     "objeto": {

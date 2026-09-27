@@ -1,0 +1,113 @@
+# Áreas de política pública (issue #20) — CURADURÍA del equipo, versionada.
+#
+# Una POLÍTICA es un ÁREA persistente (problema/área que atraviesa gobiernos). Cada gobierno le
+# declara su objetivo (uno o varios enunciados, tomados tal cual de las políticas que el pipeline
+# extrajo de su informe de empalme). `declaradas` lista los ids de esas políticas de origen.
+#
+# cambio_objetivo (vocabulario en data/schema/taxonomia.yaml):
+#   se-mantiene · se-reformula · no-declarado · nuevo
+# "no-declarado" (no "abandonado"): el informe lo escribe cada gobierno; el silencio no prueba abandono.
+#
+# Criterios acordados con el PO: cada MISIÓN es un área; apropiación social y ciencia abierta son
+# áreas distintas; las áreas las define el equipo antes de publicar (ampliable al seminario).
+# Lo aplica, de forma determinista, extraccion/aplicar_areas.py.
+
+areas:
+  - id: orientacion-estrategica
+    nombre: Orientación estratégica de la CTeI
+    cambio_objetivo: se-reformula
+    declaradas:
+      "2018-2022":
+        - mision-internacional-de-sabios-mis-2019-y-sus-recomendaciones-informe-2018-2022
+        - politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion
+      "2022-2026":
+        - politicas-de-investigacion-e-innovacion-orientadas-por-misiones-piiom-2024-2033-resolucion-1452-de-2024-informe-2022-2026
+        - politica-nacional-de-ciencia-tecnologia-e-innovacion-2022-2031-conpes-4069-de-2021-informe-2018-2022-formulacion-e-informe-2022-2026-implementacion
+
+  - id: bioeconomia
+    nombre: Bioeconomía
+    cambio_objetivo: se-reformula
+    declaradas:
+      "2018-2022": [economia-bioproductiva-programa-colombia-bio-informe-2018-2022]
+      "2022-2026": [mision-bioeconomia-y-territorio-una-de-las-5-piiom-informe-2022-2026]
+    absorbe_nodos: [mision-bioeconomia-y-territorio-marco-misional-piiom]
+
+  - id: transicion-energetica
+    nombre: Transición energética
+    cambio_objetivo: nuevo
+    declaradas:
+      "2022-2026": [mision-transicion-energetica-una-de-las-5-piiom-informe-2022-2026]
+
+  - id: ciencia-para-la-paz
+    nombre: Ciencia para la paz
+    cambio_objetivo: nuevo
+    declaradas:
+      "2022-2026": [mision-ciencia-para-la-paz-una-de-las-5-piiom-informe-2022-2026]
+
+  - id: derecho-alimentacion
+    nombre: Derecho humano a la alimentación
+    cambio_objetivo: nuevo
+    declaradas:
+      "2022-2026": [mision-derecho-humano-a-la-alimentacion-una-de-las-5-piiom-informe-2022-2026]
+    absorbe_nodos: [mision-derecho-humano-a-la-alimentacion-marco-misional-piiom]
+
+  - id: soberania-sanitaria
+    nombre: Soberanía sanitaria y bienestar social
+    cambio_objetivo: nuevo
+    declaradas:
+      "2022-2026": [mision-soberania-sanitaria-y-bienestar-social-una-de-las-5-piiom-informe-2022-2026]
+
+  - id: talento-humano
+    nombre: Talento humano y capacidades regionales
+    cambio_objetivo: se-reformula
+    declaradas:
+      "2018-2022": [fortalecer-las-capacidades-regionales-formacion-y-vinculacion-de-capital-humano-de-alto-nivel-informe-2018-2022]
+      "2022-2026":
+        - programa-de-formacion-de-alto-nivel-doctorados-y-maestrias-informe-2022-2026
+        - programa-orquideas-mujeres-en-la-ciencia-informe-2022-2026
+
+  - id: apropiacion-social
+    nombre: Apropiación social del conocimiento
+    cambio_objetivo: se-mantiene
+    declaradas:
+      "2018-2022": [apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026]
+      "2022-2026": [apropiacion-social-del-conocimiento-asc-y-democratizacion-de-la-ciencia-informe-2018-2022-e-informe-2022-2026]
+
+  - id: ciencia-abierta
+    nombre: Ciencia abierta
+    cambio_objetivo: nuevo
+    declaradas:
+      "2022-2026": [politica-nacional-de-ciencia-abierta-2022-2031-resolucion-0777-de-2022-en-el-marco-del-conpes-4069-informe-2022-2026]
+
+  - id: innovacion-empresarial
+    nombre: Innovación empresarial y sofisticación productiva
+    cambio_objetivo: no-declarado
+    declaradas:
+      "2018-2022": [sofisticacion-del-sector-productivo-fortalecimiento-de-capacidades-para-la-innovacion-empresarial-informe-2018-2022]
+
+  - id: beneficios-tributarios
+    nombre: Beneficios tributarios para CTeI
+    cambio_objetivo: se-mantiene
+    declaradas:
+      "2018-2022": [programa-de-beneficios-tributarios-para-ciencia-tecnologia-e-innovacion-informe-2018-2022-e-informe-2022-2026]
+      "2022-2026": [programa-de-beneficios-tributarios-para-ciencia-tecnologia-e-innovacion-informe-2018-2022-e-informe-2022-2026]
+
+  - id: internacionalizacion
+    nombre: Internacionalización y diplomacia científica
+    cambio_objetivo: se-mantiene
+    declaradas:
+      "2018-2022": [diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026]
+      "2022-2026": [diplomacia-cientifica-y-cooperacion-internacional-internacionalizacion-del-conocimiento-informe-2018-2022-e-informe-2022-2026]
+
+  - id: gobernanza-sncti
+    nombre: Gobernanza del sistema de CTeI
+    cambio_objetivo: se-mantiene
+    declaradas:
+      "2018-2022": [modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026]
+      "2022-2026": [modernizacion-institucional-y-fortalecimiento-de-la-gobernanza-del-sncti-informe-2018-2022-e-informe-2022-2026]
+
+  - id: inteligencia-artificial
+    nombre: Inteligencia artificial
+    cambio_objetivo: nuevo
+    declaradas:
+      "2022-2026": [conpes-4144-politica-nacional-de-inteligencia-artificial-aprobado-el-14-de-febrero-de-2025-informe-2022-2026]

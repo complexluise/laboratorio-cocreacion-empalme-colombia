@@ -62,3 +62,19 @@ objetos:
     financia:   "Una fuente de financiación costea otro instrumento (SGR/FCTeI -> Fondo Francisco José de Caldas)."
     depende-de: "Precedencia o condición entre instrumentos."
     encadena:   "Sinergia: dos instrumentos se encadenan o potencian mutuamente (Misión de Sabios -> PIIOM)."
+
+# ---------------------------------------------------------------------------
+# POLÍTICAS (issue #20): una política es un ÁREA persistente; cada gobierno le declara su
+# objetivo. Complementa (no reemplaza) el modo de cambio del INSTRUMENTO.
+politicas:
+
+  # Cómo cambia el objetivo declarado entre gobiernos (inspirado en Hall 1993: el cambio de
+  # objetivos es el de 3er orden). "no-declarado", no "abandonado": el informe de empalme lo
+  # escribe cada gobierno sobre sí mismo; el silencio no prueba abandono.
+  cambio_objetivo:            # Cardinalidad: 1.
+    cardinalidad: uno
+    valores:
+      se-mantiene:  "Ambos gobiernos declaran la política con el mismo objetivo."
+      se-reformula: "Ambos gobiernos atienden el área, pero con otro enfoque u objetivo."
+      no-declarado: "El gobierno posterior no declara objetivo para el área (sus instrumentos pueden seguir)."
+      nuevo:        "Solo el gobierno posterior declara el área."
