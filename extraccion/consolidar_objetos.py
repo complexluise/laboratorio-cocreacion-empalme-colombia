@@ -3,6 +3,10 @@
 # dependencies = ["httpx>=0.27", "pyyaml>=6.0", "jsonschema>=4.0"]
 # ///
 """
+DEPRECADO — consumía la capa de "ideas", ya no usada. El pipeline vigente induce políticas +
+instrumentos directo del markdown con el vocabulario del encuadre: ver
+extraccion/extraer_instrumentos.py. Se conserva como referencia histórica.
+
 Consolidación de INSTRUMENTOS DE POLÍTICA PÚBLICA (capa de análisis del mapa del laboratorio).
 
 Marco: "instrumento de política pública" (Lascoumes & Le Galès, 2004; Hood, 1983). En el código

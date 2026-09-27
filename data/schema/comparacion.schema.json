@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://empalme/comparacion.schema.json",
-  "title": "Comparación intertemporal (PID+T)",
-  "description": "Relaciones entre ideas de dos periodos de un sector, bajo el marco convergencia/redundancia/unicidad/sinergia/tensión.",
+  "title": "Comparación intertemporal (PID+T) (DEPRECADO)",
+  "description": "DEPRECADO: operaba sobre la capa de ideas, ya no usada. El cambio entre gobiernos se modela ahora como 'modo_cambio' del instrumento (ver data/schema/objeto.schema.json). Se conserva como referencia histórica. — Relaciones entre ideas de dos periodos bajo convergencia/redundancia/unicidad/sinergia/tensión.",
   "type": "object",
   "required": ["sector", "relaciones"],
   "additionalProperties": false,

@@ -3,6 +3,10 @@
 # dependencies = ["httpx>=0.27", "pyyaml>=6.0", "jsonschema>=4.0"]
 # ///
 """
+DEPRECADO — la capa de "ideas" ya no se usa. El pipeline extrae directo políticas +
+instrumentos con el vocabulario del encuadre (NATO + modos de cambio): ver
+extraccion/extraer_instrumentos.py. Se conserva como referencia histórica.
+
 Extracción ESCALABLE de ideas estructuradas desde los informes de empalme.
 
 Para cada informe (markdown) llama a Gemini con `responseSchema` (JSON estructurado) y

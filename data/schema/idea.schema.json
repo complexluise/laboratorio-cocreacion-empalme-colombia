@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://empalme/idea.schema.json",
-  "title": "Idea de empalme",
-  "description": "Registro estructurado de una idea extraída de un informe de empalme. Clasificación facetada con vocabulario controlado (ver data/schema/taxonomia.yaml).",
+  "title": "Idea de empalme (DEPRECADO)",
+  "description": "DEPRECADO: la capa de ideas facetadas ya no se usa. El pipeline extrae directo políticas + instrumentos (ver data/schema/objeto.schema.json y extraccion/extraer_instrumentos.py). Se conserva como referencia histórica. — Registro estructurado de una idea extraída de un informe de empalme, con clasificación facetada.",
   "type": "object",
   "required": ["id", "enunciado", "tema", "tipo"],
   "additionalProperties": false,
