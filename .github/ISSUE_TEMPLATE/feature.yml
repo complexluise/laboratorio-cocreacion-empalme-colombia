@@ -1,0 +1,24 @@
+name: Feature / trabajo
+description: Una idea lista para trabajar (fase ENCUADRAR). El detalle vive acá dentro.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: que
+    attributes:
+      label: Qué
+      description: Qué queremos y para quién.
+    validations:
+      required: true
+  - type: textarea
+    id: por-que
+    attributes:
+      label: Por qué
+      description: El problema/necesidad. Si condiciona el código, quizá sea un ADR.
+  - type: textarea
+    id: dod
+    attributes:
+      label: Definition of Done
+      description: Cómo sabemos que está hecho (binario y observable).
+      placeholder: "- [ ] ...\n- [ ] tests verdes\n- [ ] fronteras respetadas (docs/FRONTERAS.md)"
+    validations:
+      required: true

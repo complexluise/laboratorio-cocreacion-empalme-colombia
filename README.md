@@ -29,6 +29,9 @@ sueltas. Las preguntas que guían todo (ver `docs/ontologia.md`):
 | `data/schema/taxonomia.yaml` | Vocabulario controlado (fuente única de verdad de los enums). |
 | `data/schema/*.schema.json` | Contratos de datos: `idea` (evidencia), `comparacion`, `objeto` (instrumento). |
 | `extraccion/` | Scripts de ingesta y extracción (ver abajo). |
+| `docs/decisiones/` | **ADRs**: los porqués que condicionan el código. |
+| `docs/FRONTERAS.md` | Las fronteras del repo: `extraccion/` → contrato `data/schema/` → `web/`. |
+| `CONTRIBUTING.md`, `AGENTS.md`, `CLAUDE.md`, `.claude/` | La **disciplina de trabajo** (ver abajo). |
 | `descargas/`, `extraido/`, `markdown/` | Informes de empalme del DNP: PDF/ZIP descargados, anexos descomprimidos y su conversión a markdown. *(no versionado; se regeneran)* |
 
 ### Sobre `extraccion/`
@@ -51,6 +54,14 @@ Del informe crudo del DNP → markdown → **políticas + instrumentos** de pol�
 Un **explorador de instrumentos** (D3.js): el mapa navegable de instrumentos agrupados por política,
 coloreados por su modo de cambio entre gobiernos. **PoC funcionando en `web/`** para Ciencia y
 Tecnología — abrir `web/index.html` (ver `web/README.md`).
+
+## Cómo trabajamos
+
+Con la disciplina de [`kybernetes`](https://github.com/Sostaina/kybernetes) (ver
+[ADR-0001](docs/decisiones/ADR-0001-adoptar-disciplina-kybernetes.md)): GitFlow-lite (`dev` integra,
+`main` publica), Conventional Commits, trabajo en issues, decisiones en ADRs y un harness para
+agentes en `.claude/` (skills del flujo, agentes `architect`/`coder`/`verifier`, `/retro-ciclo`).
+Empezá por [`CONTRIBUTING.md`](CONTRIBUTING.md); si sos un agente, por [`AGENTS.md`](AGENTS.md).
 
 ## Estado
 
