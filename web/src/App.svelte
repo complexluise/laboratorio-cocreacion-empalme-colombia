@@ -21,6 +21,19 @@
    * Una sola hoja inferior, en el flujo del grid (nunca tapa el grafo).
    */
   const estado = new EstadoRed(dataset);
+
+  // Mejora progresiva: en pantallas anchas las hojas pasan a paneles laterales fijos
+  // (filtros a la izquierda, detalle a la derecha). Mismos componentes y mismo estado.
+  const mqEscritorio = typeof window === "undefined" ? null : window.matchMedia("(min-width: 861px)");
+  let escritorio = $state(mqEscritorio?.matches ?? false);
+  $effect(() => {
+    if (!mqEscritorio) return;
+    const alCambiar = (e: MediaQueryListEvent) => (escritorio = e.matches);
+    mqEscritorio.addEventListener("change", alCambiar);
+    return () => mqEscritorio.removeEventListener("change", alCambiar);
+  });
+  let filtrosPlegados = $state(false);
+
   let controles = $state<ControlesVista>(CONTROLES_NULOS);
   let leyendaAbierta = $state(false);
 
@@ -36,6 +49,10 @@
   });
 
   function alternarFiltros() {
+    if (escritorio) {
+      filtrosPlegados = !filtrosPlegados;
+      return;
+    }
     if (hoja === "filtros" && hojaAbierta) {
       hoja = "detalle";
       hojaAbierta = false;
@@ -64,8 +81,8 @@
       type="button"
       class="btn-filtros"
       class:activo={estado.hayFiltros}
-      aria-expanded={hoja === "filtros" && hojaAbierta}
-      aria-controls="hoja"
+      aria-expanded={escritorio ? !filtrosPlegados : hoja === "filtros" && hojaAbierta}
+      aria-controls={escritorio ? "panel-filtros" : "hoja"}
       onclick={alternarFiltros}
     >
       Filtros
@@ -73,7 +90,17 @@
     </button>
   </header>
 
-  <main class="cuerpo">
+  <main class="cuerpo" class:escritorio class:plegados={filtrosPlegados}>
+    {#if escritorio && !filtrosPlegados}
+      <aside id="panel-filtros" class="panel panel-filtros" aria-label="Filtros">
+        <div class="panel-cab">
+          <h2>Filtros</h2>
+          <button type="button" class="cerrar" aria-label="Plegar filtros" onclick={alternarFiltros}>«</button>
+        </div>
+        <Filtros {estado} />
+      </aside>
+    {/if}
+
     <section class="lienzo" aria-label="Red de políticas e instrumentos">
       <GraphView
         red={estado.red}
@@ -88,6 +115,11 @@
       <div class="sobre inf-der"><ControlesZoom {controles} /></div>
     </section>
 
+    {#if escritorio}
+      <aside class="panel panel-detalle" aria-label={tituloHoja}>
+        <DetailPanel {estado} />
+      </aside>
+    {:else}
     <aside id="hoja" class="hoja" class:abierta={hojaAbierta} aria-label={tituloHoja}>
       <div class="asa">
         <button type="button" class="asa-btn" aria-expanded={hojaAbierta} onclick={() => (hojaAbierta = !hojaAbierta)}>
@@ -109,6 +141,7 @@
         </div>
       {/if}
     </aside>
+    {/if}
   </main>
 </div>
 
@@ -275,5 +308,48 @@
   button:focus-visible {
     outline: 2px solid var(--acento);
     outline-offset: 1px;
+  }
+
+  /* ---------- Ampliación: escritorio (> 860 px) ---------- */
+  .cuerpo.escritorio {
+    grid-template-columns: 300px minmax(0, 1fr) 380px;
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .cuerpo.escritorio.plegados {
+    grid-template-columns: minmax(0, 1fr) 380px;
+  }
+  .panel {
+    min-height: 0;
+    overflow-y: auto;
+    background: var(--papel);
+    padding: 14px 18px 24px;
+  }
+  .panel-filtros {
+    border-right: 1px solid var(--borde);
+  }
+  .panel-detalle {
+    border-left: 1px solid var(--borde);
+  }
+  .panel-cab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .panel-cab h2 {
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+  }
+  @media (min-width: 861px) {
+    .cabecera {
+      gap: 16px;
+      padding: 10px 18px;
+    }
+    .cabecera :global(.buscador) {
+      max-width: 560px;
+    }
   }
 </style>

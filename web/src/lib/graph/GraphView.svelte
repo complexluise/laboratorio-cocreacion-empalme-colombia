@@ -53,14 +53,15 @@
     const preparado = prepararSimulacion(actual, cache);
     const nueva = crearSimulacion(preparado.nodos, preparado.enlaces);
     if (previa) nueva.alpha(0.5);
-    nueva.on("tick", () => tick++);
-    nueva.on("end", () => {
-      guardarPosiciones(preparado.nodos, cache);
-      if (encuadrarAlTerminar) {
+    nueva.on("tick", () => {
+      tick++;
+      // Encuadra apenas la red está casi asentada (no espera al final: ~2 s en vez de ~6 s).
+      if (encuadrarAlTerminar && nueva.alpha() < 0.08) {
         encuadrarAlTerminar = false;
         encuadrarFoco();
       }
     });
+    nueva.on("end", () => guardarPosiciones(preparado.nodos, cache));
     nodos = preparado.nodos;
     enlaces = preparado.enlaces;
     sim = nueva;

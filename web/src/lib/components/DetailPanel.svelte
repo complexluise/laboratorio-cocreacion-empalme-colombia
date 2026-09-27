@@ -51,10 +51,10 @@
     </p>
     <h3>Cómo leer la red</h3>
     <ul class="guia">
-      <li><span class="k-pol" aria-hidden="true"></span>Los <strong>círculos</strong> son políticas públicas.</li>
-      <li><span aria-hidden="true">◆</span>Los <strong>símbolos</strong> son instrumentos; su forma es el tipo NATO.</li>
-      <li><span class="k-color" aria-hidden="true"></span>El <strong>color</strong> dice cómo cambió entre gobiernos.</li>
-      <li><span aria-hidden="true">🔍</span><strong>Busca</strong> una política o instrumento, o toca un nodo, para enfocarlo.</li>
+      <li><span class="k-pol" aria-hidden="true"></span><span>Los <strong>círculos</strong> son políticas públicas.</span></li>
+      <li><span aria-hidden="true">◆</span><span>Los <strong>símbolos</strong> son instrumentos; su forma es el tipo NATO.</span></li>
+      <li><span class="k-color" aria-hidden="true"></span><span>El <strong>color</strong> dice cómo cambió entre gobiernos.</span></li>
+      <li><span aria-hidden="true">⌕</span><span><strong>Busca</strong> una política o instrumento, o toca un nodo, para enfocarlo.</span></li>
     </ul>
     <h3>Cómo cambiaron los instrumentos</h3>
     <ul class="barras">

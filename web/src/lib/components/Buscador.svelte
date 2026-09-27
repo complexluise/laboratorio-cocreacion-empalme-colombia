@@ -57,6 +57,15 @@
 
   const idOpcion = (i: number) => `${ID}-op-${i}`;
 
+  /** Atajo global: "/" lleva al buscador (salvo que ya se esté escribiendo en un campo). */
+  function atajo(ev: KeyboardEvent) {
+    if (ev.key !== "/" || ev.ctrlKey || ev.metaKey || ev.altKey) return;
+    const t = ev.target as HTMLElement | null;
+    if (t?.closest("input, textarea, select, [contenteditable]")) return;
+    ev.preventDefault();
+    entrada?.focus();
+  }
+
   /** Parte el nombre en [antes, coincidencia, después] para resaltar. */
   function partes(r: Resultado): [string, string, string] {
     if (!r.tramo) return [r.nombre, "", ""];
@@ -64,6 +73,8 @@
     return [r.nombre.slice(0, i), r.nombre.slice(i, f), r.nombre.slice(f)];
   }
 </script>
+
+<svelte:window onkeydown={atajo} />
 
 <div class="buscador" role="search">
   <input
@@ -77,6 +88,7 @@
     aria-autocomplete="list"
     aria-activedescendant={mostrar && opciones.length ? idOpcion(activo) : undefined}
     placeholder="Buscar política o instrumento…"
+    aria-keyshortcuts="/"
     autocomplete="off"
     spellcheck="false"
     onfocus={() => (abierto = true)}
