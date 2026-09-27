@@ -35,7 +35,9 @@
   let sim = $state.raw<Simulation<NodoSim, EnlaceSim> | null>(null);
   const cache: Posiciones = new Map();
   let control = $state.raw<ControlZoom | null>(null);
-  let encuadrada = false; // la primera vez que la red se asienta, se encuadra sola
+  // Cada cambio de topología (filtros, subred) re-encuadra: ya con las posiciones cacheadas y otra
+  // vez cuando la física se asienta. El foco de un instrumento encuadra su vecindario.
+  let encuadrarAlTerminar = true;
 
   // La simulación se reconstruye SOLO si cambia la topología (no con la selección ni el foco).
   const firma = $derived(firmaTopologia(red));
@@ -53,14 +55,16 @@
     nueva.on("tick", () => tick++);
     nueva.on("end", () => {
       guardarPosiciones(preparado.nodos, cache);
-      if (!encuadrada) {
-        encuadrada = true;
-        ajustar();
+      if (encuadrarAlTerminar) {
+        encuadrarAlTerminar = false;
+        encuadrarFoco();
       }
     });
     nodos = preparado.nodos;
     enlaces = preparado.enlaces;
     sim = nueva;
+    encuadrarAlTerminar = true;
+    if (previa) requestAnimationFrame(() => encuadrarFoco());
     return () => nueva.stop();
   });
 
@@ -77,6 +81,12 @@
     );
   }
   $effect(() => onajustar?.(() => ajustar()));
+
+  /** Encuadra el vecindario enfocado si hay, si no toda la red visible. */
+  function encuadrarFoco() {
+    const vecinos = untrack(() => foco?.nodos);
+    ajustar(vecinos && vecinos.size ? vecinos : undefined);
+  }
 
   // Al seleccionar, la vista se acerca a su vecindario: así caben sus etiquetas sin solaparse.
   let ultimoFoco: string | null = null;
@@ -149,6 +159,8 @@
   }
 
   function onkeydown(ev: KeyboardEvent) {
+    const t = ev.target as HTMLElement | null;
+    if (t?.closest("input, select, textarea, [role=dialog]")) return; // Esc de un campo es del campo
     if (ev.key === "Escape") (onsalir ?? (() => onseleccionar(null)))();
   }
 </script>

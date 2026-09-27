@@ -3,6 +3,7 @@
   import DetailPanel from "$lib/components/DetailPanel.svelte";
   import Legend from "$lib/components/Legend.svelte";
   import Marca from "$lib/components/Marca.svelte";
+  import Buscador from "$lib/components/Buscador.svelte";
   import Toolbar from "$lib/components/Toolbar.svelte";
   import GraphView from "$lib/graph/GraphView.svelte";
   import { EstadoRed } from "$lib/state/red.svelte.ts";
@@ -43,6 +44,7 @@
   <header class="cabecera">
     <div class="fila">
       <Marca />
+      <Buscador dataset={estado.dataset} onelegir={(id) => estado.enfocar(id)} />
       {#if movil}
         <button
           type="button"
