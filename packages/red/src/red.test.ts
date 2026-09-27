@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DS } from "./fixture.test-util.ts";
-import { FILTROS_INICIALES, construirRed, firmaTopologia, normalizar, type Filtros } from "./red.ts";
+import { FILTROS_INICIALES, construirRed, firmaTopologia, normalizar, type Filtros, type NodoPolitica } from "./red.ts";
+import { objetivoEn } from "./tipos.ts";
 
 const f = (p: Partial<Filtros> = {}): Filtros => ({ ...FILTROS_INICIALES, ...p });
 const ids = (red: ReturnType<typeof construirRed>) => red.nodos.map((n) => n.id).sort();
@@ -73,6 +74,29 @@ describe("construirRed", () => {
     expect(firmaTopologia(construirRed(DS, f()))).not.toBe(
       firmaTopologia(construirRed(DS, f({ vigencia: "2018-2022" }))),
     );
+  });
+});
+
+describe("objetivo por gobierno", () => {
+  it("un hub de política se marca sin objetivo en la vigencia que no lo declara", () => {
+    const pol = (v: Filtros["vigencia"]) =>
+      construirRed(DS, f({ vigencia: v })).nodos.find((n) => n.id === "pol:pB") as NodoPolitica | undefined;
+    expect(pol("2018-2022")?.sinObjetivo).toBe(false);
+    // pB no declara objetivo en 2022, pero su instrumento b sigue: el área queda "huérfana".
+    expect(pol("2022-2026")?.sinObjetivo).toBe(true);
+    expect(pol("ambos")?.sinObjetivo).toBe(false);
+  });
+
+  it("objetivoEn devuelve el objetivo declarado en esa vigencia", () => {
+    const pB = DS.politicas![1]!;
+    expect(objetivoEn(pB, "2018-2022")?.enunciados).toEqual(["Aprovechar la biodiversidad"]);
+    expect(objetivoEn(pB, "2022-2026")).toBeUndefined();
+  });
+
+  it("una política sin 'objetivos' (dato legado) nunca se marca sin objetivo", () => {
+    const legado = { ...DS, politicas: DS.politicas!.map(({ objetivos: _o, ...p }) => p) };
+    const n = construirRed(legado, f({ vigencia: "2022-2026" })).nodos.find((x) => x.id === "pol:pB") as NodoPolitica;
+    expect(n.sinObjetivo).toBe(false);
   });
 });
 

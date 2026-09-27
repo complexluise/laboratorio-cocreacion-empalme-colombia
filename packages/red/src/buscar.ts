@@ -55,7 +55,9 @@ export function buscar(ds: Dataset, consulta: string, limite = 6): ResultadosBus
   const politicas: (Resultado & { puntos: number })[] = [];
   for (const p of ds.politicas ?? []) {
     if (!conInstrumentos.has(p.id)) continue;
-    const m = puntuar(p.nombre, [], q);
+    // Un área también se encuentra por el nombre de las políticas que cada gobierno declaró.
+    const declaradas = Object.values(p.objetivos ?? {}).flatMap((o) => o?.declaradas ?? []);
+    const m = puntuar(p.nombre, [...new Set(declaradas)], q);
     if (m) politicas.push({ id: idPolitica(p.id), nombre: p.nombre, ...m });
   }
   const instrumentos: (Resultado & { puntos: number })[] = [];
