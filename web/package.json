@@ -1,6 +1,6 @@
 {
   "name": "@laboratorio/web",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Explorador de la red política↔instrumento (Svelte 5 + Vite, SPA estática).",
   "private": true,
   "type": "module",
