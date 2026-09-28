@@ -1,20 +1,20 @@
 {
   "corte": {
-    "commit": "f4c2681",
-    "fecha": "2026-09-27"
+    "commit": "80bf0f1",
+    "fecha": "2026-09-28"
   },
   "periodo": {
     "desde": "2026-09-26",
-    "hasta": "2026-09-27"
+    "hasta": "2026-09-28"
   },
   "commits": {
-    "total": 59,
-    "agente": 38,
+    "total": 60,
+    "agente": 39,
     "persona_con_ia": 19,
     "persona": 2
   },
   "modelos": {
-    "Claude": 57
+    "Claude": 58
   },
   "prs_integrados": [
     7,
@@ -107,7 +107,7 @@
     {
       "fase": "extraer",
       "commit": "7aac947",
-      "que": "Primera extracción con Gemini",
+      "que": "Primera extracción de políticas e instrumentos con Gemini",
       "autor": "complexluise",
       "fecha": "2026-09-26",
       "asunto": "feat(extraccion): extraer_instrumentos.py - politicas + instrumentos directo del markdown",
@@ -129,10 +129,21 @@
     {
       "fase": "revisar",
       "commit": "52c9c04",
-      "que": "Correcciones verificadas contra los informes (overlay)",
+      "que": "Revisión adversarial de la versión Gemini (luego reemplazada)",
       "autor": "complexluise",
       "fecha": "2026-09-27",
       "asunto": "feat(extraccion): overlay de correcciones verificadas + aplicador",
+      "coautores": [
+        "Claude"
+      ]
+    },
+    {
+      "fase": "revisar",
+      "commit": "77da14c",
+      "que": "Curaduría de áreas aplicada a la red vigente",
+      "autor": "Claude",
+      "fecha": "2026-09-27",
+      "asunto": "feat(schema): politica como area persistente con objetivo por gobierno",
       "coautores": [
         "Claude"
       ]
@@ -184,7 +195,7 @@
     {
       "fase": "construir",
       "commit": "7ed1661",
-      "que": "Sitio: landing, glosario y red",
+      "que": "Sitio: landing, glosario y navegación",
       "autor": "Claude",
       "fecha": "2026-09-27",
       "asunto": "feat(web): sitio del laboratorio — landing, glosario y navegación por hash",

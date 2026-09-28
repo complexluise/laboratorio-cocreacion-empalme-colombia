@@ -31,7 +31,7 @@
     },
     {
       titulo: "Todo cambio deja rastro.",
-      texto: "Cada trabajo empieza en un issue; cada decisión queda en un ADR; cada cambio es un commit que declara si participó la IA; cada integración es un PR aprobado; cada versión, un tag.",
+      texto: "Cada trabajo empieza en un issue; cada decisión queda en un ADR; cada cambio es un commit que declara si participó la IA; cada integración es un PR aprobado; cada versión, un tag. Así trabajamos desde la v0.1.0; al arranque, los cambios se subían directo.",
     },
     {
       titulo: "Un contrato entre la extracción y el sitio.",
@@ -39,7 +39,7 @@
     },
     {
       titulo: "Una revisión que busca errores.",
-      texto: "Un agente verificador revisa cada cambio con la tarea de encontrarle fallas. Otros agentes contrastaron la red con los informes y dejaron correcciones con evidencia.",
+      texto: "Desde que adoptamos la disciplina de trabajo, un agente verificador revisa los cambios con la tarea de encontrarles fallas. Antes, otros agentes contrastaron una primera versión de la red con los informes; la red actual la reemplazó y aún no tiene esa revisión.",
     },
     {
       titulo: "Los huecos se declaran.",
@@ -149,6 +149,7 @@
           <li>Quién firmó cada cambio y cuándo.</li>
           <li>Qué modelo de IA participó (la línea <code>Co-Authored-By</code>).</li>
           <li>Qué se aprobó e integró, y en qué versión salió.</li>
+          <li>Que al arranque (antes de la v0.1.0) los cambios se subieron directo, sin PR.</li>
         </ul>
       </div>
       <div>
@@ -157,8 +158,8 @@
           <li>De quién fue cada idea: las conversaciones con la IA no quedan en el repositorio.</li>
           <li>Cuánto se revisó un texto antes de aprobarlo.</li>
           <li>
-            Quién pulsó «merge»: los PR se integran con la cuenta del equipo, a veces ejecutado por el agente con autorización
-            explícita. El hilo de cada PR lo muestra.
+            Quién pulsó «merge»: los PR se integran con la cuenta del PO; según el equipo, algunos los ejecutó el agente con
+            su autorización.
           </li>
         </ul>
       </div>
@@ -194,7 +195,7 @@
     <ul>
       <li>
         <strong>Claude</strong> (Anthropic), a través de Claude Code: redactó el código, los textos y la documentación, reconstruyó
-        la red leyendo los informes y revisó cada cambio. Trabajó con agentes con roles distintos: uno cuida la coherencia de
+        la red leyendo los informes y revisó los cambios. Trabajó con agentes con roles distintos: uno cuida la coherencia de
         los documentos, otro escribe el código y otro lo verifica.
       </li>
       <li>
@@ -223,13 +224,14 @@
           <li>Probar el sitio y pedir correcciones.</li>
           <li>Conducir el taller e integrar las bitácoras de los grupos.</li>
         </ul>
+        <p class="nota">Esto es testimonio del equipo: git registra las aprobaciones y las decisiones, no todo lo demás.</p>
       </div>
     </div>
 
     <h3>Lo que la IA no decide</h3>
     <ul>
       <li>No evalúa ni califica gobiernos. El laboratorio tampoco lo hace.</li>
-      <li>No publica: todo pasa por un PR que el equipo aprueba.</li>
+      <li>No publica por su cuenta: desde la v0.1.0 todo pasa por un PR que aprueba el PO.</li>
       <li>No rellena huecos: si la fuente no lo dice, queda «Sin dato».</li>
       <li>No escribe las bitácoras de los grupos.</li>
     </ul>

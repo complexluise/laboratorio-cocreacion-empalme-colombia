@@ -34,7 +34,7 @@ sueltas. Las preguntas que guían todo (ver `docs/ontologia.md`):
 | `#/glosario[/<id>]` | Glosario de la ontología, la teoría, la bitácora, el proceso y las siglas. |
 | `#/metodologia[/<seccion>]` | **Cómo lo hicimos**: advertencia, las reglas de trabajo, el flujo en 9 fases (personas / IA / automático, con sus commits de evidencia), git como evidencia y la declaración de uso de IA con el estado de revisión por capa. |
 
-En todas las páginas, una franja bajo la cabecera advierte que el contenido se hizo con IA y aún no
+En todas las páginas (menos «Cómo lo hicimos», que la desarrolla), una franja bajo la cabecera advierte que el contenido se hizo con IA y aún no
 se revisó al 100 % (se puede plegar).
 
 **Materiales del taller** (en `web/public/`, los genera el pipeline): la bitácora en blanco

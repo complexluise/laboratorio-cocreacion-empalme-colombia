@@ -33,14 +33,15 @@ AGENTE = "Claude"  # autor de los commits que el agente firma solo (sesiones en 
 HITOS: list[tuple[str, str, str]] = [
     ("encuadrar", "a2123e2", "Encuadre de la actividad del seminario"),
     ("fuente", "b75ffa6", "Descarga de los informes del DNP, conversión y OCR"),
-    ("extraer", "7aac947", "Primera extracción con Gemini"),
+    ("extraer", "7aac947", "Primera extracción de políticas e instrumentos con Gemini"),
     ("extraer", "5b8dafa", "Reconstrucción del dataset CTeI con Claude"),
-    ("revisar", "52c9c04", "Correcciones verificadas contra los informes (overlay)"),
+    ("revisar", "52c9c04", "Revisión adversarial de la versión Gemini (luego reemplazada)"),
+    ("revisar", "77da14c", "Curaduría de áreas aplicada a la red vigente"),
     ("decidir", "d15b99c", "Registro de decisiones (ADR-0001 y 0002)"),
     ("decidir", "8e8f7b9", "ADR-0004: la política como área persistente"),
     ("decidir", "3fab5b6", "ADR-0005: la bitácora .docx convertida en dato"),
     ("construir", "7bdd006", "Validador del contrato de datos"),
-    ("construir", "7ed1661", "Sitio: landing, glosario y red"),
+    ("construir", "7ed1661", "Sitio: landing, glosario y navegación"),
     ("construir", "5692154", "Plantilla de la bitácora y su lector"),
     ("verificar", "d8d6779", "Hallazgos del verificador en la web"),
     ("verificar", "4443611", "Hallazgos del verificador en la bitácora"),
@@ -87,13 +88,15 @@ def recolectar(hasta: str) -> dict:
         fecha = git("log", "-1", "--date=short", "--format=%ad", linea).strip()
         tags.append({"tag": linea, "commit": git("rev-list", "-n1", linea).strip()[:7], "fecha": fecha})
 
+    # Los ADR se leen del corte (no del árbol de trabajo), para que la foto sea coherente con `hasta`.
     adrs = []
-    for p in sorted(DECISIONES.glob("ADR-*.md")):
-        n = p.stem.split("-")[1]
-        if n == "0000":
+    for ruta in sorted(git("ls-tree", "--name-only", hasta, f"{DECISIONES.as_posix()}/").split()):
+        p = Path(ruta)
+        if not re.match(r"ADR-\d{4}-", p.name) or p.name.startswith("ADR-0000"):
             continue
-        titulo = next((l.lstrip("# ").strip() for l in p.read_text(encoding="utf-8").splitlines() if l.startswith("# ")), p.stem)
-        adrs.append({"id": f"ADR-{n}", "titulo": re.sub(r"^ADR-\d+\s*[—:-]\s*", "", titulo), "archivo": p.as_posix()})
+        texto = git("show", f"{hasta}:{ruta}")
+        titulo = next((l.lstrip("# ").strip() for l in texto.splitlines() if l.startswith("# ")), p.stem)
+        adrs.append({"id": p.name[:8], "titulo": re.sub(r"^ADR-\d+\s*[—:-]\s*", "", titulo), "archivo": ruta})
 
     hitos = []
     for fase, corto, que in HITOS:

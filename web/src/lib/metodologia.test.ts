@@ -34,8 +34,9 @@ describe("la evidencia de git", () => {
     expect(c.agente + c.persona_con_ia + c.persona).toBe(c.total);
   });
 
-  it("ninguna capa se declara revisada al 100 %", () => {
+  it("la declaración reconoce capas sin revisión humana completa", () => {
     expect(CAPAS.some((c) => c.estado === "parcial" || c.estado === "pendiente")).toBe(true);
+    expect(CAPAS.find((c) => c.capa.startsWith("La red"))?.estado).toBe("pendiente");
   });
 });
 

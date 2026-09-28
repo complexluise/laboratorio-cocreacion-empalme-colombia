@@ -31,10 +31,15 @@ revisión que falta.
    - el cambio queda en un commit que declara si participó la IA;
    - la integración pasa por un PR aprobado;
    - la versión queda en un tag.
+
+   Así trabajamos desde la v0.1.0 (PR #7). Al arranque, los cambios se subieron directo a `main`, sin
+   PR, incluida la reconstrucción de la red que se publica hoy.
 3. **Un contrato entre la extracción y el sitio.** Los datos llegan a la web solo si cumplen un
    esquema validado automáticamente ([FRONTERAS](FRONTERAS.md)).
-4. **Una revisión que busca errores.** Un agente verificador revisa cada cambio. Otros agentes
-   contrastaron la red con los informes y dejaron correcciones con evidencia (`data/correcciones/`).
+4. **Una revisión que busca errores.** Desde que adoptamos la disciplina de trabajo (ADR-0001), un
+   agente verificador revisa los cambios. Antes, otros agentes contrastaron la **primera extracción
+   (Gemini)** con los informes y dejaron correcciones con evidencia (`data/correcciones/`). La red
+   vigente, reconstruida con Claude, la reemplazó y **no pasó por esa revisión**.
 5. **Los huecos se declaran.** Lo que la fuente no dice se escribe «Sin dato» (ADR-0005).
 6. **El taller es la revisión que falta.** Los hallazgos de los grupos corrigen el mapa.
 
@@ -60,12 +65,12 @@ flowchart TD
 |---|---|---|---|
 | **1. Encuadrar** | Definen la pregunta, el marco teórico y la actividad del seminario. | La IA ordena y redacta el encuadre a partir de las conversaciones. | Issue por trabajo; [`encuadre-actividad-trama.md`](encuadre-actividad-trama.md). |
 | **2. Reunir la fuente** | Eligen la fuente (informes de empalme del DNP) y el sector piloto. | Scripts escritos con IA descargan y pasan a texto; Gemini transcribe los PDF escaneados. | Scripts de `extraccion/`. |
-| **3. Extraer la red** | Revisan resultados y piden rehacer cuando la red sale desconectada. | La IA propone políticas, instrumentos, tipo NATO, modo de cambio y narrativa con página. Primero lo hizo Gemini; luego agentes de Claude. | El dataset y su script en el mismo commit. |
-| **4. Revisar contra la fuente** | Aprueban las áreas (ADR-0004). La revisión dato por dato está **incompleta**. | Agentes de IA contrastan con los informes; las correcciones se aplican sin IA. | `data/correcciones/` con evidencia. |
+| **3. Extraer la red** | Revisan resultados y piden rehacer cuando la red sale desconectada. | La IA propone políticas, instrumentos, tipo NATO, modo de cambio y narrativa con página. Primero lo hizo Gemini; luego agentes de Claude reconstruyeron la red que se publica hoy. | El dataset y su script en el mismo commit. |
+| **4. Revisar contra la fuente** | Aprueban las áreas (ADR-0004), que sí se aplican a la red vigente. La revisión dato por dato está **pendiente**. | Agentes de IA contrastaron la versión Gemini con los informes; esa red se reemplazó y la actual no pasó por esa revisión. | `data/correcciones/`: correcciones de la versión Gemini y `areas.yaml`. |
 | **5. Decidir** | Deciden entre las opciones y aprueban. | La IA propone alternativas y redacta el registro. | Un ADR en `docs/decisiones/`. |
 | **6. Construir** | Piden cada pieza y prueban. | La IA escribe casi todo el código y los textos; tests y contrato los validan. | Commits con `Co-Authored-By`. |
-| **7. Verificar** | Leen hallazgos y el PR. | El agente verificador busca errores; CI corre tests, tipos y fronteras. | Commits «hallazgos del verificador»; checks del PR. |
-| **8. Liberar** | Aprueban cada integración y versión. | GitHub Pages publica lo que llega a `main`. | Merge de PR; tag por versión. |
+| **7. Verificar** | Leen hallazgos y el PR. | Desde ADR-0001, el agente verificador busca errores y CI corre tests, tipos y fronteras. | Commits «hallazgos del verificador»; checks del PR. |
+| **8. Liberar** | Desde la v0.1.0 aprueban cada integración y versión; antes se subía directo. | GitHub Pages publica lo que llega a `main`. | Merge de PR; tag por versión. |
 | **9. Taller** *(por venir)* | Los grupos contrastan, llenan la bitácora y reportan errores. | El lector convierte la bitácora en dato; lo que cambia vuelve a «Revisar». | `data/bitacoras/` e issues. |
 
 El flujo de trabajo del equipo (encuadrar, decidir, ejecutar, liberar, retroalimentar) está en
@@ -77,7 +82,7 @@ Git guarda de cada commit quién lo firmó, cuándo y, con el trailer `Co-Author
 participó. Hay tres tipos de autoría:
 
 - **Agente:** commits firmados por `Claude`. Los hace el agente en sesiones en la nube.
-- **Persona con IA:** commits del PO con Claude como coautor. Salen de sesiones locales.
+- **Persona con IA:** commits del PO con Claude como coautor (según el equipo, de sesiones locales).
 - **Persona:** commits sin IA declarada.
 
 Además, cada **PR integrado** es una aprobación, cada **tag** una versión y cada **ADR** una decisión.
@@ -98,14 +103,17 @@ falla.
 - De quién fue cada idea. Las conversaciones con la IA no quedan en el repo; las decisiones sí,
   en issues y ADR.
 - Cuánto se revisó un texto.
-- Quién pulsó «merge». Los PR se integran con la cuenta del PO, y algunos los ejecutó el agente con
-  autorización explícita. El hilo del PR lo muestra.
+- Quién pulsó «merge». Los PR se integran con la cuenta del PO; según el equipo, algunos los ejecutó
+  el agente con su autorización.
+
+Git sí muestra algo que conviene declarar: antes de la v0.1.0 los cambios se subieron directo a
+`main`, sin PR (`git log --first-parent origin/main`).
 
 ## Declaración de uso de IA
 
 **Herramientas:**
 - **Claude** (Anthropic), vía Claude Code. Redactó el código, los textos y la documentación.
-  Reconstruyó la red leyendo los informes y revisó cada cambio. Trabajó con agentes de roles
+  Reconstruyó la red leyendo los informes y, desde ADR-0001, revisa los cambios. Trabajó con agentes de roles
   separados: `architect` (documentos), `coder` (código) y `verifier` (revisión adversarial). Están
   en `.claude/agents/`.
 - **Gemini** (Google). Transcribió los PDF escaneados y produjo una primera extracción, que luego se
@@ -117,7 +125,7 @@ falla.
 - proponer opciones de diseño;
 - revisar buscando errores.
 
-**Lo que hicimos las personas:**
+**Lo que hicimos las personas** (testimonio del equipo; git registra las aprobaciones y decisiones):
 - plantear la pregunta, el marco teórico y la actividad;
 - elegir la fuente y el sector piloto;
 - escribir el ejemplo CTeI de la bitácora;
@@ -127,7 +135,7 @@ falla.
 
 **Lo que la IA no decide:**
 - No evalúa gobiernos.
-- No publica sin un PR aprobado.
+- No publica por su cuenta: desde la v0.1.0 todo pasa por un PR que aprueba el PO.
 - No rellena huecos.
 - No escribe las bitácoras de los grupos.
 
@@ -137,7 +145,7 @@ falla.
 |---|---|---|
 | Informes de empalme | Cada gobierno (DNP) | Fuente oficial, sin modificar |
 | Texto extraído | Automático; OCR con Gemini | Sin revisión humana línea a línea |
-| La red | IA (Gemini, luego Claude) | Parcial: agentes contra los informes; humana incompleta |
+| La red | IA: agentes de Claude, con evidencia por página | Sin revisión humana. La revisión adversarial fue sobre la versión Gemini, ya reemplazada |
 | Áreas de política | Propuestas con IA | Parcial: aprobadas por el equipo |
 | Textos del sitio, glosario y teoría | IA desde el encuadre | Parcial: citas por verificar |
 | Código y materiales | IA | Parcial: tests, contrato, verificador y pruebas del equipo |
@@ -145,7 +153,7 @@ falla.
 | Bitácoras de los grupos | Los grupos | Escritas por personas |
 
 **Dónde va la advertencia:**
-- la franja bajo la cabecera de todas las páginas;
+- la franja bajo la cabecera de todas las páginas (menos esta, que la desarrolla);
 - esta metodología;
 - la hoja Léeme del Excel de la red.
 

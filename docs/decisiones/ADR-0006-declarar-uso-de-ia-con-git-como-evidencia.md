@@ -11,7 +11,9 @@ Casi todo el laboratorio lo produjo IA bajo la dirección del equipo:
 - el código, los textos del sitio, el glosario y los materiales.
 
 La revisión humana está **incompleta**. Por ejemplo, hay instrumentos cuya narrativa contradice su
-`modo_cambio`. Publicar esto sin decirlo presentaría un borrador como si fuera un análisis revisado.
+`modo_cambio`. Además, la revisión adversarial con IA (`data/correcciones/`) se hizo sobre la
+primera extracción (Gemini); la red vigente, reconstruida con Claude, la reemplazó y no pasó por
+esa revisión. Y antes de la v0.1.0 los cambios se subieron directo a `main`, sin PR. Publicar esto sin decirlo presentaría un borrador como si fuera un análisis revisado.
 
 A la vez, el PO encuadra el ejercicio como una práctica de **cómo interactuar con la máquina y
 elaborar artefactos para colaborar**. La participación de la IA no es un detalle que se disculpa: es
@@ -20,8 +22,8 @@ parte de lo que el laboratorio muestra.
 El historial de git ya registra esa colaboración:
 - cada commit con IA lleva el trailer `Co-Authored-By`;
 - el agente firma sus commits como `Claude`;
-- las integraciones son merges de PR;
-- las versiones son tags;
+- las integraciones son merges de PR (desde el PR #7);
+- las versiones son tags (desde la v0.1.0);
 - las decisiones son ADR.
 
 ## Decisión
@@ -48,7 +50,7 @@ El historial de git ya registra esa colaboración:
   - el **estado de revisión por capa** (`CAPAS`), en lugar de una cifra global.
 - **Advertencia visible** con el texto del PO: el contenido se generó con IA y aún no se revisó al
   100 %, y revisarlo es parte del ejercicio.
-  - En la web va como franja bajo la cabecera de todas las páginas (`AvisoIA.svelte`). Se puede
+  - En la web va como franja bajo la cabecera de todas las páginas menos la metodología (`AvisoIA.svelte`). Se puede
     plegar; la preferencia queda en el navegador de cada persona. En la metodología va desarrollada.
   - En el Excel de la red va en la hoja Léeme.
   - La bitácora en blanco no la lleva, porque su contenido lo escriben los grupos. El ejemplo CTeI
@@ -57,8 +59,11 @@ El historial de git ya registra esa colaboración:
 - **Qué no dice git**, declarado en la misma página:
   - de quién fue cada idea (las conversaciones no quedan en el repo);
   - cuánto se revisó un texto;
-  - quién pulsó «merge». Los PR se integran con la cuenta del PO, a veces por el agente con
-    autorización explícita.
+  - quién pulsó «merge». Los PR se integran con la cuenta del PO; según el equipo, a veces los
+    ejecutó el agente con su autorización.
+
+  Lo que git contradice también se declara: el arranque sin PR y el verificador solo desde
+  ADR-0001. Lo que no está en git (qué hicieron las personas) se marca como testimonio del equipo.
 - **Regla hacia adelante:** todo commit en el que participe IA lleva su `Co-Authored-By`. Sin eso,
   la evidencia deja de ser completa.
 

@@ -56,16 +56,16 @@ export const FASES: Fase[] = [
     titulo: "Extraer la red",
     actores: ["ia"],
     persona: "Revisamos resultados y pedimos rehacer cuando la red salía desconectada.",
-    maquina: "La IA leyó los informes y propuso políticas, instrumentos, tipo NATO, modo de cambio y narrativa con página. Primero Gemini; luego varios agentes de Claude.",
+    maquina: "La IA leyó los informes y propuso políticas, instrumentos, tipo NATO, modo de cambio y narrativa con página. Primero Gemini; luego varios agentes de Claude reconstruyeron la red: es la que se publica hoy.",
     rastro: "El dataset y el script que lo produjo, en el mismo commit.",
   },
   {
     id: "revisar",
     titulo: "Revisar contra la fuente",
     actores: ["ia", "persona", "automatico"],
-    persona: "Aprobamos la agrupación en áreas (ADR-0004). La revisión humana dato por dato está INCOMPLETA.",
-    maquina: "Agentes de IA contrastaron la red con los informes; las correcciones quedaron versionadas y se aplican sin IA.",
-    rastro: "data/correcciones/: cada corrección con su evidencia.",
+    persona: "Aprobamos la agrupación en áreas (ADR-0004), que sí se aplica a la red vigente. La revisión humana dato por dato está PENDIENTE.",
+    maquina: "Agentes de IA contrastaron la primera extracción (Gemini) con los informes y dejaron correcciones con evidencia. Esa red se reemplazó después por la de Claude, que no pasó por esa revisión.",
+    rastro: "data/correcciones/: las correcciones de la versión Gemini y la curaduría de áreas.",
   },
   {
     id: "decidir",
@@ -88,14 +88,14 @@ export const FASES: Fase[] = [
     titulo: "Verificar",
     actores: ["ia", "automatico", "persona"],
     persona: "Leímos los hallazgos y el PR antes de integrarlo.",
-    maquina: "Un agente verificador revisó cada cambio buscando errores; la integración continua corre tests, tipos y fronteras.",
+    maquina: "Desde que adoptamos la disciplina de trabajo (ADR-0001), un agente verificador revisa los cambios buscando errores y la integración continua corre tests, tipos y fronteras. Antes no había esta verificación.",
     rastro: "Commits «hallazgos del verificador» y los checks del PR.",
   },
   {
     id: "liberar",
     titulo: "Liberar",
     actores: ["persona", "automatico"],
-    persona: "Aprobamos la integración de cada PR y cada release.",
+    persona: "Desde la v0.1.0 (PR #7) aprobamos cada integración y cada versión. Al arranque, los cambios se subían directo a la rama publicada, sin PR.",
     maquina: "GitHub Pages publica lo que llega a main.",
     rastro: "Merge de cada PR y un tag por versión.",
   },
@@ -145,9 +145,9 @@ export const CAPAS: Capa[] = [
   },
   {
     capa: "La red: políticas, instrumentos, modos de cambio",
-    quien: "IA (Gemini, luego Claude)",
-    revision: "Contrastada con los informes por agentes de IA y corregida. La revisión humana está incompleta: hay casos conocidos donde la narrativa contradice el modo.",
-    estado: "parcial",
+    quien: "IA: agentes de Claude, con evidencia por página",
+    revision: "La revisión adversarial se hizo sobre una versión anterior (Gemini) y no cubre la actual. Revisión humana pendiente; hay casos conocidos donde la narrativa contradice el modo.",
+    estado: "pendiente",
   },
   {
     capa: "Áreas de política",
@@ -170,7 +170,7 @@ export const CAPAS: Capa[] = [
   {
     capa: "Ejemplo de bitácora CTeI",
     quien: "El equipo; la IA lo pasó al formato",
-    revision: "Escrito por el equipo. Al pasarlo, la IA ajustó una atribución (la creación de MinCiencias).",
+    revision: "Escrito por el equipo a partir de su plantilla; la IA lo llevó al formato de la bitácora.",
     estado: "personas",
   },
   {
@@ -216,7 +216,7 @@ export function hitosDe(ev: Evidencia, fase: string): Hito[] {
 
 /** Quién firmó un hito, en palabras: git distingue al agente, a la persona y la coautoría. */
 export function firma(h: Hito): string {
-  if (h.asunto.startsWith("Merge pull request")) return "integración aprobada con la cuenta del equipo";
+  if (h.asunto.startsWith("Merge pull request")) return "integración aprobada con la cuenta del PO";
   if (h.autor === "Claude") return "firmado por el agente (Claude)";
   return h.coautores.length > 0 ? `persona del equipo, con ${h.coautores.join(" y ")}` : "persona del equipo, sin IA declarada";
 }

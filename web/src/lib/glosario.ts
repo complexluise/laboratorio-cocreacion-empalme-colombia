@@ -548,7 +548,7 @@ const PROCESO: Entrada[] = [
     grupo: "proceso",
     termino: "Revisión adversarial",
     definicion:
-      "Revisar un trabajo con el encargo explícito de encontrarle errores, no de aprobarlo. La hicieron agentes de IA sobre cada cambio y sobre la red contra los informes. Reduce errores, pero no reemplaza la revisión humana.",
+      "Revisar un trabajo con el encargo explícito de encontrarle errores, no de aprobarlo. La hacen agentes de IA sobre los cambios del proyecto, y se hizo sobre una primera versión de la red contra los informes. Reduce errores, pero no reemplaza la revisión humana.",
     ver: ["agente-de-ia"],
   },
   {
