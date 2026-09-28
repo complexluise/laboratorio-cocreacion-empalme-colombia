@@ -37,6 +37,11 @@ describe("resolverRuta", () => {
     expect(resolverRuta("#/glosario/%E0%A4%A")).toEqual({ pagina: "glosario", ancla: "%e0%a4%a" });
   });
 
+  it("la metodología es una página con secciones", () => {
+    expect(resolverRuta("#/metodologia")).toEqual({ pagina: "metodologia" });
+    expect(resolverRuta("#/metodologia/declaracion")).toEqual({ pagina: "metodologia", ancla: "declaracion" });
+  });
+
   it("la red ignora anclas", () => {
     expect(resolverRuta("#/red/x")).toEqual({ pagina: "red" });
   });
@@ -48,6 +53,7 @@ describe("hrefDe", () => {
     expect(hrefDe("red")).toBe("#/red");
     expect(hrefDe("glosario", "sgr")).toBe("#/glosario/sgr");
     expect(hrefDe("inicio", "bitacora")).toBe("#/inicio/bitacora");
+    expect(hrefDe("metodologia", "advertencia")).toBe("#/metodologia/advertencia");
   });
 
   it("ida y vuelta", () => {
@@ -55,6 +61,6 @@ describe("hrefDe", () => {
   });
 
   it("cada página tiene título", () => {
-    expect(Object.keys(TITULO_PAGINA).sort()).toEqual(["glosario", "inicio", "red"]);
+    expect(Object.keys(TITULO_PAGINA).sort()).toEqual(["glosario", "inicio", "metodologia", "red"]);
   });
 });

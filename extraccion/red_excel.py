@@ -204,6 +204,9 @@ def libro(data: dict, tax: dict) -> Workbook:
         ("Es la misma red del sitio, en tabla, para consultarla mientras llenan la bitácora. Usen los filtros de cada "
          "columna (flecha del encabezado) para ver, por ejemplo, los instrumentos de su política o los que se terminaron.", NORMAL),
         ("Es un punto de partida, no la verdad: si el informe o la información complementaria dicen otra cosa, anótenlo en la bitácora.", NORMAL),
+        ("Advertencia: esta red se generó con inteligencia artificial y aún no se ha revisado al 100 %. Revisarla contra "
+         "los informes es parte del ejercicio: si encuentran un error, anótenlo en la bitácora o avísenle al equipo. "
+         "Cómo la hicimos y qué está revisado: sitio del laboratorio › Cómo lo hicimos (ADR-0006).", NEGRITA),
         ("", NORMAL),
         ("Hojas", NEGRITA),
         ("Resumen — cuántos instrumentos hay por modo de cambio y tipo NATO, y cuántas políticas por cambio del objetivo.", NORMAL),

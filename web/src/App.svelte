@@ -1,5 +1,6 @@
 <script lang="ts">
   import PaginaGlosario from "$lib/paginas/PaginaGlosario.svelte";
+  import PaginaMetodologia from "$lib/paginas/PaginaMetodologia.svelte";
   import PaginaInicio from "$lib/paginas/PaginaInicio.svelte";
   import PaginaRed from "$lib/paginas/PaginaRed.svelte";
   import { resolverRuta, TITULO_PAGINA } from "$lib/rutas.ts";
@@ -30,6 +31,8 @@
 
 {#if ruta.pagina === "red"}
   <PaginaRed />
+{:else if ruta.pagina === "metodologia"}
+  <PaginaMetodologia ancla={ruta.ancla} {visita} />
 {:else if ruta.pagina === "glosario"}
   <PaginaGlosario ancla={ruta.ancla} {visita} />
 {:else}

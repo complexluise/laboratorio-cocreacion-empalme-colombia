@@ -391,6 +391,7 @@
     <p>
       Fuente: informes de empalme 2018–2022 y 2022–2026 (DNP). Vocabulario y decisiones en el
       <a href="https://github.com/complexluise/laboratorio-cocreacion-empalme-colombia" rel="noopener">repositorio del proyecto</a>.
+      Hecho con inteligencia artificial y aún sin revisar al 100 %: <a href={hrefDe("metodologia")}>cómo lo hicimos</a>.
     </p>
   </footer>
 </PaginaTexto>
