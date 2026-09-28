@@ -61,8 +61,9 @@ pero el área tiene instrumentos activos. El detalle de la política compara el 
 
 **Fuente vigente (CTeI):** reconstrucción con Claude vía el workflow multi-agente
 `extraccion/rebuild-ctei-claude.workflow.js` (políticas + instrumentos, modo de cambio guiado por
-evidencia, narrativa por gobierno), que escribe `data/sectores/ciencia-tecnologia/objetos.json`
-(gitignoreado). Es una corrida paga: solo con autorización del PO.
+evidencia, narrativa por gobierno); su salida se guarda en `data/sectores/ciencia-tecnologia/objetos.json`
+(gitignoreado). Es una corrida paga: solo con autorización del PO. El sistema completo, en
+[`docs/pipeline-extraccion.md`](../docs/pipeline-extraccion.md).
 
 > Legado (no usar para CTeI): `extraer_instrumentos.py` (Gemini) + `aplicar_correcciones.py`
 > (overlay en `data/correcciones/`); Gemini resultó poco fiable (cuota/calidad).
