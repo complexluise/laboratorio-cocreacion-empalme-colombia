@@ -51,7 +51,7 @@ web/              # sistema viable 3: @laboratorio/web, el sitio (Svelte 5 + Vit
                   #     PasosActividad, Practica, BotonDescarga, AvisoIA
   src/lib/*.ts    #   rutas.ts (hash), glosario.ts, practica.ts, metodologia.ts, visual.ts (vocabulario -> color/forma/etiqueta)
 scripts/          # utilidades del repo (validar_contrato.py: gate de la frontera 1)
-docs/             # ontologia, teoria, taxonomia, encuadre, metodologia, FRONTERAS, decisiones/ (ADRs)
+docs/             # ontologia, teoria, taxonomia, encuadre, metodologia, pipeline-extraccion, FRONTERAS, decisiones/ (ADRs)
 .changeset/       # changesets pendientes (se consumen en el release)
 .claude/          # skills (flujo), agents (architect/coder/verifier/editor), commands (retro-ciclo), settings
 .github/          # workflows (ci, pages), CODEOWNERS, templates

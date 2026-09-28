@@ -48,7 +48,8 @@ Los prompts completos están en la página y en `PASOS` (`web/src/lib/metodologi
 
 ## Las instrucciones que le dimos a la IA para leer los informes
 
-Las instrucciones completas están en los scripts de `extraccion/`. La página muestra tres:
+Las instrucciones completas están en los scripts de `extraccion/`; el sistema entero, en
+[`pipeline-extraccion.md`](pipeline-extraccion.md). La página muestra tres:
 - la transcripción con Gemini (`ocr_gemini.py`);
 - la extracción de instrumentos por política con Claude (`rebuild-ctei-claude.workflow.js`);
 - la unión del mismo instrumento entre políticas y gobiernos (mismo archivo).

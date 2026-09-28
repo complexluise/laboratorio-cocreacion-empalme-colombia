@@ -48,6 +48,7 @@ páginas, interacción y componentes: [`web/README.md`](web/README.md).
 |---|---|
 | `docs/ontologia.md` | El modelo: política (área con objetivo por gobierno) ↔ **instrumento de política pública**, diacronía. |
 | `docs/teoria-politica.md` | Fundamentación (Hood; Lascoumes & Le Galès; Mahoney & Thelen; Pierson; Hall; Howlett & Cashore). |
+| `docs/pipeline-extraccion.md` | **El pipeline de extracción** visto como sistema: de los informes al grafo, con la generación Gemini (legado) y el workflow de Claude (vigente). |
 | `docs/metodologia.md` | **Metodología y declaración de uso de IA**: el paso a paso con los prompts, qué hizo la IA y qué las personas, qué está revisado. |
 | `docs/encuadre-actividad-trama.md` | La **actividad del seminario TRAMA**: cómo los grupos describen y comparan políticas, y la bitácora. |
 | `docs/taxonomia.md` | *(deprecado)* la clasificación facetada de "ideas", como historia. |
@@ -65,6 +66,9 @@ páginas, interacción y componentes: [`web/README.md`](web/README.md).
 | `descargas/`, `extraido/`, `markdown/`, `data/sectores/` | Informes del DNP (PDF/ZIP, anexos, markdown) y salidas intermedias del pipeline. *(no versionado; se regeneran)* |
 
 ### Sobre `extraccion/`
+El sistema completo, con las dos generaciones de la lectura con IA (Gemini por API → workflow de
+Claude): [`docs/pipeline-extraccion.md`](docs/pipeline-extraccion.md).
+
 Del informe crudo del DNP → markdown → **políticas + instrumentos** → áreas → web:
 
 ```
@@ -77,7 +81,8 @@ empalme_scraper → empalme_to_markdown (+ ocr_gemini) → extraer_instrumentos 
 - `ocr_gemini.py` — OCR para los PDF escaneados sin texto extraíble.
 - `extraer_instrumentos.py` — markdown → **políticas + instrumentos** con NATO, modo de cambio,
   presencia por vigencia, evidencia y relaciones (Gemini, con `responseSchema` + validación).
-- `aplicar_correcciones.py` — aplica el overlay verificado a mano (`data/correcciones/<slug>/`).
+- `aplicar_correcciones.py` — aplica el overlay de correcciones (`data/correcciones/<slug>/`), fruto de una
+  revisión adversarial con IA sobre la versión Gemini (legado).
 - `rebuild-ctei-claude.workflow.js` — **fuente vigente de CTeI**: reconstrucción multi-agente con
   Claude (políticas + instrumentos, modo de cambio por evidencia, narrativa por gobierno) que reemplaza
   a `extraer_instrumentos.py` + `aplicar_correcciones.py` para ese sector (Gemini resultó poco fiable).
