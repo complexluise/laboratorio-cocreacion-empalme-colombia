@@ -532,7 +532,7 @@ const PROCESO: Entrada[] = [
     termino: "Modelo de lenguaje",
     expansion: "LLM, large language model",
     definicion:
-      "Programa de inteligencia artificial entrenado con grandes cantidades de texto que genera texto nuevo: resume, clasifica, redacta, escribe código. Produce borradores plausibles, no verdades: por eso su trabajo se revisa. En este laboratorio se usaron Claude y Gemini.",
+      "Programa de IA que, entrenado con enormes cantidades de texto, genera texto nuevo: resume, clasifica, redacta, escribe código. Produce borradores creíbles, no verdades: por eso hay que revisarlo. En este laboratorio se usaron Claude y Gemini.",
     ver: ["agente-de-ia", "revision-adversarial"],
   },
   {
@@ -540,7 +540,7 @@ const PROCESO: Entrada[] = [
     grupo: "proceso",
     termino: "Agente de IA",
     definicion:
-      "Un modelo de lenguaje que, además de conversar, ejecuta tareas con herramientas: lee archivos, corre pruebas, escribe código. Aquí trabajaron agentes con roles separados (uno cuida los documentos, otro escribe el código, otro lo verifica), siempre bajo la aprobación del equipo.",
+      "Un modelo de lenguaje que, además de conversar, ejecuta tareas: lee archivos, escribe código y lo prueba. Aquí trabajaron varios, cada uno con un rol: uno planifica y documenta, otro programa, otro revisa. El equipo aprobó los cambios del sitio; la red la armaron agentes, sin revisión humana completa.",
     ver: ["modelo-de-lenguaje", "revision-adversarial", "prompt"],
   },
   {
@@ -556,7 +556,7 @@ const PROCESO: Entrada[] = [
     grupo: "proceso",
     termino: "Revisión adversarial",
     definicion:
-      "Revisar un trabajo con el encargo explícito de encontrarle errores, no de aprobarlo. Aquí la hizo un agente revisor antes de publicar cada cambio. Reduce errores, pero no reemplaza la revisión humana.",
+      "Revisar un trabajo con el encargo explícito de encontrarle errores, no de aprobarlo. Aquí la hizo un agente revisor antes de publicar los cambios del sitio. Reduce errores, pero no reemplaza la revisión humana.",
     ver: ["agente-de-ia"],
   },
 ];

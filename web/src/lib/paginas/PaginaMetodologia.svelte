@@ -23,19 +23,13 @@
   <header>
     <p class="antetitulo">Cómo lo hicimos</p>
     <h1>Un laboratorio hecho en conversación con la IA</h1>
-    <p class="bajada">
-      Le pedimos a la IA lo que necesitábamos, en palabras simples. Ella propuso y construyó; nosotros decidimos, probamos y
-      corregimos. Aquí está el paso a paso, con los mensajes tal como los escribimos.
-    </p>
+    <p class="bajada">Aquí está el paso a paso: lo que le pedimos a la IA, lo que decidimos y lo que resultó.</p>
   </header>
 
   <section id="advertencia" tabindex="-1" class="advertencia" aria-labelledby="t-advertencia">
     <p class="sello"><span aria-hidden="true">IA</span> Advertencia</p>
     <h2 id="t-advertencia">Este contenido se generó con inteligencia artificial y aún no se ha revisado al 100 %</h2>
-    <p>
-      La red, los textos y los materiales los produjo la IA. Los hemos revisado solo en parte: puede haber errores de
-      clasificación, cifras o citas.
-    </p>
+    <p>La IA produjo la red, los textos y los materiales. Puede haber errores de clasificación, de cifras o de citas.</p>
     <p>
       Es parte del ejercicio. El laboratorio también prueba <strong>cómo trabajar con la máquina para construir algo
       juntos</strong>: ella hace un borrador rápido y las personas lo revisan y lo corrigen. Cada error que encuentren mejora
@@ -46,20 +40,21 @@
   <section id="como" tabindex="-1" aria-labelledby="t-como">
     <h2 id="t-como">Cómo trabajamos</h2>
     <ul class="claves">
-      <li><strong>Pedimos en lenguaje natural.</strong> Sin programar: describimos qué queríamos y por qué.</li>
-      <li><strong>La IA propone; nosotros decidimos.</strong> Ante cada decisión, la IA planteó opciones y elegimos.</li>
-      <li><strong>Otra IA revisa.</strong> Un agente revisor buscó errores antes de publicar cada cambio.</li>
-      <li><strong>Lo que falta se dice.</strong> Si un informe no trae un dato, se anota «Sin dato»; no se inventa.</li>
+      <li><strong>Pedimos con nuestras palabras.</strong> Sin programar: describimos qué queríamos y por qué.</li>
+      <li><strong>La IA propone; nosotros decidimos.</strong> En las decisiones importantes, la IA planteó opciones y nosotros elegimos.</li>
+      <li><strong>Un agente revisa.</strong> Otro agente de IA buscó errores antes de publicar los cambios del sitio.</li>
+      <li><strong>Lo que falta se dice.</strong> Le pedimos a la IA no inventar: si un informe no trae un dato, se anota «Sin dato».</li>
     </ul>
     <p>
       Usamos <strong>Claude</strong> (de Anthropic) para casi todo: leer los informes, escribir el sitio y los textos, y revisar.
-      Usamos <strong>Gemini</strong> (de Google) para transcribir documentos escaneados y para una primera extracción.
+      Usamos <strong>Gemini</strong> (de Google) para transcribir documentos escaneados y hacer un primer listado de instrumentos. Las palabras nuevas están en el
+      <a href={hrefDe("glosario")}>glosario</a>.
     </p>
   </section>
 
   <section id="pasos" tabindex="-1" aria-labelledby="t-pasos">
     <h2 id="t-pasos">Paso a paso</h2>
-    <p>Los mensajes van tal cual los escribimos, con sus erratas.</p>
+    <p>Los mensajes van tal cual los escribimos, con sus erratas. Del primer paso no guardamos los mensajes.</p>
 
     <ol class="pasos">
       {#each PASOS as p, i (p.id)}
@@ -100,8 +95,8 @@
   </section>
 
   <section id="instrucciones" tabindex="-1" aria-labelledby="t-instrucciones">
-    <h2 id="t-instrucciones">Las instrucciones que leyeron los informes</h2>
-    <p>Para procesar los informes, la IA recibió instrucciones escritas. Estas son las principales:</p>
+    <h2 id="t-instrucciones">Las instrucciones que le dimos a la IA para leer los informes</h2>
+    <p>Van tal cual, en su lenguaje técnico. Estas son las principales:</p>
     {#each INSTRUCCIONES_DATOS as ins (ins.para)}
       <details class="instruccion">
         <summary><strong>{ins.para}</strong> · {ins.modelo}</summary>
@@ -131,8 +126,8 @@
   <section id="reportar" tabindex="-1" aria-labelledby="t-reportar">
     <h2 id="t-reportar">¿Encontraron un error?</h2>
     <p>
-      Díganlo en el taller o <a href={ISSUES} rel="noopener" target="_blank">escríbannos en GitHub</a>: qué está mal y dónde lo
-      vieron. Las palabras nuevas están en el <a href={hrefDe("glosario")}>glosario</a>.
+      Díganlo en el taller o <a href={ISSUES} rel="noopener" target="_blank">escríbannos en GitHub</a> (necesitan una cuenta
+      gratuita): qué está mal y dónde lo vieron.
     </p>
   </section>
 </PaginaTexto>
