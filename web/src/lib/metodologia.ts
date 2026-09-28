@@ -1,117 +1,158 @@
-import evidenciaJson from "$lib/evidencia.json";
-
 /**
- * Metodología y declaración de uso de IA (issue #37, ADR-0006). El FLUJO de trabajo como fases,
- * cada una con quién hizo qué (personas / IA / máquina determinista) y su rastro en git. La
- * evidencia (cifras e hitos) la escribe `scripts/evidencia_git.py` en lib/evidencia.json.
+ * «Cómo lo hicimos» (issue #37, ADR-0006): el paso a paso del laboratorio con los PROMPTS que
+ * enviamos a la IA, lo que decidimos y lo que resultó. Los prompts van TAL CUAL se escribieron
+ * (con sus erratas): son la evidencia. Fuente: las conversaciones con Claude Code del 27 y 28 de
+ * septiembre de 2026; las anteriores no se guardaron. Espejo en docs/metodologia.md.
  */
 
-export type Actor = "persona" | "ia" | "automatico";
-
-export const ETIQUETA_ACTOR: Record<Actor, string> = {
-  persona: "Personas",
-  ia: "IA",
-  automatico: "Automático",
-};
-
-export const DESCRIPCION_ACTOR: Record<Actor, string> = {
-  persona: "El equipo del laboratorio o los grupos del taller.",
-  ia: "Un modelo de lenguaje (Claude o Gemini) que propone, redacta o clasifica.",
-  automatico: "Código determinista: siempre da el mismo resultado y se puede volver a correr.",
-};
-
-export interface Fase {
+export interface Paso {
   id: string;
+  fecha: string;
   titulo: string;
-  actores: Actor[];
-  /** Qué hicieron las personas en esta fase. */
-  persona: string;
-  /** Qué hizo la máquina (IA o código). */
-  maquina: string;
-  /** Qué rastro deja en el repositorio. */
-  rastro: string;
-  /** Fase que todavía no ocurre (sin evidencia en git). */
-  porVenir?: boolean;
+  /** Los mensajes que le enviamos a la IA, literales. */
+  pedimos: string[];
+  /** Decisiones que tomamos cuando la IA nos planteó opciones. */
+  decidimos?: string[];
+  /** Qué hizo la IA, en palabras simples. */
+  hizo: string;
+  resultado: string;
 }
 
-export const FASES: Fase[] = [
-  {
-    id: "encuadrar",
-    titulo: "Encuadrar",
-    actores: ["persona", "ia"],
-    persona: "Definimos la pregunta, el marco teórico (instrumentos, cambio institucional) y la actividad del seminario.",
-    maquina: "La IA ordenó y redactó el encuadre a partir de las conversaciones con el equipo.",
-    rastro: "Un issue por trabajo y el encuadre en docs/.",
-  },
-  {
-    id: "fuente",
-    titulo: "Reunir la fuente",
-    actores: ["persona", "automatico", "ia"],
-    persona: "Elegimos la fuente (los informes de empalme publicados por el DNP) y el sector piloto.",
-    maquina: "Scripts escritos con IA descargan los informes y los pasan a texto; los PDF escaneados se transcriben con Gemini.",
-    rastro: "Los scripts de extraccion/ en su commit.",
-  },
+export const PASOS: Paso[] = [
   {
     id: "extraer",
-    titulo: "Extraer la red",
-    actores: ["ia"],
-    persona: "Revisamos resultados y pedimos rehacer cuando la red salía desconectada.",
-    maquina: "La IA leyó los informes y propuso políticas, instrumentos, tipo NATO, modo de cambio y narrativa con página. Primero Gemini; luego varios agentes de Claude reconstruyeron la red: es la que se publica hoy.",
-    rastro: "El dataset y el script que lo produjo, en el mismo commit.",
+    fecha: "26 y 27 sep",
+    titulo: "Leer los informes y armar la red",
+    pedimos: [],
+    hizo: "Descargó los informes de empalme del DNP y los pasó a texto. Gemini transcribió los documentos escaneados e hizo una primera extracción. Después, varios agentes de Claude leyeron los informes, una política a la vez, y armaron la red: políticas, instrumentos, cómo cambió cada uno y en qué página lo dice el informe.",
+    resultado: "La red de Ciencia, Tecnología e Innovación. No guardamos las conversaciones de esta etapa; sí las instrucciones que procesaron los informes (más abajo).",
   },
   {
-    id: "revisar",
-    titulo: "Revisar contra la fuente",
-    actores: ["ia", "persona", "automatico"],
-    persona: "Aprobamos la agrupación en áreas (ADR-0004), que sí se aplica a la red vigente. La revisión humana dato por dato está PENDIENTE.",
-    maquina: "Agentes de IA contrastaron la primera extracción (Gemini) con los informes y dejaron correcciones con evidencia. Esa red se reemplazó después por la de Claude, que no pasó por esa revisión.",
-    rastro: "data/correcciones/: las correcciones de la versión Gemini y la curaduría de áreas.",
+    id: "orden",
+    fecha: "27 sep",
+    titulo: "Ordenar la forma de trabajar",
+    pedimos: [
+      "Quiero que hagamos la epica #6.  Antes de eso queremos implementar la disciplina kybernetes del repo de sostaina porque ese nos ayuda a interaciuar con Claude.",
+      "Ya hice el commit del ci, confirmo el gitflow. ahora ten en cuenta que la epic conssite en pasarnos a svelte por lo tanto es necesario adoptar la demás parte de la disciplina espcial el uso de pnpm y etc. Lets work.",
+      "ahora que veo es que a la red hace falta aplicar un algoritmo de node overlapping y el de texto para que no se solape.",
+    ],
+    hizo: "Adoptó unas reglas de trabajo: cada tarea se anota, cada decisión se registra y un agente revisor busca errores antes de publicar. Rehízo el sitio con otra tecnología y separó los nodos y los textos de la red para que no se encimen.",
+    resultado: "Primera versión publicada (v0.1).",
   },
   {
-    id: "decidir",
-    titulo: "Decidir",
-    actores: ["persona", "ia"],
-    persona: "Tomamos las decisiones: respondimos las opciones que planteó la IA y aprobamos cada una.",
-    maquina: "La IA propuso alternativas con sus costos y redactó el registro de la decisión.",
-    rastro: "Un ADR por decisión en docs/decisiones/.",
+    id: "interfaz",
+    fecha: "27 sep",
+    titulo: "Reordenar la pantalla de la red",
+    pedimos: [
+      "Ahora vamos a hacer una retroalimentación y reodenación del layout,  porque hay cosas que no tienen una jerarquia clara, se mezclan las cosas. necesitamos establecer una semantica clara. necesitamos aplicar las buenas practicas de diseño en interfases como red y de busqueda por ejemplo actualmente si busco regalias se va filtrando el grafo y me toca luego dar click en limpiar filtros lo cual me deja ver toda la red y mantiene la info del sidebar. ese comportmaient no es el correcto seria mejor que apareciera una lista y al seleccionar te lleva al nodo enfocado en su subred. lo primero es hacer un diagnostico y luego un encuadre.",
+    ],
+    decidimos: [
+      "Los filtros van en un panel a la izquierda.",
+      "Al buscar una política, la red muestra solo lo suyo; al buscar un instrumento, atenúa el resto.",
+      "La leyenda solo explica; no filtra.",
+    ],
+    hizo: "Hizo un diagnóstico, nos planteó opciones y rehízo la pantalla: el buscador ahora lleva al nodo en vez de filtrar la red.",
+    resultado: "Segunda versión (v0.2).",
   },
   {
-    id: "construir",
-    titulo: "Construir",
-    actores: ["ia", "automatico"],
-    persona: "Pedimos cada pieza y probamos el sitio y los materiales.",
-    maquina: "La IA escribió casi todo el código y los textos (sitio, glosario, bitácora, Excel). Los tests y el contrato de datos los validan.",
-    rastro: "Commits con el trailer Co-Authored-By del modelo.",
+    id: "politica",
+    fecha: "27 sep",
+    titulo: "Precisar qué es una política pública",
+    pedimos: [
+      "Según la definición una política publica tiene asociada un objetivo de política ( que incluso puede estar muy asociado s como en particular un gobierno va a dirigir esa política pública. Primero reflexionemos acerca de esto para ver cómo encuadrarlo",
+      "De lo que queda\n1. Granularidad misión\n2. Apropiación social y ciencia abierta por aparte\n3. antes pero puede ser ampliable\n4. Si tratemos lo así\n\nEsto déjalo en SOLO UNO issue y abordemos esto para ver cómo cambia la red dejalo en un branch",
+    ],
+    decidimos: [
+      "Una política pública es un área que atraviesa gobiernos.",
+      "El cambio del objetivo se describe con un vocabulario propio.",
+      "Cada instrumento se vincula a la política, no al objetivo de cada gobierno.",
+    ],
+    hizo: "Propuso tres maneras de modelarlo y, con lo que decidimos, reagrupó la red en áreas, cada una con el objetivo que declara cada gobierno.",
+    resultado: "14 áreas de política, con su objetivo por gobierno.",
   },
   {
-    id: "verificar",
-    titulo: "Verificar",
-    actores: ["ia", "automatico", "persona"],
-    persona: "Leímos los hallazgos y el PR antes de integrarlo.",
-    maquina: "Desde que adoptamos la disciplina de trabajo (ADR-0001), un agente verificador revisa los cambios buscando errores y la integración continua corre tests, tipos y fronteras. Antes no había esta verificación.",
-    rastro: "Commits «hallazgos del verificador» y los checks del PR.",
+    id: "sitio",
+    fecha: "27 sep",
+    titulo: "La actividad, la teoría y el glosario",
+    pedimos: [
+      "Esta red esta bien ya la dejamos así. vamos a completar lo que falta, Primero necesito la pagina de landing donde se muestra cual es nuestra actividad de cocreación, la teoria para poder construir , luego hacemos una pagina de glosario donde coloquemos cada sigla cada palabra nueva. que no sea de uso comun y expliquemos la ontologia uqe tenemos aquí con la teoria politica. Para eso aclaremos, lo que los grupos/equipo van a seleccionar es una politica publica la van describir entre los dos gobiernos, buscando información complementario y llenando una bitacora donde hay unos formatos que van llenando. esta es una plantilla de lo que debe inspirarse la bitacora: […]",
+    ],
+    decidimos: ["Al abrir el sitio se ve la actividad, no la red."],
+    hizo: "Escribió la página de inicio y el glosario a partir de nuestra plantilla de la bitácora (el ejemplo de CTeI lo escribimos nosotros). El agente revisor encontró errores, entre ellos quién creó MinCiencias, y se corrigieron.",
+    resultado: "Página de inicio con la actividad y la teoría, y un glosario.",
   },
   {
-    id: "liberar",
-    titulo: "Liberar",
-    actores: ["persona", "automatico"],
-    persona: "Desde la v0.1.0 (PR #7) aprobamos cada integración y cada versión. Al arranque, los cambios se subían directo a la rama publicada, sin PR.",
-    maquina: "GitHub Pages publica lo que llega a main.",
-    rastro: "Merge de cada PR y un tag por versión.",
+    id: "bitacora",
+    fecha: "27 sep",
+    titulo: "La bitácora de cada grupo",
+    pedimos: ["PR a dev y seguimos con lo siguiente"],
+    decidimos: [
+      "Un docx con el formato listo para llenar. así no este prellenado.",
+      "Se recoge el docx y se integra y se convierte en un dato estructurado.",
+    ],
+    hizo: "Creó la bitácora en Word, en blanco, y un programa que la lee y la convierte en datos. El revisor encontró casos en que el programa perdía datos sin avisar; se corrigieron.",
+    resultado: "La bitácora para descargar y un ejemplo lleno de CTeI.",
   },
   {
-    id: "taller",
-    titulo: "Taller: revisar entre todos",
-    actores: ["persona"],
-    persona: "Los grupos contrastan la red con los informes, llenan la bitácora y señalan errores. Es la revisión que falta.",
-    maquina: "El lector de la bitácora la convierte en dato; lo que cambie vuelve a «Revisar».",
-    rastro: "Cuando ocurra: data/bitacoras/ y los issues de cada error reportado.",
-    porVenir: true,
+    id: "actividad",
+    fecha: "27 sep",
+    titulo: "Una actividad más dinámica",
+    pedimos: [
+      "quiero descargar el excel",
+      "Listo eso esta buenismo tambien va con PR e incluyamos el boton para descargar y ponle una mircointeracción me gutaai que la actividad fuera más dinamica y pedagogica.",
+    ],
+    hizo: "Pasó la red a Excel, agregó botones de descarga y convirtió la actividad en cuatro pasos. Sumó una práctica para clasificar instrumentos reales antes de llenar la bitácora.",
+    resultado: "La red en Excel, la actividad paso a paso y la práctica.",
+  },
+  {
+    id: "cierre",
+    fecha: "27 sep",
+    titulo: "Cerrar la versión",
+    pedimos: ["Cortemos aquí ya tenemos suficiente para esta iteración.", "Los documentos deben estar alineados con todo incluyendo el README"],
+    decidimos: ["Integrar todo y publicar la versión 0.3."],
+    hizo: "Publicó la versión y puso al día la documentación.",
+    resultado: "Tercera versión (v0.3).",
+  },
+  {
+    id: "declaracion",
+    fecha: "27 y 28 sep",
+    titulo: "Esta declaración",
+    pedimos: [
+      "Nos falta ahora redacta una metodologia y una declaración del uso de IA como la usamos cual nuestra particiapción y así mismo colocar esta advertencia que este contenido fue generado usando inteligencia artificial y aún no se ha revisado al 100% y como este ejercicio es justo el como se puede interacutuar con la maquina y elaboración de artfactos para colaborar. primero encuadremos y debatamos.",
+      "Eso se siente como matar un raton con una bomba nuclear. en realidad debe ser más senicillo, olvida git nuestro publico NO estecnico. más bien lo que busco es algo más parecido al documento y que esten los prompts que fueron enviados y que se proceso y eso. el paso a paso de lo que se hizo eso es más util omo declaración. Por otro lado a la finl se debe hacer un agente adversario , este agente debe personalizarse como un quisquilloso por la redundacia y que le gusta el lengjua claro, y las ideas claras y consisas.",
+    ],
+    hizo: "La primera versión fue un diagrama técnico basado en el historial del código. La descartamos por compleja y la IA la rehízo como este paso a paso. Al final, un agente editor, exigente con la redundancia y la claridad, revisó el texto.",
+    resultado: "Esta página y el aviso en todo el sitio.",
   },
 ];
 
-/** A qué fase vuelve el taller: sus hallazgos reabren la revisión. */
-export const RETORNO_TALLER = "revisar";
+export interface InstruccionDatos {
+  modelo: string;
+  para: string;
+  texto: string;
+}
+
+/** Las instrucciones con que la IA procesó los informes (extraccion/). Literales o extractos. */
+export const INSTRUCCIONES_DATOS: InstruccionDatos[] = [
+  {
+    modelo: "Gemini",
+    para: "Transcribir los documentos escaneados",
+    texto:
+      "Transcribe COMPLETAMENTE el texto de este documento escaneado en español. Es un acta o resolución oficial del Ministerio de Ciencia de Colombia. Devuelve solo el texto transcrito en markdown limpio, respetando encabezados, listas, tablas y firmas. No agregues comentarios ni resúmenes. Si una página está en blanco o ilegible, indícalo con [página ilegible].",
+  },
+  {
+    modelo: "Claude",
+    para: "Extraer los instrumentos de cada política (extracto)",
+    texto:
+      "Eres analista de politica publica colombiana (sector CTeI). Extrae los INSTRUMENTOS de la politica […] a lo largo de DOS gobiernos, leyendo los informes. […] Un INSTRUMENTO es el medio concreto con que el Estado actua: programa, norma, fondo/fuente de financiacion, convocatoria, sistema. […] modo_cambio GUIADO POR EVIDENCIA (compara nombres, logica y CIFRAS entre gobiernos; no por defecto) […] evidencia: por vigencia, paginas y cifras (texto tal cual). No inventes. […] narrativa: g2018 (que fue bajo Duque), g2022 (que fue bajo Petro), cambio (1-2 frases). Extrae solo instrumentos de PRIMER NIVEL con identidad propia. Exhaustivo pero sin redundancia.",
+  },
+  {
+    modelo: "Claude",
+    para: "Unir el mismo instrumento cuando aparece en varias políticas o gobiernos (extracto)",
+    texto:
+      "Agrupa las 'refs' que son el MISMO instrumento concreto (mismo fondo/programa/norma/sistema), aunque cambie el nombre entre gobiernos o lo liste mas de una politica. […] NO fusiones instrumentos distintos que comparten tema/palabras (una convocatoria de un fondo NO es un programa de becas) […]",
+  },
+];
 
 export type EstadoRevision = "fuente" | "parcial" | "pendiente" | "personas";
 
@@ -129,94 +170,23 @@ export const ETIQUETA_ESTADO: Record<EstadoRevision, string> = {
   personas: "Escrito por personas",
 };
 
-/** Qué tan revisada está cada capa del contenido. Honesto por capa, no una cifra global. */
+/** Qué tan revisada está cada parte. No declarar «revisada» una capa que no lo está. */
 export const CAPAS: Capa[] = [
+  { capa: "Informes de empalme", quien: "Cada gobierno (DNP)", revision: "Se usan tal cual.", estado: "fuente" },
+  { capa: "Texto de los informes escaneados", quien: "Gemini", revision: "Nadie lo revisó línea a línea.", estado: "pendiente" },
   {
-    capa: "Informes de empalme",
-    quien: "Cada gobierno, publicados por el DNP",
-    revision: "Se usan tal cual; no se modifican.",
-    estado: "fuente",
-  },
-  {
-    capa: "Texto extraído de los informes",
-    quien: "Automático; OCR con Gemini en los escaneados",
-    revision: "No se revisó línea a línea.",
+    capa: "La red",
+    quien: "Agentes de Claude",
+    revision: "Casi todos los instrumentos citan la página del informe, pero nadie la ha revisado completa. Hay casos en que la descripción contradice el modo de cambio.",
     estado: "pendiente",
   },
+  { capa: "Áreas de política", quien: "Propuestas por la IA", revision: "Las aprobó el equipo.", estado: "parcial" },
   {
-    capa: "La red: políticas, instrumentos, modos de cambio",
-    quien: "IA: agentes de Claude, con evidencia por página",
-    revision: "La revisión adversarial se hizo sobre una versión anterior (Gemini) y no cubre la actual. Revisión humana pendiente; hay casos conocidos donde la narrativa contradice el modo.",
-    estado: "pendiente",
-  },
-  {
-    capa: "Áreas de política",
-    quien: "Propuestas con IA",
-    revision: "Aprobadas por el equipo (ADR-0004).",
+    capa: "Textos del sitio y glosario",
+    quien: "Claude, a partir de nuestro encuadre",
+    revision: "Leídos por el equipo, sin revisión completa. Conviene verificar las citas.",
     estado: "parcial",
   },
-  {
-    capa: "Textos del sitio, glosario y teoría",
-    quien: "IA, desde el encuadre del equipo",
-    revision: "Leídos por el equipo, sin revisión completa. Las citas bibliográficas conviene verificarlas en la fuente.",
-    estado: "parcial",
-  },
-  {
-    capa: "Código y materiales descargables",
-    quien: "IA",
-    revision: "Tests automáticos, contrato de datos y verificador; el equipo los probó.",
-    estado: "parcial",
-  },
-  {
-    capa: "Ejemplo de bitácora CTeI",
-    quien: "El equipo; la IA lo pasó al formato",
-    revision: "Escrito por el equipo a partir de su plantilla; la IA lo llevó al formato de la bitácora.",
-    estado: "personas",
-  },
-  {
-    capa: "Bitácoras de los grupos",
-    quien: "Los grupos del taller",
-    revision: "Las escriben personas; el equipo las integra.",
-    estado: "personas",
-  },
+  { capa: "Ejemplo de bitácora CTeI", quien: "El equipo", revision: "La IA solo le dio formato.", estado: "personas" },
+  { capa: "Bitácoras de los grupos", quien: "Los grupos del taller", revision: "Las escriben personas.", estado: "personas" },
 ];
-
-export interface Hito {
-  fase: string;
-  commit: string;
-  que: string;
-  autor: string;
-  fecha: string;
-  asunto: string;
-  coautores: string[];
-}
-
-export interface Evidencia {
-  corte: { commit: string; fecha: string };
-  periodo: { desde: string; hasta: string };
-  commits: { total: number; agente: number; persona_con_ia: number; persona: number };
-  modelos: Record<string, number>;
-  prs_integrados: number[];
-  releases: { tag: string; commit: string; fecha: string }[];
-  adrs: { id: string; titulo: string; archivo: string }[];
-  hitos: Hito[];
-}
-
-export const evidencia = evidenciaJson as Evidencia;
-
-export const REPO = "https://github.com/complexluise/laboratorio-cocreacion-empalme-colombia";
-
-export const urlCommit = (hash: string) => `${REPO}/commit/${hash}`;
-export const urlPR = (n: number) => `${REPO}/pull/${n}`;
-export const urlArchivo = (ruta: string) => `${REPO}/blob/main/${ruta}`;
-
-export function hitosDe(ev: Evidencia, fase: string): Hito[] {
-  return ev.hitos.filter((h) => h.fase === fase);
-}
-
-/** Quién firmó un hito, en palabras: git distingue al agente, a la persona y la coautoría. */
-export function firma(h: Hito): string {
-  if (h.asunto.startsWith("Merge pull request")) return "integración aprobada con la cuenta del PO";
-  if (h.autor === "Claude") return "firmado por el agente (Claude)";
-  return h.coautores.length > 0 ? `persona del equipo, con ${h.coautores.join(" y ")}` : "persona del equipo, sin IA declarada";
-}

@@ -31,10 +31,11 @@
   **política pública** = **área persistente** con el objetivo que declara cada gobierno y su
   `cambio_objetivo` (ADR-0004).
 - **El sitio:** landing con la actividad (`#/`), la red (`#/red`), el glosario (`#/glosario`) y
-  «Cómo lo hicimos» (`#/metodologia`: metodología, declaración de uso de IA, git como evidencia).
-- **Uso de IA (ADR-0006):** el contenido se declara hecho con IA y revisado solo en parte. Todo commit
-  en el que participe IA lleva su `Co-Authored-By`; no declares una capa «revisada» en
-  `web/src/lib/metodologia.ts` (`CAPAS`) si no lo está. Ver [`docs/metodologia.md`](docs/metodologia.md).
+  «Cómo lo hicimos» (`#/metodologia`: el paso a paso con los prompts y la declaración de uso de IA).
+- **Uso de IA (ADR-0006):** el contenido se declara hecho con IA y revisado solo en parte. Cada ciclo
+  agrega su paso, con los prompts literales, a `PASOS` (`web/src/lib/metodologia.ts`); no declares una
+  parte «revisada» en `CAPAS` si no lo está. Todo texto público pasa al final por el agente `editor`
+  (quisquilloso: redundancia, jerga, ideas borrosas). Ver [`docs/metodologia.md`](docs/metodologia.md).
 - **La bitácora:** cada grupo describe su política en un .docx en blanco
   (`web/public/bitacora-laboratorio.docx`); el equipo la convierte a `data/bitacoras/<slug>/<grupo>.json`
   con `extraccion/bitacora.py leer` (ADR-0005).
@@ -48,7 +49,6 @@ uv run scripts/validar_contrato.py                           # el gate del contr
 uv run extraccion/generar_web.py --slug ciencia-tecnologia   # dataset -> web/src/lib/data/<slug>.json
 uv run extraccion/bitacora.py generar && uv run extraccion/bitacora.py ejemplo \
   && uv run extraccion/red_excel.py --slug ciencia-tecnologia  # materiales del taller -> web/public/
-uv run scripts/evidencia_git.py                              # evidencia de git -> web/src/lib/evidencia.json (en cada release)
 ```
 
 Detalle y gate de CI completo en [`AGENTS.md`](AGENTS.md) §Cómo correr.

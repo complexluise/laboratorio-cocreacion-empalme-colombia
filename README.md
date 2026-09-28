@@ -11,9 +11,9 @@ red, un glosario y cómo lo hicimos.
 
 > ⚠️ **Hecho con IA y aún sin revisar al 100 %.** La red, los textos y los materiales se produjeron con
 > modelos de IA (Claude y Gemini) bajo la dirección del equipo; la revisión humana completa no está
-> hecha. Revisarlo es parte del ejercicio: es una práctica de cómo colaborar con la máquina. Metodología,
-> declaración de uso de IA y la evidencia en git: [`docs/metodologia.md`](docs/metodologia.md)
-> ([ADR-0006](docs/decisiones/ADR-0006-declarar-uso-de-ia-con-git-como-evidencia.md)).
+> hecha. Revisarlo es parte del ejercicio: es una práctica de cómo colaborar con la máquina. El paso a
+> paso, con los prompts que enviamos: [`docs/metodologia.md`](docs/metodologia.md)
+> ([ADR-0006](docs/decisiones/ADR-0006-declarar-uso-de-ia-paso-a-paso.md)).
 
 ## Por qué
 
@@ -32,7 +32,7 @@ sueltas. Las preguntas que guían todo (ver `docs/ontologia.md`):
 | `#/` | **Landing**: la actividad como recorrido de 4 pasos (elegir → describir → buscar → concluir), la **bitácora** con sus descargas, la teoría en 5 ideas, la práctica «¿Qué le pasó a este instrumento?» y las preguntas que guían el mapa. |
 | `#/red` | La **red bipartita** política↔instrumento. Cada política es un **área** con el objetivo que declara cada gobierno (el anillo del hub muestra cómo cambió); los instrumentos van coloreados por **modo de cambio** y con forma por **tipo NATO**. Filtros, buscador que navega y foco por política o instrumento. |
 | `#/glosario[/<id>]` | Glosario de la ontología, la teoría, la bitácora, el proceso y las siglas. |
-| `#/metodologia[/<seccion>]` | **Cómo lo hicimos**: advertencia, las reglas de trabajo, el flujo en 9 fases (personas / IA / automático, con sus commits de evidencia), git como evidencia y la declaración de uso de IA con el estado de revisión por capa. |
+| `#/metodologia[/<seccion>]` | **Cómo lo hicimos**: la advertencia, cómo trabajamos con la IA, el paso a paso con los prompts que enviamos y lo que decidimos, las instrucciones que procesaron los informes y qué está revisado. |
 
 En todas las páginas (menos «Cómo lo hicimos», que la desarrolla), una franja bajo la cabecera advierte que el contenido se hizo con IA y aún no
 se revisó al 100 % (se puede plegar).
@@ -48,7 +48,7 @@ páginas, interacción y componentes: [`web/README.md`](web/README.md).
 |---|---|
 | `docs/ontologia.md` | El modelo: política (área con objetivo por gobierno) ↔ **instrumento de política pública**, diacronía. |
 | `docs/teoria-politica.md` | Fundamentación (Hood; Lascoumes & Le Galès; Mahoney & Thelen; Pierson; Hall; Howlett & Cashore). |
-| `docs/metodologia.md` | **Metodología y declaración de uso de IA**: el flujo, git como evidencia, qué hizo la IA y qué las personas, estado de revisión. |
+| `docs/metodologia.md` | **Metodología y declaración de uso de IA**: el paso a paso con los prompts, qué hizo la IA y qué las personas, qué está revisado. |
 | `docs/encuadre-actividad-trama.md` | La **actividad del seminario TRAMA**: cómo los grupos describen y comparan políticas, y la bitácora. |
 | `docs/taxonomia.md` | *(deprecado)* la clasificación facetada de "ideas", como historia. |
 | `docs/decisiones/` | **ADRs**: los porqués que condicionan el código. |
@@ -60,7 +60,7 @@ páginas, interacción y componentes: [`web/README.md`](web/README.md).
 | `extraccion/` | Scripts de ingesta y extracción (ver abajo). |
 | `packages/red/` | `@laboratorio/red`: dominio de la red (tipos del contrato, filtros, buscar, foco de vecindario), sin DOM. |
 | `web/` | `@laboratorio/web`: el sitio (Svelte 5 + Vite + D3). Ver `web/README.md`. |
-| `scripts/` | `validar_contrato.py`: valida schemas, dataset de la web, bitácoras y los materiales de `web/public/` (gate de CI). `evidencia_git.py`: la foto de la evidencia de git para «Cómo lo hicimos». |
+| `scripts/` | `validar_contrato.py`: valida schemas, dataset de la web, bitácoras y los materiales de `web/public/` (gate de CI). |
 | `CONTRIBUTING.md`, `AGENTS.md`, `CLAUDE.md`, `.claude/` | La **disciplina de trabajo** (ver abajo). |
 | `descargas/`, `extraido/`, `markdown/`, `data/sectores/` | Informes del DNP (PDF/ZIP, anexos, markdown) y salidas intermedias del pipeline. *(no versionado; se regeneran)* |
 
@@ -109,9 +109,6 @@ uv run scripts/validar_contrato.py
 uv run extraccion/generar_web.py --slug ciencia-tecnologia
 uv run extraccion/bitacora.py generar && uv run extraccion/bitacora.py ejemplo
 uv run extraccion/red_excel.py --slug ciencia-tecnologia
-
-# la evidencia de git para «Cómo lo hicimos» (en cada release; clon completo con tags)
-uv run scripts/evidencia_git.py
 ```
 
 Detalle en [`AGENTS.md`](AGENTS.md) §Cómo correr.
@@ -123,7 +120,7 @@ Con la disciplina de [`kybernetes`](https://github.com/Sostaina/kybernetes) (ver
 [ADR-0003](docs/decisiones/ADR-0003-preset-codigo-kybernetes.md)): GitFlow-lite (`dev` integra,
 `main` publica), Conventional Commits, trabajo en issues, decisiones en ADRs, monorepo pnpm con TS
 estricto, fronteras verificadas (dependency-cruiser), changesets, y un harness para
-agentes en `.claude/` (skills del flujo, agentes `architect`/`coder`/`verifier`, `/retro-ciclo`).
+agentes en `.claude/` (skills del flujo, agentes `architect`/`coder`/`verifier`/`editor`, `/retro-ciclo`).
 Empezá por [`CONTRIBUTING.md`](CONTRIBUTING.md); si sos un agente, por [`AGENTS.md`](AGENTS.md).
 
 ## Estado
@@ -136,8 +133,8 @@ Empezá por [`CONTRIBUTING.md`](CONTRIBUTING.md); si sos un agente, por [`AGENTS
 - ✅ Sitio en **Svelte 5 + D3** (`web/` + `packages/red`), responsive: landing con la actividad y la
   práctica, red, glosario.
 - ✅ Bitácora .docx y su conversión a dato (ADR-0005); red en Excel para el taller.
-- ✅ Metodología y declaración de uso de IA con git como evidencia, y advertencia en el sitio y el
-  Excel (ADR-0006).
+- ✅ Metodología y declaración de uso de IA paso a paso, con los prompts, y advertencia en el sitio y
+  el Excel (ADR-0006).
 - 🔧 Revisión humana completa de la red y los textos (hoy parcial; ver `docs/metodologia.md`).
 - ✅ Publicado en **GitHub Pages** (build con pnpm y deploy de `web/dist` en cada push a `main`).
 - 🔧 Integrar las bitácoras del seminario al mapa (curaduría del equipo; "mapa v2").

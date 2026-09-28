@@ -31,9 +31,6 @@ extraccion/  ──produce──►  data/schema/ (CONTRATO)  ◄──consume�
    ni ejecuta `extraccion/`; `extraccion/` no conoce detalles de render (colores, layout, física).
    La única excepción es el gate: `scripts/validar_contrato.py` ejecuta `extraccion/bitacora.py` y
    `extraccion/red_excel.py` para validar sus artefactos (validar el pipeline no es consumirlo).
-   `scripts/evidencia_git.py` escribe `web/src/lib/evidencia.json` (la historia de git para «Cómo lo
-   hicimos», ADR-0006): cruza un dato, como `generar_web.py`, y queda fuera de `lib/data/` porque no
-   es un dataset del contrato.
 2. **Vocabulario único.** Los enums (`tipo_nato`, `modo_cambio`, …) salen de `taxonomia.yaml` (y se
    reflejan en los tipos de `packages/red`). La web puede *mapearlos* a colores/formas, pero no
    inventar valores nuevos.

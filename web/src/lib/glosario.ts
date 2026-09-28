@@ -40,7 +40,7 @@ export const INTRO_GRUPO: Record<Grupo, string> = {
     "Qué representa cada cosa en la red: los tipos de nodo, sus atributos y el vocabulario controlado con que se clasifican.",
   teoria: "Los conceptos de la teoría política con que se lee el cambio entre dos gobiernos.",
   bitacora: "Las palabras que aparecen al describir una política en la bitácora del grupo.",
-  proceso: "Las herramientas y prácticas con que se construyó el laboratorio en colaboración con la IA, y cómo se lee su rastro.",
+  proceso: "Las palabras para entender cómo se construyó el laboratorio con la IA.",
   siglas: "Siglas, entidades e instrumentos que aparecen en los informes de empalme y en la red.",
 };
 
@@ -519,6 +519,14 @@ const SIGLAS: Sigla[] = [
 
 const PROCESO: Entrada[] = [
   {
+    id: "prompt",
+    grupo: "proceso",
+    termino: "Prompt",
+    definicion:
+      "El mensaje o la instrucción que se le escribe a una IA. En «Cómo lo hicimos» están los que enviamos, tal cual los escribimos.",
+    ver: ["modelo-de-lenguaje"],
+  },
+  {
     id: "modelo-de-lenguaje",
     grupo: "proceso",
     termino: "Modelo de lenguaje",
@@ -533,7 +541,7 @@ const PROCESO: Entrada[] = [
     termino: "Agente de IA",
     definicion:
       "Un modelo de lenguaje que, además de conversar, ejecuta tareas con herramientas: lee archivos, corre pruebas, escribe código. Aquí trabajaron agentes con roles separados (uno cuida los documentos, otro escribe el código, otro lo verifica), siempre bajo la aprobación del equipo.",
-    ver: ["modelo-de-lenguaje", "revision-adversarial"],
+    ver: ["modelo-de-lenguaje", "revision-adversarial", "prompt"],
   },
   {
     id: "ocr",
@@ -548,61 +556,8 @@ const PROCESO: Entrada[] = [
     grupo: "proceso",
     termino: "Revisión adversarial",
     definicion:
-      "Revisar un trabajo con el encargo explícito de encontrarle errores, no de aprobarlo. La hacen agentes de IA sobre los cambios del proyecto, y se hizo sobre una primera versión de la red contra los informes. Reduce errores, pero no reemplaza la revisión humana.",
+      "Revisar un trabajo con el encargo explícito de encontrarle errores, no de aprobarlo. Aquí la hizo un agente revisor antes de publicar cada cambio. Reduce errores, pero no reemplaza la revisión humana.",
     ver: ["agente-de-ia"],
-  },
-  {
-    id: "git",
-    grupo: "proceso",
-    termino: "Git",
-    definicion:
-      "Sistema que guarda la historia completa de un proyecto: cada cambio, quién lo hizo y cuándo. Es la evidencia de cómo se construyó el laboratorio.",
-    ver: ["commit", "co-authored-by", "pull-request"],
-  },
-  {
-    id: "commit",
-    grupo: "proceso",
-    termino: "Commit",
-    definicion: "Un cambio guardado en git, con su autor, su fecha, un mensaje que dice qué cambió y un identificador único (el hash, p. ej. f4c2681).",
-    ver: ["git", "co-authored-by"],
-  },
-  {
-    id: "co-authored-by",
-    grupo: "proceso",
-    termino: "Co-Authored-By",
-    definicion:
-      "Línea al final del mensaje de un commit que declara un coautor. Aquí declara qué modelo de IA participó en el cambio: así la participación de la máquina queda escrita en la historia y se puede contar.",
-    ver: ["commit"],
-  },
-  {
-    id: "pull-request",
-    grupo: "proceso",
-    termino: "PR",
-    expansion: "Pull request",
-    definicion:
-      "Solicitud para integrar un conjunto de cambios a la versión común. Pasa por pruebas automáticas y por la aprobación del equipo antes de entrar: es el punto donde las personas deciden.",
-    ver: ["git", "release"],
-  },
-  {
-    id: "adr",
-    grupo: "proceso",
-    termino: "ADR",
-    expansion: "Architecture Decision Record, registro de decisión",
-    definicion: "Documento corto que registra una decisión del proyecto: el contexto, qué se decidió, qué alternativas se descartaron y qué consecuencias tiene.",
-  },
-  {
-    id: "release",
-    grupo: "proceso",
-    termino: "Versión (release)",
-    definicion: "Un corte publicado del proyecto, marcado con un número (v0.3.0). Cada versión es lo que se ve en el sitio en ese momento.",
-    ver: ["pull-request"],
-  },
-  {
-    id: "contrato-de-datos",
-    grupo: "proceso",
-    termino: "Contrato de datos",
-    definicion:
-      "Esquema que fija la forma que deben tener los datos para llegar al sitio. Se valida automáticamente: lo que produce la IA se comprueba sin tener que volver a preguntarle.",
   },
 ];
 

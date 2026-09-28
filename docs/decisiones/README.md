@@ -19,4 +19,4 @@ Se gradúan con la skill `graduar-adr` (fase DECIDIR del flujo).
 | [0003](ADR-0003-preset-codigo-kybernetes.md) | Adoptar el preset de código de kybernetes (monorepo pnpm + TS) | aceptada |
 | [0004](ADR-0004-politica-area-con-objetivo-por-gobierno.md) | La política pública es un área persistente con objetivo por gobierno | aceptada |
 | [0005](ADR-0005-bitacora-docx-a-dato-estructurado.md) | La bitácora es un .docx no pre-llenado que el equipo convierte a dato estructurado | aceptada |
-| [0006](ADR-0006-declarar-uso-de-ia-con-git-como-evidencia.md) | Declarar el uso de IA, con git como evidencia y una advertencia de revisión parcial | aceptada |
+| [0006](ADR-0006-declarar-uso-de-ia-paso-a-paso.md) | Declarar el uso de IA como un paso a paso con los prompts, para público no técnico | aceptada |

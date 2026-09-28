@@ -33,7 +33,7 @@ de Pages, así que no hay router de historial ni dependencia de router. `App.sve
 | `#/inicio/<seccion>` | `PaginaInicio` | Salta a una sección: `actividad`, `bitacora`, `teoria`, `practica`, `preguntas`. |
 | `#/red` | `PaginaRed` | El explorador de la red (ver §Interacción). |
 | `#/glosario[/<id>]` | `PaginaGlosario` | Glosario filtrable; `<id>` salta a una entrada (p. ej. `#/glosario/modo-conversion`). |
-| `#/metodologia[/<seccion>]` | `PaginaMetodologia` | Cómo lo hicimos: `advertencia`, `metodologia`, `flujo` (`Flujograma`), `evidencia`, `declaracion`, `revision`, `reportar`. Fases y capas en `lib/metodologia.ts`; cifras de `lib/evidencia.json` (ADR-0006). |
+| `#/metodologia[/<seccion>]` | `PaginaMetodologia` | Cómo lo hicimos: `advertencia`, `como`, `pasos` (cada uno con los prompts literales, anclas `paso-<id>`), `instrucciones`, `revision`, `reportar`. Contenido en `lib/metodologia.ts` (ADR-0006). |
 
 Bajo la cabecera de todas las páginas (menos la metodología) va `AvisoIA`: el contenido se hizo con
 IA y aún no se revisó al 100 %. Se pliega; la preferencia queda en `localStorage` (con try/catch).
@@ -96,8 +96,7 @@ src/lib/paginas/             # PaginaInicio, PaginaGlosario (lectura, sobre Pagi
                              #   first: lienzo, hoja inferior / paneles laterales en escritorio)
 src/lib/glosario.ts          # entradas del glosario; el vocabulario controlado sale de visual.ts
 src/lib/practica.ts          # práctica «¿Qué le pasó a este instrumento?»: elige ejemplos y evalúa
-src/lib/metodologia.ts       # fases del flujo, capas de revisión y tipos de la evidencia de git
-src/lib/evidencia.json       # foto de git (scripts/evidencia_git.py): commits por autoría, PR, tags, ADR, hitos
+src/lib/metodologia.ts       # «Cómo lo hicimos»: PASOS (prompts literales), instrucciones a la IA y CAPAS de revisión
 src/lib/data/                # dataset JSON commiteado + index.ts (lo tipa como Dataset)
 src/lib/state/red.svelte.ts  # EstadoRed (runes): filtros vs foco, red derivada, miga de pan
 src/lib/graph/               # GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts)

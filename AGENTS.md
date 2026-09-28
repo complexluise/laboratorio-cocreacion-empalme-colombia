@@ -48,13 +48,12 @@ web/              # sistema viable 3: @laboratorio/web, el sitio (Svelte 5 + Vit
   src/lib/state/  #   store de la exploración (red.svelte.ts, runes: filtros vs foco)
   src/lib/graph/  #   GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts, etiquetas.ts)
   src/lib/components/ # Cabecera, Buscador, Filtros, MigaDePan, Leyenda, ControlesZoom, DetailPanel, Marca,
-                  #     PasosActividad, Practica, BotonDescarga, AvisoIA, Flujograma
+                  #     PasosActividad, Practica, BotonDescarga, AvisoIA
   src/lib/*.ts    #   rutas.ts (hash), glosario.ts, practica.ts, metodologia.ts, visual.ts (vocabulario -> color/forma/etiqueta)
-  src/lib/evidencia.json # foto de la evidencia de git (la escribe scripts/evidencia_git.py; no es dataset del contrato)
-scripts/          # utilidades del repo (validar_contrato.py: gate de la frontera 1; evidencia_git.py: evidencia de git, ADR-0006)
+scripts/          # utilidades del repo (validar_contrato.py: gate de la frontera 1)
 docs/             # ontologia, teoria, taxonomia, encuadre, metodologia, FRONTERAS, decisiones/ (ADRs)
 .changeset/       # changesets pendientes (se consumen en el release)
-.claude/          # skills (flujo), agents (architect/coder/verifier), commands (retro-ciclo), settings
+.claude/          # skills (flujo), agents (architect/coder/verifier/editor), commands (retro-ciclo), settings
 .github/          # workflows (ci, pages), CODEOWNERS, templates
 ```
 
@@ -77,7 +76,6 @@ uv run extraccion/bitacora.py generar                        # -> web/public/bit
 uv run extraccion/bitacora.py ejemplo                        # -> web/public/bitacora-ejemplo-ctei.docx
 uv run extraccion/bitacora.py leer <grupo>.docx --slug <slug> # -> data/bitacoras/<slug>/<grupo>.json
 uv run extraccion/red_excel.py --slug ciencia-tecnologia     # -> web/public/red-<slug>.xlsx
-uv run scripts/evidencia_git.py                              # -> web/src/lib/evidencia.json (evidencia de git, en cada release)
 ```
 
 `aplicar_areas.py` y `generar_web.py` parten de `data/sectores/<slug>/objetos.json` (no versionado; la

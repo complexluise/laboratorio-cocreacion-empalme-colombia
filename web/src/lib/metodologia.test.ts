@@ -1,51 +1,29 @@
 import { describe, expect, it } from "vitest";
-import { CAPAS, evidencia, FASES, firma, hitosDe, RETORNO_TALLER, type Hito } from "./metodologia.ts";
+import { CAPAS, INSTRUCCIONES_DATOS, PASOS } from "./metodologia.ts";
 
-describe("el flujo de la metodología", () => {
-  it("las fases tienen ids únicos y el retorno del taller existe", () => {
-    const ids = FASES.map((f) => f.id);
+describe("el paso a paso", () => {
+  it("cada paso tiene id único, lo que hizo la IA y su resultado", () => {
+    const ids = PASOS.map((p) => p.id);
     expect(new Set(ids).size).toBe(ids.length);
-    expect(ids).toContain(RETORNO_TALLER);
+    for (const p of PASOS) expect(p.hizo && p.resultado, p.id).toBeTruthy();
   });
 
-  it("cada hito de la evidencia cae en una fase del flujo", () => {
-    const ids = new Set(FASES.map((f) => f.id));
-    for (const h of evidencia.hitos) expect(ids, h.commit).toContain(h.fase);
+  it("solo el primer paso (sin conversación guardada) va sin prompts", () => {
+    const sinPrompts = PASOS.filter((p) => p.pedimos.length === 0).map((p) => p.id);
+    expect(sinPrompts).toEqual([PASOS[0]!.id]);
   });
 
-  it("toda fase ocurrida tiene evidencia en git; la que está por venir, no", () => {
-    for (const f of FASES) {
-      if (f.porVenir) expect(hitosDe(evidencia, f.id), f.id).toHaveLength(0);
-      else expect(hitosDe(evidencia, f.id).length, f.id).toBeGreaterThan(0);
-    }
+  it("los prompts no están vacíos", () => {
+    for (const p of PASOS) for (const m of p.pedimos) expect(m.trim().length, p.id).toBeGreaterThan(0);
   });
 
-  it("toda fase declara al menos un actor y lo que hizo cada parte", () => {
-    for (const f of FASES) {
-      expect(f.actores.length, f.id).toBeGreaterThan(0);
-      expect(f.persona && f.maquina && f.rastro, f.id).toBeTruthy();
-    }
+  it("hay instrucciones de procesamiento de los informes", () => {
+    expect(INSTRUCCIONES_DATOS.length).toBeGreaterThan(0);
   });
 });
 
-describe("la evidencia de git", () => {
-  it("los commits suman por tipo de autoría", () => {
-    const c = evidencia.commits;
-    expect(c.agente + c.persona_con_ia + c.persona).toBe(c.total);
-  });
-
-  it("la declaración reconoce capas sin revisión humana completa", () => {
-    expect(CAPAS.some((c) => c.estado === "parcial" || c.estado === "pendiente")).toBe(true);
-    expect(CAPAS.find((c) => c.capa.startsWith("La red"))?.estado).toBe("pendiente");
-  });
-});
-
-describe("firma", () => {
-  const base: Hito = { fase: "x", commit: "abc1234", que: "", autor: "Claude", fecha: "2026-01-01", asunto: "feat: x", coautores: [] };
-  it("distingue agente, persona con IA, persona sola e integración", () => {
-    expect(firma(base)).toMatch(/agente/);
-    expect(firma({ ...base, autor: "alguien", coautores: ["Claude"] })).toMatch(/con Claude/);
-    expect(firma({ ...base, autor: "alguien" })).toMatch(/sin IA/);
-    expect(firma({ ...base, autor: "alguien", asunto: "Merge pull request #8 from x" })).toMatch(/integración/);
+describe("qué está revisado", () => {
+  it("la red se declara sin revisión humana", () => {
+    expect(CAPAS.find((c) => c.capa === "La red")?.estado).toBe("pendiente");
   });
 });
