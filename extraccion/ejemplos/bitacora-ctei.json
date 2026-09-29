@@ -1,32 +1,58 @@
 {
-  "version": 1,
+  "version": 4,
   "sector": "ciencia-tecnologia",
-  "fecha": "Ejemplo",
-  "grupo": {"nombre": "Ejemplo del equipo", "integrantes": ["Equipo del laboratorio"]},
-  "politica": {"nombre": "Ciencia, Tecnología e Innovación (sector completo)"},
+  "grupo": {
+    "nombre": "Ejemplo del equipo",
+    "integrantes": [
+      "Equipo del laboratorio"
+    ],
+    "motivo": "Es el sector piloto del mapa: sirve de ejemplo para las demás políticas.",
+    "expectativa": "Un cambio de enfoque entre gobiernos, con instrumentos que se mantienen."
+  },
+  "politica": {
+    "nombre": "Ciencia, Tecnología e Innovación (sector completo)"
+  },
   "ubicacion": {
     "2018-2022": {
       "ubicacion": "Pacto Transversal IX — «Un sistema para construir el conocimiento de la Colombia del futuro».",
-      "avance": "94,41 % de cumplimiento en el cuatrienio."
+      "indicador": "Porcentaje de cumplimiento del pacto en el cuatrienio.",
+      "valor": "94,41 % de cumplimiento en el cuatrienio."
     },
     "2022-2026": {
       "ubicacion": "Transformación 4.2 «CTeI para la transformación territorial» + Transformación 5.7.2 «Programas y proyectos de CTeI para la reducción de brechas».",
-      "avance": null
+      "indicador": "No tiene indicador único: cada programa reporta sus cifras de ejecución.",
+      "valor": null
     }
   },
   "comparabilidad": "En 2018–2022 la CTeI es un pacto transversal con su propio porcentaje de cumplimiento. En 2022–2026 está repartida en dos secciones de dos transformaciones distintas y no tiene indicador único: hace falta la tabla puente antes de comparar números.",
-  "instrumentos": {
-    "2018-2022": {
-      "principal": "Cupo de inversión para deducción y descuento tributario en CTeI (beneficio fiscal a empresas que invierten en I+D).",
-      "talento": "Becas y créditos-beca para estudios doctorales (Colciencias y aliados).",
-      "fiscal": "Sí: es el instrumento central reportado."
+  "instrumentos": [
+    {
+      "nombre": "Beneficios tributarios para CTeI (cupo de inversión)",
+      "2018-2022": "Instrumento central: $6,50 billones aprobados en cupo de deducción y descuento tributario para empresas que invierten en I+D.",
+      "2022-2026": "Se menciona el fortalecimiento de los beneficios tributarios para I+D, sin cifra propia.",
+      "relevancia": "Es el instrumento de tesoro con más recursos reportados del sector."
     },
-    "2022-2026": {
-      "principal": "Convocatorias de financiación: ColombIA Inteligente, ECONOVA, Ciencias Básicas y del Espacio, Océanos-Clima-Recursos Marino-Costeros, Investigación Fundamental, Fondo de Investigación en Salud (FIS).",
-      "talento": "Programa «Ondas en los Territorios» (formación STEM en NNA) + «Ciencia para la Paz» (jóvenes en municipios PDET).",
-      "fiscal": "Se menciona el fortalecimiento de los beneficios tributarios para I+D, sin cifra propia."
+    {
+      "nombre": "Formación de talento",
+      "2018-2022": "Becas y créditos-beca para estudios doctorales (Colciencias y aliados).",
+      "2022-2026": "Programa «Ondas en los Territorios» (formación STEM en NNA) + «Ciencia para la Paz» (jóvenes en municipios PDET).",
+      "relevancia": "Muestra un giro: de la formación doctoral a la formación temprana en los territorios."
+    },
+    {
+      "nombre": "Convocatorias de financiación",
+      "2018-2022": null,
+      "2022-2026": "Convocatorias de financiación: ColombIA Inteligente, ECONOVA, Ciencias Básicas y del Espacio, Océanos-Clima-Recursos Marino-Costeros, Investigación Fundamental, Fondo de Investigación en Salud (FIS).",
+      "relevancia": "Es el instrumento principal que reporta el gobierno 2022–2026."
     }
-  },
+  ],
+  "aportes": [
+    {
+      "tipo": "duda",
+      "elemento": "Modo de cambio de los beneficios tributarios",
+      "propuesta": "Revisar si es continuidad o conversión: en 2022–2026 aparece sin cifra propia.",
+      "evidencia": "Informe de empalme 2022–2026, sección de CTeI"
+    }
+  ],
   "subcategorias": {
     "2018-2022": {
       "objetivo": "Movilizar talento, impulsar empresas de base tecnológica y cerrar brechas sociales vía capacidades productivas regionales.",
@@ -47,11 +73,19 @@
       "impacto": null
     }
   },
+  "fuentes": [
+    {
+      "fuente": "Sinergia (DNP)",
+      "aporte": "Meta del cuatrienio de los indicadores de 2022–2026",
+      "referencia": "sinergia.dnp.gov.co"
+    },
+    {
+      "fuente": "Informe de empalme 2022–2026, capítulo 10 «Inversión pública»",
+      "aporte": "Recursos del sector que no aparecen en la sección de CTeI"
+    }
+  ],
+  "complejidad": "Sí: los beneficios tributarios y los fondos aparecen en varias políticas a la vez. Al juntarlas se vería si un mismo instrumento sostiene objetivos distintos.",
   "hallazgos": "El objetivo revela un giro de enfoque: mismo sector, filosofía distinta.\nLas metas engañan si no se homologan: comparar 5.706 con 3.126 es comparar manzanas con peras; hay que buscar la meta del PND 2022–2026 en Sinergia.\nEl impacto queda vacío en ambos: solo hay métricas de gestión y producto.\nNormativa y recursos faltan de forma distinta en cada informe: esa asimetría se anota, no se rellena con supuestos.",
   "hipotesis": "Los instrumentos de tesoro persisten entre gobiernos aunque cambie el objetivo declarado.",
-  "fuentes": [
-    {"fuente": "Sinergia (DNP)", "aporte": "Meta del cuatrienio de los indicadores de 2022–2026", "referencia": "sinergia.dnp.gov.co"},
-    {"fuente": "Informe de empalme 2022–2026, capítulo 10 «Inversión pública»", "aporte": "Recursos del sector que no aparecen en la sección de CTeI"}
-  ],
   "sin_llenar": []
 }

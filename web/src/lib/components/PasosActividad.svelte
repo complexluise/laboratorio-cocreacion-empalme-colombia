@@ -38,18 +38,18 @@
         { tipo: "descarga", href: "./bitacora-laboratorio.docx", etiqueta: "La bitácora", detalle: "Word · para llenar en grupo" },
       ],
       pregunta: "¿Por qué esta política y no otra? ¿Qué esperamos encontrar al compararla?",
-      producto: "El nombre de la política, anotado en la bitácora.",
+      producto: "Los datos del grupo en la bitácora: la política, por qué la elegimos y qué esperamos encontrar.",
     },
     {
       titulo: "Describirla entre los dos gobiernos",
       corto: "Describir",
-      que: "Con el informe de empalme, ubiquemos la política en cada gobierno y comparemos sus instrumentos. En el Excel de la red podemos filtrar los instrumentos de nuestra política por tipo y por modo de cambio.",
+      que: "Con el informe de empalme, ubiquemos la política en cada gobierno y comparemos sus instrumentos. En el Excel de la red podemos filtrar los instrumentos de nuestra política por tipo y por modo de cambio. Si algo de la red está mal o falta, anotémoslo en la sección 3.",
       materiales: [
         { tipo: "descarga", href: excel, etiqueta: "La red en Excel", detalle: "Excel · para filtrar y consultar" },
         { tipo: "enlace", href: hrefDe("glosario", "tabla-puente"), etiqueta: "¿Qué es la tabla puente?" },
       ],
       pregunta: "¿Qué instrumentos siguen, cuáles cambian de uso, cuáles se suman y cuáles se dejan?",
-      producto: "En la bitácora: dónde está la política, cuánto avanzó y con qué instrumentos.",
+      producto: "Las secciones 1 a 3 de la bitácora: dónde está la política, sus instrumentos y lo que proponemos para la red.",
     },
     {
       titulo: "Buscar información complementaria",
@@ -60,7 +60,7 @@
         { tipo: "enlace", href: hrefDe("glosario", "gestion-vs-impacto"), etiqueta: "Gestión, producto e impacto" },
       ],
       pregunta: "¿Estas cifras miden lo mismo en los dos gobiernos? ¿Contra qué meta se comparan?",
-      producto: "La comparación completa en la bitácora y la lista de fuentes.",
+      producto: "Las secciones 4 y 5 de la bitácora: las siete subcategorías y las fuentes.",
     },
     {
       titulo: "Concluir y llevar al plenario",
@@ -70,7 +70,7 @@
         { tipo: "descarga", href: "./bitacora-ejemplo-ctei.docx", etiqueta: "Ejemplo lleno: Ciencia, Tecnología e Innovación", detalle: "Word · de referencia" },
       ],
       pregunta: "¿Qué le falta al mapa?",
-      producto: "La bitácora completa, entregada al equipo organizador para sumarla al mapa.",
+      producto: "Las secciones 6 y 7 de la bitácora, y la bitácora completa entregada al equipo organizador para sumarla al mapa.",
     },
   ]);
 

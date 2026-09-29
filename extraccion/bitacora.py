@@ -42,7 +42,7 @@ from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 from jsonschema import Draft202012Validator
 
-VERSION = 1
+VERSION = 4  # la v4 de la plantilla que iteró el equipo; se imprime en el pie
 VIGENCIAS = ["2018-2022", "2022-2026"]
 ETIQUETA_VIGENCIA = {"2018-2022": "2018–2022 (Duque)", "2022-2026": "2022–2026 (Petro)"}
 SIN_DATO = "Sin dato"
@@ -78,84 +78,128 @@ class Comparativa:
 
 @dataclass(frozen=True)
 class Caja:
-    """Texto libre: tabla de una columna (título + espacio para escribir)."""
+    """Texto libre: tabla de una columna (título y pregunta + espacio para escribir)."""
 
     clave: str
-    titulo: str
-    guia: str
-    alto_cm: float = 5.0
+    titulo: str  # primera línea de la cabecera: identifica la tabla al leer
+    pista: str
+    alto_cm: float = 4.0
+
+
+@dataclass(frozen=True)
+class Lista:
+    """Tabla de registros: una fila por registro, columnas fijas. Se leen solo las filas con algo
+    escrito; el grupo puede agregar filas."""
+
+    clave: str
+    cabecera: tuple[str, ...]  # la primera celda identifica la tabla al leer
+    claves: tuple[str, ...]  # clave en el JSON de cada columna
+    anchos_cm: tuple[float, ...]
 
 
 DATOS = (
-    Fila("grupo", "Grupo", "Nombre o número del grupo"),
-    Fila("integrantes", "Integrantes", "Separados por coma"),
-    Fila("politica", "Política pública (área)", "Como aparece en la red, p. ej. «Bioeconomía»"),
-    Fila("fecha", "Fecha"),
+    Fila("grupo", "Grupo", "Nombre o número"),
+    Fila("integrantes", "Integrantes", "Nombres, separados por coma"),
+    Fila("politica", "Política pública", "Como aparece en la red"),
+    Fila("motivo", "¿Por qué elegimos esta política?", "Una pregunta o una razón concreta"),
+    Fila("expectativa", "¿Qué esperamos encontrar?", "Nuestra hipótesis inicial, antes de comparar"),
 )
 
+# 1. Ubicar la política
 UBICACION = Comparativa(
     "ubicacion",
-    "1. Ubicación y avance",
-    "Ubicación y avance",
-    "Dónde está la política en el informe de cada gobierno y qué avance reporta.",
+    "1. Ubicar la política",
+    "Qué mirar",
+    "Ubiquemos la política en el informe de cada gobierno y veamos cómo reporta su avance. La red puede "
+    "sugerir dónde está, pero verifiquémoslo en el informe.",
     (
-        Fila("ubicacion", "Ubicación en el documento", "Pacto, transformación o sección del informe"),
-        Fila("avance", "Avance reportado", "¿Qué porcentaje o logro reporta?"),
+        Fila("ubicacion", "Ubicación", "Sección, capítulo o páginas"),
+        Fila("indicador", "Indicador o forma de reporte", "¿Cómo muestra el avance? ¿Qué mide?"),
+        Fila("valor", "Valor y referencia", "Cifra reportada y su meta, periodo o base de comparación"),
     ),
 )
 COMPARABILIDAD = Caja(
     "comparabilidad",
-    "Hallazgo de comparabilidad (tabla puente)",
-    "Antes de comparar cifras: ¿qué parte de un informe corresponde a qué parte del otro? ¿Miden lo mismo?",
-    3.5,
+    "Tabla puente: ¿qué es comparable?",
+    "¿Los dos gobiernos miden lo mismo, con la misma unidad, la misma población y la misma meta? ¿Qué no "
+    "se puede comparar?",
+    4.5,
 )
-INSTRUMENTOS = Comparativa(
-    "instrumentos",
-    "1.1 Instrumentos de política pública",
-    "Instrumentos",
-    "Con qué actuó el Estado en esta política. Anoten si el instrumento sigue, cambia de uso, se suma o se deja.",
-    (
-        Fila("principal", "Instrumento principal", "El que más peso o recursos tiene"),
-        Fila("talento", "Instrumento de formación de talento", "Becas, formación, vocaciones"),
-        Fila("fiscal", "Instrumento fiscal o tributario", "Beneficios tributarios, fondos, cupos"),
-    ),
+
+# 2. Los instrumentos: una fila por instrumento (hasta tres), una columna por gobierno.
+INSTRUMENTOS_TITULO = "2. Los instrumentos"
+INSTRUMENTOS_GUIA = (
+    "Escojamos hasta tres instrumentos de esta política: el medio concreto con que actúa el Estado (un "
+    "programa, una ley, un fondo, una convocatoria). Describamos cada uno en los dos gobiernos: ¿sigue, "
+    "cambia de uso, es nuevo o se deja? En la última columna, digamos por qué lo elegimos."
 )
+INSTRUMENTOS_CABECERA = "Instrumento"
+INSTRUMENTOS_RELEVANCIA = "Por qué es relevante"
+INSTRUMENTOS_FILAS = 3
+INSTRUMENTOS_NOMBRE = "Nombre:"  # pista de la celda de la etiqueta: el nombre va a continuación
+
+# 3. Co-construyamos la red
+APORTES_TITULO = "3. Co-construyamos la red"
+APORTES_GUIA = (
+    "La red es una primera propuesta. Corrijamos, añadamos, conectemos o reclasifiquemos lo que haga falta, "
+    "y anotemos las dudas. Si hay varios aportes del mismo tipo, agreguemos filas."
+)
+APORTES = Lista(
+    "aportes",
+    ("Tipo de aporte", "Elemento o relación", "Nuestra propuesta", "Evidencia o fuente"),
+    ("tipo", "elemento", "propuesta", "evidencia"),
+    (3.6, 4.4, 5.4, 4.2),
+)
+TIPOS_APORTE = (
+    Fila("corregir", "Corregir", "Un dato de la red que está mal"),
+    Fila("anadir", "Añadir", "Un instrumento o una política que falta"),
+    Fila("conectar", "Conectar", "Una relación que falta"),
+    Fila("reclasificar", "Reclasificar", "Le corresponde otro tipo de instrumento o de cambio"),
+    Fila("duda", "Duda", "Algo que hay que revisar"),
+    Fila("otro", "Otro"),
+)
+
+# 4. Las siete subcategorías
 SUBCATEGORIAS = Comparativa(
     "subcategorias",
-    "2–8. Las siete subcategorías, lado a lado",
+    "4. Las siete subcategorías, lado a lado",
     "Subcategoría",
-    "Lo mismo para los dos gobiernos, fila por fila. Si el informe no lo dice, escriban «Sin dato».",
+    "Comparemos las siete subcategorías, fila por fila. Si la fuente no lo dice, escribamos «Sin dato».",
     (
-        Fila("objetivo", "2. Objetivo", "¿Qué declara cada gobierno que busca?"),
-        Fila("instituciones", "3. Instituciones", "¿Qué entidades la ejecutan o coordinan?"),
-        Fila("poblacion", "4. Población", "¿A quién va dirigida? ¿Enfoque diferencial o territorial?"),
-        Fila("normativa", "5. Normativa", "Leyes, decretos o CONPES que la sustentan"),
-        Fila("recursos", "6. Recursos", "¿Cuánto dinero y de qué fuente?"),
-        Fila("metas", "7. Metas", "¿Qué cifras reporta y contra qué meta del cuatrienio?"),
-        Fila("impacto", "8. Impacto", "¿Hay evidencia de impacto o solo de gestión y producto?"),
+        Fila("objetivo", "4.1 Objetivo", "¿Qué declara que busca?"),
+        Fila("instituciones", "4.2 Instituciones", "¿Quién la ejecuta o la coordina?"),
+        Fila("poblacion", "4.3 Población", "¿A quién va dirigida? ¿Atiende distinto a ciertos grupos o regiones?"),
+        Fila("normativa", "4.4 Normativa", "¿Qué leyes, decretos o documentos CONPES la sustentan?"),
+        Fila("recursos", "4.5 Recursos", "¿Qué recursos reporta y de qué fuente?"),
+        Fila("metas", "4.6 Metas", "¿Qué meta se fijó para el cuatrienio y cuánto cumplió?"),
+        Fila("impacto", "4.7 Impacto", "¿Hay pruebas de que cambió la vida de la gente, o solo de lo que se hizo y se entregó?"),
     ),
 )
-COMPARATIVAS = (UBICACION, INSTRUMENTOS, SUBCATEGORIAS)
+COMPARATIVAS = (UBICACION, SUBCATEGORIAS)
 
-FUENTES_CABECERA = ("Fuente", "Qué aportó", "Página o enlace")
-FUENTES_CLAVES = ("fuente", "aporte", "referencia")
-FUENTES_FILAS = 6
+# 5. Fuentes complementarias
+FUENTES_TITULO = "5. Fuentes complementarias"
+FUENTES_GUIA = (
+    "Anotemos solo las fuentes distintas del informe que usamos para verificar o ampliar la comparación. Si "
+    "hace falta, agreguemos filas."
+)
+FUENTES = Lista("fuentes", ("Fuente", "Qué aportó", "Página o enlace"), ("fuente", "aporte", "referencia"), (6.0, 6.6, 5.0))
+FUENTES_FILAS = 4
 
-HALLAZGOS = Caja(
-    "hallazgos",
-    "Lo que el ejercicio le enseña al taller",
-    "Para el plenario, en pocas líneas. Pistas: ¿el objetivo revela un giro de enfoque? ¿las metas son "
-    "comparables o hay que homologarlas? ¿hay evidencia de impacto o solo de gestión? ¿qué huecos tiene "
-    "cada informe?",
-    6.0,
+# 6. En términos de complejidad
+COMPLEJIDAD_TITULO = "6. En términos de complejidad"
+COMPLEJIDAD = Caja(
+    "complejidad",
+    "Patrones que pueden emerger",
+    "¿Qué podría verse al mirar juntas varias políticas que no se ve en una sola? Por ejemplo, instrumentos, "
+    "entidades o recursos que comparten.",
 )
-HIPOTESIS = Caja(
-    "hipotesis",
-    "Hipótesis para la sesión 2",
-    "¿Qué patrón creen que comparten las otras políticas? Se contrasta con el mapa integrado.",
-    3.5,
-)
-CAJAS = (COMPARABILIDAD, HALLAZGOS, HIPOTESIS)
+
+# 7. Conclusiones
+CONCLUSIONES_TITULO = "7. Conclusiones"
+HALLAZGOS = Caja("hallazgos", "Hallazgo principal", "¿Qué aprendimos que no era evidente al comienzo?", 5.0)
+HIPOTESIS = Caja("hipotesis", "Hipótesis para la sesión 2", "¿Qué patrón creemos que podría repetirse en otras políticas?")
+CAJAS = (COMPARABILIDAD, COMPLEJIDAD, HALLAZGOS, HIPOTESIS)
 
 
 # ─────────────────────────── Utilidades ───────────────────────────
@@ -210,7 +254,14 @@ def _valor(texto: str):
 
 GRIS = RGBColor(0x5D, 0x63, 0x71)
 TINTA = RGBColor(0x23, 0x26, 0x2E)
-ACENTO = RGBColor(0x4F, 0x46, 0xE5)
+MORADO = RGBColor(0x4B, 0x2E, 0x83)  # títulos y cabeceras (paleta de la v4 del equipo)
+MORADO_OSCURO = RGBColor(0x3E, 0x1A, 0x63)
+LILA = RGBColor(0x69, 0x41, 0xA5)
+BLANCO = RGBColor(0xFF, 0xFF, 0xFF)
+FONDO_CABECERA = "4B2E83"
+FONDO_ETIQUETA = "EEE8F7"
+FONDO_ALTERNO = "F7F4FB"
+BORDE = "D7CBE7"
 ANCHO_UTIL_CM = 17.6  # carta con márgenes de 2 cm
 
 
@@ -221,6 +272,20 @@ def _sombrear(celda, color: str) -> None:
     shd.set(qn("w:color"), "auto")
     shd.set(qn("w:fill"), color)
     tc.append(shd)
+
+
+def _bordes(tabla) -> None:
+    """Bordes finos lila en toda la tabla (en vez del negro de «Table Grid»)."""
+    tblPr = tabla._tbl.tblPr
+    bordes = OxmlElement("w:tblBorders")
+    for lado in ("top", "left", "bottom", "right", "insideH", "insideV"):
+        b = OxmlElement(f"w:{lado}")
+        b.set(qn("w:val"), "single")
+        b.set(qn("w:sz"), "6")
+        b.set(qn("w:space"), "0")
+        b.set(qn("w:color"), BORDE)
+        bordes.append(b)
+    tblPr.append(bordes)
 
 
 def _alto_minimo(fila, cm: float) -> None:
@@ -245,7 +310,7 @@ def _cabecera_pegada(fila) -> None:
             p.paragraph_format.keep_with_next = True
 
 
-def _anchos(tabla, anchos_cm: list[float]) -> None:
+def _anchos(tabla, anchos_cm) -> None:
     tabla.autofit = False
     tabla.alignment = WD_TABLE_ALIGNMENT.CENTER
     for fila in tabla.rows:
@@ -264,14 +329,26 @@ def _escribir(celda, texto: str, *, negrita=False, color=None, tam=None, cursiva
         r.font.size = Pt(tam)
 
 
+def _pista(celda, texto: str, color=GRIS) -> None:
+    p = celda.add_paragraph()
+    r = p.add_run(texto)
+    r.italic = True
+    r.font.size = Pt(8.5)
+    r.font.color.rgb = color
+
+
 def _etiqueta(celda, fila: Fila) -> None:
-    _escribir(celda, fila.etiqueta, negrita=True)
+    _escribir(celda, fila.etiqueta, negrita=True, color=MORADO_OSCURO)
     if fila.pista:
-        p = celda.add_paragraph()
-        r = p.add_run(fila.pista)
-        r.italic = True
-        r.font.size = Pt(8.5)
-        r.font.color.rgb = GRIS
+        _pista(celda, fila.pista)
+
+
+def _cabecera(fila, textos) -> None:
+    """Fila de encabezado: fondo morado, texto blanco en negrita."""
+    for celda, texto in zip(fila.cells, textos):
+        _escribir(celda, texto, negrita=True, color=BLANCO, tam=9)
+        _sombrear(celda, FONDO_CABECERA)
+    _cabecera_pegada(fila)
 
 
 def _guia(doc, texto: str) -> None:
@@ -285,40 +362,69 @@ def _guia(doc, texto: str) -> None:
 
 def _titulo(doc, texto: str) -> None:
     h = doc.add_heading(texto, level=1)
-    h.paragraph_format.space_before = Pt(16)
+    h.paragraph_format.space_before = Pt(18)
+    h.paragraph_format.space_after = Pt(4)
     h.paragraph_format.keep_with_next = True
     for r in h.runs:
-        r.font.color.rgb = TINTA
+        r.font.color.rgb = MORADO
         r.font.size = Pt(14)
 
 
-def _tabla_comparativa(doc, c: Comparativa) -> None:
-    t = doc.add_table(rows=1 + len(c.filas), cols=3)
+def _tabla(doc, filas: int, cols: int):
+    t = doc.add_table(rows=filas, cols=cols)
     t.style = "Table Grid"
-    cab = t.rows[0].cells
-    _escribir(cab[0], c.cabecera, negrita=True)
-    for i, v in enumerate(VIGENCIAS, start=1):
-        _escribir(cab[i], ETIQUETA_VIGENCIA[v], negrita=True)
-    for celda in cab:
-        _sombrear(celda, "ECEAFD")
-    _cabecera_pegada(t.rows[0])
+    _bordes(t)
+    return t
+
+
+def _tabla_comparativa(doc, c: Comparativa) -> None:
+    t = _tabla(doc, 1 + len(c.filas), 3)
+    _cabecera(t.rows[0], [c.cabecera, *(ETIQUETA_VIGENCIA[v] for v in VIGENCIAS)])
     for fila, def_fila in zip(t.rows[1:], c.filas):
         _etiqueta(fila.cells[0], def_fila)
-        _sombrear(fila.cells[0], "F5F5F3")
-        _alto_minimo(fila, 2.2)
+        _sombrear(fila.cells[0], FONDO_ETIQUETA)
+        _alto_minimo(fila, 2.0)
         _no_partir(fila)
     _anchos(t, [4.4, 6.6, 6.6])
 
 
+def _tabla_instrumentos(doc) -> None:
+    t = _tabla(doc, 1 + INSTRUMENTOS_FILAS, 4)
+    _cabecera(t.rows[0], [INSTRUMENTOS_CABECERA, *(ETIQUETA_VIGENCIA[v] for v in VIGENCIAS), INSTRUMENTOS_RELEVANCIA])
+    for i, fila in enumerate(t.rows[1:], start=1):
+        _escribir(fila.cells[0], f"Instrumento {i}", negrita=True, color=MORADO_OSCURO)
+        _pista(fila.cells[0], INSTRUMENTOS_NOMBRE)
+        _sombrear(fila.cells[0], FONDO_ETIQUETA)
+        _alto_minimo(fila, 4.0)
+        _no_partir(fila)
+    _anchos(t, [3.8, 4.8, 4.8, 4.2])
+
+
+def _tabla_lista(doc, l: Lista, etiquetas: tuple[Fila, ...] = (), vacias: int = 0) -> None:
+    t = _tabla(doc, 1 + (len(etiquetas) or vacias), len(l.cabecera))
+    _cabecera(t.rows[0], l.cabecera)
+    for i, fila in enumerate(t.rows[1:]):
+        if etiquetas:
+            _etiqueta(fila.cells[0], etiquetas[i])
+            _sombrear(fila.cells[0], FONDO_ETIQUETA)
+        elif i % 2:
+            for celda in fila.cells:
+                _sombrear(celda, FONDO_ALTERNO)
+        _alto_minimo(fila, 1.2)
+    _anchos(t, l.anchos_cm)
+
+
 def _caja(doc, c: Caja) -> None:
-    t = doc.add_table(rows=2, cols=1)
-    t.style = "Table Grid"
-    _escribir(t.rows[0].cells[0], c.titulo, negrita=True)
-    _sombrear(t.rows[0].cells[0], "ECEAFD")
+    t = _tabla(doc, 2, 1)
+    cab = t.rows[0].cells[0]
+    _escribir(cab, c.titulo, negrita=True, color=BLANCO)
+    _pista(cab, c.pista, BLANCO)
+    _sombrear(cab, FONDO_CABECERA)
     _cabecera_pegada(t.rows[0])
     _alto_minimo(t.rows[1], c.alto_cm)
     _no_partir(t.rows[1])
     _anchos(t, [ANCHO_UTIL_CM])
+    doc.add_paragraph().paragraph_format.space_after = Pt(2)
 
 
 def _pie(seccion) -> None:
@@ -359,61 +465,68 @@ def plantilla() -> Document:
     r = t.add_run("Bitácora de grupo")
     r.bold = True
     r.font.size = Pt(22)
+    r.font.color.rgb = MORADO_OSCURO
     s = doc.add_paragraph()
     r = s.add_run("Laboratorio de Cocreación · Una política pública, dos gobiernos")
-    r.font.color.rgb = ACENTO
-    r.bold = True
+    r.font.color.rgb = LILA
+    r.font.size = Pt(11.5)
 
     doc.add_paragraph(
-        "Elijan una política pública de la red y descríbanla en los dos gobiernos (2018–2022 y 2022–2026), "
-        "con el informe de empalme y con información complementaria (Sinergia, el Plan Nacional de "
-        "Desarrollo, el capítulo de inversión pública, normas y documentos CONPES)."
+        "Elijamos una política pública de la red y describámosla en los dos gobiernos (2018–2022 y 2022–2026). "
+        "Usemos el informe de empalme (el balance que un gobierno le entrega al siguiente) y otras fuentes: "
+        "Sinergia (el sistema oficial de seguimiento de metas), el Plan Nacional de Desarrollo, las leyes y los "
+        "documentos CONPES (las políticas que aprueba el consejo de planeación)."
     )
-    regla = doc.add_paragraph()
-    r = regla.add_run("Regla: si la fuente no lo dice, escriban «Sin dato». ")
-    r.bold = True
-    regla.add_run(
-        "Pueden aclarar el porqué: «Sin dato: el balance no lo desagrega». Un hueco de información es un "
-        "hallazgo: se anota, no se rellena con supuestos. No cambien los títulos de las tablas ni de las "
-        "filas, ni combinen celdas: con ellos el equipo lee la bitácora y la integra al mapa."
-    )
+    for norma, detalle in (
+        (
+            "Regla 1: si la fuente no lo dice, escribamos «Sin dato». ",
+            "Podemos agregar el porqué: «Sin dato: el balance no lo desagrega». Un vacío es un hallazgo: no lo "
+            "llenemos con suposiciones.",
+        ),
+        (
+            "Regla 2: no cambiemos los títulos de tablas y filas ni combinemos celdas. ",
+            "Así el equipo organizador puede sumar todas las bitácoras a la red.",
+        ),
+    ):
+        regla = doc.add_paragraph()
+        regla.add_run(norma).bold = True
+        regla.add_run(detalle)
 
-    datos = doc.add_table(rows=len(DATOS), cols=2)
-    datos.style = "Table Grid"
+    datos = _tabla(doc, len(DATOS), 2)
     for fila, d in zip(datos.rows, DATOS):
         _etiqueta(fila.cells[0], d)
-        _sombrear(fila.cells[0], "F5F5F3")
-        _alto_minimo(fila, 0.9)
-    _anchos(datos, [5.0, ANCHO_UTIL_CM - 5.0])
+        _sombrear(fila.cells[0], FONDO_ETIQUETA)
+        _alto_minimo(fila, 1.0)
+    _anchos(datos, [6.0, ANCHO_UTIL_CM - 6.0])
 
     _titulo(doc, UBICACION.titulo)
     _guia(doc, UBICACION.guia)
     _tabla_comparativa(doc, UBICACION)
-    doc.add_paragraph()
-    _guia(doc, COMPARABILIDAD.guia)
+    doc.add_paragraph().paragraph_format.space_after = Pt(2)
     _caja(doc, COMPARABILIDAD)
 
-    for c in (INSTRUMENTOS, SUBCATEGORIAS):
-        _titulo(doc, c.titulo)
-        _guia(doc, c.guia)
-        _tabla_comparativa(doc, c)
+    _titulo(doc, INSTRUMENTOS_TITULO)
+    _guia(doc, INSTRUMENTOS_GUIA)
+    _tabla_instrumentos(doc)
 
-    _titulo(doc, "Fuentes complementarias")
-    _guia(doc, "Lo que consultaron más allá del informe de empalme. Agreguen filas si hace falta.")
-    f = doc.add_table(rows=1 + FUENTES_FILAS, cols=3)
-    f.style = "Table Grid"
-    for celda, texto in zip(f.rows[0].cells, FUENTES_CABECERA):
-        _escribir(celda, texto, negrita=True)
-        _sombrear(celda, "ECEAFD")
-    _cabecera_pegada(f.rows[0])
-    for fila in f.rows[1:]:
-        _alto_minimo(fila, 1.0)
-    _anchos(f, [6.0, 6.6, 5.0])
+    _titulo(doc, APORTES_TITULO)
+    _guia(doc, APORTES_GUIA)
+    _tabla_lista(doc, APORTES, TIPOS_APORTE)
 
-    for c in (HALLAZGOS, HIPOTESIS):
-        _titulo(doc, c.titulo)
-        _guia(doc, c.guia)
-        _caja(doc, c)
+    _titulo(doc, SUBCATEGORIAS.titulo)
+    _guia(doc, SUBCATEGORIAS.guia)
+    _tabla_comparativa(doc, SUBCATEGORIAS)
+
+    _titulo(doc, FUENTES_TITULO)
+    _guia(doc, FUENTES_GUIA)
+    _tabla_lista(doc, FUENTES, vacias=FUENTES_FILAS)
+
+    _titulo(doc, COMPLEJIDAD_TITULO)
+    _caja(doc, COMPLEJIDAD)
+
+    _titulo(doc, CONCLUSIONES_TITULO)
+    _caja(doc, HALLAZGOS)
+    _caja(doc, HIPOTESIS)
     return doc
 
 
@@ -428,16 +541,29 @@ def _poner(celda, valor) -> None:
         celda.add_paragraph(l)
 
 
+def _agregar(celda, valor) -> None:
+    """Como _poner, pero debajo de lo que ya tiene la celda (la etiqueta y su pista)."""
+    for l in [SIN_DATO] if valor is None else str(valor).split("\n"):
+        celda.add_paragraph(l)
+
+
+def _filas_para(t, n: int) -> list:
+    """Filas de datos de la tabla, agregando las que falten para n registros."""
+    while len(t.rows) - 1 < n:
+        t.add_row()
+    return list(t.rows[1:])
+
+
 def llenar(doc: Document, b: dict) -> Document:
     tablas = _indexar(doc)
-    datos = tablas["datos"]
     valores = {
         "grupo": b["grupo"]["nombre"],
         "integrantes": ", ".join(b["grupo"]["integrantes"]),
         "politica": b["politica"]["nombre"],
-        "fecha": b.get("fecha", ""),
+        "motivo": b["grupo"].get("motivo", ""),
+        "expectativa": b["grupo"].get("expectativa", ""),
     }
-    for fila in datos.rows:
+    for fila in tablas["datos"].rows:
         clave = _fila_de(DATOS, _primera_linea(fila.cells[0]))
         if clave and valores.get(clave):
             _poner(fila.cells[1], valores[clave])
@@ -449,14 +575,30 @@ def llenar(doc: Document, b: dict) -> Document:
             for v, i in cols.items():
                 if clave and clave in b[c.clave][v]:
                     _poner(fila.cells[i], b[c.clave][v][clave])
+    for fila, ins in zip(tablas["instrumentos"].rows[1:], b["instrumentos"]):
+        if "nombre" in ins:
+            _agregar(fila.cells[0], ins["nombre"])
+        for i, k in enumerate([*VIGENCIAS, "relevancia"], start=1):
+            if k in ins:
+                _poner(fila.cells[i], ins[k])
+    for aporte in b["aportes"]:  # cada aporte en la fila de su tipo; si ya está ocupada, una fila nueva
+        t = tablas["aportes"]
+        libre = next(
+            (f for f in t.rows[1:] if _fila_de(TIPOS_APORTE, _primera_linea(f.cells[0])) == aporte["tipo"]
+             and not any(_texto_celda(x) for x in f.cells[1:])),
+            None,
+        )
+        if libre is None:
+            libre = t.add_row()
+            libre.cells[0].paragraphs[0].text = next(f.etiqueta for f in TIPOS_APORTE if f.clave == aporte["tipo"])
+        for celda, k in zip(libre.cells[1:], APORTES.claves[1:]):
+            if aporte.get(k):
+                _poner(celda, aporte[k])
     for c in CAJAS:
         if c.clave in b:
             _poner(tablas[c.clave].rows[1].cells[0], b[c.clave])
-    f = tablas["fuentes"]
-    while len(f.rows) - 1 < len(b["fuentes"]):
-        f.add_row()
-    for fila, fuente in zip(f.rows[1:], b["fuentes"]):
-        for celda, k in zip(fila.cells, FUENTES_CLAVES):
+    for fila, fuente in zip(_filas_para(tablas["fuentes"], len(b["fuentes"])), b["fuentes"]):
+        for celda, k in zip(fila.cells, FUENTES.claves):
             if fuente.get(k):
                 _poner(celda, fuente[k])
     return doc
@@ -483,7 +625,9 @@ def _indexar(doc: Document) -> dict:
     """Clave de sección -> tabla, reconocida por el texto de su primera celda."""
     por_cabecera = {normalizar(c.cabecera): c.clave for c in COMPARATIVAS}
     por_cabecera |= {normalizar(c.titulo): c.clave for c in CAJAS}
-    por_cabecera[normalizar(FUENTES_CABECERA[0])] = "fuentes"
+    por_cabecera[normalizar(INSTRUMENTOS_CABECERA)] = "instrumentos"
+    por_cabecera[normalizar(APORTES.cabecera[0])] = "aportes"
+    por_cabecera[normalizar(FUENTES.cabecera[0])] = "fuentes"
     por_cabecera[normalizar(DATOS[0].etiqueta)] = "datos"
     tablas = {}
     for t in doc.tables:
@@ -492,7 +636,9 @@ def _indexar(doc: Document) -> dict:
         clave = por_cabecera.get(normalizar(_primera_linea(t.rows[0].cells[0])))
         if clave and clave not in tablas:
             tablas[clave] = t
-    faltan = [c for c in ["datos", *(c.clave for c in COMPARATIVAS), *(c.clave for c in CAJAS), "fuentes"] if c not in tablas]
+    esperadas = ["datos", "ubicacion", "comparabilidad", "instrumentos", "aportes", "subcategorias", "fuentes",
+                 *(c.clave for c in CAJAS[1:])]
+    faltan = [c for c in esperadas if c not in tablas]
     if faltan:
         raise PlantillaInvalida(
             "no parece una bitácora del laboratorio (v%d): faltan las tablas %s. ¿Se cambiaron los títulos?"
@@ -518,6 +664,13 @@ def _columnas_vigencia(t) -> dict[str, int]:
     return cols
 
 
+def _columna(t, texto: str) -> int | None:
+    for i, celda in enumerate(t.rows[0].cells):
+        if normalizar(_primera_linea(celda)) == normalizar(texto):
+            return i
+    return None
+
+
 def _id_politica(nombre: str, sector: str) -> str | None:
     dataset = DATOS_WEB / f"{sector}.json"
     if not nombre or not dataset.exists():
@@ -530,15 +683,38 @@ def _id_politica(nombre: str, sector: str) -> str | None:
     return None
 
 
+def _nombre_instrumento(celda) -> str:
+    """Lo que el grupo escribió en la celda de la etiqueta, debajo de «Instrumento N»; si lo escribió
+    a continuación de la pista («Nombre: Ondas»), se quita la pista."""
+    nombre = []
+    for l in _texto_celda(celda).split("\n")[1:]:
+        l = l.strip()
+        if normalizar(l, numeracion=False).startswith("nombre"):
+            l = l.split(":", 1)[1].strip() if ":" in l else ""
+        if l:
+            nombre.append(l)
+    return "\n".join(nombre)
+
+
+def _separadas(fila, cols) -> None:
+    """Rechaza filas con celdas combinadas entre columnas que deben ir separadas."""
+    tcs = [fila.cells[i]._tc for i in cols if i < len(fila.cells)]
+    if len(set(map(id, tcs))) < len(tcs):
+        raise PlantillaInvalida(
+            f"la fila «{_primera_linea(fila.cells[0])}» tiene celdas combinadas: cada gobierno va en su columna"
+        )
+
+
 def leer(doc: Document, sector: str) -> dict:
     tablas = _indexar(doc)
     sin_llenar: list[str] = []
     notas: dict[str, str] = {}
 
-    def celda(ruta: str, texto: str):
-        """Registra la celda: (presente, valor). Vacía -> sin_llenar; «Sin dato: nota» -> notas."""
+    def celda(ruta: str, texto: str, *, obligatoria: bool = True):
+        """Registra la celda: (presente, valor). Vacía -> sin_llenar (si es obligatoria);
+        «Sin dato: nota» -> notas."""
         presente, valor, nota = _valor(texto)
-        if not presente:
+        if not presente and obligatoria:
             sin_llenar.append(ruta)
         if nota:
             notas[ruta] = nota
@@ -560,14 +736,9 @@ def leer(doc: Document, sector: str) -> dict:
     politica = {"nombre": valores["politica"]}
     if (pid := _id_politica(politica["nombre"], sector)) is not None:
         politica["id"] = pid
-    b: dict = {
-        "version": VERSION,
-        "sector": sector,
-        "grupo": {"nombre": valores["grupo"], "integrantes": integrantes},
-        "politica": politica,
-    }
-    if valores["fecha"]:
-        b["fecha"] = valores["fecha"]
+    grupo = {"nombre": valores["grupo"], "integrantes": integrantes}
+    grupo |= {k: valores[k] for k in ("motivo", "expectativa") if valores[k]}
+    b: dict = {"version": VERSION, "sector": sector, "grupo": grupo, "politica": politica}
 
     for c in COMPARATIVAS:
         t = tablas[c.clave]
@@ -594,6 +765,38 @@ def leer(doc: Document, sector: str) -> dict:
             if f.clave not in vistas:
                 raise PlantillaInvalida(f"falta la fila «{f.etiqueta}» en la tabla «{c.cabecera}»")
 
+    # Instrumentos: solo las filas con algo escrito (son «hasta tres»; vacías no cuentan como faltantes).
+    t = tablas["instrumentos"]
+    cols = _columnas_vigencia(t)
+    col_rel = _columna(t, INSTRUMENTOS_RELEVANCIA)
+    instrumentos = []
+    for n, fila in enumerate(t.rows[1:], start=1):
+        _separadas(fila, [0, *cols.values(), *([col_rel] if col_rel is not None else [])])
+        ins: dict = {}
+        textos = {"nombre": _nombre_instrumento(fila.cells[0])}
+        textos |= {v: _texto_celda(fila.cells[i]) for v, i in cols.items() if i < len(fila.cells)}
+        if col_rel is not None and col_rel < len(fila.cells):
+            textos["relevancia"] = _texto_celda(fila.cells[col_rel])
+        for k, texto in textos.items():
+            presente, valor = celda(f"instrumentos.{n}.{k}", texto, obligatoria=False)
+            if presente:
+                ins[k] = valor
+        if ins:
+            instrumentos.append(ins)
+    b["instrumentos"] = instrumentos
+
+    # Aportes a la red: cada fila con algo escrito, con su tipo por la etiqueta.
+    aportes = []
+    for fila in tablas["aportes"].rows[1:]:
+        textos = [_texto_celda(x) for x in fila.cells[1 : len(APORTES.claves)]]
+        if not any(textos):
+            continue
+        etiqueta = _primera_linea(fila.cells[0])
+        aporte = {"tipo": _fila_de(TIPOS_APORTE, etiqueta) or normalizar(etiqueta) or "otro"}
+        aporte |= {k: t for k, t in zip(APORTES.claves[1:], textos) if t}
+        aportes.append(aporte)
+    b["aportes"] = aportes
+
     for c in CAJAS:
         filas = tablas[c.clave].rows
         presente, valor = celda(c.clave, "\n".join(_texto_celda(f.cells[0]) for f in filas[1:]).strip())
@@ -602,9 +805,9 @@ def leer(doc: Document, sector: str) -> dict:
 
     fuentes = []
     for fila in tablas["fuentes"].rows[1:]:
-        textos = [_texto_celda(x) for x in fila.cells[: len(FUENTES_CLAVES)]]
+        textos = [_texto_celda(x) for x in fila.cells[: len(FUENTES.claves)]]
         if any(textos):  # sin inventar valores: solo lo que el grupo escribió
-            fuentes.append({k: t for k, t in zip(FUENTES_CLAVES, textos) if t})
+            fuentes.append({k: t for k, t in zip(FUENTES.claves, textos) if t})
     b["fuentes"] = fuentes
     if notas:
         b["notas"] = notas
@@ -639,7 +842,9 @@ def probar() -> list[str]:
     if leida != ejemplo:
         distintas = sorted(k for k in set(leida) | set(ejemplo) if leida.get(k) != ejemplo.get(k))
         errores.append(f"ida y vuelta: difiere en {', '.join(distintas)}")
-    if any(vacia[c.clave][v] for c in COMPARATIVAS for v in VIGENCIAS) or vacia["fuentes"]:
+    if any(vacia[c.clave][v] for c in COMPARATIVAS for v in VIGENCIAS) or any(
+        vacia[k] for k in ("instrumentos", "aportes", "fuentes")
+    ):
         errores.append("la plantilla vacía no debería tener contenido")
     esperadas = len(DATOS) + sum(len(c.filas) * len(VIGENCIAS) for c in COMPARATIVAS) + len(CAJAS)
     if len(vacia["sin_llenar"]) != esperadas:
@@ -655,9 +860,9 @@ def _probar_tolerancia(ejemplo: dict) -> list[str]:
     sub = _indexar(doc)["subcategorias"]
     # 1) etiquetas en mayúsculas y sin tildes; 2) fila extra agregada por el grupo; 3) «sin dato.» en minúsculas
     fila_obj = next(f for f in sub.rows if normalizar(_primera_linea(f.cells[0])) == "objetivo")
-    fila_obj.cells[0].paragraphs[0].text = "2. OBJETIVO"
+    fila_obj.cells[0].paragraphs[0].text = "4.1 OBJETIVO"
     fila_pob = next(f for f in sub.rows if normalizar(_primera_linea(f.cells[0])) == "poblacion")
-    fila_pob.cells[0].paragraphs[0].text = "4. Poblacion"
+    fila_pob.cells[0].paragraphs[0].text = "4.3 Poblacion"
     fila_pob.cells[1].paragraphs[0].text = "sin dato."
     extra = sub.add_row()
     extra.cells[0].paragraphs[0].text = "Otra cosa que el grupo quiso anotar"
@@ -706,7 +911,7 @@ def _probar_casos_reales(ejemplo: dict) -> list[str]:
 
     # Columnas de gobierno combinadas: se rechaza (antes duplicaba el dato en las dos vigencias).
     def combinar(t):
-        f = _fila(t["subcategorias"], "7. Metas")
+        f = _fila(t["subcategorias"], "4.6 Metas")
         f.cells[1].merge(f.cells[2])
     if not _rechaza(ejemplo, combinar):
         errores.append("casos: celdas de gobierno combinadas deberían rechazarse")
@@ -720,8 +925,8 @@ def _probar_casos_reales(ejemplo: dict) -> list[str]:
 
     # Variantes de «Sin dato», con nota: null + la nota en `notas`.
     def variantes(t):
-        _fila(t["subcategorias"], "6. Recursos").cells[1].paragraphs[0].text = "S/D"
-        _fila(t["subcategorias"], "3. Instituciones").cells[1].paragraphs[0].text = "Sin dato: el balance no nombra entidades"
+        _fila(t["subcategorias"], "4.5 Recursos").cells[1].paragraphs[0].text = "S/D"
+        _fila(t["subcategorias"], "4.2 Instituciones").cells[1].paragraphs[0].text = "Sin dato: el balance no nombra entidades"
     leida = _leer_editada(ejemplo, variantes)
     s18 = leida["subcategorias"]["2018-2022"]
     if s18.get("recursos", "x") is not None or s18.get("instituciones", "x") is not None:
@@ -731,7 +936,7 @@ def _probar_casos_reales(ejemplo: dict) -> list[str]:
 
     # Tabla anidada dentro de una celda: su texto se conserva.
     def anidar(t):
-        celda = _fila(t["subcategorias"], "2. Objetivo").cells[2]
+        celda = _fila(t["subcategorias"], "4.1 Objetivo").cells[2]
         celda.add_table(rows=1, cols=1).rows[0].cells[0].paragraphs[0].text = "texto anidado"
     if "texto anidado" not in (_leer_editada(ejemplo, anidar)["subcategorias"]["2022-2026"].get("objetivo") or ""):
         errores.append("casos: el texto de una tabla anidada se pierde")
@@ -739,7 +944,7 @@ def _probar_casos_reales(ejemplo: dict) -> list[str]:
     # Encabezado de gobierno con el año en medio, y etiqueta con texto agregado en la misma línea.
     def reescribir(t):
         t["ubicacion"].rows[0].cells[1].paragraphs[0].text = "Gobierno Duque (2018–2022)"
-        _fila(t["subcategorias"], "2. Objetivo").cells[0].paragraphs[0].text = "2. Objetivo del gobierno"
+        _fila(t["subcategorias"], "4.1 Objetivo").cells[0].paragraphs[0].text = "4.1 Objetivo del gobierno"
     try:
         leida = _leer_editada(ejemplo, reescribir)
         if leida["ubicacion"] != ejemplo["ubicacion"] or leida["subcategorias"] != ejemplo["subcategorias"]:
@@ -753,8 +958,33 @@ def _probar_casos_reales(ejemplo: dict) -> list[str]:
             for p in f.cells[1].paragraphs:
                 p.text = ""
     faltan = set(_leer_editada(ejemplo, vaciar)["sin_llenar"])
-    if not {"grupo", "integrantes", "politica", "fecha"} <= faltan:
+    if not {d.clave for d in DATOS} <= faltan:
         errores.append(f"casos: los datos vacíos del grupo deberían ir a sin_llenar (hay {sorted(faltan)})")
+
+    # Nombre del instrumento escrito a continuación de la pista, en el mismo párrafo.
+    def nombre_en_pista(t):
+        celda = t["instrumentos"].rows[1].cells[0]
+        for p in celda.paragraphs[1:]:
+            p._p.getparent().remove(p._p)
+        celda.add_paragraph("Nombre: Programa Ondas")
+    if _leer_editada(ejemplo, nombre_en_pista)["instrumentos"][0].get("nombre") != "Programa Ondas":
+        errores.append("casos: «Nombre: X» en la celda del instrumento debería leerse como su nombre")
+
+    # Dos aportes del mismo tipo (fila agregada por el grupo): se leen los dos.
+    def otro_aporte(t):
+        f = t["aportes"].add_row()
+        f.cells[0].paragraphs[0].text = "Añadir"
+        f.cells[2].paragraphs[0].text = "Otro instrumento que falta"
+    leida = _leer_editada(ejemplo, otro_aporte)
+    if len(leida["aportes"]) != len(ejemplo["aportes"]) + 1 or leida["aportes"][-1]["tipo"] != "anadir":
+        errores.append("casos: un aporte en una fila agregada debería leerse con su tipo")
+
+    # Columnas de gobierno combinadas en un instrumento: se rechaza.
+    def combinar_instrumento(t):
+        f = t["instrumentos"].rows[2]
+        f.cells[1].merge(f.cells[2])
+    if not _rechaza(ejemplo, combinar_instrumento):
+        errores.append("casos: celdas de gobierno combinadas en un instrumento deberían rechazarse")
     return errores
 
 
@@ -765,7 +995,9 @@ def publicadas_al_dia() -> list[str]:
         return [f"falta {PLANTILLA}: uv run extraccion/bitacora.py generar"]
     try:
         vacia = leer(Document(PLANTILLA), "ciencia-tecnologia")
-        if vacia["fuentes"] or any(vacia[c.clave][v] for c in COMPARATIVAS for v in VIGENCIAS):
+        if any(vacia[k] for k in ("instrumentos", "aportes", "fuentes")) or any(
+            vacia[c.clave][v] for c in COMPARATIVAS for v in VIGENCIAS
+        ):
             errores.append(f"{PLANTILLA} no está vacía")
     except PlantillaInvalida as e:
         errores.append(f"{PLANTILLA} desactualizada ({e}): regenerarla")
@@ -830,6 +1062,7 @@ def main() -> int:
     salida.parent.mkdir(parents=True, exist_ok=True)
     salida.write_text(json.dumps(b, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     huecos = sum(1 for c in COMPARATIVAS for v in VIGENCIAS for x in b[c.clave][v].values() if x is None)
+    huecos += sum(1 for ins in b["instrumentos"] for x in ins.values() if x is None)
     print(f"ok  {salida} · política: {b['politica'].get('id', b['politica']['nombre'] + ' (sin área identificada)')}"
           f" · huecos declarados: {huecos} · sin llenar: {len(b['sin_llenar'])}")
     return 0

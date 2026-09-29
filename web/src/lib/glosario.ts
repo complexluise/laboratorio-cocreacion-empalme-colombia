@@ -350,7 +350,7 @@ const BITACORA: Definicion[] = [
     usa: ["cocreacion", "politica-publica"],
     termino: "Bitácora",
     definicion:
-      "El registro que llena cada grupo sobre su política: ubicación y avance, instrumentos, siete subcategorías comparadas entre gobiernos (objetivo, instituciones, población, normativa, recursos, metas, impacto) y los hallazgos para el plenario.",
+      "El registro que llena cada grupo sobre su política, en siete secciones: dónde está y cómo reporta su avance, hasta tres instrumentos, los aportes a la red, las siete subcategorías comparadas entre gobiernos (objetivo, instituciones, población, normativa, recursos, metas, impacto), las fuentes, los patrones que pueden emerger y las conclusiones.",
     ver: ["tabla-puente", "hueco-de-informacion"],
   },
   {

@@ -133,55 +133,63 @@ El sitio guía la sesión como un **recorrido de 4 pasos**; cada uno dice qué h
 
 Una bitácora por grupo y por política. Reemplaza el formato por instrumento de v0.3. Su estructura se inspira en la plantilla aplicada de CTeI del PO; los ejemplos de abajo vienen de ella.
 
-**Es un .docx listo para llenar, en blanco** ([ADR-0005](decisiones/ADR-0005-bitacora-docx-a-dato-estructurado.md)). Se descarga desde la landing (`bitacora-laboratorio.docx`, con un ejemplo lleno de CTeI) y se llena en Word o Google Docs. La red sirve de **consulta** (la política, sus instrumentos y cómo cambiaron), no de borrador: el grupo construye la bitácora con el informe de empalme y la información complementaria. Además de las secciones de abajo, la plantilla pide los datos del grupo y una tabla de **fuentes complementarias** (fuente, qué aportó, página o enlace).
+**Es un .docx listo para llenar, en blanco** ([ADR-0005](decisiones/ADR-0005-bitacora-docx-a-dato-estructurado.md)). Se descarga desde la landing (`bitacora-laboratorio.docx`, con un ejemplo lleno de CTeI) y se llena en Word o Google Docs. La red sirve de **consulta** (la política, sus instrumentos y cómo cambiaron), no de borrador: el grupo construye la bitácora con el informe de empalme y la información complementaria. 
 
 Dos reglas para que el equipo pueda convertirla en dato: **no cambiar los títulos de las tablas ni de las filas**, y escribir **«Sin dato»** cuando la fuente no dice algo (es un hueco declarado, un hallazgo; se puede aclarar: «Sin dato: el balance no lo desagrega»), distinto de dejar la celda vacía (no llenado). La estructura exacta vive en la plantilla (definida en `extraccion/bitacora.py`); las tablas de abajo la resumen.
 
-### 1. Ubicación y avance
+La plantilla va en la **versión 4**, que iteró el equipo: siete secciones numeradas de corrido y los
+datos del grupo al comienzo (grupo, integrantes, política, por qué la eligió y qué espera encontrar).
 
-Dónde está la política en el documento de cada gobierno y qué avance reporta.
+### 1. Ubicar la política
 
-| | 2018–2022 | 2022–2026 |
+Dónde está la política en el informe de cada gobierno y cómo reporta su avance.
+
+| Qué mirar | 2018–2022 | 2022–2026 |
 |---|---|---|
-| Ubicación (pacto / transformación / sección) | | |
-| Avance reportado | | |
+| Ubicación (sección, capítulo o páginas) | | |
+| Indicador o forma de reporte | | |
+| Valor y referencia (cifra y su meta, periodo o base) | | |
 
-**Hallazgo de comparabilidad (tabla puente).** Antes de comparar cifras, se deja escrito cómo se corresponden las estructuras de los dos documentos. Ejemplo CTeI: Duque la reporta como el Pacto Transversal IX, con 94,41 % de cumplimiento del cuatrienio al estilo Sinergia; Petro la reparte entre la Transformación 4.2 y la 5.7.2, sin un porcentaje único. Sin la tabla puente, cualquier comparación de números es engañosa.
+**Tabla puente: ¿qué es comparable?** Antes de comparar cifras, se deja escrito si los dos gobiernos miden lo mismo (unidad, universo, meta). Ejemplo CTeI: Duque la reporta como el Pacto Transversal IX, con 94,41 % de cumplimiento del cuatrienio al estilo Sinergia; Petro la reparte entre la Transformación 4.2 y la 5.7.2, sin un porcentaje único. Sin la tabla puente, cualquier comparación de números es engañosa.
 
-### 1.1 Instrumentos
+### 2. Los instrumentos
 
-Por gobierno, al menos: el **principal**, el de **formación de talento** y el **fiscal/tributario**. Cada uno con su tipo NATO y su modo de cambio (§2).
+Hasta tres instrumentos que el grupo escoge. Por cada uno: qué pasó con él en cada gobierno (sigue, cambia de uso, se suma o se deja: el modo de cambio, §2) y por qué es relevante. Ejemplo CTeI: el cupo de beneficios tributarios, central en 2018–2022 y sin cifra propia en 2022–2026.
 
-| Instrumento | 2018–2022 | 2022–2026 |
-|---|---|---|
-| Principal | p. ej. cupo de inversión para deducción y descuento tributario en CTeI | p. ej. convocatorias de financiación: ColombIA Inteligente, ECONOVA, Ciencias Básicas y del Espacio, FIS… |
-| Formación de talento | p. ej. becas y créditos-beca doctorales | p. ej. Ondas en los Territorios + Ciencia para la Paz (jóvenes en municipios PDET) |
-| Fiscal / tributario | p. ej. sí: es el instrumento central reportado | p. ej. se menciona el fortalecimiento de beneficios tributarios para I+D, sin cifra propia |
+### 3. Co-construyamos la red
 
-### 2–8. Las siete subcategorías, lado a lado
+La red es una primera propuesta. El grupo anota lo que corrige, añade, conecta o reclasifica, y sus dudas, con el elemento de la red, su propuesta y la evidencia.
+
+### 4. Las siete subcategorías, lado a lado
 
 | # | Subcategoría | 2018–2022 | 2022–2026 | Ejemplo CTeI |
 |---|---|---|---|---|
-| 2 | **Objetivo** | | | El giro de enfoque entre gobiernos (`cambio_objetivo`) |
-| 3 | **Instituciones** | | | Colciencias → MinCiencias: un cambio institucional ocurrido dentro de 2018–2022 (Leyes 1951 de 2019 y 2162 de 2021) que cada informe reporta desde otra institucionalidad |
-| 4 | **Población** | | | No se desagrega en 2018–2022 (dato ausente) vs. enfoque diferencial y territorial explícito en 2022–2026 |
-| 5 | **Normativa** | | | Ninguno de los dos ancla la política a una ley en la sección que reporta CTeI |
-| 6 | **Recursos** | | | $6,50 billones de cupo tributario vs. sin cifra agregada |
-| 7 | **Metas** | | | Meta cuatrienio con % vs. solo cifras de ejecución |
-| 8 | **Impacto** | | | Vacío en ambos: solo métricas de gestión o producto |
+| 4.1 | **Objetivo** | | | El giro de enfoque entre gobiernos (`cambio_objetivo`) |
+| 4.2 | **Instituciones** | | | Colciencias → MinCiencias: un cambio institucional ocurrido dentro de 2018–2022 (Leyes 1951 de 2019 y 2162 de 2021) que cada informe reporta desde otra institucionalidad |
+| 4.3 | **Población** | | | No se desagrega en 2018–2022 (dato ausente) vs. enfoque diferencial y territorial explícito en 2022–2026 |
+| 4.4 | **Normativa** | | | Ninguno de los dos ancla la política a una ley en la sección que reporta CTeI |
+| 4.5 | **Recursos** | | | $6,50 billones de cupo tributario vs. sin cifra agregada |
+| 4.6 | **Metas** | | | Meta cuatrienio con % vs. solo cifras de ejecución |
+| 4.7 | **Impacto** | | | Vacío en ambos: solo métricas de gestión o producto |
 
-### Lo que enseña al plenario
+### 5. Fuentes complementarias
 
-Lo que el grupo aprendió comparando, en pocas líneas. Los hallazgos típicos del ejemplo CTeI:
+Solo las fuentes externas que el grupo usó: fuente, qué aportó, página o enlace.
+
+### 6. En términos de complejidad
+
+Qué patrones cree el grupo que pueden emerger al ver cómo interactúan distintas políticas (la emergencia que busca la sesión 2).
+
+### 7. Conclusiones
+
+**Hallazgo principal:** lo que el grupo aprendió y no era evidente al comienzo. Los hallazgos típicos del ejemplo CTeI:
 
 - **El giro de enfoque** en el objetivo es lo primero que se ve y lo que más ordena la lectura de los instrumentos.
 - **Metas engañosas sin homologar.** No se compara 5.706 con 3.126: son manzanas con peras. Hay que buscar la meta del PND 2022–2026 en Sinergia antes de leer la diferencia.
 - **Impacto vacío en ambos gobiernos** (solo métricas de gestión o producto) es un hallazgo típico del laboratorio, no una falla del grupo.
 - **Las asimetrías documentales** (normativa, recursos) **se anotan, no se rellenan con supuestos**.
 
-### Hipótesis para la sesión 2
-
-Qué patrón cree el grupo que comparten las otras políticas (se conserva del cierre de la sesión 1, §5).
+**Hipótesis para la sesión 2:** qué patrón cree el grupo que podría repetirse en otras políticas (se conserva del cierre de la sesión 1, §5).
 
 ## 7. Decisiones abiertas
 

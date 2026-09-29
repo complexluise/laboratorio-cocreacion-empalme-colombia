@@ -62,6 +62,16 @@ los participantes trabajan con naturalidad en Word o Google Docs, no en un formu
   estático (igual que `generar_web.py` con el dataset); la web solo las enlaza, no importa del
   pipeline. Sin cambios en `@laboratorio/red`.
 
+## Actualización (versión 4 de la plantilla)
+
+El equipo iteró la plantilla hasta una versión 4, que reemplaza la estructura original (`VERSION = 4`,
+schema `version: 4`). Siete secciones numeradas de corrido: 1 ubicar la política (con la tabla
+puente), 2 hasta tres instrumentos con su relevancia, 3 aportes a la red, 4 las siete subcategorías
+(4.1 a 4.7), 5 fuentes, 6 patrones que pueden emerger y 7 conclusiones (hallazgo principal e
+hipótesis). Los datos del grupo suman por qué eligió la política y qué espera encontrar, y dejan la
+fecha. Instrumentos, aportes y fuentes se leen como listas: solo cuentan las filas con algo escrito.
+Las reglas de lectura y la convención de celdas no cambian.
+
 ## Alternativas consideradas
 
 - **Formulario en la app con export JSON** (el épico #26 original) — descartada por el PO: más
