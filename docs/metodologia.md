@@ -86,6 +86,7 @@ escribimos. De la primera conversación no se guardaron. Están en `PASOS`
 10. Un glosario en orden y la metodología como receta
 11. Revisar las definiciones contra sus fuentes
 12. Una portada más directa
+13. Revisar el lenguaje de la portada
 
 ## Mantenerla al día
 

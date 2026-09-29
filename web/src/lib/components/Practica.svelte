@@ -58,7 +58,7 @@
       <div class="final">
         <p class="grande">{aciertosPrimera} de {preguntas.length}</p>
         <p>al primer intento. Lo importante no es el puntaje: es mirar primero <strong>en qué gobiernos aparece</strong> el
-          instrumento y después <strong>si cambió su uso</strong>. Así se lee la red y así se llena la bitácora.</p>
+          instrumento y después <strong>si cambió su uso</strong>. Así leemos la red y así llenaremos la bitácora.</p>
         <div class="acciones">
           <a class="btn primario" href={hrefDe("red")}>Buscar más en la red</a>
           <button type="button" class="btn" onclick={reiniciar}>Practicar otra vez</button>

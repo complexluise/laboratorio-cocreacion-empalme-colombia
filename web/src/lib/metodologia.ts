@@ -334,6 +334,13 @@ export const PASOS: Paso[] = [
     hizo: "Quitó de la portada la guía de la bitácora, el ejemplo de CTeI y sus lecciones; los dos archivos de Word se siguen descargando. Pasó la práctica a primera persona del plural y quitó la pregunta final del plenario.",
     resultado: "Una portada más corta, que habla en «nosotros».",
   },
+  {
+    id: "lenguaje-portada",
+    titulo: "Revisar el lenguaje de la portada",
+    pedimos: ["Si revisión del lenguaje."],
+    hizo: "El agente editor revisó la portada, los pasos de la actividad y la práctica. Se aplicaron sus hallazgos: todo en «nosotros», las siglas explicadas (empalme, NATO, Sinergia, CONPES), frases más cortas y sin repetir. Se quitó de la portada la nota sobre PID+T; sigue en el glosario.",
+    resultado: "Una portada que se entiende sin conocer la jerga del sector público.",
+  },
 ];
 
 export interface InstruccionDatos {
