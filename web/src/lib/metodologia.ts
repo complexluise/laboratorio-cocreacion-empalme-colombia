@@ -325,6 +325,15 @@ export const PASOS: Paso[] = [
     hizo: "Buscó los artículos citados y comparó cada definición con resúmenes de esas obras: no pudo abrir los textos originales. Propuso qué agregar y qué corregir; con nuestro visto bueno, escribió las definiciones y una bibliografía con enlaces, que se abre desde el glosario. Falta cotejar las definiciones con los originales.",
     resultado: "Tipos de instrumento, cambio del objetivo y modos de cambio con su origen, su base teórica y sus límites.",
   },
+  {
+    id: "inicio",
+    titulo: "Una portada más directa",
+    pedimos: [
+      "Ahora en torno a la primera pagina la activadad quita la sección\n\"No cambien los títulos de las tablas.... \nesa asimetría documental se registra tal cual, sin supuestos.\"\nCambia el lenguaje de \"Practiquen\" a \"Practiquemos\" mejora el lenguaje.\nY quita la ultima parte de las preguntas",
+    ],
+    hizo: "Quitó de la portada la guía de la bitácora, el ejemplo de CTeI y sus lecciones; los dos archivos de Word se siguen descargando. Pasó la práctica a primera persona del plural y quitó la pregunta final del plenario.",
+    resultado: "Una portada más corta, que habla en «nosotros».",
+  },
 ];
 
 export interface InstruccionDatos {
