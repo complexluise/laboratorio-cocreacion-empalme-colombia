@@ -37,6 +37,13 @@ y cada categoría enlaza su entrada del glosario.
 
 ## La receta
 
+![Diagrama del pipeline: de los informes de empalme del DNP a la red bipartita, con la lectura con IA (v1 Gemini reemplazada por v2 agentes de Claude) y los lazos de retroalimentación.](img/pipeline-red-bipartita.png)
+
+El diagrama muestra el camino completo: de los informes del DNP a la red, con los puntos donde algo
+vuelve atrás para corregirse —la revisión con IA, la validación del contrato y las bitácoras del
+taller. El detalle de cada paso —y el script de [`extraccion/`](../extraccion) que lo corre— está en
+[`pipeline-extraccion.md`](pipeline-extraccion.md).
+
 | # | Paso | Quién | Dónde entra la IA | En este mapa |
 |---|---|---|---|---|
 | 1 | Reunir los documentos | Programa | — | Informes del DNP; para CTeI, los dos principales de MinCiencias |
