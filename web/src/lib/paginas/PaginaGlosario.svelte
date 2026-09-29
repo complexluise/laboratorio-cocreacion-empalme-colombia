@@ -40,18 +40,20 @@
     propias del proyecto. Las siglas, al final, son para consultar.
   </p>
 
+  <nav class="toc" aria-label="Contenido del glosario">
+    <p class="toc-titulo">En este glosario</p>
+    <ul>
+      {#each GRUPOS as g (g)}
+        <li><a href={hrefDe("glosario", `grupo-${g}`)}>{TITULO_GRUPO[g]}</a></li>
+      {/each}
+    </ul>
+  </nav>
+
   <div class="herramientas">
     <label class="filtro">
       <span class="oculto-visual">Filtrar el glosario</span>
       <input type="search" placeholder="Filtrar: SGR, conversión, tabla puente…" bind:value={consulta} autocomplete="off" />
     </label>
-    <nav aria-label="Grupos del glosario">
-      <ul class="indice">
-        {#each GRUPOS as g (g)}
-          <li><a href={hrefDe("glosario", `grupo-${g}`)}>{TITULO_GRUPO[g]}</a></li>
-        {/each}
-      </ul>
-    </nav>
   </div>
 
   <p class="conteo" aria-live="polite">
@@ -135,27 +137,43 @@
     background: var(--papel);
     color: var(--tinta);
   }
-  .indice {
+  .toc {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--papel);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+  }
+  .toc-titulo {
+    margin: 0 0 10px;
+    font: 700 12px var(--fuente-ui);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+  }
+  .toc ul {
     display: flex;
-    gap: 6px;
-    margin: 10px 0 0;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
     padding: 0;
     list-style: none;
-    overflow-x: auto;
-    scrollbar-width: none;
   }
-  .indice a {
+  .toc a {
     display: inline-flex;
     align-items: center;
-    min-height: 36px;
-    padding: 0 12px;
+    min-height: 40px;
+    padding: 0 14px;
     font-size: 13.5px;
-    white-space: nowrap;
     text-decoration: none;
     color: var(--tinta);
     border: 1px solid var(--borde);
     border-radius: 999px;
-    background: var(--papel);
+    background: var(--fondo);
+  }
+  .toc a:hover {
+    border-color: var(--acento);
+    color: var(--acento);
   }
   .conteo {
     min-height: 1em;
@@ -167,7 +185,7 @@
     margin-top: 28px;
   }
   .grupo h2 {
-    scroll-margin-top: 120px;
+    scroll-margin-top: 84px;
   }
   .intro {
     color: var(--tinta-suave);
@@ -183,7 +201,7 @@
     background: var(--papel);
     border: 1px solid var(--borde);
     border-radius: 12px;
-    scroll-margin-top: 120px;
+    scroll-margin-top: 84px;
   }
   .entrada.destacada {
     border-color: var(--acento);

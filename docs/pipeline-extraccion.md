@@ -4,6 +4,12 @@
 > y a dónde llega. Complementa [FRONTERAS](FRONTERAS.md), [ontologia](ontologia.md) y
 > [metodologia](metodologia.md).
 
+![Diagrama del pipeline: de los informes de empalme del DNP a la red bipartita de políticas e instrumentos, con la lectura con IA (v1 Gemini reemplazada por v2 agentes de Claude) y los lazos de retroalimentación.](img/pipeline-red-bipartita.png)
+
+*Versión para presentación (16:9, fondo transparente). Fuente editable en
+[`img/pipeline-red-bipartita.html`](img/pipeline-red-bipartita.html); el PNG se regenera con Chrome
+headless (`--screenshot`).*
+
 ## En una frase
 
 Los informes de empalme que publica el Departamento Nacional de Planeación (DNP) se descargan y se
