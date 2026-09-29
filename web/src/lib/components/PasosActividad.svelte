@@ -32,45 +32,45 @@
     {
       titulo: "Elegir una política pública",
       corto: "Elegir",
-      que: "Exploren la red y elijan un área. Miren el anillo de la política: ¿su objetivo se mantiene, se reformula, es nuevo o ya no se declara? Descarguen la bitácora y anoten la política elegida.",
+      que: "Exploremos la red y elijamos un área. Miremos el anillo alrededor de la política (muestra cómo cambió su objetivo): ¿se mantiene, se reformula, es nuevo o ya no se declara? Descarguemos la bitácora y anotemos la política elegida.",
       materiales: [
         { tipo: "enlace", href: hrefDe("red"), etiqueta: "Abrir la red" },
         { tipo: "descarga", href: "./bitacora-laboratorio.docx", etiqueta: "La bitácora", detalle: "Word · para llenar en grupo" },
       ],
-      pregunta: "¿Por qué esta política y no otra? ¿Qué esperan encontrar al compararla?",
-      producto: "La política elegida, en los datos del grupo.",
+      pregunta: "¿Por qué esta política y no otra? ¿Qué esperamos encontrar al compararla?",
+      producto: "Los datos del grupo en la bitácora: la política, por qué la elegimos y qué esperamos encontrar.",
     },
     {
       titulo: "Describirla entre los dos gobiernos",
       corto: "Describir",
-      que: "Con el informe de empalme, ubiquen la política en cada gobierno y comparen sus instrumentos. El Excel de la red les deja filtrar los instrumentos de su política por tipo y por modo de cambio.",
+      que: "Con el informe de empalme, ubiquemos la política en cada gobierno y comparemos sus instrumentos. En el Excel de la red podemos filtrar los instrumentos de nuestra política por tipo y por modo de cambio. Si algo de la red está mal o falta, anotémoslo en la sección 3.",
       materiales: [
         { tipo: "descarga", href: excel, etiqueta: "La red en Excel", detalle: "Excel · para filtrar y consultar" },
         { tipo: "enlace", href: hrefDe("glosario", "tabla-puente"), etiqueta: "¿Qué es la tabla puente?" },
       ],
       pregunta: "¿Qué instrumentos siguen, cuáles cambian de uso, cuáles se suman y cuáles se dejan?",
-      producto: "Las secciones 1 y 1.1 de la bitácora: ubicación, avance e instrumentos.",
+      producto: "Las secciones 1 a 3 de la bitácora: dónde está la política, sus instrumentos y lo que proponemos para la red.",
     },
     {
       titulo: "Buscar información complementaria",
       corto: "Buscar",
-      que: "El informe no lo dice todo. Busquen las metas en Sinergia, el Plan Nacional de Desarrollo, el capítulo de inversión pública, las normas y los documentos CONPES. Si algo no aparece, escriban «Sin dato»: también es un hallazgo.",
+      que: "El informe no lo dice todo. Busquemos las metas en Sinergia (el sistema oficial de seguimiento de metas), el Plan Nacional de Desarrollo, las leyes y los documentos CONPES (las políticas que aprueba el consejo de planeación). Si algo no aparece, escribamos «Sin dato»: también es un hallazgo.",
       materiales: [
         { tipo: "enlace", href: hrefDe("glosario", "meta-cuatrienio"), etiqueta: "Meta del cuatrienio" },
         { tipo: "enlace", href: hrefDe("glosario", "gestion-vs-impacto"), etiqueta: "Gestión, producto e impacto" },
       ],
       pregunta: "¿Estas cifras miden lo mismo en los dos gobiernos? ¿Contra qué meta se comparan?",
-      producto: "Las siete subcategorías lado a lado y la tabla de fuentes.",
+      producto: "Las secciones 4 y 5 de la bitácora: las siete subcategorías y las fuentes.",
     },
     {
       titulo: "Concluir y llevar al plenario",
       corto: "Concluir",
-      que: "Cierren la bitácora: qué les enseñó el ejercicio y una hipótesis sobre lo que comparten las otras políticas. Miren el ejemplo lleno si dudan del nivel de detalle.",
+      que: "Cerremos la bitácora: qué nos enseñó el ejercicio y qué creemos que comparten las otras políticas. Si dudamos del nivel de detalle, miremos el ejemplo lleno.",
       materiales: [
-        { tipo: "descarga", href: "./bitacora-ejemplo-ctei.docx", etiqueta: "Ejemplo lleno: CTeI", detalle: "Word · de referencia" },
+        { tipo: "descarga", href: "./bitacora-ejemplo-ctei.docx", etiqueta: "Ejemplo lleno: Ciencia, Tecnología e Innovación", detalle: "Word · de referencia" },
       ],
-      pregunta: "¿Qué patrón creen que comparten las otras políticas? ¿Qué le falta al mapa?",
-      producto: "La bitácora completa, entregada al equipo para integrarla al mapa.",
+      pregunta: "¿Qué le falta al mapa?",
+      producto: "Las secciones 6 y 7 de la bitácora, y la bitácora completa entregada al equipo organizador para sumarla al mapa.",
     },
   ]);
 

@@ -69,7 +69,7 @@ En la página, los pasos con IA muestran la instrucción que usamos cuando la gu
 | La red | Agentes de Claude | Sin revisión humana. Casi todos los instrumentos citan su página; hay descripciones que contradicen su modo de cambio |
 | Áreas de política | Propuestas por la IA | Parcial: el equipo aprobó cómo se dividieron, no el contenido |
 | Textos del sitio y glosario | Claude, a partir de nuestro encuadre | Revisión parcial. Las definiciones teóricas se contrastaron con resúmenes de la literatura; falta cotejarlas con los originales |
-| Ejemplo de bitácora CTeI | El equipo | Escrito por personas |
+| Ejemplo de bitácora CTeI | El equipo; la IA lo pasó a la versión 4 | Parcial: lo nuevo de la versión 4 (motivo, expectativa, relevancia, aportes, complejidad) lo redactó la IA y no se ha revisado |
 | Bitácoras de los grupos | Los grupos | Escritas por personas |
 
 La fuente de verdad es `CAPAS` en `web/src/lib/metodologia.ts`. Ninguna parte cambia de estado
@@ -93,6 +93,8 @@ escribimos. De la primera conversación no se guardaron. Están en `PASOS`
 10. Un glosario en orden y la metodología como receta
 11. Revisar las definiciones contra sus fuentes
 12. Una portada más directa
+13. Revisar el lenguaje de la portada
+14. La bitácora, versión 4
 
 ## Mantenerla al día
 

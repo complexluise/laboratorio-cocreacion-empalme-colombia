@@ -44,19 +44,19 @@
   const PREGUNTAS = [
     "¿Qué objetivo declaró cada gobierno y con qué instrumentos lo persiguió?",
     "¿Qué se mantuvo, qué se reconvirtió, qué se sumó y qué se terminó?",
-    "¿Cómo contrastan las dos ejecuciones sobre los mismos instrumentos?",
+    "¿Qué hizo cada gobierno con los mismos instrumentos?",
   ];
 </script>
 
 <PaginaTexto pagina="inicio" {ancla} {visita}>
   <!-- ─────────────── Portada ─────────────── -->
   <header class="portada">
-    <p class="antetitulo">Laboratorio de Cocreación · Empalme 2018 ↔ 2026</p>
+    <p class="antetitulo">Laboratorio de Cocreación · Gobiernos 2018–2022 y 2022–2026</p>
     <h1>¿Qué hizo cada gobierno con la misma política pública?</h1>
     <p class="bajada">
-      Leemos los informes de empalme de dos gobiernos como una <strong>red de políticas públicas e instrumentos</strong>, y la
-      completamos entre todos: cada grupo toma una política, la describe entre los dos gobiernos y deja su hallazgo en una
-      bitácora.
+      Leemos los informes de empalme de dos gobiernos (el balance que cada gobierno le entrega al siguiente) como una
+      <strong>red de políticas públicas e instrumentos</strong>. Luego la completamos entre todos: cada grupo toma una política,
+      la compara entre los dos gobiernos y anota lo que encuentra en una bitácora.
     </p>
     <div class="acciones">
       <a class="btn primario" href={hrefDe("red")}>Explorar la red</a>
@@ -79,8 +79,8 @@
     <h2 id="t-actividad">Una política, dos gobiernos, una bitácora</h2>
     <p>
       Cada grupo recorre cuatro pasos. En cada uno: qué hacer, con qué material, la pregunta que guía la conversación y lo
-      que el grupo produce. Si una palabra no es clara, búsquenla en el <a href={hrefDe("glosario")}>glosario</a>. Para
-      empezar, bastan sus tres primeras secciones.
+      que el grupo produce. Si una palabra no es clara, busquémosla en el <a href={hrefDe("glosario")}>glosario</a>. Para
+      empezar, basta con sus tres primeras secciones.
     </p>
     <PasosActividad {excel} />
 
@@ -88,15 +88,16 @@
       <article>
         <h3>Sesión 1 · Análisis por política</h3>
         <p>
-          Encuadre común y trabajo en grupo sobre la subred de la política elegida, con un paquete de evidencia (fragmentos
-          con página y cifra). Cierra con una <a href={g("hipotesis")}>hipótesis</a> escrita.
+          Empezamos todos juntos y luego cada grupo trabaja su política con fragmentos del informe (con página y cifra).
+          Cerramos con una <a href={g("hipotesis")}>hipótesis</a> escrita.
         </p>
       </article>
       <article>
         <h3>Sesión 2 · Integración y plenario</h3>
         <p>
-          Se revela el mapa con los aportes de todos los grupos y se contrastan las hipótesis. Lo que aparece solo al integrar
-          —instrumentos compartidos, regularidades del cambio— es la <a href={g("emergencia")}>emergencia</a> que buscamos.
+          El equipo organizador muestra el mapa con los aportes de todos los grupos y comparamos las hipótesis. Lo que solo
+          se ve al juntar todo —instrumentos compartidos, patrones de cambio— es lo que buscamos: la
+          <a href={g("emergencia")}>emergencia</a>.
         </p>
       </article>
     </div>
@@ -107,23 +108,20 @@
     <p class="antetitulo">La bitácora</p>
     <h2 id="t-bitacora">Describir la política lado a lado</h2>
     <p>
-      Cada grupo llena una bitácora de su política en un documento de Word (sirve también en Google Docs). La red sirve de
-      punto de partida para consultar; la bitácora se construye con el informe de empalme y la información complementaria.
-      Al final, el equipo la recoge y la integra al mapa.
+      Cada grupo llena la bitácora de su política en Word (también sirve Google Docs). Partimos de la red y la completamos
+      con el informe de empalme y otras fuentes.
     </p>
     <div class="descargas">
       <BotonDescarga href="./bitacora-laboratorio.docx" etiqueta="La bitácora" detalle="Word · para llenar en grupo" primario />
-      <BotonDescarga href="./bitacora-ejemplo-ctei.docx" etiqueta="Ejemplo lleno: CTeI" detalle="Word · de referencia" />
+      <BotonDescarga href="./bitacora-ejemplo-ctei.docx" etiqueta="Ejemplo lleno: Ciencia, Tecnología e Innovación" detalle="Word · de referencia" />
       <BotonDescarga href={excel} etiqueta="La red en Excel" detalle="Excel · para filtrar y consultar" />
     </div>
   </section>
 
   <!-- ─────────────── La teoría ─────────────── -->
   <section id="teoria" tabindex="-1" aria-labelledby="t-teoria">
-    <p class="antetitulo">La teoría para construir</p>
+    <p class="antetitulo">Las ideas de fondo</p>
     <h2 id="t-teoria">Cinco ideas para leer el mapa</h2>
-    <p>Van en orden: cada idea se apoya en las anteriores.</p>
-
     <article class="idea">
       <h3>1 · Una política pública son fines y medios</h3>
       <p>
@@ -137,8 +135,9 @@
     <article class="idea">
       <h3>2 · El instrumento: con qué gobierna el Estado</h3>
       <p>
-        Un programa, una ley, un fondo, un sistema. No es neutro: condensa una idea de cómo gobernar. Se clasifica por el
-        recurso que moviliza (<a href={g("nato")}>NATO</a>); en la red es la <strong>forma</strong> del nodo.
+        Un programa, una ley, un fondo, un sistema. No es neutro: condensa una idea de cómo gobernar. Se clasifica según el
+        recurso del Estado que usa: información, autoridad, dinero u organización (<a href={g("nato")}>NATO</a>, por sus
+        iniciales en inglés). En la red es la <strong>forma</strong> del nodo.
       </p>
       <ul class="claves">
         {#each TIPOS_NATO as t (t)}
@@ -155,8 +154,8 @@
     <article class="idea">
       <h3>3 · Cómo cambia el objetivo</h3>
       <p>
-        Cambiar el fin es el cambio más profundo —el de <a href={g("ordenes-del-cambio")}>tercer orden</a>—. En la red se lee
-        en el anillo de cada política.
+        Cambiar el fin es el <a href={g("ordenes-del-cambio")}>cambio más profundo</a>. En la red se ve en el anillo de cada
+        política.
       </p>
       <ul class="claves">
         {#each CAMBIOS_OBJETIVO as c (c)}
@@ -176,7 +175,8 @@
     <article class="idea">
       <h3>4 · Cómo cambia un instrumento</h3>
       <p>
-        Las instituciones rara vez cambian de golpe: suman capas, se redirigen, se dejan o se reemplazan. Es el
+        Las instituciones rara vez cambian de golpe: siguen igual, se usan para otro fin, suman piezas nuevas, se terminan,
+        se revierten o se quedan quietas mientras el entorno cambia. Es el
         <a href={g("cambio-institucional-gradual")}>cambio institucional gradual</a>; en la red es el <strong>color</strong> del
         nodo.
       </p>
@@ -220,7 +220,7 @@
     <p class="antetitulo">Practiquemos antes de empezar</p>
     <h2 id="t-practica">¿Qué le pasó a este instrumento?</h2>
     <p>
-      Tomemos cuatro instrumentos reales de la red. Veamos en qué gobiernos aparece cada uno y elijamos su modo de cambio:
+      Tomemos algunos instrumentos reales de la red. Veamos en qué gobiernos aparece cada uno y elijamos su modo de cambio:
       es la misma lectura que haremos después con nuestra política.
     </p>
     <Practica {dataset} />
@@ -241,8 +241,8 @@
 
   <footer class="pie">
     <p>
-      Fuente: informes de empalme 2018–2022 y 2022–2026 (DNP). Vocabulario y decisiones en el
-      <a href="https://github.com/complexluise/laboratorio-cocreacion-empalme-colombia" rel="noopener">repositorio del proyecto</a>.
+      Fuente: informes de empalme 2018–2022 y 2022–2026 (DNP). El vocabulario y las decisiones del equipo están
+      <a href="https://github.com/complexluise/laboratorio-cocreacion-empalme-colombia" rel="noopener">publicados en GitHub</a>.
       Hecho con inteligencia artificial y aún sin revisar al 100 %: <a href={hrefDe("metodologia")}>cómo lo hicimos</a>.
     </p>
   </footer>

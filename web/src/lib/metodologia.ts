@@ -334,6 +334,22 @@ export const PASOS: Paso[] = [
     hizo: "Quitó de la portada la guía de la bitácora, el ejemplo de CTeI y sus lecciones; los dos archivos de Word se siguen descargando. Pasó la práctica a primera persona del plural y quitó la pregunta final del plenario.",
     resultado: "Una portada más corta, que habla en «nosotros».",
   },
+  {
+    id: "lenguaje-portada",
+    titulo: "Revisar el lenguaje de la portada",
+    pedimos: ["Si revisión del lenguaje."],
+    hizo: "El agente editor revisó la portada, los pasos de la actividad y la práctica. Se aplicaron sus hallazgos: todo en «nosotros», las siglas explicadas (empalme, NATO, Sinergia, CONPES), frases más cortas y sin repetir. Se quitó de la portada la nota sobre PID+T; sigue en el glosario.",
+    resultado: "Una portada que se entiende sin conocer la jerga del sector público.",
+  },
+  {
+    id: "bitacora-v4",
+    titulo: "La bitácora, versión 4",
+    pedimos: [
+      "Esta es la versión iterada de la bitacora. aliniemosla con el lenguaje portada y dejala lista para descargar. por favor alinea muy bien los titulos y su numeriación . veo que pasa de 1.2 a 2-8. y debe ser consistente la numeriación",
+    ],
+    hizo: "Llevó al programa que genera la plantilla la versión 4 que diseñó el equipo. Numeró las secciones de 1 a 7 y las subcategorías de 4.1 a 4.7, y escribió todo en «nosotros». Ajustó los pasos de la actividad para que nombren esas secciones y actualizó el ejemplo de CTeI, incluidas sus partes nuevas. El agente editor revisó el texto y se aplicaron sus hallazgos.",
+    resultado: "Una plantilla con numeración continua, que el programa sigue leyendo para sumar las bitácoras al mapa.",
+  },
 ];
 
 export interface InstruccionDatos {
@@ -401,6 +417,12 @@ export const CAPAS: Capa[] = [
     revision: "Leídos por el equipo, sin revisión completa. Las definiciones teóricas se contrastaron con resúmenes de la literatura; falta cotejarlas con los textos originales.",
     estado: "parcial",
   },
-  { capa: "Ejemplo de bitácora CTeI", quien: "El equipo", revision: "La IA solo le dio formato.", estado: "personas" },
+  {
+    capa: "Ejemplo de bitácora CTeI",
+    quien: "El equipo; la IA lo pasó a la versión 4",
+    revision:
+      "La IA reacomodó el texto del equipo y redactó las partes nuevas: por qué se eligió, qué se esperaba, la relevancia de cada instrumento, el aporte a la red y los patrones. Esas partes no se han revisado.",
+    estado: "parcial",
+  },
   { capa: "Bitácoras de los grupos", quien: "Los grupos del taller", revision: "Sin intervención de la IA.", estado: "personas" },
 ];

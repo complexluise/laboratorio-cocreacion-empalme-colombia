@@ -83,7 +83,7 @@ function pista(p: Pregunta): string {
   const en18 = p.presencia["2018-2022"] !== null;
   const en22 = p.presencia["2022-2026"] !== null;
   if (en18 && en22)
-    return "Aparece en ambos gobiernos: el modo se decide por si sigue igual o cambia de uso. Comparen lo que hacía antes y después.";
+    return "Aparece en ambos gobiernos: el modo se decide por si sigue igual o cambia de uso. Comparemos lo que hacía antes y después.";
   if (en22) return "Solo aparece en el gobierno posterior: ¿se suma a lo que existía?";
   return "Solo aparece en el gobierno anterior: ¿qué pasó con él después?";
 }
