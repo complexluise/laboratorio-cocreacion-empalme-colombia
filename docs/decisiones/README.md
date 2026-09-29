@@ -21,3 +21,4 @@ Se gradúan con la skill `graduar-adr` (fase DECIDIR del flujo).
 | [0005](ADR-0005-bitacora-docx-a-dato-estructurado.md) | La bitácora es un .docx no pre-llenado que el equipo convierte a dato estructurado | aceptada |
 | [0006](ADR-0006-declarar-uso-de-ia-paso-a-paso.md) | Declarar el uso de IA como un paso a paso con los prompts, para público no técnico | aceptada (enmendada por 0007) |
 | [0007](ADR-0007-metodologia-como-receta-y-glosario-en-orden.md) | La metodología es una receta replicable y el glosario se lee en orden | aceptada |
+| [0008](ADR-0008-origen-de-cada-categoria.md) | Cada categoría del mapa declara su origen y en qué se aparta de su fuente | aceptada |

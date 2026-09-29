@@ -311,6 +311,20 @@ export const PASOS: Paso[] = [
     hizo: "Reordenó el glosario en seis secciones y marcó en qué términos se apoya cada uno. Escribió la receta y la tabla de categorías, y pasó este registro al final de la página.",
     resultado: "El glosario en orden y esta página como receta.",
   },
+  {
+    id: "fuentes",
+    titulo: "Revisar las definiciones contra sus fuentes",
+    pedimos: [
+      "Listo veo que el glosario esta mucho mejor organizado ahora hay algunos que necesitamos densificar lo primeo es buscar los articulos cientificaos que menciona. para así nutrir los tipos de instrucmenteos, el cambio de objetivo (si tiene fuente o lo inventamos nosotros mencionar) también los modo de cambio necesitan más explicaciones. primero elaborar una propuesta de que vas a nutrir. esto porque estas definiciones son delicadas y necesitamos tener seguridad de que estan bien.",
+      "Dame los articulos para descargar y hagamos la PR para actualizar el glosario.",
+    ],
+    decidimos: [
+      "Cada categoría dice si viene de la literatura, si la adaptamos o si es nuestra.",
+      "Se corrige donde el glosario exageraba lo que dice la teoría, como llamar «tercer orden» a todo cambio de objetivo.",
+    ],
+    hizo: "Buscó los artículos citados y comparó cada definición con resúmenes de esas obras: no pudo abrir los textos originales. Propuso qué agregar y qué corregir; con nuestro visto bueno, escribió las definiciones y una bibliografía con enlaces, que se abre desde el glosario. Falta cotejar las definiciones con los originales.",
+    resultado: "Tipos de instrumento, cambio del objetivo y modos de cambio con su origen, su base teórica y sus límites.",
+  },
 ];
 
 export interface InstruccionDatos {
@@ -375,7 +389,7 @@ export const CAPAS: Capa[] = [
   {
     capa: "Textos del sitio y glosario",
     quien: "Claude, a partir de nuestro encuadre",
-    revision: "Leídos por el equipo, sin revisión completa. Conviene verificar las citas.",
+    revision: "Leídos por el equipo, sin revisión completa. Las definiciones teóricas se contrastaron con resúmenes de la literatura; falta cotejarlas con los textos originales.",
     estado: "parcial",
   },
   { capa: "Ejemplo de bitácora CTeI", quien: "El equipo", revision: "La IA solo le dio formato.", estado: "personas" },
