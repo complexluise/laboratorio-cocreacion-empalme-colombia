@@ -1,7 +1,7 @@
 <script lang="ts">
   import { CAMBIOS_OBJETIVO, MODOS_CAMBIO, TIPOS_NATO } from "@laboratorio/red";
   import { dataset } from "$lib/data";
-  import { idCambioObjetivo, idModo, idNato } from "$lib/glosario.ts";
+  import { GRUPOS, idCambioObjetivo, idModo, idNato, TITULO_GRUPO } from "$lib/glosario.ts";
   import BotonDescarga from "$lib/components/BotonDescarga.svelte";
   import PasosActividad from "$lib/components/PasosActividad.svelte";
   import Practica from "$lib/components/Practica.svelte";
@@ -205,10 +205,14 @@
       <p class="cita">Hogwood &amp; Peters (1983); Pierson (2004)</p>
     </article>
 
-    <p class="salvedad">
-      El proyecto también usa una analogía propia para medir —<a href={g("pid")}>PID+T</a>, de la teoría de la información—.
-      Es <em>cómo medimos</em>; la teoría política de arriba es <em>qué significa</em>.
-    </p>
+    <nav class="glosario-toc" aria-label="Ir al glosario por temas">
+      <p class="titulo">Las palabras resaltadas están en el glosario:</p>
+      <ul>
+        {#each GRUPOS as gr (gr)}
+          <li><a href={g(`grupo-${gr}`)}>{TITULO_GRUPO[gr]}</a></li>
+        {/each}
+      </ul>
+    </nav>
   </section>
 
   <!-- ─────────────── Práctica ─────────────── -->
@@ -410,9 +414,42 @@
     font: 12.5px var(--fuente-dato) !important;
     color: var(--tinta-suave);
   }
-  .salvedad {
+  .glosario-toc {
+    margin-top: 22px;
+    padding: 16px 18px;
+    background: var(--papel);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+  }
+  .glosario-toc .titulo {
+    margin: 0 0 12px !important;
     font-size: 14.5px !important;
     color: var(--tinta-suave);
+  }
+  .glosario-toc ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .glosario-toc a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 14px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--tinta);
+    background: var(--fondo);
+    border: 1px solid var(--borde);
+    border-radius: 999px;
+  }
+  .glosario-toc a:hover {
+    border-color: var(--acento);
+    color: var(--acento);
   }
   .preguntas li {
     margin-bottom: 6px;
