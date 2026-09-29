@@ -33,15 +33,17 @@ de Pages, así que no hay router de historial ni dependencia de router. `App.sve
 | `#/inicio/<seccion>` | `PaginaInicio` | Salta a una sección: `actividad`, `bitacora`, `teoria`, `practica`, `preguntas`. |
 | `#/red` | `PaginaRed` | El explorador de la red (ver §Interacción). |
 | `#/glosario[/<id>]` | `PaginaGlosario` | Glosario filtrable; `<id>` salta a una entrada (p. ej. `#/glosario/modo-conversion`). |
-| `#/metodologia[/<seccion>]` | `PaginaMetodologia` | Cómo lo hicimos: `advertencia`, `como`, `pasos` (cada uno con los prompts literales, anclas `paso-<id>`), `instrucciones`, `revision`, `reportar`. Contenido en `lib/metodologia.ts` (ADR-0006). |
+| `#/metodologia[/<seccion>]` | `PaginaMetodologia` | Cómo lo hicimos: `advertencia`, `categorias`, `receta` (anclas `paso-<id>`; cada paso dice si usa IA y con qué instrucción), `revision`, `registro` (los prompts literales, anclas `registro-<id>`), `reportar`. Contenido en `lib/metodologia.ts` (ADR-0006, ADR-0007). |
 
 Bajo la cabecera de todas las páginas (menos la metodología) va `AvisoIA`: el contenido se hizo con
 IA y aún no se revisó al 100 %. Se pliega; la preferencia queda en `localStorage` (con try/catch).
 
 El **vocabulario controlado** del glosario (modos de cambio, tipos NATO, cambio del objetivo,
 relaciones) se genera de las mismas etiquetas y descripciones de `lib/visual.ts` que usa la red; un
-test (`glosario.test.ts`) falla si algún término del vocabulario queda sin entrada. Teoría,
-bitácora, proceso («Cómo lo hicimos») y siglas son texto curado en `lib/glosario.ts`.
+test (`glosario.test.ts`) falla si algún término del vocabulario queda sin entrada. El resto es texto
+curado en `lib/glosario.ts`. El glosario es un **recorrido** (ADR-0007): `RECORRIDO` fija el orden de
+lectura en seis secciones más las siglas, y cada entrada declara en `usa` los términos anteriores en
+que se apoya. Los tests fallan si una entrada queda fuera del recorrido o se apoya en una posterior.
 
 ## De dónde sale el dato
 
@@ -97,7 +99,7 @@ src/lib/paginas/             # PaginaInicio, PaginaGlosario (lectura, sobre Pagi
                              #   first: lienzo, hoja inferior / paneles laterales en escritorio)
 src/lib/glosario.ts          # entradas del glosario; el vocabulario controlado sale de visual.ts
 src/lib/practica.ts          # práctica «¿Qué le pasó a este instrumento?»: elige ejemplos y evalúa
-src/lib/metodologia.ts       # «Cómo lo hicimos»: PASOS (prompts literales), instrucciones a la IA y CAPAS de revisión
+src/lib/metodologia.ts       # «Cómo lo hicimos»: CATEGORIAS, RECETA, CAPAS de revisión y PASOS (prompts literales)
 src/lib/data/                # dataset JSON commiteado + index.ts (lo tipa como Dataset)
 src/lib/state/red.svelte.ts  # EstadoRed (runes): filtros vs foco, red derivada, miga de pan
 src/lib/graph/               # GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts)

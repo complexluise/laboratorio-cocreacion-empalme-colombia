@@ -31,8 +31,8 @@ sueltas. Las preguntas que guían todo (ver `docs/ontologia.md`):
 |---|---|
 | `#/` | **Landing**: la actividad como recorrido de 4 pasos (elegir → describir → buscar → concluir), la **bitácora** con sus descargas, la teoría en 5 ideas, la práctica «¿Qué le pasó a este instrumento?» y las preguntas que guían el mapa. |
 | `#/red` | La **red bipartita** política↔instrumento. Cada política es un **área** con el objetivo que declara cada gobierno (el anillo del hub muestra cómo cambió); los instrumentos van coloreados por **modo de cambio** y con forma por **tipo NATO**. Filtros, buscador que navega y foco por política o instrumento. |
-| `#/glosario[/<id>]` | Glosario de la ontología, la teoría, la bitácora, el proceso y las siglas. |
-| `#/metodologia[/<seccion>]` | **Cómo lo hicimos**: la advertencia, cómo trabajamos con la IA, el paso a paso con los prompts que enviamos y lo que decidimos, las instrucciones que procesaron los informes y qué está revisado. |
+| `#/glosario[/<id>]` | Glosario que se lee en orden: cada término se apoya en los anteriores. Al final, las siglas. |
+| `#/metodologia[/<seccion>]` | **Cómo lo hicimos**: la advertencia, las categorías con que se lee un informe, la receta replicable (cada paso dice si usa IA y con qué instrucción), qué está revisado y el registro de lo que le pedimos a la IA. |
 
 En todas las páginas (menos «Cómo lo hicimos», que la desarrolla), una franja bajo la cabecera advierte que el contenido se hizo con IA y aún no
 se revisó al 100 % (se puede plegar).
@@ -49,7 +49,7 @@ páginas, interacción y componentes: [`web/README.md`](web/README.md).
 | `docs/ontologia.md` | El modelo: política (área con objetivo por gobierno) ↔ **instrumento de política pública**, diacronía. |
 | `docs/teoria-politica.md` | Fundamentación (Hood; Lascoumes & Le Galès; Mahoney & Thelen; Pierson; Hall; Howlett & Cashore). |
 | `docs/pipeline-extraccion.md` | **El pipeline de extracción** visto como sistema: de los informes al grafo, con la generación Gemini (legado) y el workflow de Claude (vigente). |
-| `docs/metodologia.md` | **Metodología y declaración de uso de IA**: el paso a paso con los prompts, qué hizo la IA y qué las personas, qué está revisado. |
+| `docs/metodologia.md` | **Metodología y declaración de uso de IA**: las categorías, la receta con los pasos donde entra la IA, qué está revisado y el registro de prompts. |
 | `docs/encuadre-actividad-trama.md` | La **actividad del seminario TRAMA**: cómo los grupos describen y comparan políticas, y la bitácora. |
 | `docs/taxonomia.md` | *(deprecado)* la clasificación facetada de "ideas", como historia. |
 | `docs/decisiones/` | **ADRs**: los porqués que condicionan el código. |

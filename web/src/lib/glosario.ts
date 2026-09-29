@@ -19,29 +19,33 @@ import {
 } from "$lib/visual.ts";
 
 /**
- * Glosario del laboratorio. El vocabulario CONTROLADO (modos de cambio, tipos NATO, cambio del
- * objetivo, relaciones) se genera de las mismas etiquetas y descripciones que usa la red, para que
- * glosario y mapa no se desincronicen. El resto (teoría, siglas, términos de la bitácora) es texto
- * curado.
+ * Glosario del laboratorio, como RECORRIDO: se lee en orden y cada término se define solo con los
+ * anteriores (el campo `usa`). Van primero los conceptos que más permiten describir lo que sigue.
+ * El vocabulario CONTROLADO (modos de cambio, tipos NATO, cambio del objetivo, relaciones) se genera
+ * de las mismas etiquetas y descripciones que usa la red, para que glosario y mapa no se
+ * desincronicen. El resto es texto curado. Las siglas son de consulta y van al final.
  */
-export const GRUPOS = ["ontologia", "teoria", "bitacora", "proceso", "siglas"] as const;
+export const GRUPOS = ["base", "instrumento", "cambio", "red", "bitacora", "proceso", "siglas"] as const;
 export type Grupo = (typeof GRUPOS)[number];
 
 export const TITULO_GRUPO: Record<Grupo, string> = {
-  ontologia: "La ontología del mapa",
-  teoria: "Teoría política",
-  bitacora: "Términos de la bitácora",
-  proceso: "Cómo lo hicimos",
+  base: "1 · Qué se compara",
+  instrumento: "2 · Cómo se describe un instrumento",
+  cambio: "3 · Cómo se lee el cambio",
+  red: "4 · Cómo se arma la red",
+  bitacora: "5 · Para llenar la bitácora",
+  proceso: "6 · Cómo se hizo el mapa",
   siglas: "Siglas e instituciones",
 };
 
 export const INTRO_GRUPO: Record<Grupo, string> = {
-  ontologia:
-    "Qué representa cada cosa en la red: los tipos de nodo, sus atributos y el vocabulario controlado con que se clasifican.",
-  teoria: "Los conceptos de la teoría política con que se lee el cambio entre dos gobiernos.",
-  bitacora: "Las palabras que aparecen al describir una política en la bitácora del grupo.",
-  proceso: "Las palabras para entender cómo se construyó el laboratorio con la IA.",
-  siglas: "Siglas, entidades e instrumentos que aparecen en los informes de empalme y en la red.",
+  base: "Empiecen aquí: estas palabras sirven para explicar las demás.",
+  instrumento: "Con qué recurso actúa el Estado, cómo aparece cada instrumento en los informes y qué tan segura es cada lectura.",
+  cambio: "Qué le pasa a una política y a sus instrumentos cuando cambia el gobierno.",
+  red: "Cómo se unen políticas e instrumentos, y qué se ve solo al mirar el conjunto.",
+  bitacora: "Las palabras que aparecen al describir una política entre los dos gobiernos.",
+  proceso: "Las palabras para entender dónde entró la inteligencia artificial.",
+  siglas: "Para consultar: siglas, entidades e instrumentos que aparecen en los informes y en la red.",
 };
 
 export interface Entrada {
@@ -54,9 +58,14 @@ export interface Entrada {
   definicion: string;
   /** Autor u obra de referencia. */
   fuente?: string;
-  /** Ids de entradas relacionadas. */
+  /** Términos ANTERIORES en el recorrido que hacen falta para entender este. */
+  usa?: string[];
+  /** Otras entradas relacionadas (pueden venir después). */
   ver?: string[];
 }
+
+/** Una entrada antes de ubicarla en el recorrido. */
+type Definicion = Omit<Entrada, "grupo">;
 
 export const idModo = (m: ModoCambio) => `modo-${m}`;
 export const idNato = (t: TipoNato) => `nato-${t}`;
@@ -88,62 +97,57 @@ const DESCRIPCION_RELACION: Record<TipoRelacion, string> = {
   encadena: "Dos instrumentos se encadenan o se potencian (sinergia): uno origina o alimenta al otro.",
 };
 
-const VOCABULARIO: Entrada[] = [
+const VOCABULARIO: Definicion[] = [
   ...MODOS_CAMBIO.map(
-    (m): Entrada => ({
+    (m): Definicion => ({
       id: idModo(m),
-      grupo: "ontologia",
       termino: `Modo de cambio: ${ETIQUETA_MODO[m]}`,
       ...(TERMINO_EN_INGLES[m] ? { expansion: TERMINO_EN_INGLES[m] } : {}),
       definicion: DESCRIPCION_MODO[m],
       fuente: FUENTE_MODO[m],
-      ver: ["modo-de-cambio"],
+      usa: ["modo-de-cambio"],
     }),
   ),
   ...TIPOS_NATO.map(
-    (t): Entrada => ({
+    (t): Definicion => ({
       id: idNato(t),
-      grupo: "ontologia",
       termino: `Tipo NATO: ${ETIQUETA_NATO[t]}`,
       definicion: DESCRIPCION_NATO[t],
       fuente: "Hood (1983)",
-      ver: ["nato"],
+      usa: ["nato"],
     }),
   ),
   ...CAMBIOS_OBJETIVO.map(
-    (c): Entrada => ({
+    (c): Definicion => ({
       id: idCambioObjetivo(c),
-      grupo: "ontologia",
       termino: `Cambio del objetivo: ${ETIQUETA_CAMBIO_OBJETIVO[c]}`,
       definicion: DESCRIPCION_CAMBIO_OBJETIVO[c],
-      ver: ["cambio-del-objetivo"],
+      usa: ["cambio-del-objetivo"],
     }),
   ),
   ...TIPOS_RELACION.map(
-    (r): Entrada => ({
+    (r): Definicion => ({
       id: idRelacion(r),
-      grupo: "ontologia",
       termino: `Relación: ${ETIQUETA_RELACION[r]}`,
       definicion: DESCRIPCION_RELACION[r],
-      ver: ["relacion-entre-instrumentos"],
+      usa: ["relacion-entre-instrumentos"],
     }),
   ),
 ];
 
 
-const ONTOLOGIA: Entrada[] = [
+const MAPA: Definicion[] = [
   {
     id: "politica-publica",
-    grupo: "ontologia",
     termino: "Política pública",
     definicion:
-      "Un área o problema público que atraviesa gobiernos (p. ej. bioeconomía, talento humano). Combina fines —el objetivo que declara cada gobierno— y medios —los instrumentos con que lo persigue. En la red es el nodo grande (hub) y es lo que cada grupo elige para trabajar.",
+      "Un área o problema público que atraviesa gobiernos (p. ej. bioeconomía, talento humano). Combina fines —el objetivo que declara cada gobierno— y medios —los instrumentos con que lo persigue. En la red es el nodo grande, al que se conectan sus instrumentos, y es lo que cada grupo elige para trabajar.",
     fuente: "Howlett & Cashore (2009); ADR-0004 del proyecto",
     ver: ["objetivo-de-politica", "instrumento", "fines-y-medios"],
   },
   {
     id: "objetivo-de-politica",
-    grupo: "ontologia",
+    usa: ["politica-publica", "vigencia"],
     termino: "Objetivo de política",
     definicion:
       "Lo que un gobierno declara que busca en un área: su prioridad u orientación. La misma política puede tener un objetivo distinto en cada gobierno; por eso se registra por vigencia, con los nombres con que cada informe la declara.",
@@ -151,16 +155,16 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "cambio-del-objetivo",
-    grupo: "ontologia",
+    usa: ["objetivo-de-politica", "ordenes-del-cambio"],
     termino: "Cambio del objetivo",
     definicion:
-      "Cómo cambia el objetivo de una política entre los dos gobiernos: se mantiene, se reformula, no declarado o nuevo. En la red se lee en el anillo del hub. Es el cambio de «tercer orden» de Hall: el más profundo, porque cambia el fin y no solo los medios.",
+      "Cómo cambia el objetivo de una política entre los dos gobiernos: se mantiene, se reformula, no declarado o nuevo. En la red se lee en el anillo del nodo de la política. Es el cambio de «tercer orden» de Hall: el más profundo, porque cambia el fin y no solo los medios.",
     fuente: "Hall (1993)",
     ver: ["ordenes-del-cambio", "no-declarado-no-es-abandono"],
   },
   {
     id: "no-declarado-no-es-abandono",
-    grupo: "ontologia",
+    usa: ["informe-de-empalme", "cambio-del-objetivo"],
     termino: "No declarado (y no «abandonado»)",
     definicion:
       "Cada informe de empalme lo escribe un gobierno sobre sí mismo: que no mencione un objetivo no prueba que lo haya abandonado. Por eso el mapa dice «no declarado». Si el área conserva instrumentos activos, se muestra como área huérfana.",
@@ -168,7 +172,7 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "area-huerfana",
-    grupo: "ontologia",
+    usa: ["no-declarado-no-es-abandono", "dependencia-de-la-trayectoria"],
     termino: "Área huérfana",
     definicion:
       "Una política que en un gobierno no tiene objetivo declarado, pero cuyos instrumentos siguen activos. Hace visible la dependencia de la trayectoria: los medios persisten aunque el fin ya no se nombre.",
@@ -176,7 +180,7 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "instrumento",
-    grupo: "ontologia",
+    usa: ["politica-publica"],
     termino: "Instrumento de política pública",
     expansion: "policy instrument",
     definicion:
@@ -186,7 +190,7 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "nato",
-    grupo: "ontologia",
+    usa: ["instrumento"],
     termino: "NATO (tipos de instrumento)",
     expansion: "Nodalidad, Autoridad, Tesoro, Organización",
     definicion:
@@ -196,7 +200,7 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "modo-de-cambio",
-    grupo: "ontologia",
+    usa: ["instrumento", "cambio-institucional-gradual"],
     termino: "Modo de cambio",
     definicion:
       "Qué le pasó a un instrumento entre un gobierno y otro: continuidad, conversión, estratificación, terminación, reversión o deriva. En la red es el color del nodo.",
@@ -205,15 +209,15 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "vigencia",
-    grupo: "ontologia",
+    usa: ["empalme"],
     termino: "Vigencia",
     definicion:
-      "El periodo de un gobierno: 2018–2022 (gobierno Duque) y 2022–2026 (gobierno Petro). Cada instrumento registra en qué vigencias aparece y en qué modo (propuesto, logrado, pendiente).",
+      "En este mapa, el periodo de un gobierno: 2018–2022 (gobierno Duque) y 2022–2026 (gobierno Petro). El mapa pone lado a lado lo que reporta el informe de cada vigencia.",
     ver: ["presencia"],
   },
   {
     id: "presencia",
-    grupo: "ontologia",
+    usa: ["instrumento", "vigencia", "informe-de-empalme"],
     termino: "Presencia (propuesto · logrado · pendiente)",
     definicion:
       "Cómo aparece un instrumento en el informe de una vigencia: propuesto (anunciado, sin ejecución reportada), logrado (ejecutado, con resultado reportado) o pendiente (inconcluso, en riesgo o recomendado al gobierno siguiente).",
@@ -221,7 +225,7 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "confianza",
-    grupo: "ontologia",
+    usa: ["informe-de-empalme"],
     termino: "Confianza (alta · media · baja)",
     definicion:
       "Qué tan sólida es la evidencia de una clasificación: alta (clara y suficiente), media (parcial o interpretación razonable) o baja (indicio débil: verificar contra el documento).",
@@ -229,7 +233,7 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "relacion-entre-instrumentos",
-    grupo: "ontologia",
+    usa: ["instrumento", "red-bipartita"],
     termino: "Relación entre instrumentos",
     definicion:
       "Arista entre dos instrumentos distintos: uno habilita, financia, depende de o se encadena con otro. En la red son las líneas que no pasan por una política.",
@@ -237,7 +241,7 @@ const ONTOLOGIA: Entrada[] = [
   },
   {
     id: "red-bipartita",
-    grupo: "ontologia",
+    usa: ["politica-publica", "instrumento"],
     termino: "Red bipartita",
     definicion:
       "Una red con dos clases de nodo —políticas e instrumentos— donde las líneas unen un instrumento con las políticas a las que sirve. Un instrumento compartido por varias políticas es un puente: ahí se ve lo que ningún grupo ve solo.",
@@ -245,19 +249,19 @@ const ONTOLOGIA: Entrada[] = [
   },
 ];
 
-const TEORIA: Entrada[] = [
+const TEORIA: Definicion[] = [
   {
     id: "fines-y-medios",
-    grupo: "teoria",
+    usa: ["objetivo-de-politica", "instrumento"],
     termino: "Fines y medios",
     definicion:
-      "Una política pública combina fines (objetivos) y medios (instrumentos), en distintos niveles de abstracción. Separarlos permite ver cuándo cambia el fin sin cambiar los medios, y al revés.",
+      "Separar fines (objetivos) y medios (instrumentos) permite ver cuándo cambia el fin sin cambiar los medios, y al revés.",
     fuente: "Howlett & Cashore (2009)",
     ver: ["politica-publica", "ordenes-del-cambio"],
   },
   {
     id: "ordenes-del-cambio",
-    grupo: "teoria",
+    usa: ["fines-y-medios"],
     termino: "Órdenes del cambio de política",
     definicion:
       "Primer orden: se ajusta cómo se usa un instrumento. Segundo orden: se cambian los instrumentos. Tercer orden: se cambian los objetivos, el paradigma. En el mapa, el tercer orden es el cambio del objetivo.",
@@ -266,7 +270,6 @@ const TEORIA: Entrada[] = [
   },
   {
     id: "institucionalismo-historico",
-    grupo: "teoria",
     termino: "Institucionalismo histórico",
     definicion:
       "Corriente que estudia cómo las instituciones se forman y cambian en el tiempo, y cómo decisiones pasadas condicionan las presentes. Es el marco con que se lee el empalme.",
@@ -275,7 +278,7 @@ const TEORIA: Entrada[] = [
   },
   {
     id: "cambio-institucional-gradual",
-    grupo: "teoria",
+    usa: ["institucionalismo-historico"],
     termino: "Cambio institucional gradual",
     definicion:
       "Las instituciones rara vez cambian de golpe: cambian sumando capas, redirigiendo lo que existe, dejando de mantenerlo o reemplazándolo. De ahí salen los modos de cambio del mapa.",
@@ -284,7 +287,7 @@ const TEORIA: Entrada[] = [
   },
   {
     id: "dependencia-de-la-trayectoria",
-    grupo: "teoria",
+    usa: ["institucionalismo-historico"],
     termino: "Dependencia de la trayectoria",
     expansion: "path dependence",
     definicion:
@@ -294,7 +297,7 @@ const TEORIA: Entrada[] = [
   },
   {
     id: "sucesion-de-politicas",
-    grupo: "teoria",
+    usa: ["empalme"],
     termino: "Sucesión de políticas",
     expansion: "policy succession",
     definicion:
@@ -304,7 +307,7 @@ const TEORIA: Entrada[] = [
   },
   {
     id: "terminacion-de-politicas",
-    grupo: "teoria",
+    usa: ["politica-publica", "instrumento"],
     termino: "Terminación de políticas",
     definicion: "Por qué y cómo se termina una política o un instrumento; la contracara de la persistencia.",
     fuente: "deLeon (1978)",
@@ -312,7 +315,7 @@ const TEORIA: Entrada[] = [
   },
   {
     id: "pid",
-    grupo: "teoria",
+    usa: ["vigencia", "emergencia"],
     termino: "PID+T",
     expansion: "Descomposición Parcial de Información + Tensión",
     definicion:
@@ -322,7 +325,7 @@ const TEORIA: Entrada[] = [
   },
   {
     id: "emergencia",
-    grupo: "teoria",
+    usa: ["red-bipartita"],
     termino: "Emergencia",
     definicion:
       "Patrones que solo aparecen al integrar las partes: instrumentos que comparten varias políticas, regularidades del cambio entre sectores, coherencia de un gobierno. Es lo que busca la sesión de integración.",
@@ -330,7 +333,6 @@ const TEORIA: Entrada[] = [
   },
   {
     id: "cocreacion",
-    grupo: "teoria",
     termino: "Laboratorio de cocreación",
     definicion:
       "Espacio donde las personas participantes no solo consultan el mapa: lo corrigen y lo amplían con su lectura y con información complementaria. El mapa con los aportes del seminario es el producto.",
@@ -338,10 +340,10 @@ const TEORIA: Entrada[] = [
   },
 ];
 
-const BITACORA: Entrada[] = [
+const BITACORA: Definicion[] = [
   {
     id: "bitacora",
-    grupo: "bitacora",
+    usa: ["cocreacion", "politica-publica"],
     termino: "Bitácora",
     definicion:
       "El registro que llena cada grupo sobre su política: ubicación y avance, instrumentos, siete subcategorías comparadas entre gobiernos (objetivo, instituciones, población, normativa, recursos, metas, impacto) y los hallazgos para el plenario.",
@@ -349,7 +351,6 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "empalme",
-    grupo: "bitacora",
     termino: "Empalme",
     definicion:
       "Transición entre el gobierno saliente y el entrante: el primero entrega el estado de lo que deja y el segundo lo recibe.",
@@ -357,7 +358,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "informe-de-empalme",
-    grupo: "bitacora",
+    usa: ["empalme"],
     termino: "Informe de empalme",
     definicion:
       "Documento con que un gobierno reporta su gestión al siguiente. Es la fuente primaria del mapa. Lo escribe cada gobierno sobre sí mismo: informa, pero no es una evaluación independiente.",
@@ -365,7 +366,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "tabla-puente",
-    grupo: "bitacora",
+    usa: ["informe-de-empalme"],
     termino: "Tabla puente",
     definicion:
       "Correspondencia entre cómo organiza cada gobierno su informe (pactos, transformaciones, secciones) para saber qué parte de uno se compara con qué parte del otro. Sin ella, se comparan números que no miden lo mismo.",
@@ -373,7 +374,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "pacto-transversal",
-    grupo: "bitacora",
+    usa: ["tabla-puente"],
     termino: "Pacto (PND 2018–2022)",
     definicion:
       "Unidad de organización del Plan Nacional de Desarrollo «Pacto por Colombia, pacto por la equidad». La CTeI fue el Pacto Transversal IX, con su propio porcentaje de cumplimiento.",
@@ -381,7 +382,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "transformacion",
-    grupo: "bitacora",
+    usa: ["tabla-puente"],
     termino: "Transformación (PND 2022–2026)",
     definicion:
       "Unidad de organización del Plan Nacional de Desarrollo «Colombia, potencia mundial de la vida». La CTeI quedó repartida en secciones de dos transformaciones distintas, sin un indicador único.",
@@ -389,7 +390,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "avance-reportado",
-    grupo: "bitacora",
+    usa: ["informe-de-empalme"],
     termino: "Avance reportado",
     definicion:
       "El porcentaje de cumplimiento que declara un informe. Solo es comparable si ambos gobiernos miden contra metas equivalentes; si uno reporta porcentaje y el otro solo narra logros, se anota la asimetría.",
@@ -397,7 +398,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "meta-cuatrienio",
-    grupo: "bitacora",
+    usa: ["avance-reportado"],
     termino: "Meta del cuatrienio",
     definicion:
       "Valor que el Plan Nacional de Desarrollo se propone alcanzar en los cuatro años de gobierno. Una cifra de ejecución sin su meta no dice si se cumplió: comparar 5.706 contra 3.126 sin metas es comparar manzanas con peras.",
@@ -405,7 +406,6 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "gestion-vs-impacto",
-    grupo: "bitacora",
     termino: "Métrica de gestión, producto e impacto",
     definicion:
       "La gestión mide lo que hizo la entidad (convocatorias abiertas); el producto, lo que entregó (becas otorgadas, artículos publicados); el impacto, lo que cambió en la población gracias a eso, y requiere una evaluación. Los informes de empalme casi siempre reportan gestión y producto.",
@@ -413,7 +413,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "evaluacion-de-impacto",
-    grupo: "bitacora",
+    usa: ["gestion-vs-impacto"],
     termino: "Evaluación de impacto",
     definicion:
       "Estudio que estima el efecto causal de una política comparándolo con lo que habría pasado sin ella. Si no la hay, la fila «impacto» de la bitácora queda vacía, y ese vacío es un hallazgo.",
@@ -421,7 +421,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "hueco-de-informacion",
-    grupo: "bitacora",
+    usa: ["informe-de-empalme"],
     termino: "Hueco de información (asimetría documental)",
     definicion:
       "Dato que un informe no trae (la norma, los recursos, la población). Se anota como hueco, se busca en información complementaria y nunca se rellena con supuestos.",
@@ -429,7 +429,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "informacion-complementaria",
-    grupo: "bitacora",
+    usa: ["hueco-de-informacion"],
     termino: "Información complementaria",
     definicion:
       "Fuentes más allá del informe de empalme para llenar los huecos: Sinergia, el PND y sus bases, el capítulo de inversión pública, normas y documentos CONPES, informes de la entidad.",
@@ -437,7 +437,6 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "enfoque-diferencial",
-    grupo: "bitacora",
     termino: "Enfoque diferencial",
     definicion:
       "Atención explícita a grupos con necesidades o derechos particulares (mujeres, jóvenes, pueblos indígenas, comunidades NARP, personas con discapacidad) al definir la población de una política.",
@@ -445,7 +444,6 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "enfoque-territorial",
-    grupo: "bitacora",
     termino: "Enfoque territorial y cierre de brechas",
     definicion:
       "Orientar la política según las diferencias entre regiones y priorizar los territorios rezagados (p. ej. Pacífico, Amazonía, Catatumbo, municipios PDET y ZOMAC).",
@@ -453,7 +451,6 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "hipotesis",
-    grupo: "bitacora",
     termino: "Hipótesis del grupo",
     definicion:
       "Al cerrar la primera sesión, cada grupo escribe qué patrón cree que comparten las demás políticas. En la integración se contrasta con el mapa completo.",
@@ -461,7 +458,7 @@ const BITACORA: Entrada[] = [
   },
   {
     id: "plenario",
-    grupo: "bitacora",
+    usa: ["hipotesis", "emergencia"],
     termino: "Plenario",
     definicion:
       "Sesión conjunta donde se integran los aportes de todos los grupos y se discuten los patrones que emergen: instrumentos compartidos, regularidades del cambio, coherencia de gobierno y lo que le falta al mapa.",
@@ -517,10 +514,9 @@ const SIGLAS: Sigla[] = [
   ["pib", "PIB", "Producto Interno Bruto", "La inversión en I+D suele expresarse como porcentaje del PIB."],
 ];
 
-const PROCESO: Entrada[] = [
+const PROCESO: Definicion[] = [
   {
     id: "prompt",
-    grupo: "proceso",
     termino: "Prompt",
     definicion:
       "El mensaje o la instrucción que se le escribe a una IA. En «Cómo lo hicimos» están los que enviamos, tal cual los escribimos.",
@@ -528,7 +524,7 @@ const PROCESO: Entrada[] = [
   },
   {
     id: "modelo-de-lenguaje",
-    grupo: "proceso",
+    usa: ["prompt"],
     termino: "Modelo de lenguaje",
     expansion: "LLM, large language model",
     definicion:
@@ -537,15 +533,24 @@ const PROCESO: Entrada[] = [
   },
   {
     id: "agente-de-ia",
-    grupo: "proceso",
+    usa: ["modelo-de-lenguaje", "prompt"],
     termino: "Agente de IA",
     definicion:
       "Un modelo de lenguaje que, además de conversar, ejecuta tareas: lee archivos, escribe código y lo prueba. Aquí trabajaron varios, cada uno con un rol: uno planifica y documenta, otro programa, otro revisa. El equipo aprobó los cambios del sitio; la red la armaron agentes, sin revisión humana completa.",
     ver: ["modelo-de-lenguaje", "revision-adversarial", "prompt"],
   },
   {
+    id: "api",
+    usa: ["modelo-de-lenguaje"],
+    termino: "API",
+    expansion: "Interfaz de programación de aplicaciones",
+    definicion:
+      "La vía por la que un programa, y no una persona en un chat, le envía textos a un modelo de IA. Todos van con la misma instrucción y las respuestas vuelven con el mismo formato. Cada consulta se paga.",
+    ver: ["ocr"],
+  },
+  {
     id: "ocr",
-    grupo: "proceso",
+    usa: ["modelo-de-lenguaje"],
     termino: "OCR",
     expansion: "Reconocimiento óptico de caracteres",
     definicion:
@@ -553,7 +558,7 @@ const PROCESO: Entrada[] = [
   },
   {
     id: "revision-adversarial",
-    grupo: "proceso",
+    usa: ["agente-de-ia"],
     termino: "Revisión adversarial",
     definicion:
       "Revisar un trabajo con el encargo explícito de encontrarle errores, no de aprobarlo. Aquí la hizo un agente revisor antes de publicar los cambios del sitio. Reduce errores, pero no reemplaza la revisión humana.",
@@ -570,7 +575,69 @@ const SIGLAS_ENTRADAS: Entrada[] = SIGLAS.map(([id, termino, expansion, definici
   ...(ver ? { ver } : {}),
 }));
 
-export const GLOSARIO: readonly Entrada[] = [...ONTOLOGIA, ...VOCABULARIO, ...TEORIA, ...BITACORA, ...PROCESO, ...SIGLAS_ENTRADAS];
+const DEFINICIONES = new Map([...MAPA, ...VOCABULARIO, ...TEORIA, ...BITACORA, ...PROCESO].map((d) => [d.id, d]));
+
+/**
+ * El orden de lectura. Cada término se apoya solo en los anteriores (`usa`): primero lo que más
+ * permite describir lo que sigue. Los valores del vocabulario controlado van tras su término.
+ */
+const RECORRIDO: Record<Exclude<Grupo, "siglas">, readonly string[]> = {
+  base: ["empalme", "informe-de-empalme", "vigencia", "politica-publica", "objetivo-de-politica", "instrumento", "fines-y-medios"],
+  instrumento: ["nato", ...TIPOS_NATO.map(idNato), "presencia", "confianza"],
+  cambio: [
+    "ordenes-del-cambio",
+    "cambio-del-objetivo",
+    ...CAMBIOS_OBJETIVO.map(idCambioObjetivo),
+    "no-declarado-no-es-abandono",
+    "institucionalismo-historico",
+    "cambio-institucional-gradual",
+    "modo-de-cambio",
+    ...MODOS_CAMBIO.map(idModo),
+    "sucesion-de-politicas",
+    "dependencia-de-la-trayectoria",
+    "terminacion-de-politicas",
+    "area-huerfana",
+  ],
+  red: ["red-bipartita", "relacion-entre-instrumentos", ...TIPOS_RELACION.map(idRelacion), "emergencia", "pid"],
+  bitacora: [
+    "cocreacion",
+    "bitacora",
+    "tabla-puente",
+    "pacto-transversal",
+    "transformacion",
+    "avance-reportado",
+    "meta-cuatrienio",
+    "gestion-vs-impacto",
+    "evaluacion-de-impacto",
+    "hueco-de-informacion",
+    "informacion-complementaria",
+    "enfoque-diferencial",
+    "enfoque-territorial",
+    "hipotesis",
+    "plenario",
+  ],
+  proceso: ["prompt", "modelo-de-lenguaje", "api", "ocr", "agente-de-ia", "revision-adversarial"],
+};
+
+const EN_RECORRIDO = new Set(Object.values(RECORRIDO).flat());
+
+/** Definiciones sin lugar en el recorrido, o ids del recorrido sin definición. Debe quedar vacío. */
+export const FUERA_DEL_RECORRIDO: readonly string[] = [
+  ...[...DEFINICIONES.keys()].filter((id) => !EN_RECORRIDO.has(id)),
+  ...[...EN_RECORRIDO].filter((id) => !DEFINICIONES.has(id)),
+];
+
+export const GLOSARIO: readonly Entrada[] = [
+  ...GRUPOS.flatMap((grupo) =>
+    grupo === "siglas"
+      ? []
+      : RECORRIDO[grupo].flatMap((id) => {
+          const d = DEFINICIONES.get(id);
+          return d ? [{ ...d, grupo }] : [];
+        }),
+  ),
+  ...SIGLAS_ENTRADAS,
+];
 
 const POR_ID = new Map(GLOSARIO.map((e) => [e.id, e]));
 export const entradaPorId = (id: string): Entrada | undefined => POR_ID.get(id);

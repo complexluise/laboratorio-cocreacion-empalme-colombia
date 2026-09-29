@@ -31,8 +31,9 @@
   **política pública** = **área persistente** con el objetivo que declara cada gobierno y su
   `cambio_objetivo` (ADR-0004).
 - **El sitio:** landing con la actividad (`#/`), la red (`#/red`), el glosario (`#/glosario`) y
-  «Cómo lo hicimos» (`#/metodologia`: el paso a paso con los prompts y la declaración de uso de IA).
-- **Uso de IA (ADR-0006):** el contenido se declara hecho con IA y revisado solo en parte. Cada ciclo
+  «Cómo lo hicimos» (`#/metodologia`: las categorías, la receta que dice dónde entra la IA y el registro
+  de prompts).
+- **Uso de IA (ADR-0006, ADR-0007):** el contenido se declara hecho con IA y revisado solo en parte. Cada ciclo
   agrega su paso, con los prompts literales, a `PASOS` (`web/src/lib/metodologia.ts`); no declares una
   parte «revisada» en `CAPAS` si no lo está. Todo texto público pasa al final por el agente `editor`
   (quisquilloso: redundancia, jerga, ideas borrosas). Ver [`docs/metodologia.md`](docs/metodologia.md).
