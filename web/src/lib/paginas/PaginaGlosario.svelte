@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ETIQUETA_ORIGEN } from "$lib/fundamentos.ts";
   import { entradaPorId, filtrarGlosario, GRUPOS, INTRO_GRUPO, TITULO_GRUPO } from "$lib/glosario.ts";
   import PaginaTexto from "$lib/paginas/PaginaTexto.svelte";
   import { hrefDe } from "$lib/rutas.ts";
@@ -32,7 +33,8 @@
   <h1>Las palabras del laboratorio</h1>
   <p class="bajada">
     Se lee en orden: primero las palabras que permiten explicar las siguientes. Si un término depende de otros, lo dice
-    en «Se apoya en». Las siglas, al final, son para consultar.
+    en «Se apoya en». Las categorías del mapa dicen de dónde salen: de la literatura, adaptadas por nosotros o propias
+    del proyecto. Las siglas, al final, son para consultar.
   </p>
 
   <div class="herramientas">
@@ -64,9 +66,13 @@
             <dt>
               <a class="termino" href={hrefDe("glosario", e.id)}>{e.termino}</a>
               {#if e.expansion}<span class="expansion">{e.expansion}</span>{/if}
+              {#if e.fundamento}<span class="origen {e.fundamento.origen}">{ETIQUETA_ORIGEN[e.fundamento.origen]}</span>{/if}
             </dt>
             <dd>
               <p>{e.definicion}</p>
+              {#if e.fundamento?.teoria}<p class="bloque"><strong>Qué dice la teoría.</strong> {e.fundamento.teoria}</p>{/if}
+              {#if e.fundamento?.enElMapa}<p class="bloque"><strong>En el mapa.</strong> {e.fundamento.enElMapa}</p>{/if}
+              {#if e.fundamento?.ojo}<p class="bloque ojo"><strong>Ojo.</strong> {e.fundamento.ojo}</p>{/if}
               {#if e.fuente}<p class="fuente">Fuente: {e.fuente}</p>{/if}
               {#if e.usa && e.usa.length > 0}
                 <p class="ver">
@@ -197,6 +203,40 @@
   }
   dd {
     margin: 4px 0 0;
+  }
+  .origen {
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 650;
+    white-space: nowrap;
+    background: var(--fondo);
+    color: var(--tinta-suave);
+    border: 1px solid var(--borde);
+  }
+  .origen.literatura {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-color: transparent;
+  }
+  .origen.adaptacion {
+    background: #fff4e5;
+    color: #8a4b00;
+    border-color: transparent;
+  }
+  .origen.propio {
+    background: var(--acento-suave);
+    color: var(--acento);
+    border-color: transparent;
+  }
+  .bloque {
+    font-size: 15px;
+  }
+  .ojo {
+    padding: 6px 10px;
+    background: #fff8e6;
+    border-left: 3px solid #7a5d10;
+    border-radius: 4px 8px 8px 4px;
   }
   dd p {
     margin: 4px 0 0;

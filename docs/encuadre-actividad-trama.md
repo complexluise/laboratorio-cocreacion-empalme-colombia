@@ -24,22 +24,24 @@ En dos sesiones, el seminario TRAMA toma por grupos varias **políticas pública
 
 | Tipo | Recurso | Ejemplo |
 |---|---|---|
-| **Nodalidad** (información) | Datos, comunicación, orientación | Un sistema de información |
+| **Nodalidad** (información) | Información que el Estado recoge y difunde | Un sistema de información |
 | **Autoridad** | Normas y obligaciones | Una ley o un decreto |
 | **Tesoro** | Dinero | Un fondo o una convocatoria |
-| **Organización** | Capacidad directa del Estado | Un programa ejecutado por una entidad |
+| **Organización** | Personal y medios propios: acción directa | Una entidad que presta el servicio |
 
 
-### Cómo cambia un instrumento entre gobiernos (Mahoney-Thelen)
+### Cómo cambia un instrumento entre gobiernos (adaptación de Mahoney-Thelen)
 
 | Modo de cambio | Qué pasa con el instrumento |
 |---|---|
-| **Continuidad estable** | Mismo instrumento, mismo modo: persiste. Se explica por dependencia de la trayectoria (Pierson). |
+| **Continuidad estable** | Mismo instrumento, mismo uso: persiste. Se explica por dependencia de la trayectoria (Pierson). |
 | **Conversión** | Mismo instrumento, redesplegado hacia otro uso. |
-| **Estratificación** (*layering*) | Solo en el gobierno posterior: se suma a lo que existía. |
-| **Terminación** | Solo en el gobierno anterior: se deja o se reemplaza. |
-| **Reversión** | Persiste, pero invierte su rumbo. |
-| **Deriva** (*drift*) | Persiste formalmente; su efecto cambia con el entorno. Se deja como pregunta para el plenario. |
+| **Estratificación** (*layering*) | Solo en el informe posterior: se suma a lo que existía. Si reemplaza a otro, en la teoría es desplazamiento. |
+| **Terminación** | Solo en el informe anterior. El silencio del informe posterior no prueba que terminó. |
+| **Reversión** | Persiste, pero invierte su rumbo. Categoría propia del proyecto. |
+| **Deriva** (*drift*) | Sigue igual, pero el entorno cambia y nadie la ajusta: su efecto cambia. Se deja como pregunta para el plenario. |
+
+El origen de cada categoría (literatura, adaptación o propia) y en qué se aparta de su fuente está en `docs/teoria-politica.md` §2–3 y en el glosario del sitio (ADR-0008).
 
 El modo de cambio del **instrumento** complementa al `cambio_objetivo` de la **política** (§2, arriba): un instrumento que continúa bajo un objetivo que se reformula es la pista para buscar conversión. Aparte de los modos, las **sinergias** (encadenamientos entre instrumentos que se habilitan o potencian) se registran como relaciones.
 

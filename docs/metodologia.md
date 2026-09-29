@@ -61,7 +61,7 @@ En la página, los pasos con IA muestran la instrucción que usamos cuando la gu
 | Texto de los escaneados | Gemini | Sin revisión humana |
 | La red | Agentes de Claude | Sin revisión humana. Casi todos los instrumentos citan su página; hay descripciones que contradicen su modo de cambio |
 | Áreas de política | Propuestas por la IA | Parcial: el equipo aprobó cómo se dividieron, no el contenido |
-| Textos del sitio y glosario | Claude, a partir de nuestro encuadre | Revisión parcial; conviene verificar las citas |
+| Textos del sitio y glosario | Claude, a partir de nuestro encuadre | Revisión parcial. Las definiciones teóricas se contrastaron con resúmenes de la literatura; falta cotejarlas con los originales |
 | Ejemplo de bitácora CTeI | El equipo | Escrito por personas |
 | Bitácoras de los grupos | Los grupos | Escritas por personas |
 
@@ -84,6 +84,7 @@ escribimos. De la primera conversación no se guardaron. Están en `PASOS`
 8. Cerrar la versión
 9. La declaración de uso de IA
 10. Un glosario en orden y la metodología como receta
+11. Revisar las definiciones contra sus fuentes
 
 ## Mantenerla al día
 

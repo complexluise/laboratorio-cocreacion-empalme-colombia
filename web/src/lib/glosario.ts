@@ -8,6 +8,7 @@ import {
   type TipoNato,
   type TipoRelacion,
 } from "@laboratorio/red";
+import { FUNDAMENTOS, type Fundamento } from "$lib/fundamentos.ts";
 import {
   DESCRIPCION_CAMBIO_OBJETIVO,
   DESCRIPCION_MODO,
@@ -62,6 +63,8 @@ export interface Entrada {
   usa?: string[];
   /** Otras entradas relacionadas (pueden venir después). */
   ver?: string[];
+  /** De dónde sale la categoría y en qué se aparta de su fuente (lib/fundamentos.ts). */
+  fundamento?: Fundamento;
 }
 
 /** Una entrada antes de ubicarla en el recorrido. */
@@ -85,8 +88,8 @@ const FUENTE_MODO: Record<ModoCambio, string> = {
   "continuidad-estable": "Pierson (2004)",
   conversion: "Mahoney & Thelen (2010)",
   estratificacion: "Mahoney & Thelen (2010)",
-  terminacion: "Mahoney & Thelen (2010, displacement); deLeon (1978, termination)",
-  reversion: "Extensión propia del proyecto (la «tensión» de PID+T)",
+  terminacion: "Mahoney & Thelen (2010, displacement); deLeon (1978, termination); Streeck & Thelen (2005, exhaustion)",
+  reversion: "Categoría propia del proyecto; cercana a Bauer et al. (2012, dismantling)",
   deriva: "Mahoney & Thelen (2010)",
 };
 
@@ -113,7 +116,7 @@ const VOCABULARIO: Definicion[] = [
       id: idNato(t),
       termino: `Tipo NATO: ${ETIQUETA_NATO[t]}`,
       definicion: DESCRIPCION_NATO[t],
-      fuente: "Hood (1983)",
+      fuente: "Hood (1983); Hood & Margetts (2007)",
       usa: ["nato"],
     }),
   ),
@@ -122,6 +125,7 @@ const VOCABULARIO: Definicion[] = [
       id: idCambioObjetivo(c),
       termino: `Cambio del objetivo: ${ETIQUETA_CAMBIO_OBJETIVO[c]}`,
       definicion: DESCRIPCION_CAMBIO_OBJETIVO[c],
+      fuente: "Categoría propia del proyecto (ADR-0004); analogía con Hogwood & Peters (1983)",
       usa: ["cambio-del-objetivo"],
     }),
   ),
@@ -158,8 +162,8 @@ const MAPA: Definicion[] = [
     usa: ["objetivo-de-politica", "ordenes-del-cambio"],
     termino: "Cambio del objetivo",
     definicion:
-      "Cómo cambia el objetivo de una política entre los dos gobiernos: se mantiene, se reformula, no declarado o nuevo. En la red se lee en el anillo del nodo de la política. Es el cambio de «tercer orden» de Hall: el más profundo, porque cambia el fin y no solo los medios.",
-    fuente: "Hall (1993)",
+      "Cómo cambia el objetivo de una política entre los dos gobiernos: se mantiene, se reformula, no declarado o nuevo. En la red se lee en el anillo del nodo de la política. Mira el fin, no los medios.",
+    fuente: "Categorías propias (ADR-0004); se apoyan en Howlett & Cashore (2009) y Hall (1993)",
     ver: ["ordenes-del-cambio", "no-declarado-no-es-abandono"],
   },
   {
@@ -195,7 +199,7 @@ const MAPA: Definicion[] = [
     expansion: "Nodalidad, Autoridad, Tesoro, Organización",
     definicion:
       "Clasifica un instrumento según el recurso del Estado que moviliza: información (nodalidad), normas (autoridad), dinero (tesoro) o capacidad propia (organización). En la red es la forma del nodo.",
-    fuente: "Hood, The Tools of Government (1983)",
+    fuente: "Hood, The Tools of Government (1983); Hood & Margetts (2007)",
     ver: TIPOS_NATO.map(idNato),
   },
   {
@@ -204,7 +208,7 @@ const MAPA: Definicion[] = [
     termino: "Modo de cambio",
     definicion:
       "Qué le pasó a un instrumento entre un gobierno y otro: continuidad, conversión, estratificación, terminación, reversión o deriva. En la red es el color del nodo.",
-    fuente: "Mahoney & Thelen (2010); Pierson (2004)",
+    fuente: "Mahoney & Thelen (2010); Streeck & Thelen (2005); Pierson (2004)",
     ver: [...MODOS_CAMBIO.map(idModo), "cambio-institucional-gradual"],
   },
   {
@@ -264,7 +268,7 @@ const TEORIA: Definicion[] = [
     usa: ["fines-y-medios"],
     termino: "Órdenes del cambio de política",
     definicion:
-      "Primer orden: se ajusta cómo se usa un instrumento. Segundo orden: se cambian los instrumentos. Tercer orden: se cambian los objetivos, el paradigma. En el mapa, el tercer orden es el cambio del objetivo.",
+      "Primer orden: se ajusta cómo se usa un instrumento. Segundo orden: se cambian los instrumentos. Tercer orden: se cambian las metas mismas, el paradigma. El mapa registra el cambio del objetivo declarado; que llegue a ser de tercer orden hay que argumentarlo.",
     fuente: "Hall, «Policy Paradigms, Social Learning, and the State» (1993)",
     ver: ["cambio-del-objetivo"],
   },
@@ -575,7 +579,12 @@ const SIGLAS_ENTRADAS: Entrada[] = SIGLAS.map(([id, termino, expansion, definici
   ...(ver ? { ver } : {}),
 }));
 
-const DEFINICIONES = new Map([...MAPA, ...VOCABULARIO, ...TEORIA, ...BITACORA, ...PROCESO].map((d) => [d.id, d]));
+const DEFINICIONES = new Map(
+  [...MAPA, ...VOCABULARIO, ...TEORIA, ...BITACORA, ...PROCESO].map((d): [string, Definicion] => {
+    const fundamento = FUNDAMENTOS[d.id];
+    return [d.id, fundamento ? { ...d, fundamento } : d];
+  }),
+);
 
 /**
  * El orden de lectura. Cada término se apoya solo en los anteriores (`usa`): primero lo que más

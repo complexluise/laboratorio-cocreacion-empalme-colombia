@@ -29,12 +29,12 @@ export const ETIQUETA_MODO: Record<ModoCambio, string> = {
 };
 
 export const DESCRIPCION_MODO: Record<ModoCambio, string> = {
-  "continuidad-estable": "Mismo instrumento, mismo modo: persiste.",
+  "continuidad-estable": "Mismo instrumento, mismo uso: persiste.",
   conversion: "Mismo instrumento, redesplegado hacia otro uso.",
-  estratificacion: "Solo en el gobierno posterior: se suma.",
-  terminacion: "Solo en el gobierno anterior: se deja o reemplaza.",
+  estratificacion: "Solo en el informe posterior: se suma.",
+  terminacion: "Solo en el informe anterior: no aparece en el posterior.",
   reversion: "Persiste pero invierte su rumbo.",
-  deriva: "Persiste formalmente; su efecto cambia con el entorno.",
+  deriva: "Sigue igual, pero el entorno cambia y nadie la ajusta.",
 };
 
 export const ETIQUETA_NATO: Record<ClaseNato, string> = {
@@ -46,10 +46,10 @@ export const ETIQUETA_NATO: Record<ClaseNato, string> = {
 };
 
 export const DESCRIPCION_NATO: Record<ClaseNato, string> = {
-  nodalidad: "Información: datos, comunicación, orientación.",
+  nodalidad: "Información: el Estado la recoge y la difunde.",
   autoridad: "Normas y obligaciones (leyes, decretos).",
   tesoro: "Dinero (fondos, convocatorias).",
-  organizacion: "Capacidad directa del Estado (programas).",
+  organizacion: "Acción directa con personal y medios propios.",
   objetivo: "Objetivo de política, no un instrumento.",
 };
 
