@@ -1,13 +1,194 @@
+import { CAMBIOS_OBJETIVO, MODOS_CAMBIO, TIPOS_NATO, TIPOS_RELACION } from "@laboratorio/red";
+import { ETIQUETA_CAMBIO_OBJETIVO, ETIQUETA_MODO, ETIQUETA_NATO, ETIQUETA_RELACION } from "$lib/visual.ts";
+
 /**
- * «Cómo lo hicimos» (issue #37, ADR-0006): el paso a paso del laboratorio con los PROMPTS que
- * enviamos a la IA, lo que decidimos y lo que resultó. Los prompts van TAL CUAL se escribieron
- * (con sus erratas): son la evidencia. Fuente: las conversaciones con Claude Code del 27 y 28 de
- * septiembre de 2026; las anteriores no se guardaron. Espejo en docs/metodologia.md.
+ * «Cómo lo hicimos» (ADR-0006, ADR-0007). Tres piezas:
+ * - CATEGORIAS: con qué se lee un informe para convertirlo en red (el libro de códigos);
+ * - RECETA: los pasos para repetirlo, cada uno declara si usa IA y dónde;
+ * - PASOS: el registro de lo que le pedimos a la IA para construir el sitio, con los prompts TAL
+ *   CUAL (con sus erratas): son la evidencia. Las conversaciones del inicio no se guardaron.
+ * Espejo en docs/metodologia.md.
  */
+
+// ─── Las categorías ────────────────────────────────────────────────────────────────────────────
+
+export interface Categoria {
+  /** Lo que se busca en el texto. */
+  que: string;
+  /** La pregunta que se le hace al texto. */
+  pregunta: string;
+  /** Los valores posibles, o qué se anota. */
+  valores: string;
+  /** Entrada del glosario que lo explica. */
+  glosario: string;
+}
+
+const lista = (xs: readonly string[]) => xs.join(" · ");
+
+/** Qué se le pregunta a cada informe. Los valores salen del mismo vocabulario que usa la red. */
+export const CATEGORIAS: Categoria[] = [
+  {
+    que: "Política pública",
+    pregunta: "¿Sobre qué problema público actúa el Estado?",
+    valores: "Un área que atraviesa gobiernos, con el objetivo que declara cada uno.",
+    glosario: "politica-publica",
+  },
+  {
+    que: "Cambio del objetivo",
+    pregunta: "¿Cambió lo que se busca en esa área?",
+    valores: lista(CAMBIOS_OBJETIVO.map((c) => ETIQUETA_CAMBIO_OBJETIVO[c])),
+    glosario: "cambio-del-objetivo",
+  },
+  {
+    que: "Instrumento",
+    pregunta: "¿Con qué actúa el Estado?",
+    valores: "Un programa, una norma, un fondo, un sistema o una convocatoria, con nombre propio.",
+    glosario: "instrumento",
+  },
+  {
+    que: "Tipo de instrumento",
+    pregunta: "¿Qué recurso del Estado usa?",
+    valores: lista(TIPOS_NATO.map((t) => ETIQUETA_NATO[t])),
+    glosario: "nato",
+  },
+  {
+    que: "Presencia",
+    pregunta: "¿Cómo aparece en el informe de cada gobierno?",
+    valores: "propuesto · logrado · pendiente",
+    glosario: "presencia",
+  },
+  {
+    que: "Modo de cambio",
+    pregunta: "¿Qué le pasó entre un gobierno y el otro?",
+    valores: lista(MODOS_CAMBIO.map((m) => ETIQUETA_MODO[m])),
+    glosario: "modo-de-cambio",
+  },
+  {
+    que: "Relación",
+    pregunta: "¿Cómo se conecta con otro instrumento?",
+    valores: lista(TIPOS_RELACION.map((r) => ETIQUETA_RELACION[r])),
+    glosario: "relacion-entre-instrumentos",
+  },
+  {
+    que: "Evidencia",
+    pregunta: "¿Dónde lo dice el informe?",
+    valores: "La página y la cifra, tal cual, y qué tan segura es la lectura: alta, media o baja.",
+    glosario: "confianza",
+  },
+];
+
+// ─── La receta ─────────────────────────────────────────────────────────────────────────────────
+
+export type Quien = "personas" | "ia" | "programa";
+
+export const ETIQUETA_QUIEN: Record<Quien, string> = {
+  personas: "Personas",
+  ia: "IA",
+  programa: "Programa",
+};
+
+export interface PasoReceta {
+  id: string;
+  titulo: string;
+  quien: Quien[];
+  /** Qué hacer, para quien quiera repetirlo. */
+  hacer: string;
+  /** Dónde entra la IA y con qué. Obligatorio si `quien` incluye "ia". */
+  ia?: string;
+  /** Id de la instrucción (INSTRUCCIONES_DATOS) que usamos en este paso. */
+  instruccion?: string;
+  /** Qué hicimos en este mapa y en qué estado quedó. */
+  enEsteMapa: string;
+}
+
+export const RECETA: PasoReceta[] = [
+  {
+    id: "reunir",
+    titulo: "Reunir los documentos",
+    quien: ["programa"],
+    hacer: "Descarguen los informes de empalme de los dos gobiernos que van a comparar y anoten de dónde sale cada uno.",
+    enEsteMapa:
+      "Un programa descargó los informes que publica el Departamento Nacional de Planeación (DNP). Para Ciencia, Tecnología e Innovación usamos los dos informes principales de MinCiencias.",
+  },
+  {
+    id: "texto",
+    titulo: "Pasarlos a texto",
+    quien: ["programa", "ia"],
+    hacer: "Conviertan cada documento a texto, página por página. Así cada dato podrá citar su página.",
+    ia: "Solo en los documentos escaneados: un modelo de IA lee la imagen y la transcribe. Usamos Gemini por API.",
+    instruccion: "ocr",
+    enEsteMapa: "Nadie revisó las transcripciones línea a línea.",
+  },
+  {
+    id: "categorias",
+    titulo: "Fijar las categorías antes de leer",
+    quien: ["personas"],
+    hacer:
+      "Decidan qué van a buscar y con qué palabras lo van a clasificar. Sin categorías fijas, cada lectura clasifica distinto y los dos gobiernos no se pueden comparar.",
+    enEsteMapa: "Salieron de la teoría política. Son las de la tabla «Las categorías».",
+  },
+  {
+    id: "extraer",
+    titulo: "Extraer con IA, una política a la vez",
+    quien: ["ia"],
+    hacer:
+      "Denle a un modelo de IA el texto y las categorías. Pídanle los instrumentos de cada política, con su clasificación y la página y la cifra que la respaldan. Pídanle que no invente: lo que el texto no dice queda «Sin dato».",
+    ia: "Aquí la IA hace el trabajo grueso: lee y clasifica. Conviene usarla por API, con respuestas de formato fijo, para que el proceso se pueda repetir.",
+    instruccion: "extraer",
+    enEsteMapa:
+      "Primero usamos Gemini por API. La red quedó partida en islas, así que la rehicimos con agentes de Claude, uno por política.",
+  },
+  {
+    id: "unir",
+    titulo: "Unir los repetidos",
+    quien: ["ia", "programa"],
+    hacer:
+      "El mismo instrumento aparece en varias políticas, o con otro nombre en el otro gobierno. Únanlo, sin fusionar instrumentos que solo comparten el tema.",
+    ia: "Un agente de IA propone qué unir. Un programa, sin IA, arma el resultado.",
+    instruccion: "unir",
+    enEsteMapa:
+      "Cuando ningún agente propuso cómo cambió un instrumento presente en los dos gobiernos, el programa le asignó «conversión». Esos casos hay que revisarlos.",
+  },
+  {
+    id: "verificar",
+    titulo: "Verificar contra la fuente",
+    quien: ["ia", "personas"],
+    hacer:
+      "Comparen cada instrumento con la página que cita. Primero, otra IA con el encargo de encontrar errores. Después, personas.",
+    ia: "Una segunda IA revisa a la primera. Ayuda, pero no reemplaza la revisión humana.",
+    enEsteMapa:
+      "La red hecha con Gemini pasó por esta revisión con IA y se corrigió. La red actual, hecha con Claude, todavía no: ni con IA ni con personas. Es el paso pendiente.",
+  },
+  {
+    id: "areas",
+    titulo: "Agrupar en áreas comparables",
+    quien: ["ia", "personas"],
+    hacer:
+      "Cada gobierno nombra sus políticas a su manera. Júntenlas en áreas que atraviesen los dos gobiernos y anoten cómo cambió el objetivo.",
+    ia: "La IA propone la agrupación; las personas la aprueban.",
+    enEsteMapa: "Quedaron 14 áreas. El equipo aprobó cómo se dividieron, no el contenido de cada una.",
+  },
+  {
+    id: "publicar",
+    titulo: "Comprobar y publicar",
+    quien: ["programa"],
+    hacer: "Un programa comprueba que los datos usen solo las categorías fijadas y arma la red, el sitio y el Excel.",
+    enEsteMapa: "Sin IA: con los mismos datos, siempre da el mismo resultado.",
+  },
+  {
+    id: "cocrear",
+    titulo: "Revisar y ampliar en el taller",
+    quien: ["personas"],
+    hacer:
+      "Cada grupo toma una política, la contrasta con los informes y con otras fuentes, y deja sus hallazgos en la bitácora. Lo que encuentre corrige el mapa.",
+    enEsteMapa: "Es la revisión humana que le falta a la red.",
+  },
+];
+
+// ─── El registro: lo que le pedimos a la IA ─────────────────────────────────────────────────────
 
 export interface Paso {
   id: string;
-  fecha: string;
   titulo: string;
   /** Los mensajes que le enviamos a la IA, literales. */
   pedimos: string[];
@@ -21,7 +202,6 @@ export interface Paso {
 export const PASOS: Paso[] = [
   {
     id: "extraer",
-    fecha: "26 y 27 sep",
     titulo: "Leer los informes y armar la red",
     pedimos: [],
     hizo: "Descargó los informes de empalme que publica el Departamento Nacional de Planeación (DNP) y los pasó a texto. Gemini transcribió los documentos escaneados e hizo un primer listado de instrumentos. Después, varios agentes de Claude leyeron los informes, una política a la vez. Con eso armaron la red: políticas, instrumentos, cómo cambió cada uno y la página que lo respalda.",
@@ -29,7 +209,6 @@ export const PASOS: Paso[] = [
   },
   {
     id: "orden",
-    fecha: "27 sep",
     titulo: "Ordenar la forma de trabajar",
     pedimos: [
       "Quiero que hagamos la epica #6.  Antes de eso queremos implementar la disciplina kybernetes del repo de sostaina porque ese nos ayuda a interaciuar con Claude.",
@@ -41,7 +220,6 @@ export const PASOS: Paso[] = [
   },
   {
     id: "interfaz",
-    fecha: "27 sep",
     titulo: "Reordenar la pantalla de la red",
     pedimos: [
       "Ahora vamos a hacer una retroalimentación y reodenación del layout,  porque hay cosas que no tienen una jerarquia clara, se mezclan las cosas. necesitamos establecer una semantica clara. necesitamos aplicar las buenas practicas de diseño en interfases como red y de busqueda por ejemplo actualmente si busco regalias se va filtrando el grafo y me toca luego dar click en limpiar filtros lo cual me deja ver toda la red y mantiene la info del sidebar. ese comportmaient no es el correcto seria mejor que apareciera una lista y al seleccionar te lleva al nodo enfocado en su subred. lo primero es hacer un diagnostico y luego un encuadre.",
@@ -56,7 +234,6 @@ export const PASOS: Paso[] = [
   },
   {
     id: "politica",
-    fecha: "27 sep",
     titulo: "Precisar qué es una política pública",
     pedimos: [
       "Según la definición una política publica tiene asociada un objetivo de política ( que incluso puede estar muy asociado s como en particular un gobierno va a dirigir esa política pública. Primero reflexionemos acerca de esto para ver cómo encuadrarlo",
@@ -72,7 +249,6 @@ export const PASOS: Paso[] = [
   },
   {
     id: "sitio",
-    fecha: "27 sep",
     titulo: "La actividad, la teoría y el glosario",
     pedimos: [
       "Esta red esta bien ya la dejamos así. vamos a completar lo que falta, Primero necesito la pagina de landing donde se muestra cual es nuestra actividad de cocreación, la teoria para poder construir , luego hacemos una pagina de glosario donde coloquemos cada sigla cada palabra nueva. que no sea de uso comun y expliquemos la ontologia uqe tenemos aquí con la teoria politica. Para eso aclaremos, lo que los grupos/equipo van a seleccionar es una politica publica la van describir entre los dos gobiernos, buscando información complementario y llenando una bitacora donde hay unos formatos que van llenando. esta es una plantilla de lo que debe inspirarse la bitacora: […]",
@@ -83,7 +259,6 @@ export const PASOS: Paso[] = [
   },
   {
     id: "bitacora",
-    fecha: "27 sep",
     titulo: "La bitácora de cada grupo",
     pedimos: [
       "Un docx con el formato listo para llenar. así no este prellenado.",
@@ -95,7 +270,6 @@ export const PASOS: Paso[] = [
   },
   {
     id: "actividad",
-    fecha: "27 sep",
     titulo: "Una actividad más dinámica",
     pedimos: [
       "quiero descargar el excel",
@@ -106,7 +280,6 @@ export const PASOS: Paso[] = [
   },
   {
     id: "cierre",
-    fecha: "27 sep",
     titulo: "Cerrar la versión",
     pedimos: ["Cortemos aquí ya tenemos suficiente para esta iteración.", "Los documentos deben estar alineados con todo incluyendo el README"],
     hizo: "Publicó la versión y puso al día la documentación.",
@@ -114,18 +287,34 @@ export const PASOS: Paso[] = [
   },
   {
     id: "declaracion",
-    fecha: "27 y 28 sep",
-    titulo: "Esta página",
+    titulo: "La declaración de uso de IA",
     pedimos: [
       "Nos falta ahora redacta una metodologia y una declaración del uso de IA como la usamos cual nuestra particiapción y así mismo colocar esta advertencia que este contenido fue generado usando inteligencia artificial y aún no se ha revisado al 100% y como este ejercicio es justo el como se puede interacutuar con la maquina y elaboración de artfactos para colaborar. primero encuadremos y debatamos.",
       "Eso se siente como matar un raton con una bomba nuclear. en realidad debe ser más senicillo, olvida git nuestro publico NO estecnico. más bien lo que busco es algo más parecido al documento y que esten los prompts que fueron enviados y que se proceso y eso. el paso a paso de lo que se hizo eso es más util omo declaración. Por otro lado a la finl se debe hacer un agente adversario , este agente debe personalizarse como un quisquilloso por la redundacia y que le gusta el lengjua claro, y las ideas claras y consisas.",
+      "Necesitamos un documento del pipeline de extracción que se uso para obtener el grafo. (en un inicio usabamos gemini por api pero luego lo hicimos como un workflow de claude eso debe incluirse. visto desde el sistema completo.",
     ],
-    hizo: "La primera versión fue un diagrama técnico basado en el historial del código. La descartamos por compleja y la IA la rehízo como este paso a paso. Al final, un agente editor, exigente con la redundancia y la claridad, revisó el texto.",
-    resultado: "Esta página y el aviso en las demás.",
+    hizo: "La primera versión fue un diagrama técnico basado en el historial del código. La descartamos por compleja y la IA la rehízo como un paso a paso con los mensajes. También documentó cómo se extrajo la red. Al final, un agente editor, exigente con la redundancia y la claridad, revisó los textos.",
+    resultado: "Esta página, el aviso en las demás y el documento técnico de la extracción.",
+  },
+  {
+    id: "receta",
+    titulo: "Un glosario en orden y la metodología como receta",
+    pedimos: [
+      "Vamos con otra rama (creale un nombre mucho más diciente del trabajo) ahora vamos a realizar un ajuste de la actividad los textos y el glosario ( por ejemplo dice La ontologia del mapa eso no significa nada es mejor un glosario que se va abordando. y piensa aquí desde la teoria de la información los conceptos más relevantes son aquellos que permiten describri lo posterior. y para HACER el mapa es claro que hay unos conceptos categorias y tipolologias que nos permitieran elaborar una red a partir de los textos (esto hace parte de la metodologia  y reducimos tanto detalle entorno a la fecha y más bien como una receta replicable eso es lo que importnate en una metodologia declarando explicitamtne donde usar la IA. (primero con una API como gemini y luego una verificiación)",
+    ],
+    decidimos: [
+      "El glosario se lee en orden: primero las palabras que permiten explicar las siguientes.",
+      "La metodología es una receta que otros pueden repetir, y cada paso dice si usa IA.",
+      "Las categorías con que se lee un informe son parte de la metodología.",
+      "Este registro de mensajes se conserva, sin fechas.",
+    ],
+    hizo: "Reordenó el glosario en seis tramos y marcó en qué términos se apoya cada uno. Escribió la receta y la tabla de categorías, y pasó este registro al final de la página.",
+    resultado: "El glosario en orden y esta página como receta.",
   },
 ];
 
 export interface InstruccionDatos {
+  id: string;
   modelo: string;
   para: string;
   texto: string;
@@ -134,18 +323,21 @@ export interface InstruccionDatos {
 /** Las instrucciones con que la IA procesó los informes (extraccion/). Literales o extractos. */
 export const INSTRUCCIONES_DATOS: InstruccionDatos[] = [
   {
+    id: "ocr",
     modelo: "Gemini",
     para: "Transcribir los documentos escaneados",
     texto:
       "Transcribe COMPLETAMENTE el texto de este documento escaneado en español. Es un acta o resolución oficial del Ministerio de Ciencia de Colombia. Devuelve solo el texto transcrito en markdown limpio, respetando encabezados, listas, tablas y firmas. No agregues comentarios ni resúmenes. Si una página está en blanco o ilegible, indícalo con [página ilegible].",
   },
   {
+    id: "extraer",
     modelo: "Claude",
     para: "Extraer los instrumentos de cada política (extracto)",
     texto:
       "Eres analista de politica publica colombiana (sector CTeI). Extrae los INSTRUMENTOS de la politica […] a lo largo de DOS gobiernos, leyendo los informes. […] Un INSTRUMENTO es el medio concreto con que el Estado actua: programa, norma, fondo/fuente de financiacion, convocatoria, sistema. […] modo_cambio GUIADO POR EVIDENCIA (compara nombres, logica y CIFRAS entre gobiernos; no por defecto) […] evidencia: por vigencia, paginas y cifras (texto tal cual). No inventes. […] narrativa: g2018 (que fue bajo Duque), g2022 (que fue bajo Petro), cambio (1-2 frases). Extrae solo instrumentos de PRIMER NIVEL con identidad propia. Exhaustivo pero sin redundancia.",
   },
   {
+    id: "unir",
     modelo: "Claude",
     para: "Unir el mismo instrumento cuando aparece en varias políticas o gobiernos (extracto)",
     texto:

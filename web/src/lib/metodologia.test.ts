@@ -1,5 +1,34 @@
 import { describe, expect, it } from "vitest";
-import { CAPAS, INSTRUCCIONES_DATOS, PASOS } from "./metodologia.ts";
+import { entradaPorId } from "./glosario.ts";
+import { CAPAS, CATEGORIAS, INSTRUCCIONES_DATOS, PASOS, RECETA } from "./metodologia.ts";
+
+describe("la receta", () => {
+  it("cada paso tiene id único", () => {
+    const ids = RECETA.map((p) => p.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("declara la IA donde la usa, y solo ahí", () => {
+    for (const p of RECETA) expect(Boolean(p.ia), p.id).toBe(p.quien.includes("ia"));
+  });
+
+  it("cada instrucción de la IA está en un paso, y cada paso cita una que existe", () => {
+    const citadas = RECETA.flatMap((p) => (p.instruccion ? [p.instruccion] : []));
+    expect(citadas.sort()).toEqual(INSTRUCCIONES_DATOS.map((i) => i.id).sort());
+  });
+
+  it("la verificación sigue a la extracción con IA", () => {
+    const i = (id: string) => RECETA.findIndex((p) => p.id === id);
+    expect(i("extraer")).toBeGreaterThanOrEqual(0);
+    expect(i("verificar")).toBeGreaterThan(i("extraer"));
+  });
+});
+
+describe("las categorías", () => {
+  it("cada una remite a una entrada del glosario", () => {
+    for (const c of CATEGORIAS) expect(entradaPorId(c.glosario), c.que).toBeDefined();
+  });
+});
 
 describe("el paso a paso", () => {
   it("cada paso tiene id único, lo que hizo la IA y su resultado", () => {

@@ -180,7 +180,8 @@
     <h2 id="t-actividad">Una política, dos gobiernos, una bitácora</h2>
     <p>
       Cada grupo recorre cuatro pasos. En cada uno: qué hacer, con qué material, la pregunta que guía la conversación y lo
-      que el grupo produce.
+      que el grupo produce. Si una palabra no es clara, el <a href={hrefDe("glosario")}>glosario</a> se lee en orden: sus
+      tres primeras secciones alcanzan para empezar.
     </p>
     <PasosActividad {excel} />
 
@@ -271,6 +272,7 @@
   <section id="teoria" tabindex="-1" aria-labelledby="t-teoria">
     <p class="antetitulo">La teoría para construir</p>
     <h2 id="t-teoria">Cinco ideas para leer el mapa</h2>
+    <p>Van en orden: cada idea se apoya en las anteriores.</p>
 
     <article class="idea">
       <h3>1 · Una política pública son fines y medios</h3>

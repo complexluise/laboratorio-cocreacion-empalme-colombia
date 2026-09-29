@@ -3,7 +3,10 @@
   import PaginaTexto from "$lib/paginas/PaginaTexto.svelte";
   import { hrefDe } from "$lib/rutas.ts";
 
-  /** Glosario: siglas, términos y la ontología del mapa leída con la teoría política. */
+  /**
+   * Glosario como recorrido: se lee en orden y cada término se apoya solo en los anteriores
+   * («Se apoya en»). Las siglas, al final, son de consulta.
+   */
   interface Props {
     ancla?: string | undefined;
     visita?: number;
@@ -28,8 +31,8 @@
   <p class="antetitulo">Glosario</p>
   <h1>Las palabras del laboratorio</h1>
   <p class="bajada">
-    Cada sigla y cada término que no es de uso común, y cómo se lee el mapa con la teoría política. Cada entrada tiene
-    su propio enlace para citarla.
+    Se lee en orden. Primero van las palabras que permiten explicar las siguientes, y cada término dice en cuáles se
+    apoya. Las siglas, al final, son para consultar.
   </p>
 
   <div class="herramientas">
@@ -56,6 +59,7 @@
       <p class="intro">{INTRO_GRUPO[grupo]}</p>
       <dl>
         {#each entradas as e (e.id)}
+          {@const ver = (e.ver ?? []).filter((v) => !e.usa?.includes(v))}
           <div class="entrada" class:destacada={e.id === ancla} id={e.id} tabindex="-1">
             <dt>
               <a class="termino" href={hrefDe("glosario", e.id)}>{e.termino}</a>
@@ -64,10 +68,16 @@
             <dd>
               <p>{e.definicion}</p>
               {#if e.fuente}<p class="fuente">Fuente: {e.fuente}</p>{/if}
-              {#if e.ver && e.ver.length > 0}
+              {#if e.usa && e.usa.length > 0}
+                <p class="ver">
+                  Se apoya en:
+                  {#each e.usa as v, i (v)}{#if i > 0},{" "}{/if}<a href={hrefDe("glosario", v)}>{entradaPorId(v)?.termino ?? v}</a>{/each}
+                </p>
+              {/if}
+              {#if ver.length > 0}
                 <p class="ver">
                   Ver también:
-                  {#each e.ver as v, i (v)}{#if i > 0},{" "}{/if}<a href={hrefDe("glosario", v)}>{entradaPorId(v)?.termino ?? v}</a>{/each}
+                  {#each ver as v, i (v)}{#if i > 0},{" "}{/if}<a href={hrefDe("glosario", v)}>{entradaPorId(v)?.termino ?? v}</a>{/each}
                 </p>
               {/if}
             </dd>
