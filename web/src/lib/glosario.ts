@@ -39,8 +39,8 @@ export const TITULO_GRUPO: Record<Grupo, string> = {
 };
 
 export const INTRO_GRUPO: Record<Grupo, string> = {
-  base: "Empiecen aquí. Con estas palabras se describe todo lo demás.",
-  instrumento: "Con qué recurso actúa el Estado y cómo aparece cada instrumento en los informes.",
+  base: "Empiecen aquí: estas palabras sirven para explicar las demás.",
+  instrumento: "Con qué recurso actúa el Estado, cómo aparece cada instrumento en los informes y qué tan segura es cada lectura.",
   cambio: "Qué le pasa a una política y a sus instrumentos cuando cambia el gobierno.",
   red: "Cómo se unen políticas e instrumentos, y qué se ve solo al mirar el conjunto.",
   bitacora: "Las palabras que aparecen al describir una política entre los dos gobiernos.",
@@ -141,7 +141,7 @@ const MAPA: Definicion[] = [
     id: "politica-publica",
     termino: "Política pública",
     definicion:
-      "Un área o problema público que atraviesa gobiernos (p. ej. bioeconomía, talento humano). Combina fines —el objetivo que declara cada gobierno— y medios —los instrumentos con que lo persigue. En la red es el nodo grande (hub) y es lo que cada grupo elige para trabajar.",
+      "Un área o problema público que atraviesa gobiernos (p. ej. bioeconomía, talento humano). Combina fines —el objetivo que declara cada gobierno— y medios —los instrumentos con que lo persigue. En la red es el nodo grande, al que se conectan sus instrumentos, y es lo que cada grupo elige para trabajar.",
     fuente: "Howlett & Cashore (2009); ADR-0004 del proyecto",
     ver: ["objetivo-de-politica", "instrumento", "fines-y-medios"],
   },
@@ -158,7 +158,7 @@ const MAPA: Definicion[] = [
     usa: ["objetivo-de-politica", "ordenes-del-cambio"],
     termino: "Cambio del objetivo",
     definicion:
-      "Cómo cambia el objetivo de una política entre los dos gobiernos: se mantiene, se reformula, no declarado o nuevo. En la red se lee en el anillo del hub. Es el cambio de «tercer orden» de Hall: el más profundo, porque cambia el fin y no solo los medios.",
+      "Cómo cambia el objetivo de una política entre los dos gobiernos: se mantiene, se reformula, no declarado o nuevo. En la red se lee en el anillo del nodo de la política. Es el cambio de «tercer orden» de Hall: el más profundo, porque cambia el fin y no solo los medios.",
     fuente: "Hall (1993)",
     ver: ["ordenes-del-cambio", "no-declarado-no-es-abandono"],
   },
@@ -212,7 +212,7 @@ const MAPA: Definicion[] = [
     usa: ["empalme"],
     termino: "Vigencia",
     definicion:
-      "El periodo de un gobierno: 2018–2022 (gobierno Duque) y 2022–2026 (gobierno Petro). El mapa pone lado a lado lo que reporta el informe de cada vigencia.",
+      "En este mapa, el periodo de un gobierno: 2018–2022 (gobierno Duque) y 2022–2026 (gobierno Petro). El mapa pone lado a lado lo que reporta el informe de cada vigencia.",
     ver: ["presencia"],
   },
   {
@@ -255,7 +255,7 @@ const TEORIA: Definicion[] = [
     usa: ["objetivo-de-politica", "instrumento"],
     termino: "Fines y medios",
     definicion:
-      "Una política pública combina fines (objetivos) y medios (instrumentos), en distintos niveles de abstracción. Separarlos permite ver cuándo cambia el fin sin cambiar los medios, y al revés.",
+      "Separar fines (objetivos) y medios (instrumentos) permite ver cuándo cambia el fin sin cambiar los medios, y al revés.",
     fuente: "Howlett & Cashore (2009)",
     ver: ["politica-publica", "ordenes-del-cambio"],
   },
@@ -545,7 +545,7 @@ const PROCESO: Definicion[] = [
     termino: "API",
     expansion: "Interfaz de programación de aplicaciones",
     definicion:
-      "La puerta por la que un programa le habla a un modelo de IA sin pasar por el chat: le envía cientos de textos con la misma instrucción y recibe respuestas con un formato fijo. Así se procesan informes largos de forma repetible. Cada consulta se paga.",
+      "La vía por la que un programa, y no una persona en un chat, le envía textos a un modelo de IA. Todos van con la misma instrucción y las respuestas vuelven con el mismo formato. Cada consulta se paga.",
     ver: ["ocr"],
   },
   {

@@ -46,7 +46,8 @@
     <h2 id="t-categorias">Las categorías: qué le preguntamos a cada informe</h2>
     <p>
       Un texto se vuelve red cuando se decide antes qué buscar en él. Estas preguntas convierten cada informe en puntos
-      (políticas e instrumentos) y en líneas (las relaciones). Cada una se explica en el
+      (políticas e instrumentos) y en líneas (qué instrumento sirve a qué política y cómo se
+      conectan entre sí). Cada una se explica en el
       <a href={hrefDe("glosario")}>glosario</a>.
     </p>
     <div class="tabla categorias" role="table" aria-label="Categorías con que se lee cada informe">
@@ -69,7 +70,7 @@
     <h2 id="t-receta">La receta, paso a paso</h2>
     <p>
       Cada paso dice quién lo hace: personas, la IA o un programa (código que siempre hace lo mismo, sin IA). La IA entra en
-      {conIA} de los {RECETA.length} pasos: ahí se dice para qué y se muestra la instrucción que usamos. Usamos dos:
+      {conIA} de los {RECETA.length} pasos: ahí se dice para qué y, cuando la guardamos, la instrucción que usamos. Usamos dos modelos de IA:
       <strong>Gemini</strong> (de Google) y <strong>Claude</strong> (de Anthropic).
     </p>
 

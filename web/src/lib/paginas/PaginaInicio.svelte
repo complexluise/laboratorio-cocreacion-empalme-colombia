@@ -180,8 +180,8 @@
     <h2 id="t-actividad">Una política, dos gobiernos, una bitácora</h2>
     <p>
       Cada grupo recorre cuatro pasos. En cada uno: qué hacer, con qué material, la pregunta que guía la conversación y lo
-      que el grupo produce. Si una palabra no es clara, el <a href={hrefDe("glosario")}>glosario</a> se lee en orden: sus
-      tres primeras secciones alcanzan para empezar.
+      que el grupo produce. Si una palabra no es clara, búsquenla en el <a href={hrefDe("glosario")}>glosario</a>. Para
+      empezar, bastan sus tres primeras secciones.
     </p>
     <PasosActividad {excel} />
 

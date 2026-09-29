@@ -31,8 +31,8 @@
   <p class="antetitulo">Glosario</p>
   <h1>Las palabras del laboratorio</h1>
   <p class="bajada">
-    Se lee en orden. Primero van las palabras que permiten explicar las siguientes, y cada término dice en cuáles se
-    apoya. Las siglas, al final, son para consultar.
+    Se lee en orden: primero las palabras que permiten explicar las siguientes. Si un término depende de otros, lo dice
+    en «Se apoya en». Las siglas, al final, son para consultar.
   </p>
 
   <div class="herramientas">

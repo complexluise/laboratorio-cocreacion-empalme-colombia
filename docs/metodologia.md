@@ -40,16 +40,16 @@ y cada categoría enlaza su entrada del glosario.
 | # | Paso | Quién | Dónde entra la IA | En este mapa |
 |---|---|---|---|---|
 | 1 | Reunir los documentos | Programa | — | Informes del DNP; para CTeI, los dos principales de MinCiencias |
-| 2 | Pasarlos a texto, página por página | Programa + IA | Solo en los escaneados: la IA transcribe la imagen (Gemini por API) | Transcripciones sin revisión humana |
+| 2 | Pasarlos a texto, página por página | Programa + IA | Solo en los escaneados: la IA transcribe la imagen | Con Gemini por API; transcripciones sin revisión humana |
 | 3 | Fijar las categorías antes de leer | Personas | — | Salieron de la teoría política; son las de la tabla anterior |
-| 4 | Extraer con IA, una política a la vez | IA | Lee y clasifica. Mejor por API, con respuestas de formato fijo, para poder repetirlo | Primero con Gemini por API; la red quedó en islas y se rehízo con agentes de Claude |
+| 4 | Extraer con IA, una política a la vez | IA | Lee y clasifica. Mejor por API: misma instrucción y mismo formato para todos los textos (otra corrida puede dar otra red) | Primero con Gemini por API: los fondos compartidos quedaron en una sola política y la red se partió en islas. Se rehízo con agentes de Claude |
 | 5 | Unir los repetidos | IA + programa | Un agente propone qué unir; un programa sin IA arma el resultado | Donde nadie propuso el modo de cambio, quedó «conversión»: hay que revisarlo |
-| 6 | Verificar contra la fuente | IA + personas | Una segunda IA busca errores; después, personas | La red de Gemini se verificó con IA; **la actual no se ha verificado** |
-| 7 | Agrupar en áreas comparables | IA + personas | La IA propone; las personas aprueban | 14 áreas aprobadas en su división, no en su contenido |
+| 6 | Verificar contra la fuente | IA + personas | Una segunda IA busca errores; después, personas | La red de Gemini se verificó con IA; **la actual no se ha verificado** (ni con IA ni dato por dato con personas) |
+| 7 | Agrupar en áreas comparables | IA + personas | La IA propone; las personas aprueban | 14 áreas; el equipo aprobó la división, no el contenido |
 | 8 | Comprobar y publicar | Programa | — | Sin IA: con los mismos datos, siempre el mismo resultado |
-| 9 | Revisar y ampliar en el taller | Personas | — | Es la revisión humana que le falta a la red |
+| 9 | Revisar y ampliar en el taller | Personas | — | Es la vía prevista para la revisión humana que le falta a la red |
 
-En la página, cada paso con IA muestra la instrucción que usamos: la transcripción con Gemini
+En la página, los pasos con IA muestran la instrucción que usamos cuando la guardamos: la transcripción con Gemini
 (`ocr_gemini.py`), la extracción por política y la unión de repetidos
 (`rebuild-ctei-claude.workflow.js`).
 

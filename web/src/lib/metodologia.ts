@@ -115,9 +115,9 @@ export const RECETA: PasoReceta[] = [
     titulo: "Pasarlos a texto",
     quien: ["programa", "ia"],
     hacer: "Conviertan cada documento a texto, página por página. Así cada dato podrá citar su página.",
-    ia: "Solo en los documentos escaneados: un modelo de IA lee la imagen y la transcribe. Usamos Gemini por API.",
+    ia: "Solo en los documentos escaneados: un modelo de IA lee la imagen y la transcribe.",
     instruccion: "ocr",
-    enEsteMapa: "Nadie revisó las transcripciones línea a línea.",
+    enEsteMapa: "Usamos Gemini por API. Nadie revisó las transcripciones línea a línea.",
   },
   {
     id: "categorias",
@@ -132,11 +132,11 @@ export const RECETA: PasoReceta[] = [
     titulo: "Extraer con IA, una política a la vez",
     quien: ["ia"],
     hacer:
-      "Denle a un modelo de IA el texto y las categorías. Pídanle los instrumentos de cada política, con su clasificación y la página y la cifra que la respaldan. Pídanle que no invente: lo que el texto no dice queda «Sin dato».",
-    ia: "Aquí la IA hace el trabajo grueso: lee y clasifica. Conviene usarla por API, con respuestas de formato fijo, para que el proceso se pueda repetir.",
+      "Denle a un modelo de IA el texto y las categorías. Pídanle los instrumentos de cada política, con su clasificación y la página y la cifra que la respaldan. Pídanle que no invente.",
+    ia: "Aquí la IA lee y clasifica. Conviene usarla por API: todos los textos reciben la misma instrucción y las respuestas vuelven con el mismo formato. Aun así, otra corrida puede dar otra red.",
     instruccion: "extraer",
     enEsteMapa:
-      "Primero usamos Gemini por API. La red quedó partida en islas, así que la rehicimos con agentes de Claude, uno por política.",
+      "Primero usamos Gemini por API, un gobierno a la vez. Los fondos que sirven a muchas políticas quedaron en una sola y la red se partió en islas. La rehicimos con agentes de Claude, uno por política.",
   },
   {
     id: "unir",
@@ -154,10 +154,10 @@ export const RECETA: PasoReceta[] = [
     titulo: "Verificar contra la fuente",
     quien: ["ia", "personas"],
     hacer:
-      "Comparen cada instrumento con la página que cita. Primero, otra IA con el encargo de encontrar errores. Después, personas.",
-    ia: "Una segunda IA revisa a la primera. Ayuda, pero no reemplaza la revisión humana.",
+      "Comparen cada instrumento con la página que cita: primero con otra IA, después con personas.",
+    ia: "Una segunda IA, con el encargo de encontrar errores. Ayuda, pero no reemplaza a las personas.",
     enEsteMapa:
-      "La red hecha con Gemini pasó por esta revisión con IA y se corrigió. La red actual, hecha con Claude, todavía no: ni con IA ni con personas. Es el paso pendiente.",
+      "La red hecha con Gemini pasó por esta revisión con IA y se corrigió. La red actual, hecha con Claude, todavía no: ni con IA ni, dato por dato, con personas. Es el paso pendiente.",
   },
   {
     id: "areas",
@@ -180,8 +180,8 @@ export const RECETA: PasoReceta[] = [
     titulo: "Revisar y ampliar en el taller",
     quien: ["personas"],
     hacer:
-      "Cada grupo toma una política, la contrasta con los informes y con otras fuentes, y deja sus hallazgos en la bitácora. Lo que encuentre corrige el mapa.",
-    enEsteMapa: "Es la revisión humana que le falta a la red.",
+      "Cada grupo toma una política, la contrasta con los informes y con otras fuentes, y deja sus hallazgos en la bitácora. El equipo lleva al mapa lo que encuentren.",
+    enEsteMapa: "Es la vía prevista para la revisión humana que le falta a la red.",
   },
 ];
 
@@ -308,7 +308,7 @@ export const PASOS: Paso[] = [
       "Las categorías con que se lee un informe son parte de la metodología.",
       "Este registro de mensajes se conserva, sin fechas.",
     ],
-    hizo: "Reordenó el glosario en seis tramos y marcó en qué términos se apoya cada uno. Escribió la receta y la tabla de categorías, y pasó este registro al final de la página.",
+    hizo: "Reordenó el glosario en seis secciones y marcó en qué términos se apoya cada uno. Escribió la receta y la tabla de categorías, y pasó este registro al final de la página.",
     resultado: "El glosario en orden y esta página como receta.",
   },
 ];
