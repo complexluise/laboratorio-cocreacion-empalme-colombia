@@ -2,6 +2,7 @@
   import type { Snippet } from "svelte";
   import Cabecera from "$lib/components/Cabecera.svelte";
   import type { Pagina } from "$lib/rutas.ts";
+  import { tomarObjetivo } from "$lib/scroll-memory.ts";
 
   /**
    * Marco de las páginas de LECTURA (inicio, glosario): cabecera común y un área que scrollea
@@ -22,6 +23,13 @@
   $effect(() => {
     void visita;
     if (!area) return;
+    // Volver con «atrás/adelante»: restaurar la posición exacta (gana sobre el ancla).
+    const restaurar = tomarObjetivo();
+    if (restaurar !== undefined) {
+      area.scrollTop = restaurar;
+      area.focus({ preventScroll: true });
+      return;
+    }
     const destino = ancla ? area.querySelector<HTMLElement>(`[id="${CSS.escape(ancla)}"]`) : null;
     if (destino) {
       destino.scrollIntoView({ block: "start" });
