@@ -24,13 +24,14 @@ import {
  * glosario y mapa no se desincronicen. El resto (teoría, siglas, términos de la bitácora) es texto
  * curado.
  */
-export const GRUPOS = ["ontologia", "teoria", "bitacora", "siglas"] as const;
+export const GRUPOS = ["ontologia", "teoria", "bitacora", "proceso", "siglas"] as const;
 export type Grupo = (typeof GRUPOS)[number];
 
 export const TITULO_GRUPO: Record<Grupo, string> = {
   ontologia: "La ontología del mapa",
   teoria: "Teoría política",
   bitacora: "Términos de la bitácora",
+  proceso: "Cómo lo hicimos",
   siglas: "Siglas e instituciones",
 };
 
@@ -39,6 +40,7 @@ export const INTRO_GRUPO: Record<Grupo, string> = {
     "Qué representa cada cosa en la red: los tipos de nodo, sus atributos y el vocabulario controlado con que se clasifican.",
   teoria: "Los conceptos de la teoría política con que se lee el cambio entre dos gobiernos.",
   bitacora: "Las palabras que aparecen al describir una política en la bitácora del grupo.",
+  proceso: "Las palabras para entender cómo se construyó el laboratorio con la IA.",
   siglas: "Siglas, entidades e instrumentos que aparecen en los informes de empalme y en la red.",
 };
 
@@ -506,13 +508,57 @@ const SIGLAS: Sigla[] = [
   ["mpc", "MPC", "Mesa Permanente de Concertación con los Pueblos y Organizaciones Indígenas", "Espacio de concertación entre el Gobierno y los pueblos indígenas."],
   ["scienti", "ScienTI (CvLAC, GrupLAC)", "Plataforma de información del SNCTI", "Registra investigadores (CvLAC) y grupos (GrupLAC); es la base del reconocimiento de actores."],
   ["otri", "OTRI", "Oficina de Transferencia de Resultados de Investigación", "Unidad que lleva los resultados de investigación al sector productivo."],
-  ["ia", "IA", "Inteligencia Artificial", "Área de política nueva en el gobierno 2022–2026 (hoja de ruta, comité asesor, proyecto de ley)."],
+  ["ia", "IA", "Inteligencia Artificial", "En la red, un área de política nueva del gobierno 2022–2026 (hoja de ruta, comité asesor, proyecto de ley). También es la herramienta con que se construyó este laboratorio: ver «Cómo lo hicimos».", ["modelo-de-lenguaje"]],
   ["celac", "CELAC", "Comunidad de Estados Latinoamericanos y Caribeños", "Espacio regional en el que Colombia ejerció la presidencia pro tempore en ciencia."],
   ["cepal", "CEPAL", "Comisión Económica para América Latina y el Caribe", "Comisión regional de Naciones Unidas."],
   ["dane", "DANE", "Departamento Administrativo Nacional de Estadística", "Entidad de estadísticas oficiales."],
   ["sena", "SENA", "Servicio Nacional de Aprendizaje", "Entidad de formación para el trabajo; SENAinnova es su línea de innovación."],
   ["cop", "COP", "Peso colombiano", "Moneda en que se expresan las cifras (p. ej. «$6,50 billones COP»)."],
   ["pib", "PIB", "Producto Interno Bruto", "La inversión en I+D suele expresarse como porcentaje del PIB."],
+];
+
+const PROCESO: Entrada[] = [
+  {
+    id: "prompt",
+    grupo: "proceso",
+    termino: "Prompt",
+    definicion:
+      "El mensaje o la instrucción que se le escribe a una IA. En «Cómo lo hicimos» están los que enviamos, tal cual los escribimos.",
+    ver: ["modelo-de-lenguaje"],
+  },
+  {
+    id: "modelo-de-lenguaje",
+    grupo: "proceso",
+    termino: "Modelo de lenguaje",
+    expansion: "LLM, large language model",
+    definicion:
+      "Programa de IA que, entrenado con enormes cantidades de texto, genera texto nuevo: resume, clasifica, redacta, escribe código. Produce borradores creíbles, no verdades: por eso hay que revisarlo. En este laboratorio se usaron Claude y Gemini.",
+    ver: ["agente-de-ia", "revision-adversarial"],
+  },
+  {
+    id: "agente-de-ia",
+    grupo: "proceso",
+    termino: "Agente de IA",
+    definicion:
+      "Un modelo de lenguaje que, además de conversar, ejecuta tareas: lee archivos, escribe código y lo prueba. Aquí trabajaron varios, cada uno con un rol: uno planifica y documenta, otro programa, otro revisa. El equipo aprobó los cambios del sitio; la red la armaron agentes, sin revisión humana completa.",
+    ver: ["modelo-de-lenguaje", "revision-adversarial", "prompt"],
+  },
+  {
+    id: "ocr",
+    grupo: "proceso",
+    termino: "OCR",
+    expansion: "Reconocimiento óptico de caracteres",
+    definicion:
+      "Convertir la imagen de un documento escaneado en texto. Los informes escaneados se transcribieron con un modelo de IA (Gemini); ese texto no se revisó línea a línea.",
+  },
+  {
+    id: "revision-adversarial",
+    grupo: "proceso",
+    termino: "Revisión adversarial",
+    definicion:
+      "Revisar un trabajo con el encargo explícito de encontrarle errores, no de aprobarlo. Aquí la hizo un agente revisor antes de publicar los cambios del sitio. Reduce errores, pero no reemplaza la revisión humana.",
+    ver: ["agente-de-ia"],
+  },
 ];
 
 const SIGLAS_ENTRADAS: Entrada[] = SIGLAS.map(([id, termino, expansion, definicion, ver]) => ({
@@ -524,7 +570,7 @@ const SIGLAS_ENTRADAS: Entrada[] = SIGLAS.map(([id, termino, expansion, definici
   ...(ver ? { ver } : {}),
 }));
 
-export const GLOSARIO: readonly Entrada[] = [...ONTOLOGIA, ...VOCABULARIO, ...TEORIA, ...BITACORA, ...SIGLAS_ENTRADAS];
+export const GLOSARIO: readonly Entrada[] = [...ONTOLOGIA, ...VOCABULARIO, ...TEORIA, ...BITACORA, ...PROCESO, ...SIGLAS_ENTRADAS];
 
 const POR_ID = new Map(GLOSARIO.map((e) => [e.id, e]));
 export const entradaPorId = (id: string): Entrada | undefined => POR_ID.get(id);

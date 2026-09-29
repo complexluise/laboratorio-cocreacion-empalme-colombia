@@ -3,9 +3,9 @@
 # dependencies = ["httpx>=0.27", "pyyaml>=6.0", "jsonschema>=4.0"]
 # ///
 """
-DEPRECADO — consumía la capa de "ideas", ya no usada. El pipeline vigente induce políticas +
-instrumentos directo del markdown con el vocabulario del encuadre: ver
-extraccion/extraer_instrumentos.py. Se conserva como referencia histórica.
+DEPRECADO — consumía la capa de "ideas", ya no usada. Hoy las políticas + instrumentos salen directo
+del markdown con el workflow de Claude (extraccion/rebuild-ctei-claude.workflow.js; antes,
+extraer_instrumentos.py). Se conserva como referencia histórica. Ver docs/pipeline-extraccion.md.
 
 Consolidación de INSTRUMENTOS DE POLÍTICA PÚBLICA (capa de análisis del mapa del laboratorio).
 

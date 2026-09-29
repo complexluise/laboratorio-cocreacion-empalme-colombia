@@ -1,12 +1,14 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
+  import AvisoIA from "$lib/components/AvisoIA.svelte";
   import Marca from "$lib/components/Marca.svelte";
   import { hrefDe, type Pagina } from "$lib/rutas.ts";
 
   /**
    * Cabecera COMÚN a todas las páginas: la marca (vuelve al inicio), las herramientas propias de la
    * página (en la red: buscador y filtros) y el menú del sitio. Mobile first: en pantallas angostas
-   * el menú se pliega en un botón; en escritorio los enlaces van en línea.
+   * el menú se pliega en un botón; en escritorio los enlaces van en línea. Debajo, en todas las
+   * páginas, el aviso de que el contenido se hizo con IA y aún no se revisa al 100 % (ADR-0006).
    */
   interface Props {
     pagina: Pagina;
@@ -19,6 +21,7 @@
     { pagina: "inicio", etiqueta: "La actividad" },
     { pagina: "red", etiqueta: "La red" },
     { pagina: "glosario", etiqueta: "Glosario" },
+    { pagina: "metodologia", etiqueta: "Cómo lo hicimos" },
   ];
 
   let menuAbierto = $state(false);
@@ -79,11 +82,14 @@
       {/each}
     </ul>
   </nav>
+
+  <AvisoIA {pagina} />
 </header>
 
 <style>
   .cabecera {
     display: flex;
+    flex-wrap: wrap; /* el aviso de IA ocupa su propia fila */
     align-items: center;
     gap: 10px;
     padding: 8px 12px;

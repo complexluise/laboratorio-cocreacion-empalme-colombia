@@ -21,7 +21,7 @@ def main():
     args = ap.parse_args()
     src = Path("data/sectores") / args.slug / "objetos.json"
     if not src.exists():
-        sys.exit(f"No existe {src}. Corre antes extraer_instrumentos.py.")
+        sys.exit(f"No existe {src}. Guardá antes la salida de la lectura con IA (docs/pipeline-extraccion.md).")
     data = json.loads(src.read_text(encoding="utf-8"))
     out = Path("web/src/lib/data") / f"{args.slug}.json"
     out.parent.mkdir(parents=True, exist_ok=True)

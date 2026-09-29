@@ -4,8 +4,9 @@
 # ///
 """
 DEPRECADO — la capa de "ideas" ya no se usa. El pipeline extrae directo políticas +
-instrumentos con el vocabulario del encuadre (NATO + modos de cambio): ver
-extraccion/extraer_instrumentos.py. Se conserva como referencia histórica.
+instrumentos con el vocabulario del encuadre (NATO + modos de cambio): hoy con el workflow de
+Claude (extraccion/rebuild-ctei-claude.workflow.js; antes, extraer_instrumentos.py). Se conserva
+como referencia histórica. Ver docs/pipeline-extraccion.md.
 
 Extracción ESCALABLE de ideas estructuradas desde los informes de empalme.
 

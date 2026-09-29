@@ -5,7 +5,7 @@
 """
 OCR de PDFs escaneados usando Gemini (generativelanguage API).
 
-Envía cada PDF escaneado a Gemini 2.5 Flash (multimodal, admite PDF inline) y pide
+Envía cada PDF escaneado a Gemini (modelo en MODEL; multimodal, admite PDF inline) y pide
 la transcripción del texto. Escribe el resultado como markdown en `markdown/`,
 sobreescribiendo el placeholder "(escaneado)" que dejó empalme_to_markdown.py.
 

@@ -34,6 +34,9 @@ los subagentes descubren las convenciones del repo (no asumen stack ni docs).
    esos hallazgos. Repetí verificar hasta PASA (o hasta que lo pendiente sea bajo/opcional
    que el PO acepte). Los fixes triviales que el verifier ya especificó exactos, el
    orquestador los puede aplicar directo (no gastes un subagente para una línea).
+   **Si el cambio toca texto que lee el público** (páginas del sitio, materiales, declaración de
+   uso de IA), despachá al final también al `editor` (read-only, quisquilloso con la redundancia,
+   la jerga y las ideas borrosas) y aplicá lo que corresponda antes de integrar (ADR-0006).
 5. **Sincronía de docs (architect)** — una vez que el código pasa, despachá `architect`
    para que actualice los docs según el cambio, **escribiendo cada género en su destino**
    (partición rectora del flujo):
