@@ -12,9 +12,11 @@
 produjo la red, los textos y los materiales. Puede haber errores de clasificación, de cifras o de
 citas.
 
-Es parte del ejercicio. El laboratorio también prueba cómo trabajar con la máquina para construir
-algo juntos: ella hace un borrador rápido y las personas lo revisan y lo corrigen. Cada error que
-encuentren mejora el mapa.
+Es parte del ejercicio. La IA no construye el mapa por nosotros: entrega un primer borrador
+desechable, un insumo en bruto. La inteligencia la ponemos las personas —ver otros patrones, notar lo
+sutil, discutir el método y marcar dónde no se cumple y qué falta agregar. Es **inteligencia
+amplificada, no artificial**: la máquina no piensa en nuestro lugar, nos da más alcance; el timón lo
+llevamos nosotros. Cada error que encuentren mejora el mapa.
 
 ## Las categorías: qué le preguntamos a cada informe
 
@@ -35,7 +37,7 @@ informe en puntos (políticas e instrumentos) y en líneas (las relaciones).
 En la página, los valores salen del mismo vocabulario que usa la red (`data/schema/taxonomia.yaml`)
 y cada categoría enlaza su entrada del glosario.
 
-## La receta
+## La receta, de un vistazo
 
 ![Diagrama del pipeline: de los informes de empalme del DNP a la red bipartita, con la lectura con IA (v1 Gemini reemplazada por v2 agentes de Claude) y los lazos de retroalimentación.](img/pipeline-red-bipartita.png)
 
@@ -43,22 +45,6 @@ El diagrama muestra el camino completo: de los informes del DNP a la red, con lo
 vuelve atrás para corregirse —la revisión con IA, la validación del contrato y las bitácoras del
 taller. El detalle de cada paso —y el script de [`extraccion/`](../extraccion) que lo corre— está en
 [`pipeline-extraccion.md`](pipeline-extraccion.md).
-
-| # | Paso | Quién | Dónde entra la IA | En este mapa |
-|---|---|---|---|---|
-| 1 | Reunir los documentos | Programa | — | Informes del DNP; para CTeI, los dos principales de MinCiencias |
-| 2 | Pasarlos a texto, página por página | Programa + IA | Solo en los escaneados: la IA transcribe la imagen | Con Gemini por API; transcripciones sin revisión humana |
-| 3 | Fijar las categorías antes de leer | Personas | — | Salieron de la teoría política; son las de la tabla anterior |
-| 4 | Extraer con IA, una política a la vez | IA | Lee y clasifica. Mejor por API: misma instrucción y mismo formato para todos los textos (otra corrida puede dar otra red) | Primero con Gemini por API: los fondos compartidos quedaron en una sola política y la red se partió en islas. Se rehízo con agentes de Claude |
-| 5 | Unir los repetidos | IA + programa | Un agente propone qué unir; un programa sin IA arma el resultado | Donde nadie propuso el modo de cambio, quedó «conversión»: hay que revisarlo |
-| 6 | Verificar contra la fuente | IA + personas | Una segunda IA busca errores; después, personas | La red de Gemini se verificó con IA; **la actual no se ha verificado** (ni con IA ni dato por dato con personas) |
-| 7 | Agrupar en áreas comparables | IA + personas | La IA propone; las personas aprueban | 14 áreas; el equipo aprobó la división, no el contenido |
-| 8 | Comprobar y publicar | Programa | — | Sin IA: con los mismos datos, siempre el mismo resultado |
-| 9 | Revisar y ampliar en el taller | Personas | — | Es la vía prevista para la revisión humana que le falta a la red |
-
-En la página, los pasos con IA muestran la instrucción que usamos cuando la guardamos: la transcripción con Gemini
-(`ocr_gemini.py`), la extracción por política y la unión de repetidos
-(`rebuild-ctei-claude.workflow.js`).
 
 ## Qué está revisado
 
@@ -75,30 +61,9 @@ En la página, los pasos con IA muestran la instrucción que usamos cuando la gu
 La fuente de verdad es `CAPAS` en `web/src/lib/metodologia.ts`. Ninguna parte cambia de estado
 hasta que una persona la revise de verdad.
 
-## El registro: lo que le pedimos a la IA
-
-La página conserva, plegados y sin fechas, los mensajes con que construimos el sitio, tal cual los
-escribimos. De la primera conversación no se guardaron. Están en `PASOS`
-(`web/src/lib/metodologia.ts`):
-
-1. Leer los informes y armar la red *(sin mensajes guardados)*
-2. Ordenar la forma de trabajar
-3. Reordenar la pantalla de la red
-4. Precisar qué es una política pública
-5. La actividad, la teoría y el glosario
-6. La bitácora de cada grupo
-7. Una actividad más dinámica
-8. Cerrar la versión
-9. La declaración de uso de IA
-10. Un glosario en orden y la metodología como receta
-11. Revisar las definiciones contra sus fuentes
-12. Una portada más directa
-13. Revisar el lenguaje de la portada
-14. La bitácora, versión 4
-
 ## Mantenerla al día
 
-- Al cerrar un ciclo de trabajo, se agrega su paso con los prompts literales a `PASOS`.
-- Si cambia cómo se extrae la red, se actualizan `RECETA`, esta página y `pipeline-extraccion.md`.
+- Si cambia cómo se extrae la red, se actualizan el diagrama (`docs/img/pipeline-red-bipartita.*`),
+  esta página y `pipeline-extraccion.md`.
 - El texto público pasa al final por el agente **editor** (`.claude/agents/editor.md`), que busca
   redundancia, jerga e ideas borrosas.
