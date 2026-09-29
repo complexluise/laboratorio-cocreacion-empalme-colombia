@@ -22,7 +22,7 @@ Al contrastarlas con la literatura aparecieron tres problemas:
 ## Decisión
 
 - **Cada categoría del mapa declara su origen**, visible en el glosario:
-  - *De la literatura*: nodalidad, autoridad, tesoro, organización, conversión y deriva;
+  - *De estudios publicados*: nodalidad, autoridad, tesoro, organización, conversión y deriva;
   - *Adaptación nuestra*: modo de cambio en general, continuidad estable, estratificación y
     terminación;
   - *Propio del proyecto*: cambio del objetivo con sus cuatro valores, reversión, presencia y

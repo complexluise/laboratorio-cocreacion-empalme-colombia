@@ -14,6 +14,9 @@
   }
   let { ancla, visita = 0 }: Props = $props();
 
+  const BIBLIOGRAFIA =
+    "https://github.com/complexluise/laboratorio-cocreacion-empalme-colombia/blob/main/docs/teoria-politica.md#referencias";
+
   let consulta = $state("");
 
   // Navegar a una entrada o grupo limpia el filtro: si no, el destino podría no estar en pantalla.
@@ -33,8 +36,8 @@
   <h1>Las palabras del laboratorio</h1>
   <p class="bajada">
     Se lee en orden: primero las palabras que permiten explicar las siguientes. Si un término depende de otros, lo dice
-    en «Se apoya en». Las categorías del mapa dicen de dónde salen: de la literatura, adaptadas por nosotros o propias
-    del proyecto. Las siglas, al final, son para consultar.
+    en «Se apoya en». Las categorías del mapa dicen de dónde salen: de estudios publicados, adaptadas por nosotros o
+    propias del proyecto. Las siglas, al final, son para consultar.
   </p>
 
   <div class="herramientas">
@@ -94,6 +97,11 @@
   {:else}
     <p class="vacio">Ninguna entrada coincide con «{consulta}».</p>
   {/each}
+
+  <p class="biblio">
+    Las obras citadas, con enlaces para consultarlas o descargarlas, están en la
+    <a href={BIBLIOGRAFIA} rel="noopener" target="_blank">bibliografía del proyecto</a>.
+  </p>
 
   <p class="volver"><a href={hrefDe("red")}>Explorar la red →</a></p>
 </PaginaTexto>
@@ -248,6 +256,11 @@
   }
   .vacio {
     margin-top: 24px;
+    color: var(--tinta-suave);
+  }
+  .biblio {
+    margin-top: 32px;
+    font-size: 15px;
     color: var(--tinta-suave);
   }
   .volver {

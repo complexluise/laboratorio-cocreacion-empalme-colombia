@@ -89,7 +89,7 @@ const FUENTE_MODO: Record<ModoCambio, string> = {
   conversion: "Mahoney & Thelen (2010)",
   estratificacion: "Mahoney & Thelen (2010)",
   terminacion: "Mahoney & Thelen (2010, displacement); deLeon (1978, termination); Streeck & Thelen (2005, exhaustion)",
-  reversion: "Categoría propia del proyecto; cercana a Bauer et al. (2012, dismantling)",
+  reversion: "Cercana a Bauer et al. (2012, dismantling)",
   deriva: "Mahoney & Thelen (2010)",
 };
 
@@ -125,7 +125,7 @@ const VOCABULARIO: Definicion[] = [
       id: idCambioObjetivo(c),
       termino: `Cambio del objetivo: ${ETIQUETA_CAMBIO_OBJETIVO[c]}`,
       definicion: DESCRIPCION_CAMBIO_OBJETIVO[c],
-      fuente: "Categoría propia del proyecto (ADR-0004); analogía con Hogwood & Peters (1983)",
+      fuente: "Analogía con Hogwood & Peters (1982; 1983)",
       usa: ["cambio-del-objetivo"],
     }),
   ),
@@ -207,7 +207,7 @@ const MAPA: Definicion[] = [
     usa: ["instrumento", "cambio-institucional-gradual"],
     termino: "Modo de cambio",
     definicion:
-      "Qué le pasó a un instrumento entre un gobierno y otro: continuidad, conversión, estratificación, terminación, reversión o deriva. En la red es el color del nodo.",
+      "Qué le pasó a un instrumento entre un gobierno y otro: continuidad estable, conversión, estratificación, terminación, reversión o deriva. En la red es el color del nodo.",
     fuente: "Mahoney & Thelen (2010); Streeck & Thelen (2005); Pierson (2004)",
     ver: [...MODOS_CAMBIO.map(idModo), "cambio-institucional-gradual"],
   },

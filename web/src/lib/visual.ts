@@ -30,11 +30,11 @@ export const ETIQUETA_MODO: Record<ModoCambio, string> = {
 
 export const DESCRIPCION_MODO: Record<ModoCambio, string> = {
   "continuidad-estable": "Mismo instrumento, mismo uso: persiste.",
-  conversion: "Mismo instrumento, redesplegado hacia otro uso.",
+  conversion: "Mismo instrumento, usado para otro fin.",
   estratificacion: "Solo en el informe posterior: se suma.",
   terminacion: "Solo en el informe anterior: no aparece en el posterior.",
   reversion: "Persiste pero invierte su rumbo.",
-  deriva: "Sigue igual, pero el entorno cambia y nadie la ajusta.",
+  deriva: "Sigue igual; el entorno cambia y se decide no ajustarlo.",
 };
 
 export const ETIQUETA_NATO: Record<ClaseNato, string> = {

@@ -103,7 +103,7 @@ y la redundancia se subdividió. Cada instrumento lleva un `modo_cambio` (`taxon
 es el **color** del nodo):
 
 - `estratificacion` — solo en el gobierno posterior: el entrante *suma* (determinista).
-- `terminacion` — solo en el gobierno anterior: el saliente lo *deja* o se reemplaza (determinista;
+- `terminacion` — solo en el informe anterior; el silencio del posterior no prueba que terminó (determinista;
   *displacement* de Mahoney & Thelen y *termination* de deLeon).
 - `continuidad-estable` — en ambos, mismo uso (dependencia de la trayectoria, Pierson).
 - `conversion` — en ambos, redesplegado hacia otro uso.

@@ -320,9 +320,9 @@ export const PASOS: Paso[] = [
     ],
     decidimos: [
       "Cada categoría dice si viene de la literatura, si la adaptamos o si es nuestra.",
-      "Se corrige lo que exageraba la teoría, como llamar «tercer orden» a todo cambio de objetivo.",
+      "Se corrige donde el glosario exageraba lo que dice la teoría, como llamar «tercer orden» a todo cambio de objetivo.",
     ],
-    hizo: "Buscó los artículos citados y comparó cada definición con lo que dicen los autores. Propuso qué agregar y qué corregir; con nuestro visto bueno, escribió las definiciones y la bibliografía con enlaces. No pudo abrir los textos originales: trabajó con resúmenes, y falta cotejar.",
+    hizo: "Buscó los artículos citados y comparó cada definición con resúmenes de esas obras: no pudo abrir los textos originales. Propuso qué agregar y qué corregir; con nuestro visto bueno, escribió las definiciones y una bibliografía con enlaces, que se abre desde el glosario. Falta cotejar las definiciones con los originales.",
     resultado: "Tipos de instrumento, cambio del objetivo y modos de cambio con su origen, su base teórica y sus límites.",
   },
 ];

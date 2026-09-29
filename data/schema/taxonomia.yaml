@@ -35,11 +35,11 @@ objetos:
     cardinalidad: uno
     valores:
       continuidad-estable: "Mismo instrumento, mismo uso. Persiste (dependencia de la trayectoria)."
-      conversion:          "Mismo instrumento, redesplegado hacia otro uso o modo."
+      conversion:          "Mismo instrumento, usado para otro fin (los actores lo reinterpretan)."
       estratificacion:     "Instrumento presente solo en el informe posterior (se suma)."
       terminacion:         "Instrumento presente solo en el informe anterior (no aparece en el posterior; el silencio no prueba que terminó)."
       reversion:           "Persiste pero invierte su rumbo o signo."
-      deriva:              "Sigue formalmente igual, pero el entorno cambia y los actores no la ajustan: su efecto cambia."
+      deriva:              "Sigue formalmente igual; el entorno cambia y se decide no ajustarlo: su efecto cambia."
 
   # Cómo se manifestó el instrumento en una vigencia (modo de la 'presencia').
   modo_presencia:             # Cardinalidad: 1.
