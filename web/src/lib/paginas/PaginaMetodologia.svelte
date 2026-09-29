@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { CAPAS, CATEGORIAS, ETIQUETA_ESTADO, ETIQUETA_QUIEN, INSTRUCCIONES_DATOS, PASOS, RECETA } from "$lib/metodologia.ts";
+  import { CAPAS, CATEGORIAS, ETIQUETA_ESTADO } from "$lib/metodologia.ts";
   import PaginaTexto from "$lib/paginas/PaginaTexto.svelte";
   import { hrefDe } from "$lib/rutas.ts";
 
   /**
    * Cómo lo hicimos (ADR-0006, ADR-0007): la advertencia, las categorías con que se lee un informe,
-   * la receta replicable (cada paso declara si usa IA y con qué instrucción), qué está revisado y el
-   * registro de lo que le pedimos a la IA. Público no técnico. Contenido en lib/metodologia.ts.
+   * el diagrama del pipeline (la receta de un vistazo) y qué está revisado. Público no técnico.
+   * Contenido en lib/metodologia.ts; el diagrama, en web/public/pipeline-red-bipartita.png.
    */
   interface Props {
     ancla?: string | undefined;
@@ -15,11 +15,7 @@
   let { ancla, visita = 0 }: Props = $props();
 
   const ISSUES = "https://github.com/complexluise/laboratorio-cocreacion-empalme-colombia/issues/new";
-  /** Un prompt largo se muestra recortado, con la opción de leerlo entero. */
-  const LARGO = 280;
   const g = (id: string) => hrefDe("glosario", id);
-  const instruccion = (id: string | undefined) => INSTRUCCIONES_DATOS.find((i) => i.id === id);
-  const conIA = RECETA.filter((p) => p.quien.includes("ia")).length;
 </script>
 
 <PaginaTexto pagina="metodologia" {ancla} {visita}>
@@ -27,7 +23,7 @@
     <p class="antetitulo">Cómo lo hicimos</p>
     <h1>Una receta para convertir informes en una red</h1>
     <p class="bajada">
-      Qué le preguntamos a cada informe, los pasos para repetirlo y en cuáles entra la inteligencia artificial.
+      Qué le preguntamos a cada informe, el camino para repetirlo y en cuáles pasos entra la inteligencia artificial.
     </p>
   </header>
 
@@ -36,9 +32,10 @@
     <h2 id="t-advertencia">Este contenido se generó con inteligencia artificial y aún no se ha revisado al 100 %</h2>
     <p>La IA produjo la red, los textos y los materiales. Puede haber errores de clasificación, de cifras o de citas.</p>
     <p>
-      Es parte del ejercicio. El laboratorio también prueba <strong>cómo trabajar con la máquina para construir algo
-      juntos</strong>: ella hace un borrador rápido y las personas lo revisan y lo corrigen. Cada error que encuentren mejora
-      el mapa.
+      Es parte del ejercicio. La IA no construye el mapa por nosotros: entrega un primer borrador desechable, un insumo en
+      bruto. La inteligencia la ponemos las personas —ver otros patrones, notar lo sutil, discutir el método y marcar dónde
+      no se cumple y qué falta agregar. Es <strong>inteligencia amplificada, no artificial</strong>: la máquina no piensa en
+      nuestro lugar, nos da más alcance; el timón lo llevamos nosotros. Cada error que encuentren mejora el mapa.
     </p>
   </section>
 
@@ -67,38 +64,30 @@
   </section>
 
   <section id="receta" tabindex="-1" aria-labelledby="t-receta">
-    <h2 id="t-receta">La receta, paso a paso</h2>
+    <h2 id="t-receta">La receta, de un vistazo</h2>
     <p>
-      Cada paso dice quién lo hace: personas, la IA o un programa (código que siempre hace lo mismo, sin IA). La IA entra en
-      {conIA} de los {RECETA.length} pasos: ahí se dice para qué y, cuando la guardamos, la instrucción que usamos. Usamos dos modelos de IA:
-      <strong>Gemini</strong> (de Google) y <strong>Claude</strong> (de Anthropic).
+      De los informes del DNP a la red, con los puntos donde algo vuelve atrás para corregirse. Cada paso lo hace una
+      persona, la IA o un programa (código que siempre hace lo mismo, sin IA). Usamos dos modelos de IA:
+      <strong>Gemini</strong> (de Google) transcribe los documentos escaneados, y <strong>Claude</strong> (de Anthropic) lee
+      los informes y arma la red.
     </p>
-
-    <ol class="pasos">
-      {#each RECETA as p, i (p.id)}
-        {@const ins = instruccion(p.instruccion)}
-        <li class="paso" id="paso-{p.id}">
-          <span class="num" class:ia={p.quien.includes("ia")} aria-hidden="true">{i + 1}</span>
-          <article>
-            <h3>{p.titulo}</h3>
-            <ul class="quien" aria-label="Quién lo hace">
-              {#each p.quien as q (q)}<li class={q}>{ETIQUETA_QUIEN[q]}</li>{/each}
-            </ul>
-            <p>{p.hacer}</p>
-            {#if p.ia}
-              <p class="donde-ia"><strong>Dónde entra la IA.</strong> {p.ia}</p>
-            {/if}
-            {#if ins}
-              <details class="instruccion">
-                <summary>La instrucción que usamos · {ins.modelo}</summary>
-                <blockquote>{ins.texto}</blockquote>
-              </details>
-            {/if}
-            <p class="resultado"><strong>En este mapa:</strong> {p.enEsteMapa}</p>
-          </article>
-        </li>
-      {/each}
-    </ol>
+    <figure class="diagrama">
+      <a
+        href="./pipeline-red-bipartita.png"
+        target="_blank"
+        rel="noopener"
+        aria-label="Abrir el diagrama del pipeline en tamaño completo"
+      >
+        <img
+          src="./pipeline-red-bipartita.png"
+          alt="Diagrama del pipeline: empieza en «Descargar del DNP», que baja a «Pasar a texto» con OCR de Gemini; sigue «Leer con IA» —primero con Gemini (legado), reemplazado por agentes de Claude—, «Curar las áreas» y «Publicar y validar»; termina en «Usar la red». Con tres lazos de retroalimentación: revisión con IA, validación del contrato y las bitácoras del taller."
+          width="1920"
+          height="1080"
+          loading="lazy"
+        />
+      </a>
+      <figcaption>Tocá el diagrama para abrirlo en grande.</figcaption>
+    </figure>
   </section>
 
   <section id="revision" tabindex="-1" aria-labelledby="t-revision">
@@ -117,41 +106,6 @@
         </div>
       {/each}
     </div>
-  </section>
-
-  <section id="registro" tabindex="-1" aria-labelledby="t-registro">
-    <h2 id="t-registro">El registro: lo que le pedimos a la IA</h2>
-    <p>
-      Así construimos este sitio en conversación con la IA. Los mensajes van tal cual los escribimos, con sus erratas. De la
-      primera conversación no los guardamos.
-    </p>
-    {#each PASOS as p, i (p.id)}
-      <details class="registro" id="registro-{p.id}">
-        <summary><span class="n">{i + 1}</span> {p.titulo}</summary>
-        {#if p.pedimos.length > 0}
-          <p class="rotulo">Lo que pedimos</p>
-          {#each p.pedimos as m, j (j)}
-            {#if m.length > LARGO}
-              <details class="mensaje">
-                <summary><span class="recorte">«{m.slice(0, LARGO)}…»</span> <span class="mas"><span class="abrir">Leer completo</span><span class="cerrar">Ocultar</span></span></summary>
-                <blockquote>{m}</blockquote>
-              </details>
-            {:else}
-              <blockquote class="mensaje">{m}</blockquote>
-            {/if}
-          {/each}
-        {/if}
-        {#if p.decidimos}
-          <p class="rotulo">Lo que decidimos</p>
-          <ul class="decisiones">
-            {#each p.decidimos as d, j (j)}<li>{d}</li>{/each}
-          </ul>
-        {/if}
-        <p class="rotulo">Lo que hizo la IA</p>
-        <p>{p.hizo}</p>
-        <p class="resultado"><strong>Resultado:</strong> {p.resultado}</p>
-      </details>
-    {/each}
   </section>
 
   <section id="reportar" tabindex="-1" aria-labelledby="t-reportar">
@@ -196,204 +150,31 @@
     background: #7a5d10;
     color: #fff8e6;
   }
-  .pasos {
-    margin: 16px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  .paso {
+
+  .diagrama {
     position: relative;
-    display: grid;
-    grid-template-columns: 32px minmax(0, 1fr);
-    gap: 12px;
-    padding-bottom: 22px;
+    margin: 16px 0 0;
   }
-  .paso::before {
-    content: "";
-    position: absolute;
-    left: 15px;
-    top: 34px;
-    bottom: 0;
-    width: 2px;
-    background: var(--borde);
+  .diagrama a {
+    display: block;
+    border-radius: 14px;
   }
-  .paso:last-child::before {
-    display: none;
-  }
-  .num {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--acento);
-    color: white;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  article {
-    min-width: 0;
-    padding: 14px 16px;
-    background: var(--papel);
+  .diagrama img {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    background: #fff;
     border: 1px solid var(--borde);
     border-radius: 14px;
   }
-  article p {
-    margin: 0 0 8px;
-  }
-  .num.ia {
-    background: #7a5d10;
-  }
-  article h3 {
-    margin: 2px 0 6px !important;
-    font-family: var(--fuente-display);
-    font-size: 19px !important;
-  }
-  .rotulo {
-    margin: 12px 0 4px !important;
-    font: 700 11.5px var(--fuente-ui) !important;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--acento);
-  }
-  blockquote {
-    margin: 0;
-    white-space: pre-line;
-    overflow-wrap: anywhere;
-  }
-  .mensaje {
-    display: block;
-    margin: 0 0 8px;
-    padding: 10px 12px;
-    background: var(--acento-suave);
-    border-radius: 4px 12px 12px 12px;
-    font-size: 15px;
-    line-height: 1.5;
-  }
-  details.mensaje summary {
-    cursor: pointer;
-    list-style: none;
-  }
-  details.mensaje summary::-webkit-details-marker {
-    display: none;
-  }
-  details.mensaje[open] .recorte {
-    display: none;
-  }
-  .cerrar,
-  details.mensaje[open] .abrir {
-    display: none;
-  }
-  details.mensaje[open] .cerrar {
-    display: inline;
-  }
-  .mas {
-    font-size: 13px;
-    font-weight: 650;
-    color: var(--acento);
-    white-space: nowrap;
-  }
-  .quien {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin: 0 0 8px;
-    padding: 0;
-    list-style: none;
-  }
-  .quien li {
-    padding: 1px 8px;
-    border-radius: 999px;
-    font-size: 12px !important;
-    font-weight: 650;
-    background: var(--fondo);
-    color: var(--tinta-suave);
-    border: 1px solid var(--borde);
-  }
-  .quien li.ia {
-    background: #fff4e5;
-    color: #7a5d10;
-    border-color: #f1dfae;
-  }
-  .quien li.personas {
-    background: var(--acento-suave);
-    color: var(--acento);
-    border-color: transparent;
-  }
-  .donde-ia {
-    padding: 8px 12px;
-    background: #fff8e6;
-    border-left: 3px solid #7a5d10;
-    border-radius: 4px 10px 10px 4px;
-    font-size: 15px;
-  }
-  .registro {
-    margin: 8px 0;
-    padding: 10px 14px;
-    background: var(--papel);
-    border: 1px solid var(--borde);
-    border-radius: 12px;
-  }
-  .registro > summary {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 32px;
-    cursor: pointer;
-    font-weight: 650;
-  }
-  .registro .n {
-    display: inline-grid;
-    place-items: center;
-    flex: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--acento-suave);
-    color: var(--acento);
-    font-size: 12.5px;
-  }
-  .registro p {
-    margin: 0 0 8px;
-  }
-  .decisiones {
-    margin: 0 0 4px;
-    padding-left: 20px;
-  }
-  .decisiones li {
-    font-size: 15px !important;
-  }
-  .resultado {
-    margin: 10px 0 0 !important;
-    padding-top: 8px;
-    border-top: 1px dashed var(--borde);
-    font-size: 15px !important;
-  }
-  .instruccion {
-    margin: 8px 0;
-    padding: 8px 12px;
-    background: var(--fondo);
-    border: 1px solid var(--borde);
-    border-radius: 12px;
-  }
-  .instruccion summary {
-    cursor: pointer;
-    min-height: 32px;
-    font-size: 14.5px;
-    font-weight: 600;
-    color: var(--acento);
-  }
-  .instruccion blockquote {
+  .diagrama figcaption {
     margin-top: 8px;
-    padding: 10px 12px;
-    background: var(--papel);
-    border-radius: 8px;
-    font: 13.5px/1.55 var(--fuente-dato);
+    font-size: 14px;
+    color: var(--tinta-suave);
+    text-align: center;
   }
-  summary:focus-visible {
-    outline: 2px solid var(--acento);
-    outline-offset: 2px;
-  }
+
   .tabla {
     display: grid;
     margin-top: 10px;
@@ -468,6 +249,13 @@
     }
     .fila.cab + .fila {
       border-top: 1px solid var(--borde);
+    }
+  }
+  @media (min-width: 861px) {
+    .diagrama {
+      width: min(1040px, 94vw);
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
 </style>
