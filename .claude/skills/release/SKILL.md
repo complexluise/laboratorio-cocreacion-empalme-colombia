@@ -33,7 +33,9 @@ el procedimiento y **parás a avisar** ante cualquier cosa que no esté verde. E
    corré `pnpm changeset version` (bump de los paquetes + su `CHANGELOG.md`, borra los changesets
    consumidos), commit `chore(release): version packages`, PR a `dev` con CI verde. Así el
    bump entra al corte. Sin changesets pendientes, saltá este paso. (La versión `vX.Y.Z` del
-   repo la sigue decidiendo el paso 1; los changesets versionan cada paquete.)
+   repo la sigue decidiendo el paso 1; los changesets versionan cada paquete.) Si el ciclo no
+   quedó en «Cómo lo hicimos», agregá su paso con los prompts literales a `PASOS`
+   (`web/src/lib/metodologia.ts`, ADR-0006) y pasalo por el agente `editor`.
 3. **PR `dev → main`** — título `release: dev → main (vX.Y.Z)`, cuerpo con
    breaking/features/fixes.
 4. **Esperá CI verde del PR.** Si falla, pará y reportá la causa.

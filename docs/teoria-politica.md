@@ -25,10 +25,18 @@ Lo que llamamos "objeto de política" —una entidad con identidad propia que pe
 gobiernos: un programa, una norma, una fuente de financiación, un sistema— es, casi textualmente,
 lo que la literatura llama **instrumento de política pública** (*policy instrument*).
 
-- **Christopher Hood**, *The Tools of Government* (1983): el Estado gobierna con un repertorio
-  finito de herramientas. Su taxonomía **NATO** clasifica los instrumentos por el recurso estatal
-  que movilizan: **N**odalidad (información), **A**utoridad (norma), **T**esoro (dinero),
-  **O**rganización (capacidad estatal directa).
+- **Christopher Hood**, *The Tools of Government* (1983; actualizado con Margetts en 2007): el
+  Estado gobierna con un repertorio finito de herramientas. Su taxonomía **NATO** clasifica los
+  instrumentos por el recurso estatal que movilizan:
+  - **N**odalidad: la posición del Estado en el centro de las redes de información (no cualquier
+    dato);
+  - **A**utoridad: el poder legal u oficial de ordenar, prohibir, permitir o certificar;
+  - **T**esoro: dinero y bienes intercambiables;
+  - **O**rganización: personal, sedes y equipos propios, con los que actúa directamente.
+
+  Cada recurso sirve como **detector** (conocer) y como **efector** (actuar). Un instrumento real
+  suele combinar recursos; el mapa asigna el dominante (decisión nuestra). Un programa no es
+  «organización» por ser programa: si reparte dinero, es tesoro.
 - **Lascoumes & Le Galès**, *Gouverner par les instruments* (2004): la corriente más citada en
   América Latina. Tesis central: **un instrumento no es neutro** — condensa una teoría implícita
   de cómo se debe gobernar y de la relación Estado–sociedad. Elegir un instrumento *es* una
@@ -43,7 +51,7 @@ Cada instrumento del mapa lleva su recurso NATO (`taxonomia.yaml`); en la red es
 | sistema de información, plataforma, orientación | informativo | `nodalidad` |
 | ley, decreto, CONPES, reglamento | legislativo y reglamentario | `autoridad` |
 | fondo, convocatoria, beca, beneficio tributario | económico y fiscal | `tesoro` |
-| programa ejecutado por una entidad, institucionalidad | organizacional | `organizacion` |
+| entidad o programa que el Estado ejecuta con su propio personal | organizacional | `organizacion` |
 
 **Objetivo ≠ instrumento.** Una primera versión del modelo mezclaba en el mismo tipo de nodo
 instrumentos y **objetivos o prioridades de política** (*policy goals*: "Inteligencia Artificial",
@@ -65,14 +73,28 @@ diacrónico original (redundancia / unicidad / tensión) reproducía, sin saberl
 estándar de **Streeck & Thelen** (*Beyond Continuity*, 2005) y **Mahoney & Thelen**
 (*Explaining Institutional Change*, 2010).
 
-Los cuatro modos de cambio gradual de Mahoney & Thelen:
+Los cuatro modos de cambio gradual de Mahoney & Thelen (Streeck & Thelen 2005 agregaban un quinto,
+el **agotamiento**: la regla se extingue sin reemplazo):
 
 | Modo | Definición | Lo que era en PID+T |
 |---|---|---|
-| **Layering** (estratificación) | se añaden reglas/instrumentos **nuevos** junto a los existentes | **unicidad** solo en el gobierno **posterior** |
-| **Displacement** (desplazamiento) | se **remueven** reglas existentes y se reemplazan | **unicidad** solo en el gobierno **anterior** |
-| **Conversion** (conversión) | la **misma** regla se **redespliega** hacia nuevos fines | **redundancia** con otro uso |
-| **Drift** (deriva) | la regla persiste formalmente pero su **efecto** cambia con el entorno | **redundancia** sin cambio formal |
+| **Layering** (estratificación) | se añaden reglas **nuevas** encima o al lado de las existentes, que **siguen** | **unicidad** solo en el gobierno **posterior** |
+| **Displacement** (desplazamiento) | se **remueven** reglas existentes y se **introducen** otras nuevas | **unicidad** solo en el gobierno **anterior** (aproximado) |
+| **Conversion** (conversión) | la regla sigue formalmente igual, pero los actores la **reinterpretan** hacia nuevos fines | **redundancia** con otro uso |
+| **Drift** (deriva) | la regla sigue igual, el entorno cambia y los actores **deciden no ajustarla**: cambia su efecto | **redundancia** sin cambio formal |
+
+**Lo que el mapa adapta (y no es la tipología original).** Los autores estudian reglas a lo largo de
+años; el mapa compara **dos informes**. Por eso:
+- la **estratificación** del mapa («solo en el informe posterior») no comprueba que lo anterior
+  siga: si lo nuevo reemplaza a otro instrumento, en la teoría es desplazamiento;
+- la **terminación** del mapa («solo en el informe anterior») junta desplazamiento, terminación
+  (deLeon) y agotamiento, y **el silencio del informe posterior no prueba que terminó**;
+- la **continuidad estable** no es un modo de Mahoney & Thelen (su tipología es de cambio): viene de
+  la dependencia de la trayectoria (Pierson);
+- la **reversión** es propia (abajo).
+
+El origen de cada categoría —de la literatura, adaptación o propia— se muestra en el glosario del
+sitio (`web/src/lib/fundamentos.ts`, ADR-0008).
 
 ### Cómo quedó en el dato: `modo_cambio`
 
@@ -81,13 +103,14 @@ y la redundancia se subdividió. Cada instrumento lleva un `modo_cambio` (`taxon
 es el **color** del nodo):
 
 - `estratificacion` — solo en el gobierno posterior: el entrante *suma* (determinista).
-- `terminacion` — solo en el gobierno anterior: el saliente lo *deja* o se reemplaza (determinista;
+- `terminacion` — solo en el informe anterior; el silencio del posterior no prueba que terminó (determinista;
   *displacement* de Mahoney & Thelen y *termination* de deLeon).
 - `continuidad-estable` — en ambos, mismo uso (dependencia de la trayectoria, Pierson).
 - `conversion` — en ambos, redesplegado hacia otro uso.
 - `reversion` — persiste pero invierte su rumbo: **extensión propia** (la "tensión" de PID+T), no un
-  modo de Mahoney & Thelen.
-- `deriva` — persiste formalmente, pero su efecto cambia con el entorno. No tiene medición propia:
+  modo de Mahoney & Thelen. Lo más cercano en la literatura es el **desmantelamiento** de políticas
+  (Bauer et al. 2012: recortar, reducir o eliminar), que no es lo mismo que invertir el rumbo.
+- `deriva` — persiste formalmente, pero el entorno cambia y nadie la ajusta. No tiene medición propia:
   se asigna por lectura semántica y queda como pregunta para el plenario.
 
 Los cuatro últimos son lectura semántica guiada por la evidencia. Esto convierte una propiedad de
@@ -101,14 +124,24 @@ El modo de cambio mira los **medios**. Pero una política pública combina **fin
 (**Howlett & Cashore**, 2009), y el cambio más profundo es el de los fines:
 
 - **Peter Hall**, "Policy Paradigms, Social Learning, and the State" (1993): el cambio de política
-  tiene **tres órdenes**. 1.º: se ajusta cómo se usa un instrumento. 2.º: se cambian los instrumentos.
-  3.º: se cambian los **objetivos** (el paradigma).
+  tiene **tres órdenes**. 1.º: se ajustan los parámetros de un instrumento. 2.º: se cambian los
+  instrumentos. 3.º: se cambia la jerarquía de **metas** que hay detrás (el paradigma).
+- **Howlett & Cashore** (2009) separan los fines en tres niveles —**metas** generales,
+  **objetivos** de programa y **ajustes** concretos— y los medios en otros tres: lógica del
+  instrumento, mecanismos y calibraciones.
 - La **conversión** de Mahoney & Thelen (mismo instrumento, otro fin) solo es observable si el fin de
   cada gobierno lo es.
 
 Por eso la **política es un área persistente** a la que cada gobierno le **declara su objetivo**, y
-ese cambio tiene vocabulario propio, `cambio_objetivo` (ADR-0004; en la red, el **anillo** del hub):
-**se mantiene · se reformula · no declarado · nuevo**. Se dice **"no declarado" y no "abandonado"**: el
+ese cambio tiene vocabulario propio, `cambio_objetivo` (ADR-0004; en la red, el **anillo** del nodo
+de la política): **se mantiene · se reformula · no declarado · nuevo**.
+
+**Estas cuatro categorías son propias del proyecto**, no de un autor. Lo que declara un informe de
+empalme está más cerca de un **objetivo de programa** (Howlett & Cashore) que de un paradigma: un
+«se reformula» no es por sí solo un cambio de tercer orden de Hall, hay que argumentarlo. Como
+analogía, tres de ellas se parecen a la tipología de Hogwood & Peters: *se mantiene* ≈
+mantenimiento, *se reformula* ≈ sucesión (se renuevan objetivos y programas dentro de las mismas
+metas), *nuevo* ≈ innovación. *No declarado* no tiene equivalente a propósito: no es terminación. Se dice **"no declarado" y no "abandonado"**: el
 informe de empalme lo escribe cada gobierno sobre sí mismo y el silencio no prueba abandono. Un área
 sin objetivo declarado pero con instrumentos activos es un **área huérfana**: la dependencia de la
 trayectoria hecha visible (los medios persisten aunque el fin ya no se nombre). Un instrumento que
@@ -162,21 +195,44 @@ PID+T queda como *cómo medimos*, y el institucionalismo histórico como *qué s
 
 ## Referencias
 
-- Hood, C. (1983). *The Tools of Government*. Macmillan.
-- Lascoumes, P. & Le Galès, P. (2004). *Gouverner par les instruments*. Presses de Sciences Po.
-  (trad. y difusión amplia en América Latina).
-- Streeck, W. & Thelen, K. (eds.) (2005). *Beyond Continuity: Institutional Change in Advanced
-  Political Economies*. Oxford University Press.
-- Mahoney, J. & Thelen, K. (eds.) (2010). *Explaining Institutional Change: Ambiguity, Agency,
-  and Power*. Cambridge University Press.
+Con enlace para consultarlas. **Acceso abierto** = se descarga sin suscripción; el resto se consigue
+por la biblioteca (DOI) o en préstamo. Las definiciones de este documento y del glosario están
+parafraseadas de resúmenes de estas obras: falta cotejarlas con los textos originales (las páginas a
+revisar están en ADR-0008).
+
+- Bauer, M.W., Jordan, A., Green-Pedersen, C. & Héritier, A. (eds.) (2012). *Dismantling Public
+  Policy: Preferences, Strategies, and Effects*. Oxford University Press.
+  [Editorial](https://global.oup.com/academic/product/dismantling-public-policy-9780199656646).
+- deLeon, P. (1978). "A Theory of Policy Termination". En May, J.V. & Wildavsky, A. (eds.), *The
+  Policy Cycle*. Sage. (Capítulo de libro, sin versión abierta.)
 - Hall, P.A. (1993). "Policy Paradigms, Social Learning, and the State: The Case of Economic
   Policymaking in Britain". *Comparative Politics*, 25(3), 275–296.
+  [doi:10.2307/422246](https://doi.org/10.2307/422246).
+- Hogwood, B.W. & Peters, B.G. (1982). "The dynamics of policy change: Policy succession". *Policy
+  Sciences*, 14(3), 225–245. [doi:10.1007/BF00136398](https://doi.org/10.1007/BF00136398). ·
+  Hogwood, B.W. & Peters, B.G. (1983). *Policy Dynamics*. St. Martin's Press.
+- Hood, C. (1983). *The Tools of Government*. Macmillan. · Hood, C. & Margetts, H. (2007). *The Tools
+  of Government in the Digital Age*. Palgrave Macmillan.
+  [doi:10.1007/978-1-137-06154-6](https://doi.org/10.1007/978-1-137-06154-6) ·
+  [préstamo en Internet Archive](https://archive.org/details/toolsofgovernmen0000hood_d0a8).
 - Howlett, M. & Cashore, B. (2009). "The Dependent Variable Problem in the Study of Policy Change:
   Understanding Policy Change as a Methodological Problem". *Journal of Comparative Policy
-  Analysis*, 11(1), 33–46.
-- Hogwood, B. & Peters, B.G. (1983). *Policy Dynamics*. St. Martin's Press.
-- Pierson, P. (2000). "Increasing Returns, Path Dependence, and the Study of Politics".
-  *American Political Science Review*, 94(2). · Pierson, P. (2004). *Politics in Time*. Princeton UP.
-- deLeon, P. (1978). "A Theory of Policy Termination". En *The Policy Cycle*.
+  Analysis*, 11(1), 33–46. [doi:10.1080/13876980802648144](https://doi.org/10.1080/13876980802648144)
+  · **Acceso abierto:** [copia del autor (SFU)](https://www.sfu.ca/~howlett/documents/13876980802648144.pdf).
+- Lascoumes, P. & Le Galès, P. (2004). *Gouverner par les instruments*. Presses de Sciences Po. ·
+  Lascoumes, P. & Le Galès, P. (2007). "Introduction: Understanding Public Policy through Its
+  Instruments". *Governance*, 20(1), 1–21.
+  [doi:10.1111/j.1468-0491.2007.00342.x](https://doi.org/10.1111/j.1468-0491.2007.00342.x).
+- Mahoney, J. & Thelen, K. (2010). "A Theory of Gradual Institutional Change". En Mahoney & Thelen
+  (eds.), *Explaining Institutional Change: Ambiguity, Agency, and Power*. Cambridge University Press.
+  [doi:10.1017/CBO9780511806414.003](https://doi.org/10.1017/CBO9780511806414.003) · **Acceso
+  abierto:** [extracto del capítulo 1 (Cambridge)](https://assets.cambridge.org/97805211/18835/excerpt/9780521118835_excerpt.pdf).
+- Pierson, P. (2000). "Increasing Returns, Path Dependence, and the Study of Politics". *American
+  Political Science Review*, 94(2), 251–267. [doi:10.2307/2586011](https://doi.org/10.2307/2586011). ·
+  Pierson, P. (2004). *Politics in Time: History, Institutions, and Social Analysis*. Princeton
+  University Press.
+- Streeck, W. & Thelen, K. (eds.) (2005). *Beyond Continuity: Institutional Change in Advanced
+  Political Economies*. Oxford University Press.
+  [Presentación del libro (MPIfG)](https://www.mpifg.de/821262/2005-01-wz-streeck-thelen).
 - Williams, P.L. & Beer, R.D. (2010). "Nonnegative Decomposition of Multivariate Information".
-  *arXiv:1004.2515*.
+  **Acceso abierto:** [arXiv:1004.2515](https://arxiv.org/abs/1004.2515).

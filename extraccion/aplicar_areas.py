@@ -15,7 +15,8 @@ Qué hace:
   pasan a ser pertenencia del otro instrumento al área (la misión ES el área).
 - Falla si una política de origen queda sin área o si un área cita una política inexistente.
 
-Pipeline: extraer_instrumentos.py -> aplicar_correcciones.py -> aplicar_areas.py -> generar_web.py
+Pipeline (docs/pipeline-extraccion.md): workflow de Claude (rebuild-ctei-claude.workflow.js; legado:
+extraer_instrumentos.py -> aplicar_correcciones.py) -> aplicar_areas.py -> generar_web.py
 
 Uso:
   uv run extraccion/aplicar_areas.py --slug ciencia-tecnologia

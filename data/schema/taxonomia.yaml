@@ -21,24 +21,25 @@ objetos:
   tipo_nato:                  # Cardinalidad: 1.
     cardinalidad: uno
     valores:
-      nodalidad:    "Información: datos, comunicación, orientación (p. ej. un sistema de información)."
+      nodalidad:    "Información: el Estado la recoge y la difunde (p. ej. un sistema de información)."
       autoridad:    "Normas y obligaciones (p. ej. una ley o un decreto)."
       tesoro:       "Dinero (p. ej. un fondo o una convocatoria)."
-      organizacion: "Capacidad directa del Estado (p. ej. un programa ejecutado por una entidad)."
+      organizacion: "Acción directa con personal y medios propios del Estado (p. ej. una entidad que presta el servicio)."
 
-  # Modo de cambio del instrumento entre los dos gobiernos (Mahoney & Thelen 2010; + deriva).
+  # Modo de cambio del instrumento entre los dos gobiernos: ADAPTACIÓN de Mahoney & Thelen 2010
+  # (ver docs/teoria-politica.md §2 y web/src/lib/fundamentos.ts; reversion es propia).
   # Derivado en parte de 'presencia' (ver extraer_instrumentos.py):
   #  - solo 2018-2022 -> terminacion ; solo 2022-2026 -> estratificacion (deterministas).
   #  - presente en ambas -> continuidad-estable / conversion / reversion / deriva (semántico).
   modo_cambio:                # Cardinalidad: 1.
     cardinalidad: uno
     valores:
-      continuidad-estable: "Mismo instrumento, mismo modo. Persiste (dependencia de la trayectoria)."
-      conversion:          "Mismo instrumento, redesplegado hacia otro uso o modo."
-      estratificacion:     "Instrumento presente solo en el gobierno posterior (se suma)."
-      terminacion:         "Instrumento presente solo en el gobierno anterior (se deja o se reemplaza)."
+      continuidad-estable: "Mismo instrumento, mismo uso. Persiste (dependencia de la trayectoria)."
+      conversion:          "Mismo instrumento, usado para otro fin (los actores lo reinterpretan)."
+      estratificacion:     "Instrumento presente solo en el informe posterior (se suma)."
+      terminacion:         "Instrumento presente solo en el informe anterior (no aparece en el posterior; el silencio no prueba que terminó)."
       reversion:           "Persiste pero invierte su rumbo o signo."
-      deriva:              "Persiste formalmente, pero su efecto cambia con el entorno."
+      deriva:              "Sigue formalmente igual; el entorno cambia y se decide no ajustarlo: su efecto cambia."
 
   # Cómo se manifestó el instrumento en una vigencia (modo de la 'presencia').
   modo_presencia:             # Cardinalidad: 1.
@@ -68,8 +69,9 @@ objetos:
 # objetivo. Complementa (no reemplaza) el modo de cambio del INSTRUMENTO.
 politicas:
 
-  # Cómo cambia el objetivo declarado entre gobiernos (inspirado en Hall 1993: el cambio de
-  # objetivos es el de 3er orden). "no-declarado", no "abandonado": el informe de empalme lo
+  # Cómo cambia el objetivo declarado entre gobiernos. Categorías PROPIAS (ADR-0004), apoyadas en
+  # Howlett & Cashore 2009 (niveles de fines) y Hall 1993; un cambio de objetivo no es por sí solo
+  # de 3er orden. "no-declarado", no "abandonado": el informe de empalme lo
   # escribe cada gobierno sobre sí mismo; el silencio no prueba abandono.
   cambio_objetivo:            # Cardinalidad: 1.
     cardinalidad: uno

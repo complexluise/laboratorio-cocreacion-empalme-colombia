@@ -1,14 +1,21 @@
 <script lang="ts">
+  import { ETIQUETA_ORIGEN } from "$lib/fundamentos.ts";
   import { entradaPorId, filtrarGlosario, GRUPOS, INTRO_GRUPO, TITULO_GRUPO } from "$lib/glosario.ts";
   import PaginaTexto from "$lib/paginas/PaginaTexto.svelte";
   import { hrefDe } from "$lib/rutas.ts";
 
-  /** Glosario: siglas, términos y la ontología del mapa leída con la teoría política. */
+  /**
+   * Glosario como recorrido: se lee en orden y cada término se apoya solo en los anteriores
+   * («Se apoya en»). Las siglas, al final, son de consulta.
+   */
   interface Props {
     ancla?: string | undefined;
     visita?: number;
   }
   let { ancla, visita = 0 }: Props = $props();
+
+  const BIBLIOGRAFIA =
+    "https://github.com/complexluise/laboratorio-cocreacion-empalme-colombia/blob/main/docs/teoria-politica.md#referencias";
 
   let consulta = $state("");
 
@@ -28,22 +35,25 @@
   <p class="antetitulo">Glosario</p>
   <h1>Las palabras del laboratorio</h1>
   <p class="bajada">
-    Cada sigla y cada término que no es de uso común, y cómo se lee el mapa con la teoría política. Cada entrada tiene
-    su propio enlace para citarla.
+    Se lee en orden: primero las palabras que permiten explicar las siguientes. Si un término depende de otros, lo dice
+    en «Se apoya en». Las categorías del mapa dicen de dónde salen: de estudios publicados, adaptadas por nosotros o
+    propias del proyecto. Las siglas, al final, son para consultar.
   </p>
+
+  <nav class="toc" aria-label="Contenido del glosario">
+    <p class="toc-titulo">En este glosario</p>
+    <ul>
+      {#each GRUPOS as g (g)}
+        <li><a href={hrefDe("glosario", `grupo-${g}`)}>{TITULO_GRUPO[g]}</a></li>
+      {/each}
+    </ul>
+  </nav>
 
   <div class="herramientas">
     <label class="filtro">
       <span class="oculto-visual">Filtrar el glosario</span>
       <input type="search" placeholder="Filtrar: SGR, conversión, tabla puente…" bind:value={consulta} autocomplete="off" />
     </label>
-    <nav aria-label="Grupos del glosario">
-      <ul class="indice">
-        {#each GRUPOS as g (g)}
-          <li><a href={hrefDe("glosario", `grupo-${g}`)}>{TITULO_GRUPO[g]}</a></li>
-        {/each}
-      </ul>
-    </nav>
   </div>
 
   <p class="conteo" aria-live="polite">
@@ -56,18 +66,29 @@
       <p class="intro">{INTRO_GRUPO[grupo]}</p>
       <dl>
         {#each entradas as e (e.id)}
+          {@const ver = (e.ver ?? []).filter((v) => !e.usa?.includes(v))}
           <div class="entrada" class:destacada={e.id === ancla} id={e.id} tabindex="-1">
             <dt>
               <a class="termino" href={hrefDe("glosario", e.id)}>{e.termino}</a>
               {#if e.expansion}<span class="expansion">{e.expansion}</span>{/if}
+              {#if e.fundamento}<span class="origen {e.fundamento.origen}">{ETIQUETA_ORIGEN[e.fundamento.origen]}</span>{/if}
             </dt>
             <dd>
               <p>{e.definicion}</p>
+              {#if e.fundamento?.teoria}<p class="bloque"><strong>Qué dice la teoría.</strong> {e.fundamento.teoria}</p>{/if}
+              {#if e.fundamento?.enElMapa}<p class="bloque"><strong>En el mapa.</strong> {e.fundamento.enElMapa}</p>{/if}
+              {#if e.fundamento?.ojo}<p class="bloque ojo"><strong>Ojo.</strong> {e.fundamento.ojo}</p>{/if}
               {#if e.fuente}<p class="fuente">Fuente: {e.fuente}</p>{/if}
-              {#if e.ver && e.ver.length > 0}
+              {#if e.usa && e.usa.length > 0}
+                <p class="ver">
+                  Se apoya en:
+                  {#each e.usa as v, i (v)}{#if i > 0},{" "}{/if}<a href={hrefDe("glosario", v)}>{entradaPorId(v)?.termino ?? v}</a>{/each}
+                </p>
+              {/if}
+              {#if ver.length > 0}
                 <p class="ver">
                   Ver también:
-                  {#each e.ver as v, i (v)}{#if i > 0},{" "}{/if}<a href={hrefDe("glosario", v)}>{entradaPorId(v)?.termino ?? v}</a>{/each}
+                  {#each ver as v, i (v)}{#if i > 0},{" "}{/if}<a href={hrefDe("glosario", v)}>{entradaPorId(v)?.termino ?? v}</a>{/each}
                 </p>
               {/if}
             </dd>
@@ -78,6 +99,11 @@
   {:else}
     <p class="vacio">Ninguna entrada coincide con «{consulta}».</p>
   {/each}
+
+  <p class="biblio">
+    Las obras citadas, con enlaces para consultarlas o descargarlas, están en la
+    <a href={BIBLIOGRAFIA} rel="noopener" target="_blank">bibliografía del proyecto</a>.
+  </p>
 
   <p class="volver"><a href={hrefDe("red")}>Explorar la red →</a></p>
 </PaginaTexto>
@@ -111,27 +137,43 @@
     background: var(--papel);
     color: var(--tinta);
   }
-  .indice {
+  .toc {
+    margin-top: 18px;
+    padding: 14px 16px;
+    background: var(--papel);
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+  }
+  .toc-titulo {
+    margin: 0 0 10px;
+    font: 700 12px var(--fuente-ui);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+  }
+  .toc ul {
     display: flex;
-    gap: 6px;
-    margin: 10px 0 0;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
     padding: 0;
     list-style: none;
-    overflow-x: auto;
-    scrollbar-width: none;
   }
-  .indice a {
+  .toc a {
     display: inline-flex;
     align-items: center;
-    min-height: 36px;
-    padding: 0 12px;
+    min-height: 40px;
+    padding: 0 14px;
     font-size: 13.5px;
-    white-space: nowrap;
     text-decoration: none;
     color: var(--tinta);
     border: 1px solid var(--borde);
     border-radius: 999px;
-    background: var(--papel);
+    background: var(--fondo);
+  }
+  .toc a:hover {
+    border-color: var(--acento);
+    color: var(--acento);
   }
   .conteo {
     min-height: 1em;
@@ -143,7 +185,7 @@
     margin-top: 28px;
   }
   .grupo h2 {
-    scroll-margin-top: 120px;
+    scroll-margin-top: 84px;
   }
   .intro {
     color: var(--tinta-suave);
@@ -159,7 +201,7 @@
     background: var(--papel);
     border: 1px solid var(--borde);
     border-radius: 12px;
-    scroll-margin-top: 120px;
+    scroll-margin-top: 84px;
   }
   .entrada.destacada {
     border-color: var(--acento);
@@ -188,6 +230,40 @@
   dd {
     margin: 4px 0 0;
   }
+  .origen {
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 650;
+    white-space: nowrap;
+    background: var(--fondo);
+    color: var(--tinta-suave);
+    border: 1px solid var(--borde);
+  }
+  .origen.literatura {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border-color: transparent;
+  }
+  .origen.adaptacion {
+    background: #fff4e5;
+    color: #8a4b00;
+    border-color: transparent;
+  }
+  .origen.propio {
+    background: var(--acento-suave);
+    color: var(--acento);
+    border-color: transparent;
+  }
+  .bloque {
+    font-size: 15px;
+  }
+  .ojo {
+    padding: 6px 10px;
+    background: #fff8e6;
+    border-left: 3px solid #7a5d10;
+    border-radius: 4px 8px 8px 4px;
+  }
   dd p {
     margin: 4px 0 0;
   }
@@ -198,6 +274,11 @@
   }
   .vacio {
     margin-top: 24px;
+    color: var(--tinta-suave);
+  }
+  .biblio {
+    margin-top: 32px;
+    font-size: 15px;
     color: var(--tinta-suave);
   }
   .volver {

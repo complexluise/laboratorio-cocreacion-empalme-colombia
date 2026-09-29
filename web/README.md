@@ -33,11 +33,17 @@ de Pages, así que no hay router de historial ni dependencia de router. `App.sve
 | `#/inicio/<seccion>` | `PaginaInicio` | Salta a una sección: `actividad`, `bitacora`, `teoria`, `practica`, `preguntas`. |
 | `#/red` | `PaginaRed` | El explorador de la red (ver §Interacción). |
 | `#/glosario[/<id>]` | `PaginaGlosario` | Glosario filtrable; `<id>` salta a una entrada (p. ej. `#/glosario/modo-conversion`). |
+| `#/metodologia[/<seccion>]` | `PaginaMetodologia` | Cómo lo hicimos: `advertencia`, `categorias`, `receta` (anclas `paso-<id>`; cada paso dice si usa IA y con qué instrucción), `revision`, `registro` (los prompts literales, anclas `registro-<id>`), `reportar`. Contenido en `lib/metodologia.ts` (ADR-0006, ADR-0007). |
+
+Bajo la cabecera de todas las páginas (menos la metodología) va `AvisoIA`: el contenido se hizo con
+IA y aún no se revisó al 100 %. Se pliega; la preferencia queda en `localStorage` (con try/catch).
 
 El **vocabulario controlado** del glosario (modos de cambio, tipos NATO, cambio del objetivo,
 relaciones) se genera de las mismas etiquetas y descripciones de `lib/visual.ts` que usa la red; un
-test (`glosario.test.ts`) falla si algún término del vocabulario queda sin entrada. Teoría,
-bitácora y siglas son texto curado en `lib/glosario.ts`.
+test (`glosario.test.ts`) falla si algún término del vocabulario queda sin entrada. El resto es texto
+curado en `lib/glosario.ts`. El glosario es un **recorrido** (ADR-0007): `RECORRIDO` fija el orden de
+lectura en seis secciones más las siglas, y cada entrada declara en `usa` los términos anteriores en
+que se apoya. Los tests fallan si una entrada queda fuera del recorrido o se apoya en una posterior.
 
 ## De dónde sale el dato
 
@@ -57,8 +63,9 @@ pero el área tiene instrumentos activos. El detalle de la política compara el 
 
 **Fuente vigente (CTeI):** reconstrucción con Claude vía el workflow multi-agente
 `extraccion/rebuild-ctei-claude.workflow.js` (políticas + instrumentos, modo de cambio guiado por
-evidencia, narrativa por gobierno), que escribe `data/sectores/ciencia-tecnologia/objetos.json`
-(gitignoreado). Es una corrida paga: solo con autorización del PO.
+evidencia, narrativa por gobierno); su salida se guarda en `data/sectores/ciencia-tecnologia/objetos.json`
+(gitignoreado). Es una corrida paga: solo con autorización del PO. El sistema completo, en
+[`docs/pipeline-extraccion.md`](../docs/pipeline-extraccion.md).
 
 > Legado (no usar para CTeI): `extraer_instrumentos.py` (Gemini) + `aplicar_correcciones.py`
 > (overlay en `data/correcciones/`); Gemini resultó poco fiable (cuota/calidad).
@@ -92,6 +99,7 @@ src/lib/paginas/             # PaginaInicio, PaginaGlosario (lectura, sobre Pagi
                              #   first: lienzo, hoja inferior / paneles laterales en escritorio)
 src/lib/glosario.ts          # entradas del glosario; el vocabulario controlado sale de visual.ts
 src/lib/practica.ts          # práctica «¿Qué le pasó a este instrumento?»: elige ejemplos y evalúa
+src/lib/metodologia.ts       # «Cómo lo hicimos»: CATEGORIAS, RECETA, CAPAS de revisión y PASOS (prompts literales)
 src/lib/data/                # dataset JSON commiteado + index.ts (lo tipa como Dataset)
 src/lib/state/red.svelte.ts  # EstadoRed (runes): filtros vs foco, red derivada, miga de pan
 src/lib/graph/               # GraphView.svelte + física D3 (forces.ts, posiciones.ts, acciones.ts)

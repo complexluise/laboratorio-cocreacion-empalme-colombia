@@ -1,13 +1,14 @@
 /**
  * Rutas por HASH: el build es IIFE y se sirve desde file:// y desde el subpath de Pages, así que
- * no hay router de historial. `#/`, `#/red`, `#/glosario[/<termino>]`, `#/inicio/<seccion>`.
+ * no hay router de historial. `#/`, `#/red`, `#/glosario[/<termino>]`, `#/metodologia[/<seccion>]`,
+ * `#/inicio/<seccion>`.
  */
-export const PAGINAS = ["inicio", "red", "glosario"] as const;
+export const PAGINAS = ["inicio", "red", "glosario", "metodologia"] as const;
 export type Pagina = (typeof PAGINAS)[number];
 
 export interface Ruta {
   pagina: Pagina;
-  /** Término del glosario o sección del inicio a la que se salta. */
+  /** Término del glosario o sección (del inicio o de la metodología) a la que se salta. */
   ancla?: string;
 }
 
@@ -15,9 +16,10 @@ export const TITULO_PAGINA: Record<Pagina, string> = {
   inicio: "Laboratorio de Cocreación · Políticas públicas entre gobiernos",
   red: "Red de políticas e instrumentos · Laboratorio de Cocreación",
   glosario: "Glosario · Laboratorio de Cocreación",
+  metodologia: "Cómo lo hicimos · Laboratorio de Cocreación",
 };
 
-const CON_ANCLA: ReadonlySet<Pagina> = new Set(["inicio", "glosario"]);
+const CON_ANCLA: ReadonlySet<Pagina> = new Set(["inicio", "glosario", "metodologia"]);
 
 export function resolverRuta(hash: string): Ruta {
   if (!hash.startsWith("#/")) return { pagina: "inicio" };
