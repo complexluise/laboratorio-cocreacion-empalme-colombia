@@ -1,4 +1,8 @@
-# ADR-0008: Cada categoría del mapa declara su origen y en qué se aparta de su fuente
+---
+title: "Cada categoría del mapa declara su origen y en qué se aparta de su fuente"
+eyebrow: "ADR-0008 · Registro de decisión"
+date: "2026-09-29"
+---
 
 - **Estado:** aceptada
 - **Fecha:** 2026-09-29

@@ -1,4 +1,8 @@
-# ADR-0006: Declarar el uso de IA como un paso a paso con los prompts, para público no técnico
+---
+title: "Declarar el uso de IA como un paso a paso con los prompts, para público no técnico"
+eyebrow: "ADR-0006 · Registro de decisión"
+date: "2026-09-28"
+---
 
 - **Estado:** aceptada (enmendada por [ADR-0007](ADR-0007-metodologia-como-receta-y-glosario-en-orden.md): receta, categorías y registro sin fechas)
 - **Fecha:** 2026-09-28
