@@ -1,4 +1,8 @@
-# El pipeline de extracción: de los informes de empalme al grafo
+---
+title: "El pipeline de extracción"
+subtitle: "De los informes de empalme al grafo"
+eyebrow: "Laboratorio de cocreación TRAMA"
+---
 
 > Cómo se obtuvo la red que publica el sitio: de dónde sale el dato, qué lo transforma, quién decide
 > y a dónde llega. Complementa [FRONTERAS](FRONTERAS.md), [ontologia](ontologia.md) y

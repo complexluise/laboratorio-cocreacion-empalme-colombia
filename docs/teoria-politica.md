@@ -1,4 +1,8 @@
-# Marco de teoría política — cómo aterrizar el modelo
+---
+title: "Marco de teoría política"
+subtitle: "Cómo aterrizar el modelo"
+eyebrow: "Laboratorio de cocreación TRAMA"
+---
 
 > Documento de fundamentación. Traduce el vocabulario del proyecto (que nació de necesidades de
 > modelado de datos) a los conceptos consolidados de la teoría política, para que el mapa sea

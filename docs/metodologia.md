@@ -1,4 +1,8 @@
-# Cómo lo hicimos: metodología y uso de IA
+---
+title: "Cómo lo hicimos"
+subtitle: "Metodología y uso de IA"
+eyebrow: "Laboratorio de cocreación TRAMA"
+---
 
 > [ADR-0006](decisiones/ADR-0006-declarar-uso-de-ia-paso-a-paso.md) ·
 > [ADR-0007](decisiones/ADR-0007-metodologia-como-receta-y-glosario-en-orden.md). En el sitio es la

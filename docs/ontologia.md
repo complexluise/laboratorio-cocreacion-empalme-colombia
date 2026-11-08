@@ -1,4 +1,8 @@
-# Ontología del mapa — laboratorio de cocreación (piloto: Ciencia y Tecnología)
+---
+title: "Ontología del mapa"
+subtitle: "Piloto: Ciencia y Tecnología"
+eyebrow: "Laboratorio de cocreación TRAMA"
+---
 
 Base de trabajo. Arrancamos por Ciencia y Tecnología por ser el caso más acotado (1 entidad, dos
 vigencias) antes de escalar. Hoy el dataset publicado tiene **14 políticas (áreas), 93 instrumentos
