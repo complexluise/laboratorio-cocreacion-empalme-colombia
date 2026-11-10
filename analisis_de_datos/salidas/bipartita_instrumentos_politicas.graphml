@@ -9,10 +9,10 @@
       <data key="d1">autoridad</data>
       <data key="d2">estratificación</data>
     </node>
-    <node id="Ciencia para la paz">
+    <node id="Derecho humano a la alimentación">
       <data key="d0">1</data>
     </node>
-    <node id="Bioeconomía">
+    <node id="Soberanía sanitaria y bienestar social">
       <data key="d0">1</data>
     </node>
     <node id="Transición energética">
@@ -21,10 +21,10 @@
     <node id="Orientación estratégica de la CTeI">
       <data key="d0">1</data>
     </node>
-    <node id="Soberanía sanitaria y bienestar social">
+    <node id="Bioeconomía">
       <data key="d0">1</data>
     </node>
-    <node id="Derecho humano a la alimentación">
+    <node id="Ciencia para la paz">
       <data key="d0">1</data>
     </node>
     <node id="Metodología nacional de seis etapas de las PIIOM">
@@ -45,10 +45,10 @@
       <data key="d1">tesoro</data>
       <data key="d2">conversión</data>
     </node>
-    <node id="Beneficios tributarios para CTeI">
+    <node id="Internacionalización y diplomacia científica">
       <data key="d0">1</data>
     </node>
-    <node id="Internacionalización y diplomacia científica">
+    <node id="Beneficios tributarios para CTeI">
       <data key="d0">1</data>
     </node>
     <node id="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI">
@@ -56,10 +56,10 @@
       <data key="d1">tesoro</data>
       <data key="d2">conversión</data>
     </node>
-    <node id="Innovación empresarial y sofisticación productiva">
+    <node id="Inteligencia artificial">
       <data key="d0">1</data>
     </node>
-    <node id="Inteligencia artificial">
+    <node id="Innovación empresarial y sofisticación productiva">
       <data key="d0">1</data>
     </node>
     <node id="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)">
@@ -275,10 +275,10 @@
       <data key="d1">autoridad</data>
       <data key="d2">continuidad estable</data>
     </node>
-    <node id="Ciencia abierta">
+    <node id="Gobernanza del sistema de CTeI">
       <data key="d0">1</data>
     </node>
-    <node id="Gobernanza del sistema de CTeI">
+    <node id="Ciencia abierta">
       <data key="d0">1</data>
     </node>
     <node id="Decreto 1666 de 2021 (Gobernanza del SNCTI)">
@@ -511,44 +511,50 @@
       <data key="d1">tesoro</data>
       <data key="d2">estratificación</data>
     </node>
-    <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Ciencia para la paz" />
-    <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Bioeconomía" />
+    <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Derecho humano a la alimentación" />
+    <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Soberanía sanitaria y bienestar social" />
     <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Transición energética" />
     <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Orientación estratégica de la CTeI" />
-    <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Soberanía sanitaria y bienestar social" />
-    <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Derecho humano a la alimentación" />
-    <edge source="Ciencia para la paz" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
-    <edge source="Ciencia para la paz" target="Fondo Francisco José de Caldas (FFJC)" />
-    <edge source="Ciencia para la paz" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
-    <edge source="Ciencia para la paz" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
-    <edge source="Ciencia para la paz" target="Invitación 1049-2023 Expediciones científicas Bio, Paz y Territorio" />
-    <edge source="Ciencia para la paz" target="Convocatoria 49 OCAD SGR – Energía sostenible para el territorio" />
-    <edge source="Ciencia para la paz" target="Concurso Nacional Otto de Greiff (Mejores Trabajos de Grado)" />
-    <edge source="Ciencia para la paz" target="Jóvenes en Ciencia para la Paz (2023 y 2025)" />
-    <edge source="Ciencia para la paz" target="Ecosistema Intercultural del Pacífico Nariñense" />
-    <edge source="Ciencia para la paz" target="Convocatoria 956-2024 Ecosistemas de Ciencia y Paz" />
-    <edge source="Ciencia para la paz" target="PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069" />
-    <edge source="Bioeconomía" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
-    <edge source="Bioeconomía" target="Fondo Francisco José de Caldas (FFJC)" />
-    <edge source="Bioeconomía" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
-    <edge source="Bioeconomía" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
-    <edge source="Bioeconomía" target="Invitaciones CABBIO (formación en biotecnología)" />
-    <edge source="Bioeconomía" target="Invitación 1049-2023 Expediciones científicas Bio, Paz y Territorio" />
-    <edge source="Bioeconomía" target="Convocatoria 936-2023 Ecosistemas en Bioeconomía" />
-    <edge source="Bioeconomía" target="MAPBIO (Mecanismos de aceleración de proyectos en bioeconomía 3.0/3.1)" />
-    <edge source="Bioeconomía" target="Convenios especiales de cooperación con el CRIC (bioeconomía)" />
-    <edge source="Bioeconomía" target="Convenio 429-2024 Monitoreo de biodiversidad en Resguardo de Yunguillo" />
-    <edge source="Bioeconomía" target="Convocatoria 969-2025 Océanos, clima y recursos marino-costeros" />
-    <edge source="Bioeconomía" target="Financiación PGN para la Misión Bioeconomía y Territorio ($46.157 millones)" />
-    <edge source="Bioeconomía" target="Ecosistema Intercultural del Pacífico Nariñense" />
-    <edge source="Bioeconomía" target="Convocatoria 956-2024 Ecosistemas de Ciencia y Paz" />
-    <edge source="Bioeconomía" target="Convenio Especial de Cooperación SINCHI 179-2023" />
-    <edge source="Bioeconomía" target="Convocatorias SGR-CTeI orientadas a los ocho focos de la Misión de Sabios" />
-    <edge source="Bioeconomía" target="PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069" />
-    <edge source="Bioeconomía" target="Programa Antártico Colombiano (PAC)" />
-    <edge source="Bioeconomía" target="Programa Colombia BIO" />
-    <edge source="Bioeconomía" target="iBOL Colombia (código de barras de ADN en BoldSystems)" />
-    <edge source="Bioeconomía" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
+    <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Bioeconomía" />
+    <edge source="Resolución 1452 de 2024 (adopción PIIOM)" target="Ciencia para la paz" />
+    <edge source="Derecho humano a la alimentación" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
+    <edge source="Derecho humano a la alimentación" target="Fondo Francisco José de Caldas (FFJC)" />
+    <edge source="Derecho humano a la alimentación" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
+    <edge source="Derecho humano a la alimentación" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
+    <edge source="Derecho humano a la alimentación" target="Convenios especiales de cooperación con el CRIC (bioeconomía)" />
+    <edge source="Derecho humano a la alimentación" target="Convocatoria 49 OCAD SGR – Energía sostenible para el territorio" />
+    <edge source="Derecho humano a la alimentación" target="Ecosistema Intercultural del Pacífico Nariñense" />
+    <edge source="Derecho humano a la alimentación" target="Convocatoria 956-2024 Ecosistemas de Ciencia y Paz" />
+    <edge source="Derecho humano a la alimentación" target="Convocatorias SENAinnova (943-2023 y 962-2024)" />
+    <edge source="Derecho humano a la alimentación" target="Invitación 1045-2023 Cadena láctea (Cauca, Nariño, Putumayo)" />
+    <edge source="Derecho humano a la alimentación" target="Invitación 1051-2023 Apropiación social comunidades negras/afro/raizales/palenqueras" />
+    <edge source="Derecho humano a la alimentación" target="Convenio Especial de Cooperación SINCHI 179-2023" />
+    <edge source="Derecho humano a la alimentación" target="Convenio Especial de Cooperación con el CRIC 269-2025 (DHA)" />
+    <edge source="Derecho humano a la alimentación" target="Acuerdo Mesa Permanente de Concertación (MPC) - IT3-93" />
+    <edge source="Derecho humano a la alimentación" target="Convocatoria 47 OCAD SGR 'Agro por la vida y por la tierra' (DHA)" />
+    <edge source="Derecho humano a la alimentación" target="Estrategia Jóvenes Salud" />
+    <edge source="Derecho humano a la alimentación" target="PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069" />
+    <edge source="Derecho humano a la alimentación" target="Programa Jóvenes Investigadores e Innovadores" />
+    <edge source="Derecho humano a la alimentación" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Fondo Francisco José de Caldas (FFJC)" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 49 OCAD SGR – Energía sostenible para el territorio" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Misión Soberanía Sanitaria y Bienestar Social (marco misional PIIOM)" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Fondo de Investigación en Salud (FIS)" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 918-2022 Capacidades regionales en salud pública" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 920-2022 Ecosistemas científicos para atención integral" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 927-2022 Ciencias de la vida y de la salud" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 930-2022 Reactivos e insumos en salud pública" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 919-2022 Ecosistemas científicos para salud mental" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 949-2024 Territorios garantes de la salud" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria/OCAD SGR 38 - Seguridad sanitaria y bienestar" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Proyecto SGR BPIN 2017011000194 (impacto investigación científica en salud)" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Estrategia Jóvenes Salud" />
+    <edge source="Soberanía sanitaria y bienestar social" target="PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Programa Jóvenes Investigadores e Innovadores" />
+    <edge source="Soberanía sanitaria y bienestar social" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
     <edge source="Transición energética" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
     <edge source="Transición energética" target="Fondo Francisco José de Caldas (FFJC)" />
     <edge source="Transición energética" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
@@ -594,44 +600,38 @@
     <edge source="Orientación estratégica de la CTeI" target="ScienTI (CvLAC / GrupLAC / InstituLAC)" />
     <edge source="Orientación estratégica de la CTeI" target="Programa Colombia BIO" />
     <edge source="Orientación estratégica de la CTeI" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Fondo Francisco José de Caldas (FFJC)" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 49 OCAD SGR – Energía sostenible para el territorio" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Misión Soberanía Sanitaria y Bienestar Social (marco misional PIIOM)" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Fondo de Investigación en Salud (FIS)" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 918-2022 Capacidades regionales en salud pública" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 920-2022 Ecosistemas científicos para atención integral" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 927-2022 Ciencias de la vida y de la salud" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 930-2022 Reactivos e insumos en salud pública" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 919-2022 Ecosistemas científicos para salud mental" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria 949-2024 Territorios garantes de la salud" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Convocatoria/OCAD SGR 38 - Seguridad sanitaria y bienestar" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Proyecto SGR BPIN 2017011000194 (impacto investigación científica en salud)" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Estrategia Jóvenes Salud" />
-    <edge source="Soberanía sanitaria y bienestar social" target="PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Programa Jóvenes Investigadores e Innovadores" />
-    <edge source="Soberanía sanitaria y bienestar social" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
-    <edge source="Derecho humano a la alimentación" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
-    <edge source="Derecho humano a la alimentación" target="Fondo Francisco José de Caldas (FFJC)" />
-    <edge source="Derecho humano a la alimentación" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
-    <edge source="Derecho humano a la alimentación" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
-    <edge source="Derecho humano a la alimentación" target="Convenios especiales de cooperación con el CRIC (bioeconomía)" />
-    <edge source="Derecho humano a la alimentación" target="Convocatoria 49 OCAD SGR – Energía sostenible para el territorio" />
-    <edge source="Derecho humano a la alimentación" target="Ecosistema Intercultural del Pacífico Nariñense" />
-    <edge source="Derecho humano a la alimentación" target="Convocatoria 956-2024 Ecosistemas de Ciencia y Paz" />
-    <edge source="Derecho humano a la alimentación" target="Convocatorias SENAinnova (943-2023 y 962-2024)" />
-    <edge source="Derecho humano a la alimentación" target="Invitación 1045-2023 Cadena láctea (Cauca, Nariño, Putumayo)" />
-    <edge source="Derecho humano a la alimentación" target="Invitación 1051-2023 Apropiación social comunidades negras/afro/raizales/palenqueras" />
-    <edge source="Derecho humano a la alimentación" target="Convenio Especial de Cooperación SINCHI 179-2023" />
-    <edge source="Derecho humano a la alimentación" target="Convenio Especial de Cooperación con el CRIC 269-2025 (DHA)" />
-    <edge source="Derecho humano a la alimentación" target="Acuerdo Mesa Permanente de Concertación (MPC) - IT3-93" />
-    <edge source="Derecho humano a la alimentación" target="Convocatoria 47 OCAD SGR 'Agro por la vida y por la tierra' (DHA)" />
-    <edge source="Derecho humano a la alimentación" target="Estrategia Jóvenes Salud" />
-    <edge source="Derecho humano a la alimentación" target="PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069" />
-    <edge source="Derecho humano a la alimentación" target="Programa Jóvenes Investigadores e Innovadores" />
-    <edge source="Derecho humano a la alimentación" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
+    <edge source="Bioeconomía" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
+    <edge source="Bioeconomía" target="Fondo Francisco José de Caldas (FFJC)" />
+    <edge source="Bioeconomía" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
+    <edge source="Bioeconomía" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
+    <edge source="Bioeconomía" target="Invitaciones CABBIO (formación en biotecnología)" />
+    <edge source="Bioeconomía" target="Invitación 1049-2023 Expediciones científicas Bio, Paz y Territorio" />
+    <edge source="Bioeconomía" target="Convocatoria 936-2023 Ecosistemas en Bioeconomía" />
+    <edge source="Bioeconomía" target="MAPBIO (Mecanismos de aceleración de proyectos en bioeconomía 3.0/3.1)" />
+    <edge source="Bioeconomía" target="Convenios especiales de cooperación con el CRIC (bioeconomía)" />
+    <edge source="Bioeconomía" target="Convenio 429-2024 Monitoreo de biodiversidad en Resguardo de Yunguillo" />
+    <edge source="Bioeconomía" target="Convocatoria 969-2025 Océanos, clima y recursos marino-costeros" />
+    <edge source="Bioeconomía" target="Financiación PGN para la Misión Bioeconomía y Territorio ($46.157 millones)" />
+    <edge source="Bioeconomía" target="Ecosistema Intercultural del Pacífico Nariñense" />
+    <edge source="Bioeconomía" target="Convocatoria 956-2024 Ecosistemas de Ciencia y Paz" />
+    <edge source="Bioeconomía" target="Convenio Especial de Cooperación SINCHI 179-2023" />
+    <edge source="Bioeconomía" target="Convocatorias SGR-CTeI orientadas a los ocho focos de la Misión de Sabios" />
+    <edge source="Bioeconomía" target="PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069" />
+    <edge source="Bioeconomía" target="Programa Antártico Colombiano (PAC)" />
+    <edge source="Bioeconomía" target="Programa Colombia BIO" />
+    <edge source="Bioeconomía" target="iBOL Colombia (código de barras de ADN en BoldSystems)" />
+    <edge source="Bioeconomía" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
+    <edge source="Ciencia para la paz" target="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" />
+    <edge source="Ciencia para la paz" target="Fondo Francisco José de Caldas (FFJC)" />
+    <edge source="Ciencia para la paz" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
+    <edge source="Ciencia para la paz" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
+    <edge source="Ciencia para la paz" target="Invitación 1049-2023 Expediciones científicas Bio, Paz y Territorio" />
+    <edge source="Ciencia para la paz" target="Convocatoria 49 OCAD SGR – Energía sostenible para el territorio" />
+    <edge source="Ciencia para la paz" target="Concurso Nacional Otto de Greiff (Mejores Trabajos de Grado)" />
+    <edge source="Ciencia para la paz" target="Jóvenes en Ciencia para la Paz (2023 y 2025)" />
+    <edge source="Ciencia para la paz" target="Ecosistema Intercultural del Pacífico Nariñense" />
+    <edge source="Ciencia para la paz" target="Convocatoria 956-2024 Ecosistemas de Ciencia y Paz" />
+    <edge source="Ciencia para la paz" target="PIIOM (Resolución 1452 de 2024) referenciadas desde CONPES 4069" />
     <edge source="Convocatorias y mecanismos propios de cada Misión PIIOM (oferta institucional por misión)" target="Talento humano y capacidades regionales" />
     <edge source="Talento humano y capacidades regionales" target="Fondo Francisco José de Caldas (FFJC)" />
     <edge source="Talento humano y capacidades regionales" target="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" />
@@ -654,12 +654,8 @@
     <edge source="Talento humano y capacidades regionales" target="Becas para el Cambio (convocatoria 975, ICETEX) / CONPES 4182 de 2026" />
     <edge source="Talento humano y capacidades regionales" target="Concurso de Movilidad Académica Internacional Sur-Sur (África)" />
     <edge source="Talento humano y capacidades regionales" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
-    <edge source="Fondo Francisco José de Caldas (FFJC)" target="Beneficios tributarios para CTeI" />
     <edge source="Fondo Francisco José de Caldas (FFJC)" target="Internacionalización y diplomacia científica" />
-    <edge source="Beneficios tributarios para CTeI" target="CONPES 4069 de 2021 - Política Nacional de CTeI 2022-2031" />
-    <edge source="Beneficios tributarios para CTeI" target="Programa de Beneficios Tributarios para CTeI" />
-    <edge source="Beneficios tributarios para CTeI" target="ScienTI (CvLAC / GrupLAC / InstituLAC)" />
-    <edge source="Beneficios tributarios para CTeI" target="Cupo de inversión para deducción y descuento tributario en CTeI (2018-2022, precursor)" />
+    <edge source="Fondo Francisco José de Caldas (FFJC)" target="Beneficios tributarios para CTeI" />
     <edge source="Internacionalización y diplomacia científica" target="Nodos de Diplomacia Científica (Embajadas)" />
     <edge source="Internacionalización y diplomacia científica" target="Modelos Cienciométricos" />
     <edge source="Internacionalización y diplomacia científica" target="Memorandos de Entendimiento (MoU) y alianzas bilaterales de cooperación científica" />
@@ -669,8 +665,18 @@
     <edge source="Internacionalización y diplomacia científica" target="Membresía en SCAR (Antártida)" />
     <edge source="Internacionalización y diplomacia científica" target="Programa Antártico Colombiano (PAC)" />
     <edge source="Internacionalización y diplomacia científica" target="Concurso de Movilidad Académica Internacional Sur-Sur (África)" />
-    <edge source="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" target="Innovación empresarial y sofisticación productiva" />
+    <edge source="Beneficios tributarios para CTeI" target="CONPES 4069 de 2021 - Política Nacional de CTeI 2022-2031" />
+    <edge source="Beneficios tributarios para CTeI" target="Programa de Beneficios Tributarios para CTeI" />
+    <edge source="Beneficios tributarios para CTeI" target="ScienTI (CvLAC / GrupLAC / InstituLAC)" />
+    <edge source="Beneficios tributarios para CTeI" target="Cupo de inversión para deducción y descuento tributario en CTeI (2018-2022, precursor)" />
     <edge source="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" target="Inteligencia artificial" />
+    <edge source="Sistema General de Regalías (SGR) - Asignación para la CTeI / OCAD CTeI" target="Innovación empresarial y sofisticación productiva" />
+    <edge source="Inteligencia artificial" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
+    <edge source="Inteligencia artificial" target="Memorandos de Entendimiento (MoU) y alianzas bilaterales de cooperación científica" />
+    <edge source="Inteligencia artificial" target="Comité Asesor Nacional en Inteligencia Artificial" />
+    <edge source="Inteligencia artificial" target="Hoja de Ruta de IA en Colombia" />
+    <edge source="Inteligencia artificial" target="Proyecto de Ley de Inteligencia Artificial (radicado mayo 2025)" />
+    <edge source="Inteligencia artificial" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
     <edge source="Innovación empresarial y sofisticación productiva" target="Convocatoria 927-2022 Ciencias de la vida y de la salud" />
     <edge source="Innovación empresarial y sofisticación productiva" target="Programa de Beneficios Tributarios para CTeI" />
     <edge source="Innovación empresarial y sofisticación productiva" target="Cupo de inversión para deducción y descuento tributario en CTeI (2018-2022, precursor)" />
@@ -678,12 +684,6 @@
     <edge source="Innovación empresarial y sofisticación productiva" target="Estrategia Nacional de Propiedad Intelectual (patentes PCT)" />
     <edge source="Innovación empresarial y sofisticación productiva" target="Acuerdos de transferencia de tecnología o conocimiento" />
     <edge source="Innovación empresarial y sofisticación productiva" target="Medición de la inversión privada en I+D como % del PIB" />
-    <edge source="Inteligencia artificial" target="Programa Orquídeas: Mujeres en la Ciencia (con sus convocatorias 935/948/963)" />
-    <edge source="Inteligencia artificial" target="Memorandos de Entendimiento (MoU) y alianzas bilaterales de cooperación científica" />
-    <edge source="Inteligencia artificial" target="Comité Asesor Nacional en Inteligencia Artificial" />
-    <edge source="Inteligencia artificial" target="Hoja de Ruta de IA en Colombia" />
-    <edge source="Inteligencia artificial" target="Proyecto de Ley de Inteligencia Artificial (radicado mayo 2025)" />
-    <edge source="Inteligencia artificial" target="Programa ColombIA Inteligente (convocatorias de IA articuladas con PIIOM)" />
     <edge source="Articulación MinCiencias - Ministerio de Educación para formación de talento (PIIOM)" target="Apropiación social del conocimiento" />
     <edge source="Apropiación social del conocimiento" target="Convocatoria 971-2025 Comunidades energéticas" />
     <edge source="Apropiación social del conocimiento" target="Invitación 1051-2023 Apropiación social comunidades negras/afro/raizales/palenqueras" />
@@ -696,14 +696,8 @@
     <edge source="Apropiación social del conocimiento" target="Red Colombiana de Información Científica (RedCol)" />
     <edge source="Apropiación social del conocimiento" target="Convocatorias de apropiación social del conocimiento (organizaciones comunitarias, pescadores, víctimas)" />
     <edge source="Apropiación social del conocimiento" target="Laboratorios STEAM (Colombia Robótica)" />
-    <edge source="Ley 2162 de 2021 (creación del Ministerio de Ciencia, Tecnología e Innovación)" target="Ciencia abierta" />
     <edge source="Ley 2162 de 2021 (creación del Ministerio de Ciencia, Tecnología e Innovación)" target="Gobernanza del sistema de CTeI" />
-    <edge source="Ciencia abierta" target="CONPES 4069 de 2021 - Política Nacional de CTeI 2022-2031" />
-    <edge source="Ciencia abierta" target="Política Nacional de Ciencia Abierta 2022-2031 (Resolución 0777 de 2022)" />
-    <edge source="Ciencia abierta" target="Modernización institucional / rediseño del Ministerio" />
-    <edge source="Ciencia abierta" target="Estrategia de comunicación pública 'Todo es Ciencia'" />
-    <edge source="Ciencia abierta" target="Red Colombiana de Información Científica (RedCol)" />
-    <edge source="Ciencia abierta" target="ScienTI (CvLAC / GrupLAC / InstituLAC)" />
+    <edge source="Ley 2162 de 2021 (creación del Ministerio de Ciencia, Tecnología e Innovación)" target="Ciencia abierta" />
     <edge source="Gobernanza del sistema de CTeI" target="Decreto 1666 de 2021 (Gobernanza del SNCTI)" />
     <edge source="Gobernanza del sistema de CTeI" target="Consejo Nacional de Política de Ciencia, Tecnología e Innovación (CONACTI)" />
     <edge source="Gobernanza del sistema de CTeI" target="Consejo Científico Nacional (CCN)" />
@@ -712,5 +706,11 @@
     <edge source="Gobernanza del sistema de CTeI" target="Reconocimiento de actores del SNCTI (grupos de investigación, OTRI, etc.)" />
     <edge source="Gobernanza del sistema de CTeI" target="ScienTI (CvLAC / GrupLAC / InstituLAC)" />
     <edge source="Gobernanza del sistema de CTeI" target="Decreto 1450/1449 de 2022 (nueva organización administrativa del Ministerio)" />
+    <edge source="Ciencia abierta" target="CONPES 4069 de 2021 - Política Nacional de CTeI 2022-2031" />
+    <edge source="Ciencia abierta" target="Política Nacional de Ciencia Abierta 2022-2031 (Resolución 0777 de 2022)" />
+    <edge source="Ciencia abierta" target="Modernización institucional / rediseño del Ministerio" />
+    <edge source="Ciencia abierta" target="Estrategia de comunicación pública 'Todo es Ciencia'" />
+    <edge source="Ciencia abierta" target="Red Colombiana de Información Científica (RedCol)" />
+    <edge source="Ciencia abierta" target="ScienTI (CvLAC / GrupLAC / InstituLAC)" />
   </graph>
 </graphml>

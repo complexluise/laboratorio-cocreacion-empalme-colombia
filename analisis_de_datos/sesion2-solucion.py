@@ -1,34 +1,65 @@
 # -*- coding: utf-8 -*-
 # %% [markdown]
-# # Análisis de redes: instrumentos y políticas de CTeI
+# [![Abrir en Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/complexluise/laboratorio-cocreacion-empalme-colombia/blob/main/analisis_de_datos/sesion2-solucion.ipynb)
 #
-# Este cuaderno analiza la red del laboratorio de cocreación (empalme 2018–2022 ↔ 2022–2026).
-# Hay dos niveles de análisis:
+# # Sesión 2 · Análisis de redes: instrumentos y políticas de CTeI — **solución**
 #
-# 1. **Red bipartita** instrumentos–políticas, con 93 instrumentos y 14 políticas.
-# 2. **Redes de coocurrencia** derivadas de la bipartita: una entre instrumentos, para ver cuáles están más conectados, y otra entre políticas.
+# Este cuaderno analiza la red que sacamos de los informes de empalme (lo que un gobierno le entrega al siguiente, 2018–2022 y 2022–2026). La miramos de dos formas:
 #
-# Advertencia: la red se generó con IA y no está revisada al 100 %. Las interpretaciones de la última sección son inferencias.
+# 1. Qué instrumento sirve a qué política: la **red bipartita**, con 93 instrumentos y 14 políticas.
+# 2. Qué instrumentos comparten políticas, y qué políticas comparten instrumentos.
+#
+# Es la versión resuelta del ejercicio (`sesion2-ejercicio.ipynb`).
+#
+# Advertencia: la red la hizo la IA y nadie la ha revisado completa. Los resultados describen la red, no a los gobiernos. Las interpretaciones de la última sección son inferencias.
 
 # %% [markdown]
 # ## 1. Configuración y carga de datos
 #
-# Se usa la hoja `Instrumentos` del archivo original. Cada instrumento se conecta a las políticas de la columna "Políticas a las que sirve".
+# Usamos la hoja `Instrumentos` del Excel de la red. Cada instrumento se conecta a las políticas de la columna "Políticas a las que sirve".
+#
+# **En Colab:** al correr la celda siguiente aparece un botón para subir `red-ciencia-tecnologia.xlsx`. Si no lo tenemos, pulsamos *Cancelar* y el cuaderno lo descarga del sitio del laboratorio.
 
 # %%
+import sys
+import urllib.request
 from pathlib import Path
 
+ARCHIVO = "red-ciencia-tecnologia.xlsx"
+URL_DATOS = f"https://complexluise.github.io/laboratorio-cocreacion-empalme-colombia/{ARCHIVO}"
+EN_COLAB = "google.colab" in sys.modules
+
+RUTA = Path(ARCHIVO)
+if EN_COLAB:
+    from google.colab import files
+    try:
+        subidos = files.upload()
+    except Exception:
+        subidos = {}
+    if subidos:
+        RUTA = Path(next(iter(subidos)))
+elif not RUTA.exists() and (Path("analisis_de_datos") / ARCHIVO).exists():
+    RUTA = Path("analisis_de_datos") / ARCHIVO
+
+if not RUTA.exists():
+    print("No se subió el archivo: lo descargo del sitio del laboratorio…")
+    urllib.request.urlretrieve(URL_DATOS, RUTA)
+
+SALIDA = RUTA.parent / "salidas"
+SALIDA.mkdir(exist_ok=True)
+print("Datos:", RUTA, "· Salidas en:", SALIDA)
+
+# %%
 import numpy as np
 import pandas as pd
 import openpyxl
 import networkx as nx
+import matplotlib
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from networkx.algorithms import bipartite as bp
 
-RUTA = Path(".\\analisis_de_datos\\red-ciencia-tecnologia.xlsx")
-SALIDA = Path(".\\analisis_de_datos\\salidas")
-SALIDA.mkdir(exist_ok=True)
+print("pandas", pd.__version__, "· networkx", nx.__version__, "· matplotlib", matplotlib.__version__)
 SEED = 42
 
 # Estilo tipo artículo: serif, fondo blanco, sin marco superior ni derecho, ejes sobrios.
@@ -56,6 +87,14 @@ def corto(texto, n=44):
     """Etiqueta corta para las figuras."""
     t = texto.split(" (")[0].split(" - ")[0].strip()
     return t if len(t) <= n else t[: n - 1] + "…"
+
+
+def revisar(condicion, pista):
+    """Celda de verificación: confirma el resultado o da una pista."""
+    if condicion:
+        print("✅ ¡Bien! Puedes seguir.")
+    else:
+        raise AssertionError(f"Todavía no. Pista: {pista}")
 
 
 # %%
@@ -102,10 +141,16 @@ resumen = pd.Series({
 })
 resumen
 
+# %%
+revisar(
+    B.number_of_edges() == 201 and resumen["densidad (inst × pol)"] == 0.154,
+    "cada arista une un instrumento con una política; la densidad se calcula sobre el conjunto de instrumentos (INST).",
+)
+
 # %% [markdown]
 # ## 3. Distribución de instrumentos
 #
-# Antes de la red conviene ver la composición del archivo: el modo de cambio y el tipo NATO de cada instrumento.
+# Antes de la red conviene ver la composición del archivo: el *modo de cambio* (si el instrumento siguió, cambió o desapareció entre gobiernos) y el *tipo NATO* (si el Estado actúa con información, autoridad, dinero u organización). Las definiciones están en el glosario del sitio.
 
 # %%
 orden_modo = ["estratificación", "continuidad estable", "terminación", "conversión", "deriva", "reversión"]
@@ -128,8 +173,11 @@ ax.legend(title="Tipo NATO", title_fontsize=8, loc="lower right")
 fig.savefig(SALIDA / "fig1_modo_cambio.png")
 plt.show()
 
+# %%
+revisar(modos.sum() == 93, "hay que contar cuántas veces aparece cada modo de cambio (value_counts).")
+
 # %% [markdown]
-# La estratificación domina con 58 de 93 instrumentos (62 %). Esto es coherente con la metodología, pero también depende de que el informe anterior no mencione un instrumento. Si un programa cambió de nombre, el extractor pudo contarlo como nuevo. Este punto se revisa en la última sección.
+# La estratificación domina con 58 de 93 instrumentos (62 %). Esto es coherente con la metodología, pero también depende de que el informe anterior no mencione un instrumento. Si un programa cambió de nombre, la IA que leyó los informes pudo contarlo como nuevo. Este punto se revisa en la última sección.
 
 # %% [markdown]
 # ## 4. Grado de las políticas
@@ -148,13 +196,16 @@ ax.set_title("Figura 2. Instrumentos por política")
 fig.savefig(SALIDA / "fig2_grado_politicas.png")
 plt.show()
 
+# %%
+revisar(grado_pol.max() == 27 and grado_pol.sum() == 201, "el grado de un nodo se obtiene con B.degree(nodo).")
+
 # %% [markdown]
 # Orientación estratégica concentra 27 instrumentos y funciona como paraguas. Talento, Bioeconomía, Soberanía sanitaria, DHA y Transición energética tienen entre 20 y 22. Beneficios tributarios es la política con menos instrumentos, con 5.
 
 # %% [markdown]
 # ## 5. Red bipartita
 #
-# En la figura, los instrumentos están a la izquierda y coloreados por tipo NATO. Las políticas están a la derecha como cuadrados. El tamaño de cada nodo es proporcional a su grado. Las aristas de los seis instrumentos con más conexiones se resaltan y el resto se dibuja tenue. Los seis instrumentos más conectados se numeran y se listan a un costado para evitar que sus nombres se encimen.
+# Instrumentos a la izquierda, coloreados por tipo NATO; políticas a la derecha, como cuadrados. Cuantas más conexiones, más grande el nodo. Los seis instrumentos más conectados se resaltan, se numeran y se listan al costado.
 
 # %%
 ins_ordenados = sorted(INST, key=lambda n: -B.degree(n))
@@ -221,34 +272,41 @@ plt.show()
 # %% [markdown]
 # ## 6. Instrumentos más conectados
 #
-# Para responder cuáles instrumentos están más conectados, proyecto la bipartita sobre los instrumentos. Dos instrumentos quedan unidos si comparten al menos una política. El peso de la arista es el número de políticas compartidas.
+# Para saber qué instrumentos están más conectados, proyectamos la bipartita sobre los instrumentos. Dos instrumentos quedan unidos si comparten al menos una política. El peso de la arista es el número de políticas compartidas.
 #
-# Calculo tres medidas por instrumento:
+# Calculamos tres medidas por instrumento:
 #
-# - **Coocurrencia total** (grado ponderado): suma de los pesos de sus aristas.
-# - **Intermediación** (betweenness): qué tanto sirve el nodo de puente entre otros pares.
+# - **Coocurrencia total:** cuántas políticas comparte con los demás instrumentos, sumadas (en redes se llama *grado ponderado*).
+# - **Intermediación:** cuántas veces el instrumento queda en el camino más corto entre otros dos (en inglés, *betweenness*).
 # - **Políticas (grado)**: en cuántas políticas participa directamente.
 
 # %%
 PI = bp.weighted_projected_graph(B, INST)
 wdeg = dict(PI.degree(weight="weight"))
-btw = nx.betweenness_centrality(PI)  # sin peso, igual que en el análisis previo
+btw = nx.betweenness_centrality(PI)  # sin peso
 
+top15 = sorted(wdeg, key=wdeg.get, reverse=True)[:15]
 tabla_top = pd.DataFrame({
-    "instrumento": [corto(n, 60) for n in sorted(wdeg, key=wdeg.get, reverse=True)[:15]],
-    "políticas": [B.degree(n) for n in sorted(wdeg, key=wdeg.get, reverse=True)[:15]],
-    "coocurrencia": [wdeg[n] for n in sorted(wdeg, key=wdeg.get, reverse=True)[:15]],
-    "intermediación": [round(btw[n], 3) for n in sorted(wdeg, key=wdeg.get, reverse=True)[:15]],
+    "instrumento": [corto(n, 60) for n in top15],
+    "políticas": [B.degree(n) for n in top15],
+    "coocurrencia": [wdeg[n] for n in top15],
+    "intermediación": [round(btw[n], 3) for n in top15],
 })
 tabla_top
+
+# %%
+revisar(
+    PI.number_of_nodes() == 93 and max(wdeg.values()) == 149 and round(max(btw.values()), 3) == 0.129,
+    "la proyección va sobre INST; el grado ponderado usa weight=\"weight\"; la intermediación es nx.betweenness_centrality.",
+)
 
 # %%
 fig, ax = plt.subplots(figsize=(6.4, 4.4))
 for n in INST:
     x, y = wdeg[n], btw[n]
     ax.scatter(x, y, s=10 + 10 * PI.degree(n) / 4, color=PALETA[0], alpha=0.5, linewidths=0)
-top_btw = sorted(INST, key=lambda n: -wdeg[n])[:8]
-for n in top_btw:
+top8 = sorted(INST, key=lambda n: -wdeg[n])[:8]
+for n in top8:
     ax.annotate(corto(n, 34), (wdeg[n], btw[n]), xytext=(4, 3),
                 textcoords="offset points", fontsize=7)
 ax.set_xlabel("Coocurrencia total (grado ponderado)")
@@ -260,7 +318,7 @@ plt.show()
 # %% [markdown]
 # El SGR y el FFJC son los instrumentos más conectados, con una coocurrencia total de 149 cada uno. El FFJC tiene además la mayor intermediación (0,129), así que es el principal puente entre políticas. Ambos tienen la etiqueta *conversión* en la hoja de instrumentos.
 #
-# Esto hay que tomarlo con cuidado: si el extractor vinculó un fondo general a todas las políticas que el texto menciona, el grado está inflado por la clasificación y no por el financiamiento real.
+# Esto hay que tomarlo con cuidado: si la IA vinculó un fondo general a todas las políticas que el texto menciona, el grado está inflado por la clasificación y no por el financiamiento real.
 
 # %% [markdown]
 # ## 7. Pares de instrumentos con más coocurrencia
@@ -274,13 +332,16 @@ pd.DataFrame(
      for u, v, d in pares]
 )
 
+# %%
+revisar(
+    pares[0][2]["weight"] == max(d["weight"] for _, _, d in PI.edges(data=True)),
+    "hay que ordenar las aristas por su peso: e[2] es el diccionario de atributos de la arista.",
+)
+
 # %% [markdown]
 # ## 8. Comunidades de instrumentos
 #
-# Uso el método de Louvain sobre la proyección de instrumentos para encontrar grupos que comparten políticas. Las comunidades se etiquetan a mano a partir de los nombres de sus miembros, así que esa etiqueta es una inferencia.
-
-# %% [markdown]
-# La modularidad indica una estructura moderada: hay grupos reconocibles, pero se solapan bastante. El valor exacto y el tamaño de cada grupo cambian ligeramente según el orden de los nodos, así que conviene reportar el valor de la corrida.
+# El método de Louvain busca grupos de instrumentos más conectados entre sí que con el resto. La *modularidad* mide qué tan separados quedan esos grupos: va de 0 a 1, y cuanto más alta, más separados. El resultado puede variar un poco de una ejecución a otra. Los nombres de los grupos los ponemos nosotros.
 
 # %%
 comunidades = sorted(
@@ -294,32 +355,55 @@ print(f"{len(comunidades)} comunidades, modularidad = {modularidad:.3f}")
 for i, c in enumerate(comunidades):
     print(f"  C{i}: {len(c)} instrumentos")
 
-# %% [markdown]
-#
+# %%
+revisar(
+    len(comunidades) > 1 and sum(len(c) for c in comunidades) == 93 and modularidad > 0,
+    "el método de Louvain está en nx.community.louvain_communities.",
+)
 
+# %% [markdown]
+# La modularidad (0,24) indica una estructura moderada: hay grupos reconocibles, pero se solapan bastante.
+
+# %% [markdown]
+# La figura muestra los 30 instrumentos con más coocurrencia, coloreados por comunidad. Solo se dibujan las aristas de peso 2 o más, y el grosor crece con el peso.
 
 # %%
 top30 = sorted(INST, key=lambda n: -wdeg[n])[:30]
 H = PI.subgraph(top30).copy()
 H.remove_edges_from([(u, v) for u, v, d in H.edges(data=True) if d["weight"] < 2])
 
-pos_h = nx.spring_layout(H, weight="weight", seed=SEED, k=0.9)
+# Kamada-Kawai reparte mejor que spring_layout los nodos del centro, que están muy conectados.
+pos_h = nx.kamada_kawai_layout(H, weight="weight")
 
-fig, ax = plt.subplots(figsize=(7.0, 6.2))
+fig, ax = plt.subplots(figsize=(10, 8))
+
+# Grosor de la arista: el peso llevado a un rango visual de 0,5 a 4,5
 pesos = [d["weight"] for _, _, d in H.edges(data=True)]
-nx.draw_networkx_edges(H, pos_h, width=[0.3 + 0.5 * w / 2 for w in pesos],
-                       alpha=0.35, edge_color="#666666", ax=ax)
+min_w, max_w = min(pesos), max(pesos)
+min_ancho, max_ancho = 0.5, 4.5
+anchos = [
+    min_ancho + (max_ancho - min_ancho) * ((w - min_w) / (max_w - min_w))
+    if max_w > min_w else min_ancho
+    for w in pesos
+]
+nx.draw_networkx_edges(H, pos_h, width=anchos, alpha=0.5, edge_color="#666666", ax=ax)
+
+# Tamaño del nodo con raíz cuadrada, para que los grandes no tapen a los pequeños
+node_sizes = [40 + 15 * np.sqrt(wdeg[n]) for n in H.nodes()]
 nx.draw_networkx_nodes(
     H, pos_h,
-    node_size=[40 + 4 * wdeg[n] for n in H.nodes()],
+    node_size=node_sizes,
     node_color=[PALETA[comm_id[n] % len(PALETA)] for n in H.nodes()],
-    alpha=0.9, linewidths=0, ax=ax,
+    alpha=0.9, linewidths=0.5, edgecolors="white", ax=ax,
 )
-etiquetas = {n: corto(n, 28) for n in H.nodes()}
-nx.draw_networkx_labels(H, pos_h, labels=etiquetas, font_size=6, ax=ax)
+
+etiquetas = {n: corto(n, 25) for n in H.nodes()}
+nx.draw_networkx_labels(H, pos_h, labels=etiquetas, font_size=7, ax=ax)
+
 ax.axis("off")
-ax.set_title("Figura 5. Top 30 instrumentos por coocurrencia (aristas con ≥ 2 políticas)")
-fig.savefig(SALIDA / "fig5_comunidades.png")
+ax.set_title("Figura 5. Top 30 instrumentos por coocurrencia (grosor = peso de la arista)", fontsize=12)
+plt.tight_layout()
+fig.savefig(SALIDA / "fig5_comunidades.png", dpi=300)
 plt.show()
 
 # %% [markdown]
@@ -334,7 +418,7 @@ plt.show()
 # %% [markdown]
 # ## 9. Red de coocurrencia de políticas
 #
-# Proyecto la bipartita sobre las políticas. Dos políticas quedan conectadas si comparten instrumentos, y el peso es el número de instrumentos compartidos.
+# Proyectamos la bipartita sobre las políticas. Dos políticas quedan conectadas si comparten instrumentos, y el peso es el número de instrumentos compartidos.
 
 # %%
 PP = bp.weighted_projected_graph(B, POL)
@@ -359,24 +443,36 @@ ax.set_title("Figura 6. Coocurrencia de políticas")
 fig.savefig(SALIDA / "fig6_coocurrencia_politicas.png")
 plt.show()
 
+# %%
+revisar(
+    PP.number_of_nodes() == 14 and PP.number_of_edges() == 65,
+    "esta vez la proyección va sobre el conjunto de políticas (POL).",
+)
+
 # %% [markdown]
 # La red de políticas tiene 65 aristas y una densidad de 0,714. Es muy densa, así que distingue poco entre políticas. Los pares más fuertes son DHA–Bioeconomía (11 instrumentos compartidos), Soberanía sanitaria–DHA (10) y Soberanía sanitaria–Orientación estratégica (10).
 
 # %% [markdown]
 # ## 10. Exportación
 #
-# Guardo la proyección de instrumentos y la bipartita en GraphML para abrirlas en Gephi o Cytoscape.
+# Guardamos las dos redes en GraphML, un formato que abren programas de redes como Gephi. En Colab, la última celda descarga todo en un .zip.
 
 # %%
 nx.write_graphml(PI, SALIDA / "proyeccion_instrumentos.graphml")
 nx.write_graphml(B, SALIDA / "bipartita_instrumentos_politicas.graphml")
 tabla_top.to_csv(SALIDA / "top15_instrumentos.csv", index=False)
-print("Archivos guardados en", SALIDA.resolve())
+print("Archivos guardados en", SALIDA)
+
+# %%
+if EN_COLAB:
+    import shutil
+    zip_salidas = shutil.make_archive("salidas", "zip", SALIDA)
+    files.download(zip_salidas)
 
 # %% [markdown]
 # ## 11. Conclusiones
 #
-# **Confirmado por los datos:**
+# **Lo que muestra la red:**
 #
 # - La red bipartita es conexa, con 107 nodos, 201 aristas y ningún instrumento aislado.
 # - SGR y FFJC son los instrumentos más conectados (coocurrencia 149 cada uno). FFJC tiene además la mayor intermediación (0,129).
