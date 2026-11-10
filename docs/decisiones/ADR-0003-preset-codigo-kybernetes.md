@@ -1,4 +1,8 @@
-# ADR-0003: Adoptar el preset de código de kybernetes (monorepo pnpm + TS)
+---
+title: "Adoptar el preset de código de kybernetes (monorepo pnpm + TS)"
+eyebrow: "ADR-0003 · Registro de decisión"
+date: "2026-09-27"
+---
 
 - **Estado:** aceptada — enmienda [ADR-0001](ADR-0001-adoptar-disciplina-kybernetes.md) y [ADR-0002](ADR-0002-frontend-svelte-vite.md)
 - **Fecha:** 2026-09-27

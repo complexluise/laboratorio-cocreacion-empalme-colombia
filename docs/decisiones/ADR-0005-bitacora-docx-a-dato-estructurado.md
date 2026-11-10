@@ -1,4 +1,8 @@
-# ADR-0005: La bitácora es un .docx no pre-llenado que el equipo convierte a dato estructurado
+---
+title: "La bitácora es un .docx no pre-llenado que el equipo convierte a dato estructurado"
+eyebrow: "ADR-0005 · Registro de decisión"
+date: "2026-09-27"
+---
 
 - **Estado:** aceptada
 - **Fecha:** 2026-09-27

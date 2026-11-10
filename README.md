@@ -1,4 +1,7 @@
-# Laboratorio de Cocreación
+---
+title: "Laboratorio de Cocreación"
+eyebrow: "Laboratorio de cocreación TRAMA"
+---
 
 🗺️ **Sitio en vivo:** https://complexluise.github.io/laboratorio-cocreacion-empalme-colombia/
 

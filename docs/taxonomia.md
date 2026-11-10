@@ -1,4 +1,8 @@
-# Taxonomía facetada — clasificación bibliotecaria de ideas
+---
+title: "Taxonomía facetada"
+subtitle: "Clasificación bibliotecaria de ideas (histórico)"
+eyebrow: "Laboratorio de cocreación TRAMA"
+---
 
 > **DEPRECADO (histórico).** La capa de "ideas" facetadas (A–K) ya no se usa: el pipeline extrae
 > directo **políticas + instrumentos** con el vocabulario del encuadre (NATO + modos de cambio

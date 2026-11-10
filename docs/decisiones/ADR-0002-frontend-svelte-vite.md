@@ -1,4 +1,8 @@
-# ADR-0002: Frontend del explorador en Svelte 5 + Vite
+---
+title: "Frontend del explorador en Svelte 5 + Vite"
+eyebrow: "ADR-0002 · Registro de decisión"
+date: "2026-09-27"
+---
 
 - **Estado:** aceptada — enmendada por [ADR-0003](ADR-0003-preset-codigo-kybernetes.md)
 - **Fecha:** 2026-09-27

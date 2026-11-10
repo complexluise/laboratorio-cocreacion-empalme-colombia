@@ -1,4 +1,8 @@
-# ADR-0007: La metodología es una receta replicable y el glosario se lee en orden
+---
+title: "La metodología es una receta replicable y el glosario se lee en orden"
+eyebrow: "ADR-0007 · Registro de decisión"
+date: "2026-09-29"
+---
 
 - **Estado:** aceptada (enmienda ADR-0006)
 - **Fecha:** 2026-09-29
