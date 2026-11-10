@@ -1,4 +1,8 @@
-# ADR-0004: La política pública es un área persistente con objetivo por gobierno
+---
+title: "La política pública es un área persistente con objetivo por gobierno"
+eyebrow: "ADR-0004 · Registro de decisión"
+date: "2026-09-27"
+---
 
 - **Estado:** aceptada
 - **Fecha:** 2026-09-27

@@ -1,4 +1,8 @@
-# Encuadre de la actividad — Laboratorio de cocreación en TRAMA
+---
+title: "Encuadre de la actividad"
+subtitle: "Laboratorio de cocreación en TRAMA"
+eyebrow: "Laboratorio de cocreación TRAMA"
+---
 
 > v0.5 (2026-09-27) · Vocabulario alineado con `teoria-politica.md` y [ADR-0004](decisiones/ADR-0004-politica-area-con-objetivo-por-gobierno.md) · Cada grupo **selecciona una política pública** (un área persistente), la describe entre los dos gobiernos, busca información complementaria y llena una **bitácora** (§6): un .docx en blanco que el equipo convierte en dato ([ADR-0005](decisiones/ADR-0005-bitacora-docx-a-dato-estructurado.md)). En el sitio la actividad es un **recorrido de 4 pasos** con sus materiales (bitácora, ejemplo CTeI, la red en Excel) y una práctica previa (§5). El sector no es la unidad de asignación.
 

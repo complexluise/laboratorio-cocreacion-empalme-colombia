@@ -1,4 +1,8 @@
-# ADR-0001: Adoptar la disciplina kybernetes
+---
+title: "Adoptar la disciplina kybernetes"
+eyebrow: "ADR-0001 · Registro de decisión"
+date: "2026-09-27"
+---
 
 - **Estado:** aceptada — enmendada por [ADR-0003](ADR-0003-preset-codigo-kybernetes.md)
 - **Fecha:** 2026-09-27

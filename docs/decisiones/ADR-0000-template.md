@@ -1,4 +1,8 @@
-# ADR-0000: <título de la decisión>
+---
+title: "<título de la decisión>"
+eyebrow: "ADR-0000 · Registro de decisión"
+date: "YYYY-MM-DD"
+---
 
 - **Estado:** propuesta | aceptada | reemplazada por ADR-XXXX
 - **Fecha:** YYYY-MM-DD

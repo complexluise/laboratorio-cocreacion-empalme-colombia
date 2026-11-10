@@ -350,6 +350,20 @@ export const PASOS: Paso[] = [
     hizo: "Llevó al programa que genera la plantilla la versión 4 que diseñó el equipo. Numeró las secciones de 1 a 7 y las subcategorías de 4.1 a 4.7, y escribió todo en «nosotros». Ajustó los pasos de la actividad para que nombren esas secciones y actualizó el ejemplo de CTeI, incluidas sus partes nuevas. El agente editor revisó el texto y se aplicaron sus hallazgos.",
     resultado: "Una plantilla con numeración continua, que el programa sigue leyendo para sumar las bitácoras al mapa.",
   },
+  {
+    id: "sesion2",
+    titulo: "Un ejercicio para analizar la red en el taller",
+    pedimos: [
+      "La ultima vez hicimos el analisis de datos ahora necesito preparar esto para presentarlo como una segunda sesión del laboratorio aquí la idea es que los participantes puedan correr sel ipynb en google colab que puedan subir los datos y que puedan ejecutaro a medida que vamos solucioandolo así que algunos quedaran sin terminar  cómo si fuera un ejercicio para una clase",
+    ],
+    decidimos: [
+      "Quedan en blanco solo las líneas clave; las gráficas ya vienen hechas.",
+      "Dos cuadernos: uno con espacios en blanco para los grupos y otro resuelto.",
+      "Se abre en Google Colab; si no subimos el Excel, se descarga del sitio.",
+    ],
+    hizo: "Adaptó a Google Colab (cuadernos de Python que se abren en el navegador, sin instalar nada) el análisis que habíamos hecho con la IA. Después de cada espacio en blanco puso una comprobación con pista, y cambió las interpretaciones por preguntas.",
+    resultado: "Los grupos calculan la red ellos mismos y la interpretan con preguntas, no con respuestas dadas.",
+  },
 ];
 
 export interface InstruccionDatos {
